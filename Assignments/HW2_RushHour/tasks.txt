@@ -1,0 +1,19 @@
+Writeup:
+
+
+https://www.geeksforgeeks.org/python-removing-first-element-of-list/
+
+Part 1:
+* Write a method to determine if the goal nodes has been reached
+
+* Write a method to get the next moves
+
+* Write a method to implement breadth first tree search
+
+
+Part 2:
+* Implement breadth first graph search
+
+* Implement A* search with blocking heuristic
+
+* Come up with your own heuristic

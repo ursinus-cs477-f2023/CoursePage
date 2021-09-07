@@ -1,0 +1,192 @@
+SECTION
+Unit 1: Classical Search
+
+
+LECTURE
+What is AI?  <p>Python Basics: Variables, Lists, Conditionals, Methods, Loops </p>
+
+<ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "ClassExercises/Week1_WhatIsAI">Class Jamboard</a></li><li><a href = "https://blog.piekniewski.info/">AI Winter Blog</a></li><li><a href = "https://arxiv.org/pdf/2103.10292.pdf">Shortcomings and recommendations for machine learning in medical imaging</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li><li><a href = "ClassExercises/Week1_WhatIsAI/ShazamSonify.html">Shazam Adversarial Example</a></li></ul>
+LECTURE
+Python Dictionaries, Python Practice
+
+<ul><li><a href = "ClassExercises/Week1_Adventure">Class Exercise: Choose Your Own Adventure</a></li><li><a href = "https://www.w3schools.com/python/python_dictionaries.asp">w3schools Dictionary Reference</a></li><li><a href = "https://www.geeksforgeeks.org/python-dictionary/">Geeks for Geeks Dictionary Reference</a></li><li><a href = "ClassExercises/Week1_Adventure/Loops_Dictionaries.html">Class Notes on Loops / Dictionaries</a></li></ul>
+LECTURE
+Python Objects, Object References, COVID Simulation, Monte Carlo Techniques
+
+<ul><li><a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 3</a></li><li><a href = "ClassExercises/Week1_COVID">Class Exercise: COVID Simulation</a> (<a href = "ClassExercises/Week1_COVID/solution.html">Solution</a>)</li></ul>
+LECTURE
+Tree Search, Graph Search: Breadth-First Search (BFS), Depth-First Search (DFS)
+
+<ul><li><a href = "Materials/MazeExplorer">Class Exercise: Solving A Maze</a></li><li><a href = "ClassExercises/Week2_BasicSearch">Blind Search Class Notes</a></li></ul>
+LECTURE
+DFS with Generation, Abstract Search Spaces
+
+Class Exercise: 8-Puzzle
+LECTURE
+Ethics: The Social Dilemma
+
+
+LECTURE
+Iterative Deepening, Bidirectional Search, Uniform Cost Search (Dijkstra's)
+
+
+LECTURE
+Greedy Best-First Search, A* Search
+
+Class Exercise: Path Planning
+LECTURE
+Genetic Algorithms
+
+Class Exercise: Smart Tetris
+SECTION
+Unit 2: Statistical Reasoning, Knowledge Representation
+
+
+LECTURE
+Basics of Probability, Markov Chains
+
+
+LECTURE
+Markov Chains Continued
+
+
+LECTURE
+Ethics: <i>Race After Technology</i>
+
+
+LECTURE
+Bayes Rule
+
+
+LECTURE
+Bayesian Networks / Graphical Models
+
+
+SECTION
+Unit 3: Classical Machine Learning: Supervised And Unsupervised
+
+
+LECTURE
+Features, Vectorizing Data
+
+Class Exercise: College Admissions
+LECTURE
+Naive Bayes Classification
+
+
+LECTURE
+Euclidean Distances, K-Nearest Neighbor Classification
+
+Class Exercise: Digit Classification
+LECTURE
+Dot Products, Projections
+
+Class Exercise: Eigenfaces
+LECTURE
+Perceptrons, Decision Boundaries, Begin Gradient Descent
+
+
+LECTURE
+Gradient Descent, Logistic Regression
+
+<ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
+LECTURE
+Ethics: <i>Race After Technology</i>
+
+
+LECTURE
+Polynomial Regression, Overfitting
+
+
+LECTURE
+Unsupervised Learning, K-Means Clustering
+
+
+LECTURE
+Principal Component Analysis
+
+<ul><li><a href = "http://www.covers1000.net/LoopDitty/">Loop Ditty</a></li></ul>
+LECTURE
+Survey: Multidimensional Scaling, Manifold Learning
+
+<ul><li>Class Exercise: College Subject Similarities</li><li><a href = "https://github.com/ctralie/DREiMac">DREiMac</a></li></ul>
+SECTION
+Unit 4: Deep Learning: Supervised And Unsupervised
+
+
+LECTURE
+Deep Neural Networks, Exploring Latent Spaces
+
+
+LECTURE
+Back Propagation
+
+
+LECTURE
+Stochastic Gradient Descent
+
+
+LECTURE
+Convolutional Neural Networks
+
+
+LECTURE
+Recurrent Neural Networks
+
+
+LECTURE
+Long Short Term Memory
+
+<ul><li><a href = "https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21">An illustrated guide to LSTMs and GRUs</a></li></ul>
+LECTURE
+Ethics: <i>Race After Technology</i>
+
+
+LECTURE
+Autoencoders
+
+
+LECTURE
+Generative Adversarial Networks
+
+
+SECTION
+Unit 5: Reinforcement Learning, Game Playing
+
+
+LECTURE
+Reinforcement Learning
+
+
+LECTURE
+Bellman Equations
+
+
+LECTURE
+Deep Reinforcement Learning
+
+Class example: Playing Mario
+LECTURE
+Game Trees: Min-Max Trees
+
+
+LECTURE
+Game Trees: Alpha-Beta Pruning
+
+Class Exercise: Connect 4
+SECTION
+Unit 6: Case Studies
+In this unit, we'll look at a number of examples in detail during class while students work on their final projects
+
+LECTURE
+Feature Engineering Case Study: 3D Shape Classification
+
+
+LECTURE
+Deep Dream, Face Generation
+
+
+LECTURE
+Ethics: <i>Race After Technology</i>
+
+

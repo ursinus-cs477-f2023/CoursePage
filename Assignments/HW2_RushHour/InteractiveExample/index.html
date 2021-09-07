@@ -1,0 +1,29 @@
+<html>
+    <head>
+    <script src="d3.min.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="graph.js"></script>
+    </head>
+
+    <body>
+        <ul>
+            <li>CTRL+Click to pan the view</li>
+            <li>CTRL+Scroll to zoom in and out</li>
+            <li>Left click and drag a node to move it around. The graph will update accordingly.</li>
+        </ul>
+    
+
+
+        <div id = "ForceContainer">
+            <svg id="ForceCanvas" width = "650" height = "650"></svg>
+        </div>
+
+        <script>
+            canvas = new ForceCanvas("graph.json");
+        </script>
+
+
+
+
+    </body>
+</html>
