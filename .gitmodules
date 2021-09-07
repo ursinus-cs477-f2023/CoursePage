@@ -1,0 +1,12 @@
+[submodule "ClassExercises/Week1_COVID/Week1_COVID"]
+	path = ClassExercises/Week1_COVID/Week1_COVID
+	url = https://github.com/Ursinus-CS477-F2021/Week1_COVID.git
+[submodule "Materials/MazeExplorer"]
+	path = Materials/MazeExplorer
+	url = https://github.com/Ursinus-CS477-F2021/MazeExplorer.git
+[submodule "Assignments/HW2_RushHour/rushhour"]
+	path = Assignments/HW2_RushHour/rushhour
+	url = https://github.com/Ursinus-CS477-F2021/rushhour.git
+[submodule "Assignments/HW2_RushHour/HW2_RushHour"]
+	path = Assignments/HW2_RushHour/HW2_RushHour
+	url = https://github.com/Ursinus-CS477-F2021/HW2_RushHour.git
