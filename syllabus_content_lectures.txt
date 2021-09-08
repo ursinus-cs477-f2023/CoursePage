@@ -21,7 +21,7 @@ Tree Search, Graph Search: Breadth-First Search (BFS), Depth-First Search (DFS)
 LECTURE
 DFS with Generation, Abstract Search Spaces
 
-Class Exercise: 8-Puzzle
+<ul><li><a href = "ClassExercises/Week2_8Puzzle">Class Exercise: 8-Puzzle</a></li></ul>
 LECTURE
 Ethics: The Social Dilemma
 
