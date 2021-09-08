@@ -10,3 +10,6 @@
 [submodule "Assignments/HW2_RushHour/HW2_RushHour"]
 	path = Assignments/HW2_RushHour/HW2_RushHour
 	url = https://github.com/Ursinus-CS477-F2021/HW2_RushHour.git
+[submodule "ClassExercises/Week2_8Puzzle/Week2_8Puzzle"]
+	path = ClassExercises/Week2_8Puzzle/Week2_8Puzzle
+	url = https://github.com/Ursinus-CS477-F2021/Week2_8Puzzle.git
