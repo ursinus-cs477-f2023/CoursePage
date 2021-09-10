@@ -16,10 +16,7 @@ Assignment 1 Due
 <a href = "Assignments/HW2_RushHour">Assignment 2: The Rush Hour Problem</a> Out
 
 2021-09-07
-Assignment 2 Part 1 (BFS Tree Search) Due
-
-2021-09-14
-Assignment 2 Part 2 (Graph Search + A* Search) Due
+Assignment 2  Due
 
 2021-09-21
 Assignment 3: Markov Classification & Hybrids Out

@@ -19,7 +19,7 @@ Tree Search, Graph Search: Breadth-First Search (BFS), Depth-First Search (DFS)
 
 <ul><li><a href = "Materials/MazeExplorer">Class Exercise: Solving A Maze</a></li><li><a href = "ClassExercises/Week2_BasicSearch">Blind Search Class Notes</a></li></ul>
 LECTURE
-DFS with Generation, Abstract Search Spaces
+Continue DFS/BFS, Abstract Search Spaces
 
 <ul><li><a href = "ClassExercises/Week2_8Puzzle">Class Exercise: 8-Puzzle</a></li></ul>
 LECTURE
@@ -27,17 +27,17 @@ Ethics: The Social Dilemma
 
 
 LECTURE
-Iterative Deepening, Bidirectional Search, Uniform Cost Search (Dijkstra's)
+Iterative Deepening, Uniform Cost Search, Continue 8-Puzzle
 
 
 LECTURE
 Greedy Best-First Search, A* Search
 
-Class Exercise: Path Planning
+Class Demo: Efficient Path Planning
 LECTURE
-Genetic Algorithms
+Continue A* Search, Designing Heuristics
 
-Class Exercise: Smart Tetris
+Tree Rotations Demo
 SECTION
 Unit 2: Statistical Reasoning, Knowledge Representation
 
