@@ -87,8 +87,8 @@
 												Below is the example that you can try again for yourself.  Left click on the gray pixels to expand them.
 											</p>  
 										</p>
-										<div id = "manualSearch"></div>
 										<script src = "../../Materials/MazeExplorer/maze.js"></script>
+										<div id = "manualSearch"></div>
 										<script>
 											let maze = new Maze("manualSearch");
 											maze.loadMaze("../../Materials/MazeExplorer/Maze1.png");
@@ -131,9 +131,8 @@ BFSTree(start, goal):
 										<p>
 											Let's examine the behavior of this algorithm below.  We'll show the current node in blue, the next node that's planning to be expanded in cyan, and all of the nodes on the frontier in grey.
 										</p>
-
 										<div id = "bfstree"></div>
-										<script src = "../../Materials/MazeExplorer/maze.js"></script>
+						
 										<script>
 											let maze2 = new BFSDFS("bfstree", null, true, true);
 											maze2.loadMaze("../../Materials/MazeExplorer/Maze1.png");
@@ -218,7 +217,6 @@ BFSTree(start, goal):
 										</p>
 
 										<div id = "bfsgraph"></div>
-										<script src = "../../Materials/MazeExplorer/maze.js"></script>
 										<script>
 											let maze3 = new BFSDFS("bfsgraph", null, true, false);
 											maze3.loadMaze("../../Materials/MazeExplorer/Maze1.png");
@@ -237,7 +235,6 @@ BFSTree(start, goal):
 										</p>
 
 										<div id = "dfsgraph"></div>
-										<script src = "../../Materials/MazeExplorer/maze.js"></script>
 										<script>
 											let maze4 = new BFSDFS("dfsgraph", null, false, false);
 											maze4.loadMaze("../../Materials/MazeExplorer/Maze1.png");
@@ -248,7 +245,6 @@ BFSTree(start, goal):
 										</p>
 
 										<div id = "dfsgraph2"></div>
-										<script src = "../../Materials/MazeExplorer/maze.js"></script>
 										<script>
 											let maze5 = new BFSDFS("dfsgraph2", null, false, false);
 											maze5.loadMaze("../../Materials/MazeExplorer/Maze2.png");
@@ -263,7 +259,6 @@ BFSTree(start, goal):
 										</p>
 
 										<div id = "dfsgraph3"></div>
-										<script src = "../../Materials/MazeExplorer/maze.js"></script>
 										<script>
 											let maze6 = new BFSDFS("dfsgraph3", null, false, true);
 											maze6.loadMaze("../../Materials/MazeExplorer/Maze1.png");
