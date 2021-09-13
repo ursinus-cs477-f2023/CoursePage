@@ -41,7 +41,7 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Homework 2: The Rush Hour Problem (65 Points)</h2>
+                                        <h2>Homework 2: The Rush Hour Problem (60 Points)</h2>
 									</header>
 									<h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									<h3>Due Tue 9/21/2021 at 11:59PM</h3>
@@ -62,13 +62,13 @@
 											<li><a href = "#part2">Part 2: Smarter Searching</a>
 												<ul>
 													<li>
-														<a href = "#graphsearch">Graph Search (10 Points)</a>
+														<a href = "#graphsearch">Breadth-First Graph Search (10 Points)</a>
 													</li>
 													<li>
 														<a href = "#astar">A* Search (10 Points)</a>
 													</li>
 													<li>
-														<a href = "#myheuristic">Designing Your Own Heuristic (15 Points)</a>
+														<a href = "#myheuristic">Designing Your Own Consistent Heuristic (10 Points)</a>
 													</li>
 													<li>
 														<a href = "#turnin2">What To Turn In</a>
@@ -271,7 +271,7 @@
 												<b>NOTE ALSO: </b> If you want to get really fancy with your code, there's a way to implement these three tasks with only one method that accepts a function handle to compute the heuristic at a state (where for BFS graph search the heuristic would always be 0).  But it's OK to repeat code as needed to keep it simple if you don't see how to do this.
 											</p>
 
-											<h3><a name = "graphsearch">Graph Search (10 Points)</a></h3>
+											<h3><a name = "graphsearch">Breadth-First Graph Search (10 Points)</a></h3>
 											<p>
 												Add an instance method <code>solve_graph</code> that remembers states that were already visited and does not add them to the queue.  You should either use a dictionary with dummy values or a <a href = "https://www.geeksforgeeks.org/sets-in-python/">python set</a>.  Be sure to use something hashable, like <code>str(state)</code> or <code>state.get_state_hashable</code> to represent your state.  If this works properly, you should be able to solve all of the provided puzzles in a reasonable amount of time.
 											</p>
@@ -287,7 +287,7 @@
 												Amazingly, if you've done this properly, you should see an improvement in performance on all of the puzzles.  To be sure, you should keep track of the number of nodes that get added to the queue, and this number should be smaller with A* and the blocking heuristic than it is with graph search.
 											</p>
 
-											<h3><a name = "myheuristic">Designing Your Own Consistent Heuristic (15 Points)</a></h3>
+											<h3><a name = "myheuristic">Designing Your Own Consistent Heuristic (10 Points)</a></h3>
 											<p>
 												In this section, you will design your own heuristic <b>h(S)</b> that's superior to the blocking heuristic, and you'll implement it in an instance method called <code>solve_myastar</code>.  Your heuristic should be <a href = "https://en.wikipedia.org/wiki/Consistent_heuristic">consistent</a>.  In this context, since moving a car is a cost of 1, this means that 
 												
