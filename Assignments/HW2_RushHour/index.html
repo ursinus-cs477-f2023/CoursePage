@@ -179,7 +179,7 @@
 
 										<h3><a name = "turnin">What To Turn In</a></h3>
 										<p>
-											When you are finished, upload your <code>rush.py</code> code to Canvas.  Also indicate the answer to these questions with your submission:
+											When you are finished, upload your <code>rush.py</code> code to Canvas, along with an explanation of your heuristic and a proof that it is admissible.  Also indicate the answer to these questions with your submission:
 											<ul>
 												<li>Did you work with a <a href = "../../index.html#buddy">buddy</a>?  If so, who?</li>
 												<li>
@@ -260,22 +260,51 @@
 											<h2><a name = "part2">Part 2: Smarter Searching</a></h2>
 
 											<p>
-												In this part, you will build much powerful solvers by remembering things and using human knowledge to help guide the problem
+												In this part, you will build much powerful solvers by remembering things and using human knowledge to help guide the problem.
+											</p>
+
+											<p>
+												<b>NOTE: </b> For simplicity of implementation, you can assume that the goal car is horizontally oriented
+											</p>
+
+											<p>
+												<b>NOTE ALSO: </b> If you want to get really fancy with your code, there's a way to implement these three tasks with only one method that accepts a function handle to compute the heuristic at a state (where for BFS graph search the heuristic would always be 0).  But it's OK to repeat code as needed to keep it simple if you don't see how to do this.
 											</p>
 
 											<h3><a name = "graphsearch">Graph Search (10 Points)</a></h3>
 											<p>
-												Coming soon...
+												Add an instance method <code>solve_graph</code> that remembers states that were already visited and does not add them to the queue.  You should either use a dictionary with dummy values or a <a href = "https://www.geeksforgeeks.org/sets-in-python/">python set</a>.  Be sure to use something hashable, like <code>str(state)</code> or <code>state.get_state_hashable</code> to represent your state.  If this works properly, you should be able to solve all of the provided puzzles in a reasonable amount of time.
 											</p>
 
 											<h3><a name = "astar">A* Search (10 Points)</a></h3>
 											<p>
-												Coming soon...
+												Implement A* search in an instance method called <code>solve_astar</code> using a simple heuristic called the <b>blocking heuristic</b> <b>h<SUB>B</SUB>(s)</b>, which is 
+												<ul>
+													<li><b>h<SUB>B</SUB>(S) = 0</b> if the goal car is at the goal when the board is in state <b>S</b></li>
+													<li><b>h<SUB>B</SUB>(S) = 1</b> if the goal car is not at the goal but there's nothing in the way when the board is in state <b>S</b></li>
+													<li><b>h<SUB>B</SUB>(S) = 2</b> if the goal is not at the goal and there is at least one car in between it and the goal when the board is in state <b>S</b></li>
+												</ul>
+												Amazingly, if you've done this properly, you should see an improvement in performance on all of the puzzles.  To be sure, you should keep track of the number of nodes that get added to the queue, and this number should be smaller with A* and the blocking heuristic than it is with graph search.
 											</p>
 
-											<h3><a name = "myheuristic">Designing Your Own Heuristic (15 Points)</a></h3>
+											<h3><a name = "myheuristic">Designing Your Own Consistent Heuristic (15 Points)</a></h3>
 											<p>
-												Coming soon...
+												In this section, you will design your own heuristic <b>h(S)</b> that's superior to the blocking heuristic, and you'll implement it in an instance method called <code>solve_myastar</code>.  Your heuristic should be <a href = "https://en.wikipedia.org/wiki/Consistent_heuristic">consistent</a>.  In this context, since moving a car is a cost of 1, this means that 
+												
+												<h3>
+													\[ h(S)  \leq h(N) + 1 \]
+													\[ h(G) = 0 \]
+												</h3>
+												
+												where <b>N</b> is any neighboring node of a state <b>S</b>, and <b>G</b> is the goal state.
+											</p>
+
+											<p>
+												You should test your heuristic to make sure that it performs better than the blocking heuristic overall.  Then, you should submit a brief description of your heuristic, along with a proof that it's consistent.  For some potential extra credit, prove that your heuristic is consistent.
+											</p>
+
+											<p>
+												<b>Class competition</b>: To sweeten the deal, we will have a class competition to see who can solve unknown puzzles in the fewest amount of loops, and the winner will get extra credit.  So you should think hard about how to design a good heuristic if you want to win big.
 											</p>
 
 										
