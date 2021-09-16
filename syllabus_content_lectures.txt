@@ -33,9 +33,9 @@ Iterative Deepening, Uniform Cost Search, Continue 8-Puzzle
 LECTURE
 Greedy Best-First Search, A* Search
 
-Class Demo: Efficient Path Planning
+<ul><li><a href = "ClassExercises/Week3_PrioritySearch">Notes on Uniform Cost, Greedy Best-First, and A* Search</a></li></ul>
 LECTURE
-Continue A* Search, Designing Heuristics
+A* Heuristics for 8-Puzzle And Rush Hour
 
 Tree Rotations Demo
 SECTION
