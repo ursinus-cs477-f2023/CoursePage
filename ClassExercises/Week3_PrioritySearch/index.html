@@ -355,12 +355,12 @@ AStar(start, goal, <b>heuristic</b>):
 			reachedGoal = true
 		else:
 			for n in state.neighbors():
-				cost = distance(state, n) # Distance of taking step from state to neighbor 
-				costn = cumucost + cost + heuristic(n) # Moving to the neighbor costs as much as it 
-				# took to move to state, plus the cost of moving from state to neighbor,
-				# plus the heuristic
 				<b>if not n in visited:
 					visited.add(n)</b>
+					cost = distance(state, n) # Distance of taking step from state to neighbor 
+					costn = cumucost + cost + heuristic(n) # Moving to the neighbor costs as much as it 
+					# took to move to state, plus the cost of moving from state to neighbor,
+					# plus the heuristic
 					frontier.add( (costn, n, state) )
 </code>
 </pre>
