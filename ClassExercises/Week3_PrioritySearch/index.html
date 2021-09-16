@@ -41,43 +41,33 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 3: Prioritized Search</h2>
+                                        <h2>Week 3: Prioritized Search: Uniform Cost, Greedy Best-First, and A* Search</h2>
 										<h3>Chris Tralie</h3>
 										<h3>9/15/2021</h3>
 									</header>
 
 									<div id="page-content">
 										<p>
-											<b>Important New Terms:</b> priority queue, cumulative cost, heuristic, admissibility, consistency
+											<b>Important New Terms:</b> priority queue, cumulative cost, formal heuristic, admissibility, consistency
+										</p>
+
+										<p>
+											Today we discussed a set of search algorithms that use a <b>priority queue</b> instead of a queue; that is, every state on the queue is associated with a cost, and the lowest cost states come off of the queue first, regardless of when they got added.  The choice of costs leads to different algorithms.  The first one, <i>uniform cost search</i>, is still an uninformed technique, which means it doesn't know anything about the problem other than the transition graph.  The final two, greedy best-first search and A* search, use something called a <b>formal heuristic</b> which incorporates some domain specific knowledge about how far a state is from the solution.
 										</p>
 
 										<HR>
 										<h2>
 											<a href = "bfstree">Uniform Cost Search</a>
 										</h2>
-										
 
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											W : ['e']
-											e : ['l', ' ']
-											l : ['c']
-											c : ['o', 's']
-											o : ['m', ' ']
-											m : ['e']
-											  : ['t', 'c', '4']
-											t : ['o']
-											s : [' ']
-											4 : ['7']
-											7 : ['7']</script>   
-
-<!--<div style="font-size: larger;">
+										<p>The first algorithm is a lot like breadth-first search, except we keep track explicitly of the <i>cumulative distance</i> of all states that lead to this state.  We'll store on our priority queue this cost, the state, and the previous state.  <i>The pseudocode is below.  Note that we can use the previous state to trace back the shortest path from the goal to the solution</i> </p>
+<div style="font-size: larger;">
 <pre>
-<code>!-->
-<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+<code>
 UniformCost(start, goal):
 	state = start
 	visited = set([])
-	frontier = []  # This is a <b>priority queue</b> now
+	frontier = []  # <b>This is a priority queue now</b>
 	# Queue holds things with (cumulative cost, state, previous state)
 	frontier.add( (0, start, null) ) 
 	reachedGoal = false
@@ -90,18 +80,291 @@ UniformCost(start, goal):
 			visited.add(state)
 			for n in state.neighbors():
 				cost = distance(state, n) # Distance of taking step from state to neighbor 
-				cumucostn = cumucost + cost # Moving to the neighbor costs as much as it 
-				# took to move to state, plus the cost of moving from state to neighbor
+				<b>cumucostn = cumucost + Cost # Moving to the neighbor costs as much as it 
+				# took to move to state, plus the cost of moving from state to neighbor</b>
 				if not n in frontier and not n in visited:
 					frontier.add( (cumucostn, n, state) )
-				else if n in frontier:
+				<b>else if n in frontier: // See if we just found a shorter path to n
 					if cumucostn &lt frontier.cost(n):
-						Update cost of n to be cumucostn on frontier
-</script>   
+						Update cost of n to be cumucostn on frontier</b>
+</code>
+</pre>
+</div>  
 										
 
-								<img src = "UniformCostSketch.svg">
+							<p>
+								Overall, the pseudocode is fairly similar to that of <a href = "../Week2_BasicSearch/index.html#bfsgraph">breadth-first graph search</a>, except it keeps track of a cost and uses a priority queue instead of a regular queue (other changes are bolded). Let's look at a picture of this algorithm in the middle of its run, as shown below.  Suppose we just took <code>state</code> off of the queue, and <code>state</code> has 4 neighbors a, b, c, and d which are at distances <b>d1</b>, <b>d2</b>, <b>d3</b>, and <b>d4</b> from <code>state</code>, respectively.  Then, assuming that this is the first time we're seeing these neighbor nodes, we'll add them to the priority queue with the distance it took to get from <code>start</code> to <code>state</code> (<b>cumucost</b>), plus the distance to get from <code>state</code> to its neighbor.  At this point, this is our best estimate of the distance of shortest path from <code>start</code> to one of these neighbors.  
+							</p>	
+							<p>
+								Then, suppose later before we get to one of the states (say <code>a</code>), we take a state <code>p</code> off of the queue which has <code>a</code> as a neighbor.  If the distance <b>x</b> from the start to <code>p</code> plus the distance <b>d1'</b> from <code>a</code> to <code>p</code> happens to be smaller than the estimate <b>cumucost+d1</b> that we had before, then we update the priority of <code>a</code> to be the smaller distance <b>x+d1'</b>.  Because the priority queue only removes the smallest things first, we reach a node first at a priority equal to its shortest distance from the start.  As a corollary, we reach the goal state with a cost equal to the shortest possible path to the goal state.  
+							</p>
+							<img src = "UniformCostSketch.svg" width=500>
 
+							<p>
+								Those who are familiar with <a href = "https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra's algorithm</a> for finding shortest paths in graphs may realize that uniform cost search is essentially the same thing, except we build the graph on the fly instead of starting with the full graph on the queue with all distances of infinity.
+							</p>
+
+							<p>
+								As a final note, uniform cost search is actually equivalent to breadth-first search if all of the neighbor transition costs are the same.  This is because, as we recall, breadth first search visits states in increasing order of number of steps from the origin.  If each step has the same cost, then the number of steps is equal to the cost times a constant, so the order is the same.
+							</p>
+
+							<p>
+								Let's look at an example of a pixel graph using 8 neighbors instead of 4.  We'll make the horizontal and vertical neighbors have a distance of 1 and the diagonal neighbors have a distance of sqrt(2), as shown in the image below
+							</p>
+
+							<img src = "8Neighbors.svg" width=200>
+
+							<p>
+								Below is an animation showing how regular breadth-first graph search would do on this.  Notice how the frontier moves out in a square (as opposed to moving out in a diamond for 4 neighbors)
+							</p>
+
+							<script src="https://unpkg.com/tinyqueue@2.0.0/tinyqueue.min.js"></script>
+							<script src="../../Materials/MazeExplorer/maze.js"></script>
+							<div id = "bfsgraph"></div>
+							<script>
+								let maze1 = new BFSDFS("bfsgraph", null, true, false);
+								maze1.loadMaze("../../Materials/MazeExplorer/Maze2.png");
+								maze1.eightNeighbs.checked = true;
+								maze1.fourNeighbs.checked = false;
+							</script>
+
+							<p>
+								Conversely, notice how with uniform cost search the front moves out in more of a circle, so the pixels on the frontier are closer to truly being the same distance from the start; hence the name "uniform cost"
+							</p>
+
+							<div id = "ucgraph1"></div>
+							<script>
+								let maze2 = new UniformCost("ucgraph1", null);
+								maze2.loadMaze("../../Materials/MazeExplorer/Maze2.png");
+								maze2.eightNeighbs.checked = true;
+								maze2.fourNeighbs.checked = false;
+							</script>
+
+
+							<p>
+								Note, though, that if we switch back to 4 neighbors, uniform cost search reverts back to doing exactly what breadth-first graph search does with 4 neighbors: it moves out in a diamond.  This is because all neighbors are at the same cost of 1.
+							</p>
+
+							<div id = "ucgraph2"></div>
+							<script>
+								let maze3 = new UniformCost("ucgraph2", null);
+								maze3.loadMaze("../../Materials/MazeExplorer/Maze2.png");
+								maze3.eightNeighbs.checked = false;
+								maze3.fourNeighbs.checked = true;
+							</script>
+
+					<HR>
+						<h2>
+							<a href = "greedybestfirst">Greedy Best-First Search</a>
+						</h2>
+						<p>
+							Let's look at another algorithm that uses a priority queue, but one that falls under the class of <i>informed search algorithms</i>; that is, we actually know something about the problem at hand beyond simply how the neighbors are connected.  In particular, we'll define something called a <b>formal heuristic</b>, which is an estimate of the number of steps left to take to the solution from a particular state.  At the very least, this heuristic should be <b>admissible</b>; it should never over-estimate the true cost left along the shortest path from the state to the distance.  One example of an admissible heuristic for our pixel graphs is the straight line "Euclidean distance" from a state at location (x, y) to the goal at location (g<SUB>x</SUB>, g<SUB>y</SUB>) 
+
+							<h3>
+								\[ d((x, y), (g_x, g_y)) = \sqrt{ (x-g_x)^2 + (y-g_y)^2 } \]
+							</h3>
+							This heuristic is admissible for both 4 and 8 neighbors because of the <a href = "https://en.wikipedia.org/wiki/Triangle_inequality">triangle inequality</a>.  Then, it's just a matter of replacing the cumulative cost to the start with the heuristic.  The pseudocode is shown below, with the modifications from uniform cost bolded
+						</p>
+
+<div style="font-size: larger;">
+<pre>
+<code>
+GreedyBestFirst(start, goal, <b>heuristic</b>):
+state = start
+visited = set([])
+frontier = []  # This is a priority queue now
+# Queue holds things with (cumulative cost, state, previous state)
+frontier.add( (<b>heuristic(start)</b>, start, null) ) 
+reachedGoal = false
+while not reachedGoal and length(frontier) > 0:
+	# Take out element from front of line
+	(heuristic_state, state, prev) = frontier.pop()
+	if state is goal:
+		reachedGoal = true
+	else:
+		visited.add(state)
+		for n in state.neighbors():
+				frontier.add( (<b>heuristic(n)</b>, n, state) )
+</code>
+</pre>
+</div> 
+
+								<p>Let's look at how this does on a wide open grid with no obstacles, using 8 neighbors</p>
+
+
+								<div id = "greedygraph1"></div>
+								<script>
+									let maze4 = new GreedyBestFirst("greedygraph1", null);
+									maze4.loadMaze("../../Materials/MazeExplorer/Maze2.png");
+									maze4.eightNeighbs.checked = true;
+									maze4.fourNeighbs.checked = false;
+									maze4.rememberInput.checked = true;
+								</script>
+
+								<p>
+									Seems like it gets there pretty quickly!  But let's switch it up a bit and place some obstacles in the way, as shown below (start shown in blue and goal shown in red, with obstacles in black) 
+								</p>
+
+								<img src = "../../Materials/MazeExplorer/Maze4.png" width=400>
+
+								<p>
+									In this case, greedy best first search has to expand relatively few nodes to find a solution still, but the shortest path it finds to the solution gets tricked into taking a longer route that takes 40 steps.  By contrast, uniform cost search has to expand more nodes to find the solution, but it gets the shortest path with only 28 steps.  So we can't rely on greedy best-first search to give us the shortest path to the solution, only some arbitrary path.  Below are the solutions shown side by side
+								</p>
+
+								<table>
+									<tr>
+										<td><h4>Greedy Best-First (40 Steps)</h4></td>
+										<td><h4>Uniform Cost (28 Steps)</h4></td>
+									</tr>
+									<tr>
+										<td><img src = "GreedyBestFirstObstacles.png" width=300></td>
+										<td><img src = "UniformCostObstacles.png" width=300></td>
+									</tr>
+								</table>
+
+								<p>
+									You can try these yourself below
+								</p>
+
+								<h4>Greedy best-first search with obstacles</h4>
+								<div id = "greedygraph2"></div>
+								<script>
+									let maze5 = new GreedyBestFirst("greedygraph2", null);
+									maze5.loadMaze("../../Materials/MazeExplorer/Maze4.png");
+									maze5.eightNeighbs.checked = true;
+									maze5.fourNeighbs.checked = false;
+									maze5.rememberInput.checked = true;
+								</script>
+
+								<h4>Uniform cost search with obstacles</h4>
+
+								<div id = "greedygraphuniformcost"></div>
+								<script>
+									let maze6 = new UniformCost("greedygraphuniformcost", null);
+									maze6.loadMaze("../../Materials/MazeExplorer/Maze4.png");
+									maze6.eightNeighbs.checked = true;
+									maze6.fourNeighbs.checked = false;
+									maze6.rememberInput.checked = true;
+								</script>
+							<HR>
+								<h2>
+									<a href = "astar">A* Search</a>
+								</h2>
+
+								<p>
+									As it turns out, we can get the best of both worlds by doing something called <b>A Star Search</b>, which uses a priority that is the sum of the two costs in uniform cost and greedy best-first.  In other words, A* uses an estimate of the <i>total distance from start to finish</i> as the sum of the cost taken so far and the sum of the heuristic.  The pseudocode is shown below, with changes bolded with respect to uniform cost search
+								</p>
+<div style="font-size: larger;">
+<pre>
+<code>
+AStar(start, goal, <b>heuristic</b>):
+	state = start
+	visited = set([])
+	frontier = []  # This is a priority queue now
+	# Queue holds things with (cumulative cost, state, previous state)
+	frontier.add( (<b>heuristic(start)</b>, start, null) ) 
+	reachedGoal = false
+	while not reachedGoal and length(frontier) > 0:
+		# Take out element from front of line
+		(cumucost, state, prev) = frontier.pop()
+		if state is goal:
+			reachedGoal = true
+		else:
+			visited.add(state)
+			for n in state.neighbors():
+				cost = distance(state, n) # Distance of taking step from state to neighbor 
+				costn = cumucost + cost <b>+ heuristic(n)</b> # Moving to the neighbor costs as much as it 
+				# took to move to state, plus the cost of moving from state to neighbor,
+			    	# <b>plus the heuristic</b>
+				if not n in frontier and not n in visited:
+					frontier.add( (costn, n, state) )
+				else if n in frontier: // See if we just found a shorter path to n
+					if costn &lt frontier.cost(n):
+						Update cost of n to be costn on frontier
+</code>
+</pre>
+</div>  
+
+								<p>
+									Below is the same example as before with the obstacles.  As you can see, it still searches in the direction of the solution much more quickly than uniform cost search, but it doesn't get messed up as much by the obstacles, and it correctly returns the shortest path.  In fact, <b>an admissible heuristic will guarantee that we reach the solution with a shortest path first</b>
+								</p>
+
+								<div id="astar1"></div>
+								<script>
+									let maze7 = new AStar("astar1", null);
+									maze7.loadMaze("../../Materials/MazeExplorer/Maze4.png");
+									maze7.eightNeighbs.checked = true;
+									maze7.fourNeighbs.checked = false;
+									maze7.rememberInput.checked = true;
+								</script>
+
+								<HR>
+									<h2>
+										<a href = "consistency">A* Search And Consistency</a>
+									</h2>
+
+									<p>
+										There's a stronger condition we can impose on our heuristic than admissibility, which is referred to as <b>consistency</b>.  The consistency condition for a heuristic <b>h</b> is
+									</p>
+
+									<h3>
+										\[ h(s) \leq h(n) + d(s, n) \]
+									</h3>
+
+									<p>
+										where <b>n</b> is a neighbor of state <b>s</b> and <b>d(s, n)</b> is the distance between <b>n</b> and <b>s</b>.  In other words, the heuristic should be roughly decreasing as we get closer to the goal.
+									</p>
+									<p>
+										We can show by induction that every consistent heuristic is admissible (though admissible heuristics are not necessarily consistent).  Let <b>h*(s)</b> be the minimum cost of any path from the state <b>s</b> to a goal state, and let <b>s, s2, s3, ..., sn</b> be a sequence of states that realizes this cost, with <b>sn</b> being a goal state.  Then, by the consistency condition, we can write
+									</p>
+
+									<h3>
+										\[ h(s) \leq h(s_2) + d(s, s_2) \]
+									</h3>
+
+									and then, plugging in the consistency condition for <b>s3</b>
+
+									<h3>
+										\[ h(s) \leq h(s_3) + d(s_2, s_3) + d(s, s_2) \]
+									</h3>
+
+									<p>
+										and then, we continue by induction until we get 
+									</p>
+
+									<h3>
+										\[ h(s) \leq d(s, s_2) + d(s_2, s_3) + ... + d(s_{n-1}, s_n) = h^*(s) \]
+									</h3>
+
+									<p>
+										One really nice thing about consistency is that we can guarantee that, like uniform cost search, the first time a state comes out of the queue, it has the lowest possible cost that any path to it every will.  Furthermore, if the costs of all steps are the same (as they are in the 8-puzzle and rush hour), we can also guarantee that the state has the lowest cost <i>the first time it's added to the frontier</i>.   This means we can cut out the check to see if a node is already on the frontier with a higher cost, which is great, because <a href = "https://stackoverflow.com/questions/25318777/python-update-value-of-element-in-heapq">updating priorities on python priority queues is a pain</a>.  This will make your life much easier on <a href = "../../Assignments/HW2_RushHour/">homework 2</a>.  Below is the pseudocode for A* search assuming a consistent heuristic
+									</p>
+
+<div style="font-size: larger;">
+<pre><code>AStarConsistent(start, goal, heuristic):
+	state = start
+	visited = set([])
+	frontier = []  # This is a priority queue now
+	# Queue holds things with (cumulative cost, state, previous state)
+	frontier.add( (heuristic(start), start, null) ) 
+	reachedGoal = false
+	while not reachedGoal and length(frontier) > 0:
+		# Take out element from front of line
+		(cumucost, state, prev) = frontier.pop()
+		if state is goal:
+			reachedGoal = true
+		else:
+			for n in state.neighbors():
+				cost = distance(state, n) # Distance of taking step from state to neighbor 
+				costn = cumucost + cost + heuristic(n) # Moving to the neighbor costs as much as it 
+				# took to move to state, plus the cost of moving from state to neighbor,
+				# plus the heuristic
+				<b>if not n in visited:
+					visited.add(n)</b>
+					frontier.add( (costn, n, state) )
+</code>
+</pre>
+</div>  
 
                                     
                                 </div>
@@ -171,6 +434,9 @@ UniformCost(start, goal):
 												</li>
 												<li>
 													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>"
 												</li>
 											</ul>
 										</li>
