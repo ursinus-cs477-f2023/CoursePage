@@ -51,13 +51,23 @@
 											<b>Important New Terms:</b> priority queue, cumulative cost, formal heuristic, admissibility, consistency
 										</p>
 
+										<h3>
+											<ul>
+												<li><a href = "#uniformcost">Uniform Cost Search</a></li>
+												<li><a href = "#greedybestfirst">Greedy Best-First Search</a></li>
+												<li><a href = "#astar">A* Search</a></li>
+												<li><a href = "#consistency">A* Search And Consistency</a></li>
+												<li><a href = "#heapq">Python Priority Queues</a></li>
+											</ul>
+										</h3>
+
 										<p>
 											Today we discussed a set of search algorithms that use a <b>priority queue</b> instead of a queue; that is, every state on the queue is associated with a cost, and the lowest cost states come off of the queue first, regardless of when they got added.  The choice of costs leads to different algorithms.  The first one, <i>uniform cost search</i>, is still an uninformed technique, which means it doesn't know anything about the problem other than the transition graph.  The final two, greedy best-first search and A* search, use something called a <b>formal heuristic</b> which incorporates some domain specific knowledge about how far a state is from the solution.
 										</p>
 
 										<HR>
 										<h2>
-											<a href = "bfstree">Uniform Cost Search</a>
+											<a name = "uniformcost">Uniform Cost Search</a>
 										</h2>
 
 										<p>The first algorithm is a lot like breadth-first search, except we keep track explicitly of the <i>cumulative distance</i> of all states that lead to this state.  We'll store on our priority queue this cost, the state, and the previous state.  <i>The pseudocode is below.  Note that we can use the previous state to trace back the shortest path from the goal to the solution</i> </p>
@@ -155,7 +165,7 @@ UniformCost(start, goal):
 
 					<HR>
 						<h2>
-							<a href = "greedybestfirst">Greedy Best-First Search</a>
+							<a name = "greedybestfirst">Greedy Best-First Search</a>
 						</h2>
 						<p>
 							Let's look at another algorithm that uses a priority queue, but one that falls under the class of <i>informed search algorithms</i>; that is, we actually know something about the problem at hand beyond simply how the neighbors are connected.  In particular, we'll define something called a <b>formal heuristic</b>, which is an estimate of the number of steps left to take to the solution from a particular state.  At the very least, this heuristic should be <b>admissible</b>; it should never over-estimate the true cost left along the shortest path from the state to the distance.  One example of an admissible heuristic for our pixel graphs is the straight line "Euclidean distance" from a state at location (x, y) to the goal at location (g<SUB>x</SUB>, g<SUB>y</SUB>) 
@@ -248,7 +258,7 @@ while not reachedGoal and length(frontier) > 0:
 								</script>
 							<HR>
 								<h2>
-									<a href = "astar">A* Search</a>
+									<a name = "astar">A* Search</a>
 								</h2>
 
 								<p>
@@ -385,7 +395,7 @@ AStar(start, goal, <b>heuristic</b>):
 
 								<HR>
 									<h2>
-										<a name = "heaps">Python Priority Queues</a>
+										<a name = "heapq">Python Priority Queues</a>
 									</h2>
 									<p>
 										When you implement this in python, you can make use of the <a href = "https://docs.python.org/3/library/heapq.html">heapq</a> library.  Below is an example of how to use this.  
@@ -418,7 +428,7 @@ AStar(start, goal, <b>heuristic</b>):
                                 </div>
 						</div>
 					</div>
-					
+
 				<!--Syntax highlighting in Javascript!-->
 				<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
 				<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
