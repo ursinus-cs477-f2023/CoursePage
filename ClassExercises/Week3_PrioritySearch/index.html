@@ -163,7 +163,7 @@ UniformCost(start, goal):
 							<h3>
 								\[ d((x, y), (g_x, g_y)) = \sqrt{ (x-g_x)^2 + (y-g_y)^2 } \]
 							</h3>
-							This heuristic is admissible for both 4 and 8 neighbors because of the <a href = "https://en.wikipedia.org/wiki/Triangle_inequality">triangle inequality</a>.  Then, it's just a matter of replacing the cumulative cost to the start with the heuristic.  The pseudocode is shown below, with the modifications from uniform cost bolded
+							We'll prove that this particular heuristic is admissible using a <a href = "#consistency">stronger condition</a> in a moment.  But for now, the pseudocode for a general admissible heuristic is shown below, with the modifications from uniform cost bolded
 						</p>
 
 <div style="font-size: larger;">
@@ -314,7 +314,7 @@ AStar(start, goal, <b>heuristic</b>):
 
 								<HR>
 									<h2>
-										<a href = "consistency">A* Search And Consistency</a>
+										<a name = "consistency">A* Search And Consistency</a>
 									</h2>
 
 									<p>
@@ -351,6 +351,10 @@ AStar(start, goal, <b>heuristic</b>):
 									</h3>
 
 									<p>
+										Now we can prove that the straight line heuristic we used on grids is consistent simply by using the <a href = "https://en.wikipedia.org/wiki/Triangle_inequality">triangle inequality</a> for both 4 neighbor and 8 neighbor grids.  This also implies that it's admissible by above reasoning
+									</p>
+
+									<p>
 										One really nice thing about consistency is that we can guarantee that, like uniform cost search, the first time a state comes out of the queue, it has the lowest possible A* cost that any path to it every will.  Furthermore, if the costs of all steps are the same (as they are in the 8-puzzle and rush hour), we can also guarantee that the state has the lowest cost <i>the first time it's added to the frontier</i>.   This means we can cut out the check to see if a node is already on the frontier with a higher cost, which is great, because <a href = "https://stackoverflow.com/questions/25318777/python-update-value-of-element-in-heapq">updating priorities on python priority queues is a pain</a>.  This will make your life much easier on <a href = "../../Assignments/HW2_RushHour/">homework 2</a>.  Below is the pseudocode for A* search assuming a consistent heuristic
 									</p>
 
@@ -381,10 +385,31 @@ AStar(start, goal, <b>heuristic</b>):
 
 								<HR>
 									<h2>
-										<a href = "heaps">Python Priority Queues</a>
+										<a name = "heaps">Python Priority Queues</a>
 									</h2>
 									<p>
-										When you implement this in python, you can make use of the <a href = "https://docs.python.org/3/library/heapq.html">heapq</a> library.
+										When you implement this in python, you can make use of the <a href = "https://docs.python.org/3/library/heapq.html">heapq</a> library.  Below is an example of how to use this.  
+									</p>
+
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										from heapq import heappush, heappop
+										frontier = []
+										heappush(frontier (5, "alice"))
+										heappush(frontier, (10, "bob"))
+										heappush(frontier, (4, "yves"))
+										heappush(frontier, (6, "wendy"))
+										(cost, state) = heappop(frontier) # This will be (4, "yves")
+										(cost, state) = heappop(frontier) # This will be (5, "alice")
+										(cost, state) = heappop(frontier) # This will be (6, "wendy")
+										(cost, state) = heappop(frontier) # This will be (10, "bob")
+									</script>   
+
+									<p>
+										Note that it's possible to push on tuples of information, so you can store more than just the priority on the queue.  The priority will always be compared at the first element in the tuple.  If there are ties, it will compare the second element, and so on.  
+									</p>
+									<p>
+										In the case of A*, you'll want to push on a <b>4-tuple</b> of <code>(heuristic + cumucost, state, prev, cumucost)</code>.  For ties, <code>state</code> should be comparable.  This is why the <code>__lt__</code> method is overloaded in the most recent <a href = "https://github.com/Ursinus-CS477-F2021/HW2_RushHour/blob/a0866bb5e411b59876cae41e7ff0ebe8307f3d18/rush.py#L105">starter code</a>
 									</p>
 
 
