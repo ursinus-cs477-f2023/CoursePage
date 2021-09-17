@@ -173,7 +173,7 @@ GreedyBestFirst(start, goal, <b>heuristic</b>):
 state = start
 visited = set([])
 frontier = []  # This is a priority queue now
-# Queue holds things with (cumulative cost, state, previous state)
+# Queue holds things with (<b>heuristic</b>, state, previous state)
 frontier.add( (<b>heuristic(start)</b>, start, null) ) 
 reachedGoal = false
 while not reachedGoal and length(frontier) > 0:
@@ -252,7 +252,21 @@ while not reachedGoal and length(frontier) > 0:
 								</h2>
 
 								<p>
-									As it turns out, we can get the best of both worlds by doing something called <b>A Star Search</b>, which uses a priority that is the sum of the two costs in uniform cost and greedy best-first.  In other words, A* uses an estimate of the <i>total distance from start to finish</i> as the sum of the cost taken so far and the sum of the heuristic.  The pseudocode is shown below, with changes bolded with respect to uniform cost search
+									As it turns out, we can get the best of both worlds by doing something called <b>A Star Search</b>, which uses a priority that is the sum of the two costs in uniform cost and greedy best-first.  In other words, A* uses an estimate of the <i>total distance from start to finish</i> as the sum of the cost taken so far and the sum of the heuristic <b>h</b>, and it prioritizes nodes which seem to be on the shortest such estimated paths.  The picture below depicts this.  Two quick notes:
+									<ul>
+										<li>
+											Our estimated cost of the optimal path from start to goal is <b>cumucost + h(state)</b>
+										</li>
+										<li>
+											The cost to move to a neighbor is <b>d</b>, so once we move to the neighbor <b>n</b>, the cumulative cost becomes <b>cumucost + d</b>.  The heuristic at the neighbor is <b>h(n)</b>, so that neighbor's A* priority on the queue becomes <b>cumucost + d + h(n)</b>.
+										</li>
+									</ul>
+								</p>
+
+								<img src = "AStar.svg" width=400>
+								
+								</p>
+									Below is some pseudocode to implement this, with changes bolded with respect to uniform cost search.  Note how we prioritize by the sum of the cumulative cost and the heuristic, but we have to remember the cumulative cost separately to be able to accurately compute the cumulative cost to neighbors.  So we end up actually remembering 4 things in each priority queue entry.
 								</p>
 <div style="font-size: larger;">
 <pre>
@@ -261,23 +275,23 @@ AStar(start, goal, <b>heuristic</b>):
 	state = start
 	visited = set([])
 	frontier = []  # This is a priority queue now
-	# Queue holds things with (cumulative cost, state, previous state)
+	# Queue holds things with (<b>cumulative cost + heuristic(state)</b>, state, previous state, <b>cumulative cost</b>)
 	frontier.add( (<b>heuristic(start)</b>, start, null) ) 
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
 		# Take out element from front of line
-		(cumucost, state, prev) = frontier.pop()
+		(<b>est</b>, state, prev, <b>cumucost</b>) = frontier.pop() # <b>est</b> is priority: cumulative cost + heuristic
 		if state is goal:
 			reachedGoal = true
 		else:
 			visited.add(state)
 			for n in state.neighbors():
-				cost = distance(state, n) # Distance of taking step from state to neighbor 
-				costn = cumucost + cost <b>+ heuristic(n)</b> # Moving to the neighbor costs as much as it 
+				d = distance(state, n) # Distance of taking step from state to neighbor 
+				costn = <b>cumucost + d + heuristic(n)</b> # Moving to the neighbor costs as much as it 
 				# took to move to state, plus the cost of moving from state to neighbor,
 			    	# <b>plus the heuristic</b>
 				if not n in frontier and not n in visited:
-					frontier.add( (costn, n, state) )
+					frontier.add( (<b>costn</b>, n, state, <b>cumucost + d</b>) )
 				else if n in frontier: // See if we just found a shorter path to n
 					if costn &lt frontier.cost(n):
 						Update cost of n to be costn on frontier
@@ -337,7 +351,7 @@ AStar(start, goal, <b>heuristic</b>):
 									</h3>
 
 									<p>
-										One really nice thing about consistency is that we can guarantee that, like uniform cost search, the first time a state comes out of the queue, it has the lowest possible cost that any path to it every will.  Furthermore, if the costs of all steps are the same (as they are in the 8-puzzle and rush hour), we can also guarantee that the state has the lowest cost <i>the first time it's added to the frontier</i>.   This means we can cut out the check to see if a node is already on the frontier with a higher cost, which is great, because <a href = "https://stackoverflow.com/questions/25318777/python-update-value-of-element-in-heapq">updating priorities on python priority queues is a pain</a>.  This will make your life much easier on <a href = "../../Assignments/HW2_RushHour/">homework 2</a>.  Below is the pseudocode for A* search assuming a consistent heuristic
+										One really nice thing about consistency is that we can guarantee that, like uniform cost search, the first time a state comes out of the queue, it has the lowest possible A* cost that any path to it every will.  Furthermore, if the costs of all steps are the same (as they are in the 8-puzzle and rush hour), we can also guarantee that the state has the lowest cost <i>the first time it's added to the frontier</i>.   This means we can cut out the check to see if a node is already on the frontier with a higher cost, which is great, because <a href = "https://stackoverflow.com/questions/25318777/python-update-value-of-element-in-heapq">updating priorities on python priority queues is a pain</a>.  This will make your life much easier on <a href = "../../Assignments/HW2_RushHour/">homework 2</a>.  Below is the pseudocode for A* search assuming a consistent heuristic
 									</p>
 
 <div style="font-size: larger;">
@@ -345,26 +359,35 @@ AStar(start, goal, <b>heuristic</b>):
 	state = start
 	visited = set([])
 	frontier = []  # This is a priority queue now
-	# Queue holds things with (cumulative cost, state, previous state)
-	frontier.add( (heuristic(start), start, null) ) 
+	# Queue holds things with (cumulative cost + heuristic(state), state, previous state, cumulative cost)
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
 		# Take out element from front of line
-		(cumucost, state, prev) = frontier.pop()
+		(est, state, prev, cumucost) = frontier.pop()
 		if state is goal:
 			reachedGoal = true
 		else:
 			for n in state.neighbors():
-				<b>if not n in visited:
-					visited.add(n)</b>
-					cost = distance(state, n) # Distance of taking step from state to neighbor 
-					costn = cumucost + cost + heuristic(n) # Moving to the neighbor costs as much as it 
+				if not n in visited:
+					visited.add(n)
+					d = distance(state, n) # Distance of taking step from state to neighbor 
+					costn = cumucost + d + heuristic(n) # Moving to the neighbor costs as much as it 
 					# took to move to state, plus the cost of moving from state to neighbor,
 					# plus the heuristic
-					frontier.add( (costn, n, state) )
+					frontier.add( (costn, n, state, cumucost + d) )
 </code>
 </pre>
-</div>  
+</div>
+
+								<HR>
+									<h2>
+										<a href = "heaps">Python Priority Queues</a>
+									</h2>
+									<p>
+										When you implement this in python, you can make use of the <a href = "https://docs.python.org/3/library/heapq.html">heapq</a> library.
+									</p>
+
+
 
                                     
                                 </div>
