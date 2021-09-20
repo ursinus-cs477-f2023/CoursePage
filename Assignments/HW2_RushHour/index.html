@@ -44,7 +44,7 @@
                                         <h2>Homework 2: The Rush Hour Problem (60 Points)</h2>
 									</header>
 									<h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
-									<h3>Due Tue 9/21/2021 at 11:59PM</h3>
+									<h3>Due Wed 9/22/2021 at 11:59PM</h3>
 
 									<div id="page-content">
 
@@ -71,7 +71,7 @@
 														<a href = "#myheuristic">Designing Your Own Consistent Heuristic (10 Points)</a>
 													</li>
 													<li>
-														<a href = "#turnin2">What To Turn In</a>
+														<a href = "#competition">Class Competition</a>
 													</li>
 												</ul>
 											</li>
@@ -182,6 +182,7 @@
 											When you are finished, upload your <code>rush.py</code> code to Canvas, along with an explanation of your heuristic and a proof that it is admissible.  Also indicate the answer to these questions with your submission:
 											<ul>
 												<li>Did you work with a <a href = "../../index.html#buddy">buddy</a>?  If so, who?</li>
+												<li>Are you submitting your heuristic to the <a href = "#competition">class competition</a>?  If so, what name or pseudonym would you like to use on the class web site?</li>
 												<li>
 													How long did this take you?  I'm simply using this to gauge if things are too easy, too hard, or just right.
 												</li>
@@ -306,8 +307,13 @@
 												You should test your heuristic to make sure that it performs better than the blocking heuristic overall.  Then, you should submit a brief description of your heuristic, along with a proof that it's consistent.  For some potential extra credit, prove that your heuristic is consistent.
 											</p>
 
+											<h3><a name = "competition">Class Competition</a></h3>
 											<p>
-												<b>Class competition</b>: To sweeten the deal, we will have a class competition to see who can solve unknown puzzles in the fewest amount of loops, and the winner will get extra credit.  So you should think hard about how to design a good heuristic if you want to win big.
+												To sweeten the deal, we will have a class competition to see who can solve unknown puzzles in the fewest amount of loops, and <b>the winner will get extra credit</b>.  So you should think hard about how to design a good heuristic in the last part of the assignment if you want to win big.
+											</p>
+
+											<p>
+												To control things, I will be focused on the A* procedure itself, and I will specifically be counting how many times you add something to a queue (or multiple queues if you're doing something bidirectional to try to squeeze out more performance).  If you don't reach the optimal cost on a particular puzzle, then your loop penalty will automatically be set to infinity!  So make sure you don't get so fancy that you lose sight of an optimal solution.  We'll have a score for each puzzle for each submission.
 											</p>
 
 										

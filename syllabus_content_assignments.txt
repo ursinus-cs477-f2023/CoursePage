@@ -18,14 +18,14 @@ Assignment 1 Due
 2021-09-07
 Assignment 2  Due
 
-2021-09-21
+2021-09-22
 Assignment 3: Markov Classification & Hybrids Out
 
-2021-09-20
-Assignment 3 Part 1: Hybrids Due
+2021-09-21
+Assignment 3 Check In
 
 2021-09-28
-Assignment 3 Part 2: Classification Due
+Assignment 3 Due
 
 2021-10-06
 Assignment 4: Movie Reviews / Spam Out
