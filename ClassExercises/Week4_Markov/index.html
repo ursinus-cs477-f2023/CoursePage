@@ -41,24 +41,101 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 1: AI Jamboards</h2>
+                                        <h2>Week 4 Exercise: Markov Chains of Characters</h2>
+                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
                                         <p>
-                                            Here's what you all wrote in class
+                                            We're now going to go over one of the fundamental techniques for the second unit: markov chains.  You can read about the basics at <a href = "https://setosa.io/blog/2014/07/26/markov-chains/index.html">this link</a>.  
+
+											
                                         </p>
 
-                                        <img src = "1.png" width=800>
+                                        <h3>Task 1: Representing And Synthesizing Markov Chains</h3>
+                                        <p>
+                                            Your first task will be to create a program that simulates a Markov chain to create random strings according to transition rules.  Figure out how to represent the transitions, as well as how to choose random characters based on the probabilities.  For instance, let's say you have three possible states, <b>a</b>, <b>b</b>, and <b>c</b>, and the following state diagram for transitions.  Let's say you have the following transition probabilities
+											
+											<ul>
+												<li>The probability <b>p<SUB>aa</SUB></b> of staying at <b>a</b> is 0.2</li>
+												<li>The probability <b>p<SUB>ab</SUB></b> of transitioning from <b>a</b> to <b>b</b> is 0.3</li>
+												<li>The probability <b>p<SUB>ac</SUB></b> of transitioning from <b>a</b> to <b>c</b> is 0.5</li>
+											</ul>
+											
+											then another way of saying this is that 30% of the time, we should stay at <b>a</b>, 20% of the time, we should move to <b>b</b>, and 50% of the time we should move to <b>c</b>.
+										</p>
+										<p>
+											Let's complete the full state transition diagram for these three letters
+										</p>
 
-                                        <p></p>
+										<img src = "example1.png">
+											
+										<p>
+											<b>NOTE: </b> There is no arrow going from <b>b</b> to itself, so that transition probability is 0.
+										</p>
+										<p>
+											<b>Note also: All of the outgoing arrows from each state sum to 1</b>.  This is because the probability of anything happening is always 100%.  It's an important sanity check to make sure this is true for any Markov chain you have.
+										</p>
+											
+										<p>
+											See if you can translate this all into code now.  Below are a some random functions you can use to help you.
+										</p>
 
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											from random import uniform
+											x = uniform(0, 1) # Will choose a number in [0, 1] uniformly at random</script>  
 
-                                        <img src = "2.png" width=800>
+										<p>
+											Alternatively, you can use numpy's <code>random.rand</code> method
+										</p>
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											import numpy as np
+											x = np.random.rand() # Will choose a number in [0, 1] uniformly at random</script>  
 
-                                        <p></p>
+										<HR>
+										<h3>
+											Task 2: Computing Probabilities of Sequences
+										</h3>
 
-                                        <img src = "3.png" width=800>
+										<p>
+											Your next task is to report how likely a particular string of as, bs, and cs is given the above probabilities.  One of the key assumptions of Markov chains is that they are <b>memoryless</b>.  What this means is that when you're at a particular character, it doesn't matter how you got there; the transition probabilities to the next character are always fixed.  In probability language, this translates into <b>independence</b>, and this means you can simply <b>multiply all of the transition probabilities together to get the final probability</b>.  For example, let's suppose we had the string 
+										</p>
+
+										<div style="width:150px;">
+											<h3>
+												\[ abccaa \]
+											</h3>
+										</div>
+
+										<p>
+											Then we'd have to compute the product
+										</p>
+
+										<div style="width:150px;">
+											<h3>
+												\[ p_{ab} \times p_{bc} \times p_{cc} \times p_{ca} \times p_{aa} \]
+											</h3>
+										</div>
+
+										<p>
+											If we plug in the probabilities from the example we started with, this product is 
+										</p>
+
+										<div style="width:150px;">
+											<h3>
+												\[ 0.3 \times 0.1 \times 0.8 \times 0.1 \times 0.2 = 0.00048 \]
+											</h3>
+										</div>
+
+										<p>
+											Write a method in your code to compute the probability of a particular sequence given the transition probabilities you represented.
+										</p>
+
+										<HR>
+										<h3>Task 3: Stationary Distributions</h3>
+										<p>
+											When you look at the above state transition diagram, it appears that we'd have a lot more cs than anything else, and that we'd also have more as than bs.  But how do we quantify this?  Write a simulation to draw a bunch of random characters, and count how often you end up at an <b>a</b>, <b>b</b>, or <b>c</b> after a certain number of draws.  <a href = "https://www.stat.auckland.ac.nz/~wild/MarkovChains/">Click here</a> to view an animation of this sort of thing.
+										</p>
 
 
 

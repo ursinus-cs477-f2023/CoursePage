@@ -45,13 +45,13 @@ Unit 2: Statistical Reasoning, Knowledge Representation
 LECTURE
 Basics of Probability, Markov Chains
 
-
+<ul><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
 LECTURE
 Markov Chains Continued
 
 
 LECTURE
-Ethics: <i>Race After Technology</i>
+Ethics: <i>Race After Technology</i> Introductory Chapter
 
 
 LECTURE
