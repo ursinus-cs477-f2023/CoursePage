@@ -91,6 +91,39 @@
 										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
 											import numpy as np
 											x = np.random.rand() # Will choose a number in [0, 1] uniformly at random</script>  
+										
+										<h3>Solution Notes</h3>
+										<p>
+											A good way to represent Markov transition data is with a dictionary of dictionaries
+										</p>
+										
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											probs = {'a':{'a':0.2, 'b':0.3, 'c':0.5},
+												     'b':{'a':0.5, 'b':0, 'c':0.5},
+												     'c':{'a':0.1, 'b':0.1, 'c':0.8}}</script>  
+
+										<p>
+											then, it's quite easy to lookup transition probabilities with two dictionary lookups
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											probs['a']['b'] # This gives 0.3, the transition probability from a to b
+											probs['c']['a'] # This gives 0.1, the transition probability from c to a</script> 
+
+										<p>
+											To draw transitions according to particular probabilities by just choosing a real number uniformly between 0 and 1, we can think of divvying up the unit interval, as shown below for the transitions from <b>a</b> in the example we're looking at so far:
+										</p>
+										<img src = "ProbabilityPartition.svg">
+
+										<p>
+											This translates into saying that we'll make the following choices when we draw a number <b>x</b>
+											<ul>
+												<li>an <b>a</b> if 0 &le; x &lt 0.2</li>
+												<li>a <b>b</b> if 0.2 &le; x &lt; 0.5</li>
+												<li>a <b>c</b> if 0.5 &le; x &lt 1.0</li>
+											</ul>
+										</p>
+
 
 										<HR>
 										<h3>

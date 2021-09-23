@@ -38,24 +38,24 @@ LECTURE
 A* Heuristics for 8-Puzzle And Rush Hour
 
 Tree Rotations Demo
+LECTURE
+HW2 / A* Workshopping
+
+
 SECTION
-Unit 2: Statistical Reasoning, Knowledge Representation
+Unit 2: Whirlwind Tour of Statistical Reasoning
 
 
 LECTURE
-Basics of Probability, Markov Chains
+Markov Chains
 
 <ul><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
 LECTURE
-Markov Chains Continued
+Markov Chains Continued, Bayes Rule
 
 
 LECTURE
 Ethics: <i>Race After Technology</i> Introductory Chapter
-
-
-LECTURE
-Bayes Rule
 
 
 LECTURE
@@ -177,10 +177,6 @@ Class Exercise: Connect 4
 SECTION
 Unit 6: Case Studies
 In this unit, we'll look at a number of examples in detail during class while students work on their final projects
-
-LECTURE
-Feature Engineering Case Study: 3D Shape Classification
-
 
 LECTURE
 Deep Dream, Face Generation
