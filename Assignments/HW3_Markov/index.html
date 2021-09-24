@@ -51,6 +51,43 @@
 													<li><a href = "#readme">What To Submit</a></li>
 												</ul>
 											</li>
+											<li><a href = "#markov">Background: Markov Chains for Text Representation</a>
+												<ul>
+													<li><a href = "#zeroorder">Zero-Order Statistical Modeling</a></li>
+													<li><a href = "#kprefix">K-Prefixes</a></li>
+													<li><a href = "#probability">The Probability of A Sequence</a></li>
+												</ul>
+											</li>
+											<li>
+												<a href = "#tasks">Assignment Tasks</a>
+												<ul>
+													<li><a href = "#startercode">Starter Code</a></li>
+													<li>
+														<a href = "#addingtext">Data Structures / Adding Text (10 Points)</a>
+													</li>
+													<li>
+														<a href = "#computingprobabilities">Computing Probabilities (10 Pts)</a>
+													</li>
+													<li>
+														<a href = "#debates">Experiment 1: 2016 US Presidental Debate (10 Pts)</a>
+													</li>
+													<li>
+														<a href = "#spamham">Experiment 2: Spam vs Ham (5 Pts)</a>
+													</li>
+													<li>
+														<a href = "#moviereview">Experiment 3: Movie Reviews (5 Points)</a>
+													</li>
+													<li>
+														<a href = "$synthesizing">Synthesizing Text (10 Pts)</a>
+													</li>
+													<li>
+														<a name = "#poeticstatement">Poetic Statement (5 Pts)</a>
+													</li>
+													<li>
+														<a name = "#ethics">Ethics Reflection (5 Pts)</a>
+													</li>
+												</ul>
+											</li>
 										</ul>
 
 									</header>
@@ -59,7 +96,7 @@
 
                                         <h2><a name = "overview">Overview / Logistics</a></h2>
 										<p>
-                                            The purpose of this assignment is to introduce you to natural language processing via <a href = "https://en.wikipedia.org/wiki/Markov_chain">Markov chains</a>, which are incredibly powerful tools for representing sequences mathematically.  First, you will use this tool to classify text, seeing how it performs at telling whether Clinton or Trump was speaking during the 2016 presidential debates, whether a text is spam or ham, or whether a movie review is positive or negative.  You will also use this tool to synthesize new text in the style of a corpus of text.  For instance, you'll be able to synthesize new, previously unheard Spongebob quotes.  You can even mix styles together (such as my <a href = "#ursinussith">Ursinus sith lord</a>).  We will have a class gallery of such "Markov hybrids" that students devise.
+                                            The purpose of this assignment is to introduce you to natural language processing via <a href = "https://en.wikipedia.org/wiki/Markov_chain">Markov chains</a>, which are incredibly powerful tools for representing sequences mathematically.  First, you will use this tool to classify text, seeing how it performs at telling whether Clinton or Trump was speaking during the 2016 presidential debates, whether a text is spam or ham, or whether a movie review is positive or negative.  You will also use this tool to synthesize new text that mimics the style of some given text.  For instance, you'll be able to synthesize new, previously unheard Spongebob quotes.  You can even mix styles together (such as my <a href = "#ursinussith">Ursinus sith lord</a>).  We will have a class gallery of such "Markov hybrids" that students devise.
 										</p>
 
                                         <p>
@@ -74,7 +111,7 @@
                                         </p>
 
                                         <h3><a name = "readme">What to submit</a></h3>
-										<p>                                        <p>
+										<p>
                                             
 											Finally, submit a comment on canvas with the answer to the following questions:
 										
@@ -83,7 +120,7 @@
 												Your markov.py file and the jupyter notebooks you created in the experimental section.
 											</li>
 											<li>
-												Your <a href = "#poeticstatment">poetic statement</a>, a title that should go along with it, and what name/pseudonym you would like to use? (results will be displayed on the class web site).
+												Your <a href = "#poeticstatment">poetic statement</a>, a title that should go along with it, and what name/pseudonym you would like to use? (results will be displayed on the class web site).  Also submit the text files that you trained it on.
 											</li>
 											<li>
 												Your <a href = "#ethics">ethics reflection</a>.
@@ -98,6 +135,7 @@
 												Any other concerns that you have. For instance, if you have a bug that you were unable to solve but you made progress, write that here. The more you articulate the problem the more partial credit you will receive (fine to leave this blank)
 											</li>
 										</ol>
+									</p>
 
 
 									<h2><a name = "markov">Background: Markov Chains for Text Representation</a></h2>
@@ -108,6 +146,10 @@
 
 									<p>
 										In this assignment, our focus will be on creating an algorithm to capture the <i>style</i> of some given text from a set of examples.  Then, we will be able to classify documents or "synthesize" (create new text) in this style.
+									</p>
+
+									<p>
+										In the discussion below, we refer to documents that we use to build a statistical model as <b>training data</b>.
 									</p>
 
 									<h3><a name = "zeroorder">Zero-Order Statistical Modeling</a></h3>
@@ -328,146 +370,258 @@
 
 
 
-									<h2><a name = "Programming">Programming Tasks</a></h2>
+									<h2><a name = "tasks">Assignment Tasks</a></h2>
 
+									<h3><a name = "startercode">Starter Code</a></h3>
 									<p>
-										As you write your code below, you should be mindful of the <a href = "../../style.html">style guide</a>.  Good class organization is of paramount importance here.  Points may be deducted for sloppy style.  
-									</p>
-
-									<h3><a name = "datastructures">Setting up Data Structures (5 Pts)</a></h3>
-									<p>
-										You should create a class that encapsulates all of the information for a particular model.  The class constructor should have one parameter: the length of a prefix.  You should also setup and initialize the appropriate <code>HashMap</code> structures to represent your text model.  You will need to store a count of all of the prefixes.  Also, for each prefix, you will need to store the possible characters that follow that prefix and how often they occur.
+										<a href = "https://github.com/Ursinus-CS477-F2021/HW3_Markov/archive/refs/heads/main.zip">Click here</a> to download the starter code for this assignment.  The main file you will be editing is <code>markov.py</code>.  This contains bare bones code for a <code>Markov</code> class for encapsulating all data in a model, and some (not all) of the instance methods that you need to write, as explained below.
 									</p>
 
 									<p>
-										Once you setup your class this way, it will be possible to make different objects for different models.  For instance, you could make a model to represent <a href = "#spam">spam texts</a> using a prefix-length of 6, or another model of spam text using prefix lengths of 10.  You could also make a completely separate model representing Darth Vader quotes.  These models shouldn't mix data at all, which is why we want to encapsulate the prefix length, prefix counts, and prefix character counts as instance variables in an object.
+										The folder also contains a number of text documents you will use to test your code.
 									</p>
 
-									<h3><a name = "addingtext">Adding Text (10 Points)</a></h3>
+									<h3><a name = "addingtext">Data Structures / Adding Text (10 Points)</a></h3>
 									<p>
-										You should create an instance method that takes a string as a parameter and incorporates that string into your model.  You should loop through all possible prefixes in the string and update the counts of the prefixes (or add a new prefix if this is the first time you're seeing it).  You should also update the counts of the characters that follow each prefix.  Two things to watch out for here:
+										Choose appropriate data structures to represent your Markov chain (<a href = "../../ClassExercises/Week1_Adventure/">dictionaries</a> are highly recommended), and initialize them as instance variables in the constructor.  Then, fill in the method <code>add_string</code> to add prefixes and character counts to your data structures for a string that's passed in.  You should loop through all possible prefixes in the string passed as a parameter and update the counts of the prefixes (or add a new prefix if this is the first time you're seeing it).  You should also update the counts of the characters that follow each prefix.  Two things to watch out for here:
 										<ul>
 											<li>
 												To prevent your model from running into dead ends when you go to synthesize new text, you should loop around once you run out of room to make a prefix at the end.  For example, if you had the text
 												<p>
-													<code>jane is having a great day</code>
+													<code>CS 477 rocks</code>
 												</p>
 
 												<p>And you chose to use prefix lengths of 5, you should have all of these prefixes</p>
 <pre>
-	jane 
-	ane i
-	ne is
-	e is 
-	 is h
-	is ha
-	s hav
-	 havi
-	havin
-	aving
-	ving 
-	ing a
-	ng a 
-	g a g
-	 a gr
-	a gre
-	 grea
-	great
-	reat 
-	eat d
-	at da
-	t day
-	 dayj
-	dayja
-	ayjan
-	yjane
+	CS 47
+	S 477
+	 477 
+	477 r
+	77 ro
+	7 roc
+	 rock	
 </pre>
 
-												<p>But also all of these prefixes</p>
+
+												<p>But also all of these prefixes once you start looping around</p>
 
 <pre>
-	dayj
-	dayja
-	ayjan
-	yjane
+	rocks
+	ocksC
+	cksCS
+	ksCS 
+	sCS 4
 </pre>
+
+										in code, you'd construct a Markov model and add this string as follows
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											model = MarkovModel(5)
+											model.add_string("CS 477 rocks")
+										</script>   
+
 											</li>
 											<li>
-												Do not add strings with have a length less than the chosen prefix length.  Simply do nothing if such a string is passed.
+												<p>
+													Do not add strings with a length less than the chosen prefix length.  Simply do nothing if such a string is passed.
+												</p>
 											</li>
 										</ul>
 
-										As an example to check to make sure this is working properly, if you add all of the lines from the the <a href = "HW3_Markov/text/spongebobquotes.txt">spongebob</a> file using 5-prefixes, you should have <code>4033</code> unique prefixes, and the prefix counts for the string <code>" you "</code> should be as follows:
-									</p>
+										As an example to check to make sure this is working properly, if you add all of the lines from the the <a href = "HW3_Markov/text/spongebobquotes.txt">spongebob</a> file using 5-prefixes
 
-									<p>
-										<code>
-											{a=4, b=1, c=4, e=1, g=1, h=1, j=1, k=1, l=1, m=1, s=4, t=4, w=1}
-										</code>
-									</p>
-
-
-
-									<h2><a name = "classification">Computing Probabilities (10 Pts)</a></h2>
-
-
-									<h3>Classification Problems</h3>
-									<p>
-										Once you're able to compute the probability for a model, you can train two (or more) different models on different types of text, and you can see which model gives a higher log probability.  We'll say the model with the highest probability is most likely to be related to the text in question.  For example, here are a few things you can try from the <a href = "#textdata">data I've given</a>
-									</p>
-									<ul>
-										<li>Create model with the first 900 positive movie reviews, and create a model with the first 900 negative movie reviews (add an entire file at once, not just one line at a time).  Then, compute probabilities for the last 100 positive and negative reviews.  If the probability is greater for the positive model, guess that it's a positive review.  Otherwise, guess it's a negative review.  Report how many of the 100 positive and 100 negative reviews were guessed correctly</li>
-
-										<li>
-											Create a model from the lines in the "spam_train.txt" file and another model from the lines in the "ham_train.txt" file.  Then, test each on the "ham_test.txt" and "spam_test.txt," and report how many of them you guess correctly
-										</li>
-
-										<li>
-											Train a model on Bush debate text and a model on Kerry debate text.  Since there aren't too many examples, you should assess the model by doing a "leave-one-out" test; that is, train on all of the Kerry debates files and 29/30 of the Bush debate files, and test on the remaining bush file to see whether the Bush or Kerry model has a higher probability.  Retrain the models on all possible subsets leaving one out, and report how many of them got the one they left out correct.
-										</li>
-									</ul>
-
-									To get the full extra credit, you should perform at least two of the experiments above each over a range of prefix lengths and report which one gives the best results.  And if you finish that and you're still bored, you can make up your own example!
-
-									<h3><a name = "synthesizing">Synthesizing Text (15 Pts)</a></h3>
-									<p>
-										Finally, you should create an instance method that synthesizes new text based on the prefixes and the counts of the possible characters that follow them.  You should synthesize the text one character at a time, and you should update the current prefix you're on to be the last k characters in the string you're synthesizing.  The String methods <code><a href = "https://beginnersbook.com/2013/12/java-string-substring-method-example/">substring</a></code> and <code><a href = "https://www.tutorialspoint.com/java/java_string_charat.htm">charAt</a></code> will come in handy here.
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											model = MarkovModel(5)
+											model.load_file_lines("text/spongebobquotes.txt")
+										</script>   
 										
+										
+										you should have <code>4032</code> unique prefixes, and the prefix counts for the string <code>" you "</code> should be as follows:
+									</p>
+
 									<p>
-										Your method should take in two parameters: the first which is the prefix to start on, and the second which is the total number of characters to synthesize.  If an empty string is specified for the first prefix, or the length of the specified prefix does not match the prefix-length of the current object, then you should randomly choose a starting prefix from the set of available prefixes in your map.
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											{'s': 4, 'm': 1, 't': 4, 'l': 1, 'j': 1, 'w': 1, 
+											'a': 4, 'b': 1, 'h': 1, 'c': 4, 'k': 1, 'e': 1, 'g': 1}
+										</script>   
 									</p>
 
 
-									<h3><a name = "textdata">Testing with Text Data</a></h3>
 
+									<h3><a name = "computingprobabilities">Computing Probabilities (10 Pts)</a></h3>
 									<p>
-										Once you've written the above methods, you should test them on a few simple sentences of your own.  But to really see their power, you should also test them on longer collections of text and make sure you get reasonable outputs.  To get you started, there are a variety of text sources you can draw from.  <a href = "textCollections.zip">Click here</a> to download a .zip file with a few collections I've created for you to try.  For the <a href = "#poeticstatement">poetic statement</a>, you should also come up with your own text files.
+										Given a model and some text, we can compute the likelihood that this text was drawn from the model by following the procedure <a href = "#probability">discussed in the background</a>.  Fill in the method <code>get_log_probability</code> to return the log probability of a sequence according to your model.
 									</p>
 
-									<ul><li><b>Sith quotes</b> This file was curated by Prof. Tralie and contains a list of quotes from <a href = "https://starwars.fandom.com/wiki/Sith_Lord">sith lords</a> in the Star Wars franchise</li>
+									<p>
+										As an example, if you run the following code 
+									</p>
 
-									<li><a name = "simpsonspongebob">Simpsons Quotes / Spongebob Quotes</a> These files were curated by Joseph Pantel in <a href = "http://www.ctralie.com/Teaching/IDS301_S2020/index.html">IDS 301: Problem Solving And Analysis with Python</a>, Spring 2020</li>
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										model = MarkovModel(6)
+										model.load_file_lines("text/spongebobquotes.txt")
+										print(model.get_log_probability("I'm ready, I'm ready"))
+									</script>   
 
-									<li><b>Positive/Negative Movie Reviews</b>: 
-										This dataset was obtained from the <a href = "https://www.cs.cornell.edu/people/pabo/movie%2Dreview%2Ddata/">Movie Sentiment Analysis Dataset</a>.  It consists of 1000 positive movie reviews and 1000 negative movie reviews
-									</li>
-									<li>
-										<b><a name = "spamham">SMS Spam/Ham</a></b>: These files were obtained from the <a href = "https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection">UCI SMS Spam Collection</a> data set.
-									</li>
-									<li><b>Ursinus tweets</b>: A collection of tweets from the official <a href = "https://twitter.com/UrsinusCollege">Ursinus college twitter account</a></li>
-									<li>
-										<b>Bush/Kerry Debate Text</b> These text files each have a transcript from a different debate during the 2004 election.  They were obtained from a <a href = "https://www.cs.princeton.edu/courses/archive/spring08/cos226/assignments/markov.html">similar assignment</a> that Prof. Tralie did when he was in college.</b>
-									</li>
-									</ul>
+									<p>
+										You should get a log probability of <code>-39.9</code>
+									</p>
+
+									<p>
+										If you then say
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										print(model.get_log_probability("Artificial intelligence"))
+									</script>  
+
+									<p>
+										You should get a log probability of <code>-69.6</code>.  Note how much lower this probability is, even though the sequences are of roughly the same length.  This is our model telling is spongebob is much more likely to have said "I'm ready, I'm ready" than "Artificial intelligence".
+									</p>
+
+									<h3><a name = "debates">Experiment 1: 2016 US Presidental Debate (10 Pts)</a></h3>
+
+									<p>
+										You will now perform an experiment in the "train/test" paradigm, which is common in machine learning; that is, you will build models on some labeled data that is designated as "training data," and you will see how well your models predict new labeled examples in the "test data" set.  <b>You should perform the experiment and write your reflections all in a single Jupyter notebook file</b>
+									</p>
+
+									<p>
+										The first experiment you will do is inspired by <a href = "https://www.cs.princeton.edu/courses/archive/spring08/cos226/assignments/markov.html">very similar assignment I did nearly 14 years ago</a> on figuring out if a quote during the 2004 presidential debate was said by Bush or Kerry.  To freshen this up, I have obtained the debate transcripts from the 2016 election from <a href = "https://www.politico.com/">Politico</a>.  You will train your models on the first two debates and see if you can predict who said a particular quote from the third.  In particular, you will initialize a <code>trump</code> and <code>clinton</code> model separately for some prefix length <b>K</b>
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										trump = MarkovModel(K)
+										trump.load_file("text/2016Debates/trump1.txt")
+										trump.load_file("text/2016Debates/trump2.txt")
+										clinton = MarkovModel(K)
+										clinton.load_file("text/2016Debates/clinton1.txt")
+										clinton.load_file("text/2016Debates/clinton2.txt")
+									</script>  
+
+									<p>
+										You will then loop through 40 different segments from the third debate and classify each one as having come from Trump or Clinton.  Here's an example of how to load all of the segments from Trump as strings
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										for i in range(40):
+											fin = open("text/2016Debates/trump3-{:02d}.txt".format(i))
+											s = fin.read() # This holds the text as a string
+											fin.close()
+											...
+									</script>  
+
+									<p>
+										For each segment from both Trump and Clinton, you can compute the log probability under both models and see which one has a higher probability.  If the correct one has a higher probability, then you can consider this a correct classification.  If not, then it is a mistake.  You can report the accuracy as the total number of correct classifications over the total number of items in the test set.  For example, if I got 60 correct and there were 80 items, the accuracy would be 60/80 = 0.75.  Here are some things you should explore and show in your notebook
+									</p>
+
+									<ol>
+										<li>
+											
+											<p>It's unclear a priori what prefix length <b>K</b> would be best for this task.  Create a loop where you report accuracies on the test data over a range of <b>K</b> values from 1 to 20, and plot the accuracy versus <b>K</b>.  You can use <a href = "https://www.w3schools.com/python/matplotlib_plotting.asp">matplotlib</a> to create such a plot.  <b>What trends do you notice in the plot?  Given what you know about these models, can you explain these trends?</b>  Answer this in a markdown cell in your notebook directly under your code.</p></li>
+											
+
+										<li>
+											<p>For the best performing <b>K</b> in your experiment above, print out the text segments that the models got incorrect.  Do these make sense to you?  Write about your thoughts in the notebook</p>
+										</li>
+										<li>
+											<p>
+												For the best performing <b>K</b>, print the correctly classified sequences with the top 10 highest absolute difference in <b>normalized</b> log probability between the models; that is, divide the probability that clinton said each string <b>s</b> by <code>len(s)-K</code>, and do the same for Trump, then compute the absolute value of these differences.  This normalization controls for the length of the sequences and gives us an idea of how different the log probabilities of each prefix are on average.  The top 10 largest differences tell us which sequences the models are the most confident came from one speaker or the other.  Do these make sense to you?  Write about your thoughts in the notebook
+											</p>
+											<p>
+												<b>Hint: </b> The numpy <a href = "https://numpy.org/doc/stable/reference/generated/numpy.argsort.html">argsort</a> method may come in handy here
+											</p>
+										</li>
+									</ol>
+
+									<div style="background: blanchedalmond; padding:20px;">
+										<h3>Interpretable models</h3>
+									<p>
+										In the interest of time, I decided to cut a task that was there before about digging into the models to see why they're doing what they're doing.  One way to do this is to narrow in on which prefixes are leading to the largest disparity in probability for sequences which are said to be very different between the two models.  If you did this, you'd see prefixes involving "Hillary", "Clinton", "disaster", "invest", "i will tell you", "Sanders", "you think", "horrible", "millions of dollars", "unbelievable" were much more probable under Trump's model than Clinton's model, for example.
+									</p>
+									<p>
+										Because we can actually dig into our model and find out meaningful things about how it's working, it's referred to as <a href = "https://towardsdatascience.com/interperable-vs-explainable-machine-learning-1fa525e12f48">interpretable</a>.  This is a nice feature to have in a model because we can explain more easily why it is or isn't working in practice.  This will not be true of all of the models we examine in this class, but it's often important for us to have this property to trust models.
+									</p>
+								</div>
+								<p></p><p></p>
+
+
+
+
+									
+									<h3><a name = "spamham">Experiment 2: Spam vs Ham (5 Pts)</a></h3>
+
+									<p>
+										Now, you will try your hand at the spam classification with data from the <a href = "https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection">UCI SMS Spam Collection</a>.  Given a test set of spam texts and of ham texts, you will train models to classify a test set of spam and ham texts.
+									</p>
+
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										spam = MarkovModel(K)
+										spam.load_file_lines("text/spamham/spam_train.txt")
+										ham = MarkovModel(K)
+										ham.load_file_lines("text/spamham/ham_train.txt")
+									
+										fin = open("text/spamham/spam_test.txt")
+										spam_test = fin.readlines() # This will be a list of strings
+										fin.close()
+										fin = open("text/spamham/ham_test.txt")
+										ham_test = fin.readlines() # This will be a list of strings
+										fin.close()
+										
+										...
+									</script>  
+
+									<p>
+										As in the debate task, you should loop through a range of <b>K</b> values to see which one yields the best classification accuracy.  <b>What do you see about this plot that's different from the debate plot?  Why do you think this is?</b>  Write about this in your notebook.
+									</p>
+
+
+
+									<h3><a name = "moviereview">Experiment 3: Movie Reviews (5 Points)</a></h3>
+									<p>
+										Finally, you will train a model to recognize negative or positive movie reviews using the <a href = "https://www.cs.cornell.edu/people/pabo/movie%2Dreview%2Ddata/">Cornell movie sentiment analysis dataset</a>.  There are 1000 positive movie reviews in the <code>text/movies/pos</code> directory and 1000 negative movie reviews in the <code>text/movies/neg</code> directory.  Train on the first 900 of each, and test on the last 100 of each.  As in the other experiments, perform these classifications on a range of <b>K</b> values (they may take a bit longer since there is a lot more text).  <b>What do you notice about the optimal K value and the performance compared to the other two?  Why do you think this is?</b>  Write about this in your notebook.
+									</p>
+
+									<p>
+										Finally, find your own positive and negative movie reviews online, and classify them in your notebook using models built on all of the movie data with the optimal <b>K</b> you found above.  Define the reviews as strings in your notebook (<a href = "https://www.w3schools.com/python/gloss_python_multi_line_strings.asp">Python multiline strings</a> may come in handy).  <b>Does your classifier get it correct?  How different are the reported probabilities?</b>  Write about this in your notebook.
+									</p>
+
+
+
+									<h3><a name = "synthesizing">Synthesizing Text (10 Pts)</a></h3>
+									<p>
+										Now that we're finished the analysis portion of the model, it's time to synthesize new test.  Fill in the method <code>synthesize_text</code> to create new text of a particular length drawn with probabilities from your model.
+									</p>
+
+									<p>
+										For example, if I run the code 
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										model = MarkovModel(5)
+										model.load_file_lines("text/ursinustweets.txt")
+										print(model.synthesize_text(200))
+									</script>   
+
+									<p>
+										I might get 
+									</p>
+
+									<p>
+										<i><i>s birthday, to apply.The safety featured on @BartramsGarden, the event art prof. Carlita Favero. #MLKDay of single fathers participate in hanging to #Ursinus alum Phil DeSimone ’12 of @Carbon back to</i></i>
+									</p>
+										Of course, this is only one of many, many possibilities, but it should look roughly like an amalgamation of things that were in the training data, just spat back with no long term memory.
+									</p>
+									<p>
+										To accomplish this, you should choose a prefix at random from the training text to start with, and then synthesize the rest of the text one character at a time, updating the current prefix you're on to be the last k characters in the string you're synthesizing as you go along.  <b>Be sure that the next character you choose respects the probability of the model.</b>  You may want to refer back to our <a href = "../../ClassExercises/Week4_Markov/">class exercise</a> to see how we were able to draw characters respecting probabilities.
+									</p>
 
 									<h3><a name = "poeticstatement">Poetic Statement (5 Pts)</a></h3>
 									<p>
-										You just made a very powerful text engine, so use it!  Come up with your own collection of text and train a model.  Put on some good music and find around 100 lines of text in a particular style, and place them all in a text file (for instance, you may try to collect 100 notable Harry Potter quotes).  Then, play around with the prefix size and see what kinds of outputs you get.  Once you are satisfied, please submit <b>three or more examples</b> that you believe capture the spirit of your synthesizer.  
+										Come up with your own collection of text and train a model.  Find at least 100 lines of text in a particular style, and place them all in a text file on a different line (you should choose something other than Ursinus tweets, sith lords, spongebob quotes, or Homer Simpson quotes).  Then, play around with the prefix size and see what kinds of outputs you get.  Once you are satisfied, generate <b>three or more examples</b> that you believe capture the spirit of your synthesizer, which will be displayed on a class gallery. 
 									</p>
 
 									<p>
 										One thing you might try to make this really fun is something I'll call <b>Markov Hybrids</b>.  The idea is to load in two different styles in the same model and to have the synthesizer mash them up.  For example, if you load both the Sith quotes and Ursinus tweets in, you may get some results like this<a name = "ursinussith">:</a>
-
 
 										<Ul>
                                                 
@@ -545,6 +699,9 @@
 												</li>
 												<li>
 													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Classification & Hybrids</a>
 												</li>
 											</ul>
 										</li>
