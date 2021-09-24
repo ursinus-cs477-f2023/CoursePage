@@ -19,7 +19,7 @@ Assignment 1 Due
 Assignment 2  Due
 
 2021-09-22
-<a href = "Assignments/HW3_Markov">Assignment 3: Markov Classification & Hybrids</a> Out
+<a href = "Assignments/HW3_Markov">Assignment 3: Markov Chains for Text Processing</a> Out
 
 2021-09-24
 Assignment 3 Check In
