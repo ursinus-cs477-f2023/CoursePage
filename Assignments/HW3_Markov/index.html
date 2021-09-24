@@ -1,0 +1,608 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h2>Homework 3: Markov Chains for Text Processing</h2>
+                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
+										
+										<ul>
+											<li><a href = "#overview">Overview/Logistics</a>
+												<ul>
+													<li><a href = "#objectives">Learning Objectives</a></li>
+													<li><a href = "#readme">What To Submit</a></li>
+												</ul>
+											</li>
+										</ul>
+
+									</header>
+
+									<div id="page-content">
+
+                                        <h2><a name = "overview">Overview / Logistics</a></h2>
+										<p>
+                                            The purpose of this assignment is to introduce you to natural language processing via <a href = "https://en.wikipedia.org/wiki/Markov_chain">Markov chains</a>, which are incredibly powerful tools for representing sequences mathematically.  First, you will use this tool to classify text, seeing how it performs at telling whether Clinton or Trump was speaking during the 2016 presidential debates, whether a text is spam or ham, or whether a movie review is positive or negative.  You will also use this tool to synthesize new text in the style of a corpus of text.  For instance, you'll be able to synthesize new, previously unheard Spongebob quotes.  You can even mix styles together (such as my <a href = "#ursinussith">Ursinus sith lord</a>).  We will have a class gallery of such "Markov hybrids" that students devise.
+										</p>
+
+                                        <p>
+                                            <h3><a name = "objectives">Learning Objectives</a></h3>
+                                            <ul>
+												<li>Implement a statistical technique for analysis and synthesis of natural language.</li>
+												<li>Follow the train set / test set paradigm for evaluating the performance of an algorithm.</li>
+												<li>Search for optimal model parameters, and explore how these parameters vary across datasets.</li>
+												<li>Use jupyter notebooks to organize experiments into a <a href = "https://writings.stephenwolfram.com/2017/11/what-is-a-computational-essay/">computational essay</a>.</li>
+												<li>Reflect on the potential harms of technology that you've created, and what can be done to mitigate ethical threats.</li>
+                                            </ul>
+                                        </p>
+
+                                        <h3><a name = "readme">What to submit</a></h3>
+										<p>                                        <p>
+                                            
+											Finally, submit a comment on canvas with the answer to the following questions:
+										
+										<ol>
+											<li>
+												Your markov.py file and the jupyter notebooks you created in the experimental section.
+											</li>
+											<li>
+												Your <a href = "#poeticstatment">poetic statement</a>, a title that should go along with it, and what name/pseudonym you would like to use? (results will be displayed on the class web site).
+											</li>
+											<li>
+												Your <a href = "#ethics">ethics reflection</a>.
+											</li>
+											<li>
+												How long did this take you? I'm simply using this to gauge if things are too easy, too hard, or just right. 
+											</li>
+											<li>
+												Any feedback to help improve the assignment for future students? Alternatively, if there's nothing you would change, let me know what specifically worked for you about it so I know to keep doing things like that. 
+											</li>
+											<li>
+												Any other concerns that you have. For instance, if you have a bug that you were unable to solve but you made progress, write that here. The more you articulate the problem the more partial credit you will receive (fine to leave this blank)
+											</li>
+										</ol>
+
+
+									<h2><a name = "markov">Background: Markov Chains for Text Representation</a></h2>
+
+									<p>
+										Human languages, often referred to as ``natural languages,'' are rich and full of meaning.  Compared to computer languages, they are much harder to automatically interpret and process.  However, as you will see in this assignment, we can make some progress at representing natural languages using a few simple statistical ideas.
+									</p>
+
+									<p>
+										In this assignment, our focus will be on creating an algorithm to capture the <i>style</i> of some given text from a set of examples.  Then, we will be able to classify documents or "synthesize" (create new text) in this style.
+									</p>
+
+									<h3><a name = "zeroorder">Zero-Order Statistical Modeling</a></h3>
+
+									<p>
+										We'll start by discussing synthesis.  The simplest possible thing we could do to model text statistically is try to match the frequency of occurrence of the characters in a document.  For example, if we use a collection of <a href = "HW3_Markov/text/spongebobquotes.txt">spongebob quotes</a>, we find that we have the following character counts across all quotes:
+									</p>
+
+									<p>
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{' ': 869, '!': 35, ''': 62, ',': 79, '-': 4, '.': 90, '0': 3, 
+										'1': 2, '2': 4, '4': 1, '5': 1, '?': 21, 'A': 8, 'B': 4, 'C': 8, 'D': 8, 
+										'E': 6, 'F': 2, 'G': 5, 'H': 8, 'I': 55, 'K': 3, 'L': 3, 'M': 3, 'N': 7, 
+										'O': 5, 'P': 11, 'R': 5, 'S': 22, 'T': 13, 'U': 2, 'V': 1, 'W': 14, 
+										'Y': 9, 'a': 305, 'b': 91, 'c': 83, 'd': 133, 'e': 453, 'f': 70, 'g': 85, 
+										'h': 163, 'i': 239, 'j': 6, 'k': 50, 'l': 170, 'm': 126, 'n': 241, 
+										'o': 350, 'p': 63, 'q': 7, 'r': 233, 's': 242, 't': 314, 'u': 157, 
+										'v': 36, 'w': 89, 'x': 4, 'y': 139, 'z': 5}</script>   
+
+									</p>
+
+									<p>
+										Then, we can then try drawing characters according to these counts.  For example, we'd be more likely to draw an 'i' than we would to draw a 'z', and we're more likely to get a space ' ' than any other character.  If we draw 100 characters independently with these probabilities, we get text that looks like this:
+										<ul>
+											<li>onc 5donps fwyce  agoti'tm  ne  edoi a e Iueogd ei IralcrltItmo.g mimyheat tgesue  nwierayekra fP he</li>
+											<li>l   rOxttsu Iogrmetucafo ewa khtois!e bttcatnht,r Cyfhr  Pngkswhnwl oiet lyoatrl atumr e lenriadb Ie</li>
+											<li>Gi dyuh   b .di Po mmceooet'd'nne'n gdo dkimeo aanti is0o i 'uttj'Sstopfsasep!.  mosltayaaSso?lraV l</li>
+										</ul>
+									</p>
+									<p>
+										Interestingly, the size of the "words" looks about right since we are more likely to choose a space than any other character, but they are total gibberish. This is because the process has no memory; each character is chosen completely independently from the character preceding it.    
+
+									<h3><a name = "kprefix">K-Prefixes</a></h3>
+									<p>
+										As it turns out, if we have just a very simple memory of a few characters, we can do a much better job at synthesizing sequences.  Surprisingly, we can shoehorn the "memoryless" Markov chain framework from our <a href = "../../ClassExercises/Week4_Markov/">class exercise</a> into having a small memory if we change our notion of what a "state" is.  In particular, a "state" will now be a small sequence of characters of length <b>k</b> instead of just a single character.  This is referred to as a <b>k-prefix</b>.
+									</p>
+
+									<p>
+										As an example, let's consider that we had the string <b>aaabaaacaabbcabcc</b>.  If we took all of the 2-prefixes of this string, we would have the following counts
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{'aa': 5, 'ab': 3, 'ba': 1, 'ac': 1, 'ca': 2, 'bb': 1, 'bc': 2}</script>   
+
+									<p>
+										In the Markov framework, we also have transitions that occur every time a new character is seen.  On the above example, they would look like this:
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{
+											'aa': {'a': 2, 'b': 2, 'c': 1}, 
+											'ab': {'a': 1, 'b': 1, 'c': 1}, 
+											'ba': {'a': 1}, 
+											'ac': {'a': 1}, 
+											'ca': {'a': 1, 'b': 1}, 
+											'bb': {'c': 1}, 
+											'bc': {'a': 1, 'c': 1}
+										}</script>   
+
+									<p>
+										Let's think about what these mean as transitions in the Markov chain.  If we're at <b>aa</b> and we get an <b>a</b>, then we stay at <b>aa</b>.  If we get a <b>b</b>, then we chop the <b>a</b> off of the left and move to <b>ac</b>.  If we're at <b>ca</b> and we see a <b>b</b>, we chop the <b>c</b> off of the left and move to <b>ab</b>.  And so on.  Drawn as a state diagram, all such transitions look like this:
+									</p>
+
+									<img src = "Example1.png">
+
+									<p>
+										One issue with this is that it runs into a dead end at <b>cc</b>.  This is fine if we're analyzing <a href = "#probability">probabilities</a>, but if we're doing a random walk through our model to synthesize text, we'll run into a dead end there.  To make it so we can keep going, we'll loop the text around by padding the end of the string with the first <b>k</b> characters.  In this example, this means padding the original string with the first two characters, so we create the prefixes of the string <b>aaabaaacaabbcabcc<span style="color: red">aa</span></b>.  That leads to the following counts for the prefixes and transitions
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{'aa': 5, 'ab': 3, 'ba': 1, 'ac': 1, 'ca': 3, 'bb': 1, 'bc': 2, 'cc': 1}
+									</script>   
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{
+											'aa': {'a': 2, 'b': 2, 'c': 1}, 
+											'ab': {'a': 1, 'b': 1, 'c': 1}, 
+											'ba': {'a': 1}, 
+											'ac': {'a': 1}, 
+											'ca': {'a': 2, 'b': 1}, 
+											'bb': {'c': 1}, 
+											'bc': {'a': 1, 'c': 1}, 
+											'cc': {'a': 1}
+										}</script>   
+									<p>
+										Notice how the count of <code>ca->a</code> has gone up by 1, and now there is a transition from <code>cc->a</code>.  Now there are no dead ends in the state transitions, and we can walk through this model randomly forever to generate random strings.
+									</p>
+
+									<img src = "Example1_Loop.png">
+
+										
+
+
+									
+
+									<p>Below is a more in-depth example with some real text from the <a href = "HW3_Markov/text/spongebobquotes.txt">spongebob quotes text file</a> provided with the assignment</p>
+									<p></p><p></p>
+
+									<button type="button" onclick="showSpongebob()">Show Spongebob Example</button> 
+									<button type="button" onclick="hideSpongebob()">Hide Spongebob Example</button> 
+									<div id="spongebobtext" style="background-color: blanchedalmond; padding: 20px;">
+
+										<h4><a name = "spongebobexample">Spongebob Example</a></h4>
+										<p>
+											As an example here are all of the counts of the 4-prefix <b>'you '</b> in the Spongebob text:
+										</p>
+
+										<table>
+											<tr><td>New Sentence</td><td>Character Counts for 'you ' After Sentence</td></tr>
+											<tr><td>Gary, go away, can't <u>you </u><b>s</b>ee I'm trying to forget you?</td><td>{"s":1}</td></tr>
+											<tr><td>Why are <u>you </u><b>m</b>ad? Because I can't see my forehead!</td><td>{"s":1, "m":1}</td></tr>
+											<tr><td>Can <u>you </u><b>t</b>ake the crust off my Krabby Patty?</td><td>{"s":1, "t":1, "m":1}</td></tr>
+											<tr><td>Did <u>you </u><b>s</b>ee my underwear?</td><td>{"s":2, "t":1, "m":1}</td></tr>
+											<tr><td>Well, it makes <u>you </u><b>l</b>ook like a girl!</td><td>{"s":2, "t":1, "l":1, "m":1}</td></tr>
+											<tr><td>East, oh I thought <u>you </u><b>s</b>aid Weest!</td><td>{"s":3, "t":1, "l":1, "m":1}</td></tr>
+											<tr><td>That's it, mister, <u>you </u><b>j</b>ust lost your brain priveleges!</td><td>{"s":3, "t":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>I wumbo, <u>you </u><b>w</b>umbo, he she we, wumbo, wumboing, wumbology, the study of wumbo? </td><td>{"s":3, "t":1, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>It's not <u>you </u><b>t</b>hat's got me... it's me that's got me!</td><td>{"s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Why don't <u>you </u><b>a</b>sk CowBob RanchPants and his friend Sir Eats-a-lot?</td><td>{"a":1, "s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Krusty Krab Pizza, it's the pizza for <u>you </u><b>a</b>nd meeeee!</td><td>{"a":2, "s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>If <u>you </u><b>b</b>elieve in yourself, with a tiny pinch of magic all your dreams can come true!</td><td>{"a":2, "b":1, "s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Goodbye everyone, I'll remember <u>you </u><b>a</b>ll in therapy.</td><td>{"a":3, "b":1, "s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Don't <u>you </u><b>h</b>ave to be stupid somewhere else?</td><td>{"a":3, "b":1, "s":3, "t":2, "w":1, "h":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Squidward, <u>you </u><b>c</b>an't eat all those patties at one time!</td><td>{"a":3, "b":1, "s":3, "c":1, "t":2, "w":1, "h":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>I'll have <u>you </u><b>k</b>now, I stubbed my toe last week, while watering my spice garden, and I only cried for 20 minutes.</td><td>{"a":3, "b":1, "s":3, "c":1, "t":2, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Squidward, <u>you </u><b>a</b>nd your nose will definitely not fit in.</td><td>{"a":4, "b":1, "s":3, "c":1, "t":2, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Who <u>you </u><b>c</b>allin' pinhead?</td><td>{"a":4, "b":1, "s":3, "c":2, "t":2, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Gee Patrick, I didn't know <u>you </u><b>c</b>ould speak bird.</td><td>{"a":4, "b":1, "s":3, "c":3, "t":2, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Any particular reason <u>you </u><b>t</b>ook your pants off.</td><td>{"a":4, "b":1, "s":3, "c":3, "t":3, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Let me get this straight, <u>you </u><b>t</b>wo ordered a giant screen television just so you could play in the box?</td><td>{"a":4, "b":1, "s":3, "c":4, "t":4, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>I'd hate <u>you </u><b>e</b>ven if I didn't hate you.</td><td>{"a":4, "b":1, "s":3, "c":4, "t":4, "e":1, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>You're a man now, Spongebob, and it's time <u>you </u><b>s</b>tarted acting like one.</td><td>{"a":4, "b":1, "s":4, "c":4, "t":4, "e":1, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Can <u>you </u><b>g</b>ive Spongebob his brain back, I had to borrow it for a week.</td><td>{"a":4, "b":1, "c":4, "e":1, "g":1, "h":1, "j":1, "k":1, "l":1, "m":1, "s":4, "t":4, "w":1}</td></tr>
+											
+										</table>
+
+										<h4>Synthesizing Text</h4>Now, let's say we do the following steps, starting with the prefix <b>'you '</b>:
+										<ol>
+											<li>We randomly choose one of the characters that's to follow, and we choose a <b>'c'</b></li>
+											<li>We then slide over by one character move onto the next prefix, which is <b>'ou c'</b>.  We then see the character counts {"a":2, "o":2} for that prefix.</li>
+											<li>We make another random choice at this point, and we draw the character <b>'a'</b>. So then we slide onto the prefix <b>'u ca'</b>, and we see the counts {"l":1, "n":1} for that prefix.</li>
+											<li>We now make a random choice and draw the character <b>'n'</b>.  We then slide over to the prefix <b>' can'</b>, and we see the counts {" ":3, "'":4}</li>
+											<li>We now make a random choice and draw a space, so we slide over to the prefix <b>'can '</b>, and we see the counts {"c":1, "h":1, "I":1}</li>
+											<li>
+												We now make a random choice of an <b>h</b>, moving us to the prefix <b>'an h'</b>, and so on and so forth
+											</li>
+										</ol>
+
+
+										So far in this example, we have synthesized the text <b>"you can h"</b>, and we could keep going.  Here are a few different outcomes if we keep following this process:
+										<ul>
+											<li>you can have facial hair!Now than 24, 25.You don't need a new I stupid</li>
+											<li>you can have to die right.You know the true!If your secrets is hot burns down</li>
+											<li>you can have feet?Since who can't you.I'd hate you and I'm absorbing</li>
+											<li>you can have to be alright.If I wish is nothere ther.No, Patty?</li>
+										</ul>
+
+										<p>
+											As you can see, this text is starting to make a lot more sense than choosing each character independently, even with a very short memory.
+										</p>
+
+									</div>
+
+									<script>
+										let spongebob = document.getElementById("spongebobtext");
+										function showSpongebob() {
+											spongebob.style.display="block";
+										}
+										function hideSpongebob() {
+											spongebob.style.display = "none";
+										}
+										hideSpongebob();
+									</script>
+
+
+									<p></p><p></p>
+
+									<h3><a name = "probability">The Probability of A Sequence</a></h3>
+									<p>
+										In addition to synthesizing text in a model trained on k-prefixes from a particular set of documents, we can assess how likely a different document is to be in the style that we've modeled with our Markov chains.  To do this, we will compute the probability of a particular sequence given a model.  Markov chains have a simplifying assumption of <a href = "https://en.wikipedia.org/wiki/Independence_(probability_theory)">independence</a> that will help make this easier to compute.  In particular, the next character is chosen only based on the current prefix, and none of the previous prefixes influence this decision.
+									<p>
+										Independent events are nice to work with because the probability of independent events occurring is a simple multiplication.  For example, it's reasonable to assume that the type of weather in Beijing on a particular day is independent of the weather in Collegeville.  So if the probability it rains in Collegeville is 0.4 and the probability it rains in Beijing is 0.6, then the joint probability of both occurring is <code>0.4 x 0.6 = 0.24</code>
+									</p>
+
+									<p>
+										To compute the probability of a particular sequence of characters, we must first compute the probability that each character was drawn under our model, and then we may compute the joint probability of the entire sequence by multiplying them together.  The probability of a particular character <code>c</code> preceded by the prefix <code>p</code> is given as 
+
+										\[ p(c) = \frac{N(p.c) + 1}{N(p)+S} \]
+
+										where 
+										
+										<ul>
+											<li>
+												<code>N(p)</code> is the number of times the prefix occurs in the model (which can be 0)
+											</li>
+											<li>
+												<code>N(p.c)</code> is the number of times the character <code>c</code> follows prefix <code>p</code> (which can be 0, and which is automatically 0 if the prefix doesn't exist in the model)
+											</li>
+											<li>
+												<code>S</code> is the size of the alphabet in the model (i.e. the number of unique characters across all prefixes)
+											</li>
+										</ul>
+										So the joint probability of all characters is obtained by multiplying a bunch of these together.  Note that this gracefully handles the case where we never saw a particular substring in any of the training data; in this case <code>N(p.c)</code> and <code>N(p)</code> are 0, and the probability is <code>1/S</code>
+									</p>
+
+									<p>
+										There is a slight numerical issue with the above scheme, however.  Since there are many characters in most sequences of interest, and since the probabilities of each character are small, we can run into <a href = "https://en.wikipedia.org/wiki/Arithmetic_underflow">arithmetic underflow</a> where the multiplication of many small numbers ends up just bottoming out at zero numerically.  To get around this, we can instead compute the ``log probability''.  Since 
+										
+										\[ \log(AB) = \log(A) + \log(B) \]
+
+										We can compute the log of the product probabilities as the sum of the log of each probability.  So simply modify the formula as 
+
+										\[ \log \left( p(c) \right) = \log \left( \frac{N(p.c) + 1}{N(p)+S} \right) \]
+
+										and then sum all of these up for each character to get the final log probability.
+									</p>
+
+
+
+
+									<h2><a name = "Programming">Programming Tasks</a></h2>
+
+									<p>
+										As you write your code below, you should be mindful of the <a href = "../../style.html">style guide</a>.  Good class organization is of paramount importance here.  Points may be deducted for sloppy style.  
+									</p>
+
+									<h3><a name = "datastructures">Setting up Data Structures (5 Pts)</a></h3>
+									<p>
+										You should create a class that encapsulates all of the information for a particular model.  The class constructor should have one parameter: the length of a prefix.  You should also setup and initialize the appropriate <code>HashMap</code> structures to represent your text model.  You will need to store a count of all of the prefixes.  Also, for each prefix, you will need to store the possible characters that follow that prefix and how often they occur.
+									</p>
+
+									<p>
+										Once you setup your class this way, it will be possible to make different objects for different models.  For instance, you could make a model to represent <a href = "#spam">spam texts</a> using a prefix-length of 6, or another model of spam text using prefix lengths of 10.  You could also make a completely separate model representing Darth Vader quotes.  These models shouldn't mix data at all, which is why we want to encapsulate the prefix length, prefix counts, and prefix character counts as instance variables in an object.
+									</p>
+
+									<h3><a name = "addingtext">Adding Text (10 Points)</a></h3>
+									<p>
+										You should create an instance method that takes a string as a parameter and incorporates that string into your model.  You should loop through all possible prefixes in the string and update the counts of the prefixes (or add a new prefix if this is the first time you're seeing it).  You should also update the counts of the characters that follow each prefix.  Two things to watch out for here:
+										<ul>
+											<li>
+												To prevent your model from running into dead ends when you go to synthesize new text, you should loop around once you run out of room to make a prefix at the end.  For example, if you had the text
+												<p>
+													<code>jane is having a great day</code>
+												</p>
+
+												<p>And you chose to use prefix lengths of 5, you should have all of these prefixes</p>
+<pre>
+	jane 
+	ane i
+	ne is
+	e is 
+	 is h
+	is ha
+	s hav
+	 havi
+	havin
+	aving
+	ving 
+	ing a
+	ng a 
+	g a g
+	 a gr
+	a gre
+	 grea
+	great
+	reat 
+	eat d
+	at da
+	t day
+	 dayj
+	dayja
+	ayjan
+	yjane
+</pre>
+
+												<p>But also all of these prefixes</p>
+
+<pre>
+	dayj
+	dayja
+	ayjan
+	yjane
+</pre>
+											</li>
+											<li>
+												Do not add strings with have a length less than the chosen prefix length.  Simply do nothing if such a string is passed.
+											</li>
+										</ul>
+
+										As an example to check to make sure this is working properly, if you add all of the lines from the the <a href = "HW3_Markov/text/spongebobquotes.txt">spongebob</a> file using 5-prefixes, you should have <code>4033</code> unique prefixes, and the prefix counts for the string <code>" you "</code> should be as follows:
+									</p>
+
+									<p>
+										<code>
+											{a=4, b=1, c=4, e=1, g=1, h=1, j=1, k=1, l=1, m=1, s=4, t=4, w=1}
+										</code>
+									</p>
+
+
+
+									<h2><a name = "classification">Computing Probabilities (10 Pts)</a></h2>
+
+
+									<h3>Classification Problems</h3>
+									<p>
+										Once you're able to compute the probability for a model, you can train two (or more) different models on different types of text, and you can see which model gives a higher log probability.  We'll say the model with the highest probability is most likely to be related to the text in question.  For example, here are a few things you can try from the <a href = "#textdata">data I've given</a>
+									</p>
+									<ul>
+										<li>Create model with the first 900 positive movie reviews, and create a model with the first 900 negative movie reviews (add an entire file at once, not just one line at a time).  Then, compute probabilities for the last 100 positive and negative reviews.  If the probability is greater for the positive model, guess that it's a positive review.  Otherwise, guess it's a negative review.  Report how many of the 100 positive and 100 negative reviews were guessed correctly</li>
+
+										<li>
+											Create a model from the lines in the "spam_train.txt" file and another model from the lines in the "ham_train.txt" file.  Then, test each on the "ham_test.txt" and "spam_test.txt," and report how many of them you guess correctly
+										</li>
+
+										<li>
+											Train a model on Bush debate text and a model on Kerry debate text.  Since there aren't too many examples, you should assess the model by doing a "leave-one-out" test; that is, train on all of the Kerry debates files and 29/30 of the Bush debate files, and test on the remaining bush file to see whether the Bush or Kerry model has a higher probability.  Retrain the models on all possible subsets leaving one out, and report how many of them got the one they left out correct.
+										</li>
+									</ul>
+
+									To get the full extra credit, you should perform at least two of the experiments above each over a range of prefix lengths and report which one gives the best results.  And if you finish that and you're still bored, you can make up your own example!
+
+									<h3><a name = "synthesizing">Synthesizing Text (15 Pts)</a></h3>
+									<p>
+										Finally, you should create an instance method that synthesizes new text based on the prefixes and the counts of the possible characters that follow them.  You should synthesize the text one character at a time, and you should update the current prefix you're on to be the last k characters in the string you're synthesizing.  The String methods <code><a href = "https://beginnersbook.com/2013/12/java-string-substring-method-example/">substring</a></code> and <code><a href = "https://www.tutorialspoint.com/java/java_string_charat.htm">charAt</a></code> will come in handy here.
+										
+									<p>
+										Your method should take in two parameters: the first which is the prefix to start on, and the second which is the total number of characters to synthesize.  If an empty string is specified for the first prefix, or the length of the specified prefix does not match the prefix-length of the current object, then you should randomly choose a starting prefix from the set of available prefixes in your map.
+									</p>
+
+
+									<h3><a name = "textdata">Testing with Text Data</a></h3>
+
+									<p>
+										Once you've written the above methods, you should test them on a few simple sentences of your own.  But to really see their power, you should also test them on longer collections of text and make sure you get reasonable outputs.  To get you started, there are a variety of text sources you can draw from.  <a href = "textCollections.zip">Click here</a> to download a .zip file with a few collections I've created for you to try.  For the <a href = "#poeticstatement">poetic statement</a>, you should also come up with your own text files.
+									</p>
+
+									<ul><li><b>Sith quotes</b> This file was curated by Prof. Tralie and contains a list of quotes from <a href = "https://starwars.fandom.com/wiki/Sith_Lord">sith lords</a> in the Star Wars franchise</li>
+
+									<li><a name = "simpsonspongebob">Simpsons Quotes / Spongebob Quotes</a> These files were curated by Joseph Pantel in <a href = "http://www.ctralie.com/Teaching/IDS301_S2020/index.html">IDS 301: Problem Solving And Analysis with Python</a>, Spring 2020</li>
+
+									<li><b>Positive/Negative Movie Reviews</b>: 
+										This dataset was obtained from the <a href = "https://www.cs.cornell.edu/people/pabo/movie%2Dreview%2Ddata/">Movie Sentiment Analysis Dataset</a>.  It consists of 1000 positive movie reviews and 1000 negative movie reviews
+									</li>
+									<li>
+										<b><a name = "spamham">SMS Spam/Ham</a></b>: These files were obtained from the <a href = "https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection">UCI SMS Spam Collection</a> data set.
+									</li>
+									<li><b>Ursinus tweets</b>: A collection of tweets from the official <a href = "https://twitter.com/UrsinusCollege">Ursinus college twitter account</a></li>
+									<li>
+										<b>Bush/Kerry Debate Text</b> These text files each have a transcript from a different debate during the 2004 election.  They were obtained from a <a href = "https://www.cs.princeton.edu/courses/archive/spring08/cos226/assignments/markov.html">similar assignment</a> that Prof. Tralie did when he was in college.</b>
+									</li>
+									</ul>
+
+									<h3><a name = "poeticstatement">Poetic Statement (5 Pts)</a></h3>
+									<p>
+										You just made a very powerful text engine, so use it!  Come up with your own collection of text and train a model.  Put on some good music and find around 100 lines of text in a particular style, and place them all in a text file (for instance, you may try to collect 100 notable Harry Potter quotes).  Then, play around with the prefix size and see what kinds of outputs you get.  Once you are satisfied, please submit <b>three or more examples</b> that you believe capture the spirit of your synthesizer.  
+									</p>
+
+									<p>
+										One thing you might try to make this really fun is something I'll call <b>Markov Hybrids</b>.  The idea is to load in two different styles in the same model and to have the synthesizer mash them up.  For example, if you load both the Sith quotes and Ursinus tweets in, you may get some results like this<a name = "ursinussith">:</a>
+
+
+										<Ul>
+                                                
+											<li>"the cpd has yet another tip for undergraduates to explore the dark side"</li>
+
+											<li>
+												"check out this scholarship alert: before your eyes. i can drive you mad with fear, shred your sanity, and leave you a raving lunatic"
+											</li>
+
+											<li>"thomas j. watson fellowship, a yearlong grant that anyone who knows the words and scientific committee of the force"</li>
+
+											<li>"kill the spring! 78 days until opening day!"</li>
+
+											<li>"vanessa wilson-marshall '02 recalls the words and actions of significance is the result of conquest"</li>
+										</Ul>
+										
+										If you choose to do this, at least one of the styles should be different from the examples I've given.
+									</p>
+
+									<h3><a name = "ethics">Ethics Reflection (5 Pts)</a></h3>
+									<p>
+										With great power comes great responsibility.  Even this relatively simple model can be used for nefarious purposes, and we should take care with how such code is deployed.  Reflect on this, and see if you can come up with at least three such examples.  What safeguards do we have against the examples you came up with?
+									</p>
+
+                                    
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#readings">Readings</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+												</li>
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_WhatIsAI">Week 1: What Is AI?</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_COVID">Week 1: Monte Carlo COVID Simulation</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_COVID/solution.html">Solution</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->
+	</body>
