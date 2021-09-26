@@ -1,5 +1,5 @@
 SECTION
-Unit 1: Classical Search
+Unit 1: Intro To AI / Classical Search
 
 
 LECTURE
@@ -43,7 +43,7 @@ HW2 / A* Workshopping
 
 
 SECTION
-Unit 2: Whirlwind Tour of Statistical Reasoning
+Unit 2: Statistical Reasoning
 
 
 LECTURE
@@ -51,19 +51,11 @@ Markov Chains
 
 <ul><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
 LECTURE
-Markov Chains Continued, Bayes Rule
+Markov Chains Continued, Bayes Rule And Conditional Probability
 
 
 LECTURE
 Ethics: <i>Race After Technology</i> Introductory Chapter
-
-
-LECTURE
-Bayesian Networks / Graphical Models
-
-
-SECTION
-Unit 3: Classical Machine Learning: Supervised And Unsupervised
 
 
 LECTURE
@@ -72,6 +64,14 @@ Features, Vectorizing Data
 Class Exercise: College Admissions
 LECTURE
 Naive Bayes Classification
+
+
+LECTURE
+Bayesian Networks / Graphical Models
+
+
+SECTION
+Unit 3: Classical Geometric Machine Learning: Supervised And Unsupervised
 
 
 LECTURE
