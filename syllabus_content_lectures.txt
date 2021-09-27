@@ -51,7 +51,7 @@ Markov Chains
 
 <ul><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
 LECTURE
-Markov Chains Continued, Bayes Rule And Conditional Probability
+Markov Chains Continued, Basics of Probability and Conditional Probability
 
 
 LECTURE
@@ -59,19 +59,27 @@ Ethics: <i>Race After Technology</i> Introductory Chapter
 
 
 LECTURE
-Features, Vectorizing Data
+Bayes Rule, Begin Naive Bayes Classification
 
-Class Exercise: College Admissions
+
 LECTURE
 Naive Bayes Classification
 
+Class Exercise: College Admissions
+LECTURE
+Bayes Filters
+
 
 LECTURE
-Bayesian Networks / Graphical Models
+The Viterbi Algorithm
 
 
 SECTION
 Unit 3: Classical Geometric Machine Learning: Supervised And Unsupervised
+
+
+LECTURE
+Featurizing Data
 
 
 LECTURE
@@ -174,14 +182,6 @@ LECTURE
 Game Trees: Alpha-Beta Pruning
 
 Class Exercise: Connect 4
-SECTION
-Unit 6: Case Studies
-In this unit, we'll look at a number of examples in detail during class while students work on their final projects
-
-LECTURE
-Deep Dream, Face Generation
-
-
 LECTURE
 Ethics: <i>Race After Technology</i>
 

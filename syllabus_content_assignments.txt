@@ -22,6 +22,9 @@ Assignment 2  Due
 <a href = "Assignments/HW3_Markov">Assignment 3: Markov Chains for Text Processing</a> Out
 
 2021-09-24
+<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Probability Module</a> due before class
+
+2021-09-29
 Assignment 3 Check In
 
 2021-10-01
@@ -36,10 +39,10 @@ Assignment 4 Part 1: Naive Bayes, KNN Due
 2021-10-15
 Assignment 4 Part 2: Logistic Regression Due
 
-2021-10-25
-<HR>Assignment 5: Super Fashion KMeans Out
+2021-10-27
+<HR>Assignment 5: Musical Audio Section Discovery Out
 
-2021-10-25
+2021-10-27
 Assignment 5 Due
 
 2021-11-08
