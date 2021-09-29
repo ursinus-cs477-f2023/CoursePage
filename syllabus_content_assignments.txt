@@ -31,7 +31,7 @@ Assignment 3 Check In
 Assignment 3 Due
 
 2021-10-08
-<HR>Assignment 4: Movie Reviews / Spam Out
+<HR>Assignment 4: Classical Supervised Learning Out
 
 2021-10-08
 Assignment 4 Part 1: Naive Bayes, KNN Due
@@ -40,7 +40,7 @@ Assignment 4 Part 1: Naive Bayes, KNN Due
 Assignment 4 Part 2: Logistic Regression Due
 
 2021-10-27
-<HR>Assignment 5: Musical Audio Section Discovery Out
+<HR>Assignment 5: Unsupervised 3D Shape Classification with Fused Features
 
 2021-10-27
 Assignment 5 Due

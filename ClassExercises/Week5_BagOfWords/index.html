@@ -41,66 +41,80 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 2: The 8 Puzzle Game</h2>
-										<h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
+                                        <h2>Week 5 Exercise: Bag of Words</h2>
+                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
-                                        <p>
-                                            Today we will explore a game called "8 Puzzle" which can be solved using the <a href = "../Week2_BasicSearch">classical search techniques we've talked about</a>.  The goal of the puzzle is to shift around 8 tiles until they're in "row major order."  For example, if we start with the grid
-                                        </p>
-
-										<table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td>7</td><td> </td></tr><tr><td>6</td><td>8</td><td>5</td></tr></table>
-
+                                        
 										<p>
-											we can move to this series of steps until we get to a goal state that's in row major order
+											In <a href = "../../Assignments/HW3_Markov/">homework 3</a>, you've been modeling text as a sequence using Markov chains.  We're going to do something seemingly much dumber and completely forget the sequence of words and focus just on how often words occur across entire documents.  For example, from the first 2016 debate transcript on the homework, you get the following "bag of words" for Clinton (courtesy of <a href = "https://www.wordclouds.com/">wordclouds.com</a>)
 										</p>
 
-										<table style="width:410px;"><tr><td><table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td>7</td><td> </td></tr><tr><td>6</td><td>8</td><td>5</td></tr></table></td><td><table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td>7</td><td>5</td></tr><tr><td>6</td><td>8</td><td> </td></tr></table></td><td><table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td>7</td><td>5</td></tr><tr><td>6</td><td> </td><td>8</td></tr></table></td><td><table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td> </td><td>5</td></tr><tr><td>6</td><td>7</td><td>8</td></tr></table></td><td><table style="width:100px"><tr><td>1</td><td> </td><td>2</td></tr><tr><td>3</td><td>4</td><td>5</td></tr><tr><td>6</td><td>7</td><td>8</td></tr></table></td></tr></table>
+										<img src = "clinton.png">
+
+										<p>and the following for Trump</p>
+
+										<img src = "trump.png">
 
 										<p>
-											Below is a cute interactive version of this, courtesy of <a href = "https://github.com/MurhafSousli">Murhaf Sousli</a>
+											We can estimate the probability of a single word as simply the number of times that word was said divided by the total number of words.  For example, Clinton said 6257 words total, and she said "Donald" 20 times, so her probabability of saying Donald would be estimated as 
 										</p>
 
+										<h3>
+											\[ 20/6257 \]
+										</h3>
+										
+										<p>by contrast, trump only says "Donald" once out of 8367 words, so his probability would be </p>
 
-										<iframe src = "https://murhafsousli.github.io/8puzzle/#/" width=600 height=800></iframe>
-
-										<HR>
-											<h2>Solver</h2>
-
-										<p>
-											Your job will be to implement a solver for a text-based version of this in Python.  <a href = "https://github.com/Ursinus-CS477-F2021/Week2_8Puzzle/archive/refs/heads/main.zip">Click here</a> to download the starter code.  In many ways, this code mirrors the code for part 1 of <a href = "../../Assignments/HW2_RushHour/">Assignment 2</a>.  In particular, you will have to fill in 
-											
-											<ul>
-												<li><code>is_goal</code>: True if this is a goal state, False otherwise</li>
-												<li>
-													<code>get_neighbs</code>: A method that returns a list of states which are neighbors of this state.  <b>Be very careful to use deep copies here</b>.  If you accidentally make a shallow copy of the tiles in this state, anything you do to that reference will change the original tiles.
-												</li>
-												<li>
-													<code>solve</code>: A method to find a shortest path from this state to a goal state.  You can use the two methods above as helper methods.  You should start with a tree-based version of breadth first search and then move to graph search.
-												</li>
-											</ul>
-										</p>
-
-										<p>
-											Below is an example running some interactive versions of these methods via Jupyter
-										</p>
-
-										<iframe src="8PuzzleTest.html" width=800 height=3300></iframe>
-
-
-
-										<HR>
-											<h2>For Fun</h2>
-											<p>
-												Below is a cartoon (courtesy of <a href = "https://en.wikipedia.org/wiki/15_puzzle#/media/File:Great_presidential_puzzle2.jpg">wikimedia commons</a>) of a political cartoon from 1880 about finding a Republican presidential candidate
-											</p>
-
-
-											<img src = "Great_presidential_puzzle2.jpg">
+										<h3>
+											\[ 1/8367 \]
+										</h3>
 										
 
-                                	</div>
+										<p>
+											Your task will be to estimate the probabilities for all words from data and assume complete independence (the "naive bayes" assumption), and multiply them together to get a total probability for both Trump and Clinton of each phrase.  To get a list of words in a string, use the <code>split()</code> method of the string class.  For example,
+										</p>
+
+										
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											s = "Hello CS 477 this is Dr. Tralie speaking\nWe're doing some cool stuff!"
+											s.split()</script>  
+
+										<p>
+											would yield
+										</p>
+
+										
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											['Hello',
+											'CS',
+											'477',
+											'this',
+											'is',
+											'Dr.',
+											'Tralie',
+											'speaking',
+											"We're",
+											'doing',
+											'some',
+											'cool',
+											'stuff!']</script>  
+
+
+										<p>
+											A few things to think about as you go:
+										</p>
+										<ul>
+											<li>What's the problem with multiplying a lot of probabilities together? how would you fix this?</li>
+											<li>What happens if we never saw a particular word in our "training data"?  What should we do about that?</li>
+										</ul>
+
+
+
+
+                                    
+                                </div>
 						</div>
 					</div>
 
@@ -190,9 +204,6 @@
 												</li>
 												<li>
 													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Week 5: Probability Module</a>
-												</li>
-												<li>
-													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words</a>
 												</li>
 											</ul>
 										</li>

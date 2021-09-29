@@ -37,13 +37,13 @@ Greedy Best-First Search, A* Search
 LECTURE
 A* Heuristics for 8-Puzzle And Rush Hour
 
-Tree Rotations Demo
+
 LECTURE
 HW2 / A* Workshopping
 
-
+Tree Rotations Demo
 SECTION
-Unit 2: Statistical Reasoning
+Unit 2: Statistical Modeling
 
 
 LECTURE
@@ -61,25 +61,21 @@ Ethics: <i>Race After Technology</i> Introductory Chapter
 LECTURE
 Bayes Rule, Begin Naive Bayes Classification
 
-
+<ul><li><a href = "https://www.greenteapress.com/thinkbayes/html/thinkbayes002.html">Think Bayes Notes</a></li></ul>
 LECTURE
-Naive Bayes Classification
+Naive Bayes Classification And Bag of Words (Mention Visual Bag of Words)
 
-Class Exercise: College Admissions
+Class Exercise: Movie Reviews
 LECTURE
-Bayes Filters
+The Gaussian Distribution, Modeling Continuous Data Distributions
 
-
+<ul><li><a href = "https://www.statlect.com/fundamentals-of-statistics/normal-distribution-maximum-likelihood">Notes on MLE of a Gaussian</a></li><li>Class Exercise: Music vs Speech</li></ul>
 LECTURE
-The Viterbi Algorithm
+Mixture Models, Expectation Maximization
 
-
+<ul><li><a href = "https://stephens999.github.io/fiveMinuteStats/intro_to_em.html">Notes on expectation maximization</a></li></ul>
 SECTION
-Unit 3: Classical Geometric Machine Learning: Supervised And Unsupervised
-
-
-LECTURE
-Featurizing Data
+Unit 3: Classical Geometric Machine Learning
 
 
 LECTURE
@@ -91,11 +87,15 @@ Dot Products, Projections
 
 Class Exercise: Eigenfaces
 LECTURE
-Perceptrons, Decision Boundaries, Begin Gradient Descent
+Perceptrons, Decision Boundaries, Connection To Naive Bayes
 
 
 LECTURE
-Gradient Descent, Logistic Regression
+Gradient Descent
+
+
+LECTURE
+Logistic Regression
 
 <ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
 LECTURE
@@ -119,7 +119,7 @@ Survey: Multidimensional Scaling, Manifold Learning
 
 <ul><li>Class Exercise: College Subject Similarities</li><li><a href = "https://github.com/ctralie/DREiMac">DREiMac</a></li></ul>
 SECTION
-Unit 4: Deep Learning: Supervised And Unsupervised
+Unit 4: Deep Learning
 
 
 LECTURE
