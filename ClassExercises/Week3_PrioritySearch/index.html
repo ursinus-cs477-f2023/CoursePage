@@ -194,6 +194,7 @@ while not reachedGoal and length(frontier) > 0:
 	else:
 		visited.add(state)
 		for n in state.neighbors():
+			if not n in frontier and not n in visited:
 				frontier.add( (<b>heuristic(n)</b>, n, state) )
 </code>
 </pre>

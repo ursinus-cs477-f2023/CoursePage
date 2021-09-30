@@ -202,6 +202,7 @@ BFSTree(start, goal):
 	while not reachedGoal and length(frontier) > 0:
 		// Take out element from front of line
 		state = frontier.pop()
+		<b>visited.add(state)</b>
 		if state == goal:
 			reachedGoal = true
 		else:
