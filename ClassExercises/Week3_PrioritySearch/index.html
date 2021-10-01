@@ -183,19 +183,19 @@ GreedyBestFirst(start, goal, <b>heuristic</b>):
 state = start
 visited = set([])
 frontier = []  # This is a priority queue now
-# Queue holds things with (<b>heuristic</b>, state, previous state)
-frontier.add( (<b>heuristic(start)</b>, start, null) ) 
+# Queue holds things with (<b>heuristic</b>, state)
+frontier.add( (<b>heuristic(start)</b>, start) ) 
 reachedGoal = false
 while not reachedGoal and length(frontier) > 0:
 	# Take out element from front of line
-	(heuristic_state, state, prev) = frontier.pop()
+	(heuristic_state, state) = frontier.pop()
 	if state is goal:
 		reachedGoal = true
 	else:
 		visited.add(state)
 		for n in state.neighbors():
 			if not n in frontier and not n in visited:
-				frontier.add( (<b>heuristic(n)</b>, n, state) )
+				frontier.add( (<b>heuristic(n)</b>, n) )
 </code>
 </pre>
 </div> 
@@ -286,12 +286,12 @@ AStar(start, goal, <b>heuristic</b>):
 	state = start
 	visited = set([])
 	frontier = []  # This is a priority queue now
-	# Queue holds things with (<b>cumulative cost + heuristic(state)</b>, state, previous state, <b>cumulative cost</b>)
+	# Queue holds things with (<b>cumulative cost + heuristic(state)</b>, state, <b>cumulative cost</b>)
 	frontier.add( (<b>heuristic(start)</b>, start, null) ) 
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
 		# Take out element from front of line
-		(<b>est</b>, state, prev, <b>cumucost</b>) = frontier.pop() # <b>est</b> is priority: cumulative cost + heuristic
+		(<b>est</b>, prev, <b>cumucost</b>) = frontier.pop() # <b>est</b> is priority: cumulative cost + heuristic
 		if state is goal:
 			reachedGoal = true
 		else:
@@ -302,7 +302,7 @@ AStar(start, goal, <b>heuristic</b>):
 				# took to move to state, plus the cost of moving from state to neighbor,
 			    	# <b>plus the heuristic</b>
 				if not n in frontier and not n in visited:
-					frontier.add( (<b>costn</b>, n, state, <b>cumucost + d</b>) )
+					frontier.add( (<b>costn</b>, n, <b>cumucost + d</b>) )
 				else if n in frontier: // See if we just found a shorter path to n
 					if costn &lt frontier.cost(n):
 						Update cost of n to be costn on frontier
@@ -378,7 +378,7 @@ AStar(start, goal, <b>heuristic</b>):
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
 		# Take out element from front of line
-		(est, state, prev, cumucost) = frontier.pop()
+		(est, state, cumucost) = frontier.pop()
 		if state is goal:
 			reachedGoal = true
 		else:
@@ -389,7 +389,7 @@ AStar(start, goal, <b>heuristic</b>):
 					costn = cumucost + d + heuristic(n) # Moving to the neighbor costs as much as it 
 					# took to move to state, plus the cost of moving from state to neighbor,
 					# plus the heuristic
-					frontier.add( (costn, n, state, cumucost + d) )
+					frontier.add( (costn, n, cumucost + d) )
 </code>
 </pre>
 </div>
