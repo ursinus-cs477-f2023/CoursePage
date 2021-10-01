@@ -58,14 +58,14 @@
 										<img src = "trump.png">
 
 										<p>
-											We can estimate the probability of a single word as simply the number of times that word was said divided by the total number of words.  For example, Clinton said 6257 words total, and she said "Donald" 20 times, so her probabability of saying Donald would be estimated as 
+											We can estimate the probability of a single word as simply the number of times that word was said divided by the total number of words, which will be proportional to the size of the words in the above word clouds.  For example, Clinton said 6257 words total, and she said "Donald" 20 times, so her probabability of saying Donald would be estimated as 
 										</p>
 
 										<h3>
 											\[ 20/6257 \]
 										</h3>
 										
-										<p>by contrast, trump only says "Donald" once out of 8367 words, so his probability would be </p>
+										<p>by contrast, Trump only says "Donald" once out of 8367 words, so his probability would be </p>
 
 										<h3>
 											\[ 1/8367 \]
@@ -73,7 +73,57 @@
 										
 
 										<p>
-											Your task will be to estimate the probabilities for all words from data and assume complete independence (the "naive bayes" assumption), and multiply them together to get a total probability for both Trump and Clinton of each phrase.  To get a list of words in a string, use the <code>split()</code> method of the string class.  For example,
+											Your task will be to estimate the probabilities for all words from data and assume complete independence (the "naive bayes" assumption), and multiply them together to get a total probability for both Trump and Clinton of each phrase, for each model.  For example, if you got the text "Donald job job Donald Donald", and given that Trump said "job" 6/8367 words, we'd compute the likelihood of the Trump model as 
+
+										</p>
+
+										<h3>
+											\[ (1/8367) \times (6/8367) \times (6/8367) \times (1/8367) \times (1/8367) = (1/8367)^3 \times (6/8367)^2 \]
+										</h3>
+
+										<p>
+											You'd then also want to compute such a probability using the Clinton model, and choose the model with the highest probability as your estimate for who said what.  You should try to classify all of the Trump and Clinton quotes from the third debate this way and record how many of your guesses are correct.  As you go along, we will talk about some pitfalls, and after class, we will dig into some more theory about why this is actually correct and what the "Naive Bayes Model" is precisely
+										</p>
+											
+
+										<h3>Tweaks To The Technique</h3>
+										<p>
+											Here are a few things to think about as you go:
+										</p>
+										<ul>
+											<li>What's the problem with multiplying a lot of probabilities together? how would you fix this?</li>
+											<li>What happens if we never saw a particular word in our "training data"?  What should we do about that?</li>
+										</ul>
+
+										<h3>Programming tips</h3>
+										
+											<p>
+												Here's some code to load the debate text for Clinton
+											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												fin = open("text/2016Debates/clinton1.txt")
+												text = fin.read()
+												fin.close()	
+											</script>  
+
+											<p>
+												Here's a slick way to loop through all of the test data (the third debate) for Clinton
+											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												import glob
+												for f in glob.glob("text/2016Debates/clinton3*.txt"):
+													fin = open(f)
+													test = fin.read()
+													fin.close()
+													## TODO: Do bag of words on test and compute probabilities under different models
+											</script>  
+
+											
+
+										<p>
+											To get a list of words in a string, use the <code>split()</code> method of the string class.  For example,
 										</p>
 
 										
@@ -102,13 +152,7 @@
 											'stuff!']</script>  
 
 
-										<p>
-											A few things to think about as you go:
-										</p>
-										<ul>
-											<li>What's the problem with multiplying a lot of probabilities together? how would you fix this?</li>
-											<li>What happens if we never saw a particular word in our "training data"?  What should we do about that?</li>
-										</ul>
+
 
 
 

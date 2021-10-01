@@ -65,7 +65,7 @@ Bayes Rule, Begin Naive Bayes Classification
 LECTURE
 Naive Bayes Classification And Bag of Words (Mention Visual Bag of Words)
 
-Class Exercise: Movie Reviews
+<ul><li>Class Exercise: <a href = "ClassExercises/Week5_BagOfWords">2016 Presidental Debates Bag of Words</a></li></ul>
 LECTURE
 The Gaussian Distribution, Modeling Continuous Data Distributions
 
