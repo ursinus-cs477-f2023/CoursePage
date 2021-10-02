@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="307.56982mm"
+   height="101.42461mm"
+   viewBox="0 0 307.56982 101.42461"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="BayesBreakdown.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="594.01917"
+     inkscape:cy="173.96015"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1839"
+     inkscape:window-height="1075"
+     inkscape:window-x="2008"
+     inkscape:window-y="44"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-9.2964404,-103.09113)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25.39999962px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="6.8035693"
+       y="146.18752"
+       id="text817"><tspan
+         sodipodi:role="line"
+         id="tspan815"
+         x="6.8035693"
+         y="146.18752"
+         style="font-size:25.39999962px;stroke-width:0.26458332">P(C | X) = P(X | C) P(C)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 138.71726,155.25893 H 291.7976"
+       id="path819"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25.39999962px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="180.36168"
+       y="184.64717"
+       id="text817-3"><tspan
+         sodipodi:role="line"
+         id="tspan815-6"
+         x="180.36168"
+         y="184.64717"
+         style="font-size:25.39999962px;stroke-width:0.26458332">P(X)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 55.184523,121.99703 c -27.609003,-15.47883 -35.11483,48.30863 -4.241983,33.31992 10.185535,-7.5756 9.669737,-23.08274 4.241983,-33.31992 z"
+       id="path849"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 40.065475,157.52679 -14.74107,29.10417"
+       id="path851"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.46666622px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="12.851191"
+       y="194.94643"
+       id="text855"><tspan
+         sodipodi:role="line"
+         id="tspan853"
+         x="12.851191"
+         y="194.94643"
+         style="stroke-width:0.26458332">Class</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 88.068451,150.72322 -0.377976,26.45833"
+       id="path859"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.46666622px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="61.610115"
+       y="188.14287"
+       id="text863"><tspan
+         sodipodi:role="line"
+         id="tspan861"
+         x="61.610115"
+         y="188.14287"
+         style="stroke-width:0.26458332">Data / Observation</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 182.8219,116.71323 c -19.89308,-12.15719 -63.46029,9.40611 -38.13144,31.395 21.25856,10.76981 46.85259,9.50079 70.11541,10.90624 31.92372,2.48555 25.1416,-37.26273 -1.22059,-38.86885 -9.99113,-2.83458 -20.45196,-3.13031 -30.76338,-3.43239 z"
+       id="path865"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.46666622px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="157.23808"
+       y="109.52381"
+       id="text869"><tspan
+         sodipodi:role="line"
+         id="tspan867"
+         x="157.23808"
+         y="109.52381"
+         style="stroke-width:0.26458332">Likelihood</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 281.85167,115.35002 c -39.2659,-26.029377 -57.93258,58.74649 -11.69543,51.74908 32.14676,6.42328 41.30154,-42.48263 11.69543,-51.74908 z"
+       id="path871"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.46666622px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="250.22021"
+       y="111.03571"
+       id="text875"><tspan
+         sodipodi:role="line"
+         id="tspan873"
+         x="250.22021"
+         y="111.03571"
+         style="stroke-width:0.26458332">Prior Probability</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 226.78571,161.68453 c -15.53242,1.90133 -32.48429,-1.39486 -47.08648,3.64043 -10.92997,8.8698 -7.09234,30.55299 8.547,31.07889 17.04485,1.18767 35.35901,3.66547 51.48359,-3.49856 11.48361,-4.14151 11.87002,-24.00201 -0.99329,-26.56108 -3.96373,-1.60416 -8.07804,-2.83144 -11.95082,-4.65968 z"
+       id="path877"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.46666622px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="199.57143"
+       y="204.39584"
+       id="text881"><tspan
+         sodipodi:role="line"
+         id="tspan879"
+         x="199.57143"
+         y="204.39584"
+         style="stroke-width:0.26458332">Evidence</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 91.107721,121.94688 c -27.609004,-15.47882 -35.114831,48.30863 -4.241983,33.31992 10.185535,-7.5756 9.669738,-23.08274 4.241983,-33.31992 z"
+       id="path849-3"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
