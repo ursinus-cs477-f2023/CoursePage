@@ -14283,33 +14283,22 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_counts</span><span class="p">(</span><span class="n">strings</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">estimate_log_prob_params</span><span class="p">(</span><span class="n">strings</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Count all word occurrences</span>
+<span class="sd">    Estimate the log multinomial probability parameters for a</span>
+<span class="sd">    particular set of strings.  This will be our model</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    strings: list of string</span>
 <span class="sd">        A list of strings</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">probs</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strings</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">probs</span><span class="p">:</span>
-                <span class="n">probs</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">probs</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">estimate_log_prob_params</span><span class="p">(</span><span class="n">strings</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Estimate the log multinomial probability parameters</span>
 <span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    strings: list of string</span>
-<span class="sd">        A list of strings</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    probs: dict</span>
+<span class="sd">        word-&gt;log probability in model</span>
+<span class="sd">    total: int</span>
+<span class="sd">        Total number of words in the model, plus smoothing</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">probs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
@@ -14332,21 +14321,27 @@ a.anchor-link {
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model: (prob, total)</span>
-<span class="sd">        prob: dict</span>
+<span class="sd">    model: (probs, total)</span>
+<span class="sd">        probs: dict</span>
 <span class="sd">            word-&gt;log probability in model</span>
 <span class="sd">        total: int</span>
 <span class="sd">            Total number of words in the model, plus smoothing</span>
 <span class="sd">    words: list of string</span>
 <span class="sd">        Words to which to apply the model</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float: The log probability of the set of words under the model</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span> <span class="o">=</span> <span class="n">model</span>
     <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">prob</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">probs</span><span class="p">:</span>
+            <span class="c1"># If this word has never been seen, give it a low</span>
+            <span class="c1"># but nonzero probability before taking the log</span>
             <span class="n">res</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">total</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">+=</span> <span class="n">prob</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">probs</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> 
     <span class="k">return</span> <span class="n">res</span>
 </pre></div>
 
