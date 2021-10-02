@@ -28,6 +28,9 @@ Assignment 2  Due
 Assignment 3 Check In
 
 2021-10-01
+<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module3/Exercise0">Bayes Module</a> due before class
+
+2021-10-04
 Assignment 3 Due
 
 2021-10-08
