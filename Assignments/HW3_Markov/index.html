@@ -506,7 +506,7 @@
 
 									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
 										for i in range(40):
-											fin = open("text/2016Debates/trump3-{:02d}.txt".format(i))
+											fin = open("text/2016Debates/trump3-{:02d}.txt".format(i), "rb")
 											s = fin.read() # This holds the text as a string
 											fin.close()
 											...
