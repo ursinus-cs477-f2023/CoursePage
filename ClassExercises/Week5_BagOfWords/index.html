@@ -284,7 +284,7 @@
 												As an example, suppose we had a bag of words model with only two words: {Computer, Science}.  Let's suppose we make an observation that has 5 words, with 2 counts of "computer" and 3 counts of "science."  For example, the following sentence would match the above counts
 											</p>
 
-											<h4>s = "Science Science Computer Computer Computer"</h4>
+											<h4>s = "Science Computer Science Computer Computer"</h4>
 
 											<p>
 												Let <b>p<SUB>c</SUB></b> be the probability of drawing a "computer" and <b>p<SUB>s</SUB></b> be the probability of drawing a "science."  Since the events are assumed to be independent in Naive Bayes, we can simply multiply the probabilities together, yielding the following probability 
@@ -292,7 +292,7 @@
 
 											<div>
 												<h3>
-													\[ P(s | C) = pc \times ps \times ps \times pc \times pc = ps^2 p_c^3 \]
+													\[ P(s | C) = ps \times pc \times ps \times pc \times pc =  p_c^3 ps^2 \]
 												</h3>
 											</div>
 
@@ -300,7 +300,7 @@
 												Notice, though, that there are many strings that would satisfy these probabilities; for instance,
 											</p>
 
-											<h4>s = "Science Computer Science Computer Computer"</h4>
+											<h4>s = "Science Science Computer Computer Computer"</h4>
 
 											<p>
 												Each one of these strings is a <b>disjoint event</b>, so we can <b>add up their probabilities</b>.  In fact, there are 10 possible 5-word sentences that have 3 "computer" strings and 2 "science" strings, so, letting <b>k1</b> count the "computer" strings and <b>k2</b> count the "science" string
@@ -309,7 +309,7 @@
 
 											<div>
 												<h3>
-													\[ P(k_1=3, k_2=2 | C) = 10 p_s^2 p_c^3 \]
+													\[ P(k_1=3, k_2=2 | C) = 10 p_c^3 p_s^2  \]
 												</h3>
 											</div>
 											
