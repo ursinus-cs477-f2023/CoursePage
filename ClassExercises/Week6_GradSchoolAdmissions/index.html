@@ -41,66 +41,111 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 2: The 8 Puzzle Game</h2>
-										<h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
+                                        <h2>Week 6: Grad School Admissions And Gaussian Naive Bayes</h2>
+                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
                                         <p>
-                                            Today we will explore a game called "8 Puzzle" which can be solved using the <a href = "../Week2_BasicSearch">classical search techniques we've talked about</a>.  The goal of the puzzle is to shift around 8 tiles until they're in "row major order."  For example, if we start with the grid
-                                        </p>
-
-										<table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td>7</td><td> </td></tr><tr><td>6</td><td>8</td><td>5</td></tr></table>
-
-										<p>
-											we can move to this series of steps until we get to a goal state that's in row major order
+											The purpose of this exercise is to get you familiar with real-valued features and Gaussian Naive Bayes for modeling them.  We'll use a <a href = "https://www.kaggle.com/mohansacharya/graduate-admissions/version/2">graduate school admissions dataset from Kaggle</a> as an example.  Below is some code to load in this data
 										</p>
 
-										<table style="width:410px;"><tr><td><table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td>7</td><td> </td></tr><tr><td>6</td><td>8</td><td>5</td></tr></table></td><td><table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td>7</td><td>5</td></tr><tr><td>6</td><td>8</td><td> </td></tr></table></td><td><table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td>7</td><td>5</td></tr><tr><td>6</td><td> </td><td>8</td></tr></table></td><td><table style="width:100px"><tr><td>1</td><td>4</td><td>2</td></tr><tr><td>3</td><td> </td><td>5</td></tr><tr><td>6</td><td>7</td><td>8</td></tr></table></td><td><table style="width:100px"><tr><td>1</td><td> </td><td>2</td></tr><tr><td>3</td><td>4</td><td>5</td></tr><tr><td>6</td><td>7</td><td>8</td></tr></table></td></tr></table>
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											import pandas as pd
+											import numpy as np
+											# Load in data
+											data = pd.read_csv("Admission_Predict.csv")
+											XAll = data[["GRE Score", "TOEFL Score", "University Rating", "SOP", "LOR ", "CGPA"]]
+											XAll = XAll.to_numpy()
+											y = data["Chance of Admit "].to_numpy().flatten()
+
+											# Split the data roughly in half based on admission chance
+											thresh = 0.728
+											admit = XAll[y > thresh, :]
+											notadmit = XAll[y <= thresh, :]
+										</script>  
 
 										<p>
-											Below is a cute interactive version of this, courtesy of <a href = "https://github.com/MurhafSousli">Murhaf Sousli</a>
+											The data is in a 2D numpy arrays <code>admit</code> and <code>notadmit</code>, where each row holds a different student and each column holds a feature for that student (GRE Score, TOEFL score, Univeristy Rating, Statement of Purpose, Letter of Recommendation, Cumulative GPA).
+										</p>
+
+										<p>
+											Your job will be to do a <b>leave one out classification</b>; that is, loop through and pull out each of the examples in <code>admit</code> and <code>notadmit</code>, train Naive bayes classifiers on the remaining data for both the admit class and the nonadmit class, and see which model has a higher likelihood for the student you pulled out.  Count how often you are correct based on the group you pulled out the student from.
+										</p>
+
+										<h3>Gaussian Naive Bayes</h3>
+										<p>
+											Recall that for real-valued data, we can't use the same technique as we did for <a href = "../Week5_BagOfWords/">bag of words</a>.  Instead, we switch to a <i>continuous</i> distribution: the Gaussian
+										</p>
+
+										<h3>
+											\[ p(x) = \frac{1}{\sqrt{2 \pi} \sigma} e^{-(x-\mu)^2 / (2 \sigma^2)} \]
+										</h3>
+
+										<p>
+											There are two parameters here: the mean &lambda; and the standard deviation &sigma;.  Let's plot a few distributions fixing &mu; at 0 and varying &sigma;
+										</p>
+
+										<img src = "GaussExamples.svg" width=400>
+
+										<p>
+											As you can see, a larger standard deviation means that the distribution is wider.
+										</p>
+
+										<p>
+											Interestingly, the Gaussian is a realistic model for a lot of real data because of the <a href = "https://en.wikipedia.org/wiki/Central_limit_theorem">central limit theorem</a>.  If we simply make &mu; be the sample mean 
+										</p>
+
+										<h3>
+											\[ \overline{X} = \frac{1}{N}\sum_{i = 1}^N x_i \]
+										</h3>
+
+										<p>
+											and the standard deviation be the sample standard deviation
+										</p>
+
+										<h3>
+											\[ \overline{\sigma} = \sqrt{\frac{1}{N}\sum_{i = 1}^N (x_i - \overline{X})^2} \]
+										</h3>
+
+										<p>
+											Then we get a pretty good fit on the data above.
+										</p>
+
+										<p>
+											<img src = "Histograms.svg" width = 800>
+										</p>
+
+										<p>
+											Then, in the Naive Bayes framework, if you treat every variable as being independent (which they certainly are not in the above data!), then we simply multiply together a bunch of Gaussians
+										</p>
+
+										<h3>
+											\[ p(x | C) = \frac{1}{\sqrt{2 \pi} \sigma_1} e^{-(x_1-\mu_1)^2 / (2 \sigma_1^2)} \times \frac{1}{\sqrt{2 \pi} \sigma_2} e^{-(x_2-\mu_2)^2 / (2 \sigma_2^2)} \times ... \]
+										</h3>
+
+										<p>
+											If we take the log of this, we get a pretty nice expression
+										</p>
+
+										<h3>
+											\[ \log p(x | C) = \log \frac{1}{\sqrt{2 \pi} \sigma_1} -(x_1-\mu_1)^2 / (2 \sigma_1^2) + \log \frac{1}{\sqrt{2 \pi} \sigma_2}  - (x_2-\mu_2)^2 / (2 \sigma_2^2) + ...\]
+										</h3>
+
+										<p>
+											Here, we can see clearly that the further a variable gets away from the mean of the Gaussian, the more negative the log likelihood will become.
 										</p>
 
 
-										<iframe src = "https://murhafsousli.github.io/8puzzle/#/" width=600 height=800></iframe>
 
-										<HR>
-											<h2>Solver</h2>
-
-										<p>
-											Your job will be to implement a solver for a text-based version of this in Python.  <a href = "https://github.com/Ursinus-CS477-F2021/Week2_8Puzzle/archive/refs/heads/main.zip">Click here</a> to download the starter code.  In many ways, this code mirrors the code for part 1 of <a href = "../../Assignments/HW2_RushHour/">Assignment 2</a>.  In particular, you will have to fill in 
 											
-											<ul>
-												<li><code>is_goal</code>: True if this is a goal state, False otherwise</li>
-												<li>
-													<code>get_neighbs</code>: A method that returns a list of states which are neighbors of this state.  <b>Be very careful to use deep copies here</b>.  If you accidentally make a shallow copy of the tiles in this state, anything you do to that reference will change the original tiles.
-												</li>
-												<li>
-													<code>solve</code>: A method to find a shortest path from this state to a goal state.  You can use the two methods above as helper methods.  You should start with a tree-based version of breadth first search and then move to graph search.
-												</li>
-											</ul>
-										</p>
-
-										<p>
-											Below is an example running some interactive versions of these methods via Jupyter
-										</p>
-
-										<iframe src="8PuzzleTest.html" width=800 height=3300></iframe>
 
 
 
-										<HR>
-											<h2>For Fun</h2>
-											<p>
-												Below is a cartoon (courtesy of <a href = "https://en.wikipedia.org/wiki/15_puzzle#/media/File:Great_presidential_puzzle2.jpg">wikimedia commons</a>) of a political cartoon from 1880 about finding a Republican presidential candidate
-											</p>
 
 
-											<img src = "Great_presidential_puzzle2.jpg">
-										
-
-                                	</div>
+                                    
+                                </div>
 						</div>
 					</div>
 

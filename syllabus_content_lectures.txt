@@ -69,7 +69,7 @@ Naive Bayes Classification And Bag of Words (Mention Visual Bag of Words)
 LECTURE
 The Gaussian Distribution, Modeling Continuous Data Distributions
 
-<ul><li><a href = "https://www.statlect.com/fundamentals-of-statistics/normal-distribution-maximum-likelihood">Notes on MLE of a Gaussian</a></li><li>Class Exercise: Music vs Speech</li></ul>
+<ul><li><a href = "ClassExercises/Week6_GradSchoolAdmissions">Class Exercise: Grad School Admissions</a></li><li><a href = "https://www.statlect.com/fundamentals-of-statistics/normal-distribution-maximum-likelihood">Notes on MLE of a Gaussian</a></li><li>Class Exercise: Music vs Speech</li></ul>
 LECTURE
 Mixture Models, Expectation Maximization
 
