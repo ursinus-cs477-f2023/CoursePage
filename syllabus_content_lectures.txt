@@ -67,13 +67,17 @@ Naive Bayes Classification And Bag of Words (Mention Visual Bag of Words)
 
 <ul><li>Class Exercise: <a href = "ClassExercises/Week5_BagOfWords">2016 Presidental Debates Bag of Words</a></li><li><a href = "ClassExercises/Week5_BagOfWords/index.html#theory">Naive Bayes Theory Notes</a></li></ul>
 LECTURE
-The Gaussian Distribution, Modeling Continuous Data Distributions
+Gaussian Naive Bayes for Continuous Data Distributions
 
-<ul><li><a href = "ClassExercises/Week6_GradSchoolAdmissions">Class Exercise: Grad School Admissions</a></li><li><a href = "https://www.statlect.com/fundamentals-of-statistics/normal-distribution-maximum-likelihood">Notes on MLE of a Gaussian</a></li><li>Class Exercise: Music vs Speech</li></ul>
+<ul><li><a href = "ClassExercises/Week6_GradSchoolAdmissions">Class Exercise: Grad School Admissions</a></li><li><a href = "https://www.statlect.com/fundamentals-of-statistics/normal-distribution-maximum-likelihood">Notes on MLE of a Gaussian</a></li></ul>
 LECTURE
-Mixture Models, Expectation Maximization
+Hidden Markov Models
 
-<ul><li><a href = "https://stephens999.github.io/fiveMinuteStats/intro_to_em.html">Notes on expectation maximization</a></li></ul>
+<ul><li><a href = "https://web.stanford.edu/~jurafsky/slp3/A.pdf">Jurafsky/Martin Notes on HMMs</a></li></ul>
+LECTURE
+The Viterbi Algorithm
+
+
 SECTION
 Unit 3: Classical Geometric Machine Learning
 
@@ -103,10 +107,6 @@ Ethics: <i>Race After Technology</i>
 
 
 LECTURE
-Polynomial Regression, Overfitting
-
-
-LECTURE
 Unsupervised Learning, K-Means Clustering
 
 
@@ -125,7 +125,7 @@ Unit 4: Deep Learning
 LECTURE
 Deep Neural Networks, Exploring Latent Spaces
 
-
+Module: Polynomial Regression And Overfitting
 LECTURE
 Back Propagation
 

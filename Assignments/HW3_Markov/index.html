@@ -370,6 +370,125 @@
 										and then sum all of these up for each character to get the final log probability.
 									</p>
 
+									<h4><a name = "probexample">Simple Example</a></h4>
+									<p>
+										Let's consider a fully fledge simple example.  Let's suppose that we added the string <b>aaacbaaaacabacbbcabcccbccaaac</b> to the model and we considered all 3-prefixes, so that we have these counts in the model (considering the wrap-around)
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{'aaa': 4, 'aac': 3, 'acb': 2, 'cba': 1, 'baa': 1,
+										 'aca': 2, 'cab': 2, 'aba': 1, 'bac': 1, 'cbb': 1, 
+										 'bbc': 1, 'bca': 1, 'abc': 1, 'bcc': 2, 'ccc': 1, 
+										 'ccb': 1, 'cbc': 1, 'cca': 1, 'caa': 2}
+									
+										{
+											aaa : {'c': 3, 'a': 1}
+											aac : {'b': 1, 'a': 2}
+											acb : {'a': 1, 'b': 1}
+											cba : {'a': 1}
+											baa : {'a': 1}
+											aca : {'b': 1, 'a': 1}
+											cab : {'a': 1, 'c': 1}
+											aba : {'c': 1}
+											bac : {'b': 1}
+											cbb : {'c': 1}
+											bbc : {'a': 1}
+											bca : {'b': 1}
+											abc : {'c': 1}
+											bcc : {'c': 1, 'a': 1}
+											ccc : {'b': 1}
+											ccb : {'c': 1}
+											cbc : {'c': 1}
+											cca : {'a': 1}
+											caa : {'a': 2}
+										}
+											
+											
+									</script>  
+
+									<p>
+										Now let's say we wanted to compute the probability of the string <b>aacabaa</b> given the the model.  There are three unique characters in the alphabet here: a, b, and c, so <b>S = <span style="color:darkgreen">3</span></b>.  Then, we compute the probability of each chunk <b>aac, aca, cab, aba</b> (all substrings of length 3 with at least one character following them)
+									</p>
+
+									<table>
+										<tr>
+											<td>p</td><td>N(p)</td><td>c</td><td>N(p.c)</td><td> \[  \log \left( \frac{N(p.c) + 1}{N(p)+S} \right) \]</td>
+										</tr>
+										<tr>
+											<td>
+												aac
+											</td>
+											<td>
+												<span style="color:crimson">3</span>
+											</td>
+											<td>
+												a
+											</td>
+											<td>
+												<span style="color:darkblue">2</span>
+											</td>
+											<td>
+												 = log(<span style="color:darkblue">2</span> + 1) / (<span style="color:crimson">3</span> + <span style="color:darkgreen">3</span>) = -0.6931
+											</td>
+										</tr>
+										<tr>
+											<td>
+												aca
+											</td>
+											<td>
+												<span style="color:crimson">2</span>
+											</td>
+											<td>
+												b
+											</td>
+											<td>
+												<span style="color:darkblue">1</span>
+											</td>
+											<td>
+												 = log(<span style="color:darkblue">1</span> + 1) / (<span style="color:crimson">2</span> + <span style="color:darkgreen">3</span>) = -0.9163
+											</td>
+										</tr>
+										<tr>
+											<td>
+												cab
+											</td>
+											<td>
+												<span style="color:crimson">2</span>
+											</td>
+											<td>
+												a
+											</td>
+											<td>
+												<span style="color:darkblue">1</span>
+											</td>
+											<td>
+												 = log(<span style="color:darkblue">1</span> + 1) / (<span style="color:crimson">2</span> + <span style="color:darkgreen">3</span>) = -0.9163
+											</td>
+										</tr>
+										<tr>
+											<td>
+												aba
+											</td>
+											<td>
+												<span style="color:crimson">1</span>
+											</td>
+											<td>
+												a
+											</td>
+											<td>
+												<span style="color:darkblue">0</span>
+											</td>
+											<td>
+												 = log(<span style="color:darkblue">0</span> + 1) / (<span style="color:crimson">1</span> + <span style="color:darkgreen">3</span>) = -1.386
+											</td>
+										</tr>
+									</table>
+
+									<p>
+										Summing all of these up, we get <b>-3.91</b>
+									</p>
+
+
 
 
 
@@ -456,7 +575,17 @@
 									</p>
 
 									<p>
-										As an example, if you run the following code 
+										You should first test the <a href = "#probexample">simple example</a> to make sure you're agreeing
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										m = MarkovModel(3)
+										m.add_string("aaacbaaaacabacbbcabcccbccaaac")
+										print(m.get_log_probability("aacabaa"))
+									</script>   
+
+									<p>
+										For a longer example, if you run the following code 
 									</p>
 
 									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
@@ -466,7 +595,7 @@
 									</script>   
 
 									<p>
-										You should get a log probability of <code>-39.9</code>
+										You should get a log probability of <code>-40.5</code>
 									</p>
 
 									<p>
