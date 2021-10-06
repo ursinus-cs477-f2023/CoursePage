@@ -41,135 +41,150 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 4 Exercise: Markov Chains of Characters</h2>
+                                        <h2>Week 6: Bayesian Robot Localization</h2>
                                         <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
+										<p>
+											<b>NOTE: </b> We'll spend the better part of two days on this exercise, and it will help get you ready for the next mini assignment
+										</p>
                                         <p>
-                                            We're now going to go over one of the fundamental techniques for the second unit: markov chains.  You can read about the basics at <a href = "https://setosa.io/blog/2014/07/26/markov-chains/index.html">this link</a>.  
-
-											
-                                        </p>
-
-                                        <h3>Task 1: Representing And Synthesizing Markov Chains</h3>
-                                        <p>
-                                            Your first task will be to create a program that simulates a Markov chain to create random strings according to transition rules.  Figure out how to represent the transitions, as well as how to choose random characters based on the probabilities.  For instance, let's say you have three possible states, <b>a</b>, <b>b</b>, and <b>c</b>, and the following state diagram for transitions.  Let's say you have the following transition probabilities
-											
-											<ul>
-												<li>The probability <b>p<SUB>aa</SUB></b> of staying at <b>a</b> is 0.2</li>
-												<li>The probability <b>p<SUB>ab</SUB></b> of transitioning from <b>a</b> to <b>b</b> is 0.3</li>
-												<li>The probability <b>p<SUB>ac</SUB></b> of transitioning from <b>a</b> to <b>c</b> is 0.5</li>
-											</ul>
-											
-											then another way of saying this is that 30% of the time, we should stay at <b>a</b>, 20% of the time, we should move to <b>b</b>, and 50% of the time we should move to <b>c</b>.
-										</p>
-										<p>
-											Let's complete the full state transition diagram for these three letters
+											The purpose of this exercise is to get you practice with the Viterbi algorithm for finding an optimal sequence of states through a Hidden Markov Model (HMM).  In this case, the hidden states are the <b>position of a robot in 2D</b>, and the observations are <b>omnidirectional range scans</b>.  This is an idealized model of a real "LIDAR scanner" such as the <a href = "https://hokuyo-usa.com/products/lidar-obstacle-detection/urg-04lx">Hokuyo URG-04LX laser range scanner</a>, which is able to sweep a laser in a 270 degree field of view in front of it
 										</p>
 
-										<img src = "example1.png">
-											
-										<p>
-											<b>NOTE: </b> There is no arrow going from <b>b</b> to itself, so that transition probability is 0.
-										</p>
-										<p>
-											<b>Note also: All of the outgoing arrows from each state sum to 1</b>.  This is because the probability of anything happening is always 100%.  It's an important sanity check to make sure this is true for any Markov chain you have.
-										</p>
-											
-										<p>
-											See if you can translate this all into code now.  Below are a some random functions you can use to help you.
-										</p>
-
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											from random import uniform
-											x = uniform(0, 1) # Will choose a number in [0, 1] uniformly at random</script>  
+										<img src = "URG-04LX.jpg" width=250>
 
 										<p>
-											Alternatively, you can use numpy's <code>random.rand</code> method
+											For this exercise, I've created a synthetic robot that can move right/left/up/down on a 2D grid, and which is always oriented the same way.  Below is an image of this robot moving around.  The ground truth position of the robot (the hidden state) is shown on the left on a map of the environment, while the laser scan (observation) is shown on the right
 										</p>
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											import numpy as np
-											x = np.random.rand() # Will choose a number in [0, 1] uniformly at random</script>  
-										
-										<h3>Solution Notes</h3>
-										<p>
-											A good way to represent Markov transition data is with a dictionary of dictionaries
-										</p>
-										
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											probs = {'a':{'a':0.2, 'b':0.3, 'c':0.5},
-												     'b':{'a':0.5, 'b':0, 'c':0.5},
-												     'c':{'a':0.1, 'b':0.1, 'c':0.8}}</script>  
+
+										<img src = "clean_scan.gif">
 
 										<p>
-											then, it's quite easy to lookup transition probabilities with two dictionary lookups
+											The above is an idealized example, however, because the scan is rarely this perfect.  Usually there is noise that <i>perturbs</i> the true range measurements; that is, we end up measuring that a wall is either closer or further than it actually is at a particular angle.  We'll model the noise here as a multiplicative Gaussian; that is, if the ground truth range is <b>r</b>, then the observed range <b>m(r)</b> is 
 										</p>
 
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											probs['a']['b'] # This gives 0.3, the transition probability from a to b
-											probs['c']['a'] # This gives 0.1, the transition probability from c to a</script> 
-
-										<p>
-											To draw transitions according to particular probabilities by just choosing a real number uniformly between 0 and 1, we can think of divvying up the unit interval, as shown below for the transitions from <b>a</b> in the example we're looking at so far:
-										</p>
-										<img src = "ProbabilityPartition.svg">
-
-										<p>
-											This translates into saying that we'll make the following choices when we draw a number <b>x</b> between 0 and 1
-											<ul>
-												<li>an <b>a</b> if 0 &le; x &lt 0.2</li>
-												<li>a <b>b</b> if 0.2 &le; x &lt; 0.5</li>
-												<li>a <b>c</b> if 0.5 &le; x &le; 1.0</li>
-											</ul>
-										</p>
-
-
-										<HR>
 										<h3>
-											Task 2: Computing Probabilities of Sequences
+											\[ m(r) = r(1 + \alpha n)\]
 										</h3>
 
 										<p>
-											Your next task is to report how likely a particular string of as, bs, and cs is given the above probabilities.  One of the key assumptions of Markov chains is that they are <b>memoryless</b>.  What this means is that when you're at a particular character, it doesn't matter how you got there; the transition probabilities to the next character are always fixed.  In probability language, this translates into <b>independence</b>, and this means you can simply <b>multiply all of the transition probabilities together to get the final probability</b>.  For example, let's suppose we had the string 
+											where <b>n</b> is a "standard Gaussian distributed" random variable with distribution 
 										</p>
 
-										<div style="width:150px;">
-											<h3>
-												\[ abccaa \]
-											</h3>
-										</div>
+										<h3>
+											\[ n \sim \frac{1}{\sqrt{2 \pi}} e^{-n^2/2} \]
+										</h3>
 
 										<p>
-											Then we'd have to compute the product
+											and <b>&alpha;</b> is some parameter set ahead of time.  In other words, the further away the measurement is, the more it can be perturbed.  Below is the code I used to sample from this noise model, taking advantage of numpy's built in <code><a href = "https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html">randn</a></code> method for sampling random variables from the standard Gaussian
 										</p>
 
-										<div style="width:150px;">
-											<h3>
-												\[ p_{ab} \times p_{bc} \times p_{cc} \times p_{ca} \times p_{aa} \]
-											</h3>
-										</div>
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											scan[i] = range*(1+alpha*np.random.randn())
+										</script>  
 
 										<p>
-											If we plug in the probabilities from the example we started with, this product is 
+											Below is an example where <b>&alpha; = 0.2</b>
 										</p>
 
-										<div style="width:150px;">
-											<h3>
-												\[ 0.3 \times 0.5 \times 0.8 \times 0.1 \times 0.2 = 0.0024\]
-											</h3>
-										</div>
+										<img src = "noisy_scan.gif">
 
 										<p>
-											Write a method in your code to compute the probability of a particular sequence given the transition probabilities you represented.
+											Below is an example where <b>&alpha; = 2</b>
+										</p>
+
+										<img src = "verynoisy_scan.gif">
+
+										<p>
+											At this level of noise, it seems like we're hardly getting any useful information.  However, amazingly, if you use the above sensor model and assume that the robot is equally likely to visit any of its neighbors, then you can actually recover a pretty good estimate of the robot's trajectory using the Viterbi algorithm.  Below is a plot of the original trajectory next to what the algorithm recovered here (NOTE: results may vary based on the noise samples):
+										</p>
+
+										<img src = "Est_VeryNoisy.svg">
+
+										<p>
+											This is the power of <b>sequence modeling</b>; even if our measurements are total crap at a particular instant in time, if they have even a little bit of signal, then we can "boost" the signal strength by looking at many states in sequence.
 										</p>
 
 										<HR>
-										<h3>Task 3: Stationary Distributions</h3>
-										<p>
-											When you look at the above state transition diagram, it appears that we'd have a lot more cs than anything else, and that we'd also have more as than bs.  But how do we quantify this?  Write a simulation to draw a bunch of random characters, and count how often you end up at an <b>a</b>, <b>b</b>, or <b>c</b> after a certain number of draws.  <a href = "https://www.stat.auckland.ac.nz/~wild/MarkovChains/">Click here</a> to view an animation of this sort of thing.
-										</p>
+											<h2>Programming Task</h2>
+											<p>
+												<a href = "https://github.com/Ursinus-CS477-F2021/Week6_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for this exercise.  
+											</p>
 
+											<p>
+												Below is some code you can use to initialize a world and to simulate the scans of a trajectory through that world
+											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												## Step 1: Create the world and devise robot motion
+												# Load in a particular environment
+												env = Environment("Maze1.png")
+												# Devise a path through that environment
+												X = env.simulate_trajectory([[13, 26], [28, 5], [39, 29]])
+												# Plot the environment with the path superimposed
+												plt.figure()
+												env.plot()
+												plt.plot(X[:, 0], X[:, 1])
+
+												## Step 2: Simulate scans at each position
+												# How many angles to sample in the range scanner
+												res = 100 
+												# The noise of the scanner (start with 0 to make the problem easier)
+												alpha = 0 
+												# Create a list of scans.  Each scan holds a list of "res" laser ranges
+												observed_scans = [env.get_range_scan(X[i, :], res, alpha) for i in range(X.shape[0])]
+
+											</script>  
+
+											<p>
+												Next, you'll need to figure out what perfect observations look like at each grid cell in the world so you can figure out the probability that you observed a scan given that you were at a particular cell.  There are <b>N</b> open grid cells in the world indexed from <b>0</b> to <b>N-1</b>, and the robot can be at any one of them at any time.  The member variable <code>X</code> of the <code>env</code> object is a 2D array that holds their positions, so <code>X[i]</code> gives the <code>[x, y]</code> coordinate list for the ith point.  Therefore, the code below will create a list of all perfect range scans from each position in the world
+											</p>
+
+
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												N = len(env.X)
+												state_scans = [env.get_range_scan(env.X[i], res, alpha=0) for i in range(N)]
+											</script> 
+											
+											<p>
+												Finally, there's a list member variable <code>env.neighbors</code>, where <code>env.neighbors[i]</code> lists the indices of the neighbors of state <code>i</code>. 
+											</p>
+											<p>
+												Now, you have all of the information you need to extract the optimal sequence of states using the Viterbi algorithm!  Let's say you come up with a list of state indices called <code>states</code>.  Then the following code will extract and plot the coordinates of the trajectory you estimated on top of the "ground truth" (correct) trajectory
+											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												states = np.array(states, dtype=int)
+												Y = env.X[states, :]
+												plt.figure()
+												plt.plot(X[:, 0], X[:, 1], 'k', linewidth=4)
+												plt.plot(Y[:, 0], Y[:, 1], 'C1', linestyle='--')
+												plt.legend(["Ground Truth", "Estimated"])
+												plt.axis("equal")
+												plt.title("Estimated Trajectory, $\\alpha={:.3f}$".format(alpha))
+											</script> 
+
+											<p>
+												First try to make sure you can handle the case where &alpha; = 0, then ratchet up the noise and see how much noise the algorithm can take and still give a good result.
+											</p>
+
+
+										<HR>
+											<h2>For The Bored...</h2>
+											<p>
+												If you finish this early, here are a few things you can try
+											</p>
+											<ul>
+												<li>
+													In addition to modeling the position, allow the robot to rotate.  How would you change your state space?  How would you update your observations to handle a rotation?
+												</li>
+												<li>
+													Think about how you might store some "second order" information about where the robot has been like velocity.  If we assume the law of inertia, the robot is more likely to continue moving in the direction of its velocity than it is to make a sudden turn, so you can use non-uniform transition probabilities to neighbors.
+												</li>
+											</ul>
 
 
                                     
