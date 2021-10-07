@@ -635,7 +635,7 @@
 
 									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
 										for i in range(40):
-											fin = open("text/2016Debates/trump3-{:02d}.txt".format(i), "rb")
+											fin = open("text/2016Debates/trump3-{:02d}.txt".format(i), encoding="utf8")
 											s = fin.read() # This holds the text as a string
 											fin.close()
 											...
@@ -692,10 +692,10 @@
 										ham = MarkovModel(K)
 										ham.load_file_lines("text/spamham/ham_train.txt")
 									
-										fin = open("text/spamham/spam_test.txt")
+										fin = open("text/spamham/spam_test.txt", encoding="utf8")
 										spam_test = fin.readlines() # This will be a list of strings
 										fin.close()
-										fin = open("text/spamham/ham_test.txt")
+										fin = open("text/spamham/ham_test.txt", encoding="utf8")
 										ham_test = fin.readlines() # This will be a list of strings
 										fin.close()
 										
@@ -882,6 +882,9 @@
 												</li>
 												<li>
 													<a href = "../../ClassExercises/Week6_GradSchoolAdmissions">Week 6: Gaussian Naive Bayes And Grad School Admissions</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Viterbi Notes</a>
 												</li>
 												<li>
 													<a href = "../../ClassExercises/Week6_HMM/robo.html">Week 6: Bayesian Robot Localization</a>
