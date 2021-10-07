@@ -47,7 +47,7 @@
 
 									<div id="page-content">
 
-									<h3>Markov Chains As A Bayesian Network</h3>
+									<h3>Markov Chains As Bayesian Networks</h3>
 
 									<p>
 										We've already seen <a href = "../Week4_Markov/">Markov chains</a>, where the probability of transitioning from one state to the next is completely independent of the previous states.  This is known as the <b>Markov state assumption</b>.  If we let the variable <code>X<sub>i</sub></code> represent the state that we're in at step <code>i</code>, then we can depict this as the following state diagram: 
@@ -110,7 +110,10 @@
 												<a href = "robot.html">Robot Localization</a>
 											</td>
 											<td>
-
+												Position of robot
+											</td>
+											<td>
+												Sensor scan of environment (e.g. video stream, laser range scanner)
 											</td>
 										</tr>
 									</table>
@@ -133,6 +136,61 @@
 									<h3>
 										\[ \ell(x_1, x_2, ... x_n | y_1, y_2, ..., y_n) = p(y_1, y_2, ..., y_n | x_1, x_2, ..., x_n) p(x_1, x_2, ..., x_n) \]
 									</h3>
+
+									<p>
+										Because we still have the Markov state assumption, the second term of the joint probability of the state sequence can be written as 
+									</p>
+
+									<h3>
+										\[ p(x_1, x_2, ..., x_n) = p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_2) \times ... \times p(x_n | x_{n-1})\]
+									</h3>
+
+									<p>
+										just as before.  But now we have another multiplicative term of the observations given the states.  Because of the Markov observation assumption, we can write this second probability as
+									</p>
+
+									<h3>
+										\[ p(y_1, y_2, ..., y_n) = p(y_1 | x_1) \times p(y_2 | x_2) \times ... \times ... \times p(y_n | x_n)\]
+									</h3>
+
+									<p>
+										Putting this all together, we get the following expression for the posterior likelihood, which includes all of the same probabilities, as well as the probabilities for observations
+									</p>
+
+									<h3>
+										\[ \ell(x_1, x_2, ... x_n | y_1, y_2, ..., y_n) = \left( p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_2) \times ... \times p(x_n | x_{n-1}) \right) \left( p(y_1 | x_1) \times p(y_2 | x_2) \times ... \times ... \times p(y_n | x_n) \right) \]
+									</h3>
+
+									<p>
+										We can also write this in log form as a sum.  Abbreviating the full state sequences as <b>x<SUB>1:n</SUB></b> and the full observation sequence as <b>y<SUB>1:n</SUB></b>, we have
+									</p>
+
+									<h3>
+										\[ \log \ell(x_{1:n} | y_{1:n}) = \log(p(x_1)) + \sum_{i = 2}^n \log(p(x_i | x_{i-1})) + \sum_{i=1}^n \log(p(y_i | x_i)) \]
+									</h3>
+
+									<p>
+										Finding the most likely sequence of hidden states is akin to finding the <b>x<SUB>1:n</SUB></b> that maximizes the above expression.  This is also referred to as the <b>maximum a posteriori estimate</b>.  Formally, it is written as 
+									</p>
+
+									<h3>
+										\[ \text{argmax}_{x_{1:n}} \log \ell(x_{1:n} | y_{1:n}) \]
+									</h3>
+
+									<p>
+										If we had a brute force approach to solving this, how many combinations of states would we have to check?  Let's suppose that we had <b>K</b> states and <b>T</b> timesteps.  Then, unfortunately, we'd have to check <b>K<SUP>T</SUP></b> different combinations of states.  For example, suppose our state space was <b>{a, b, c}</b> and we had 4 timesteps.  Then we'd have to consider the <b>3<SUP>4</SUP> = 81</b> sequences: 
+									</p>
+									<p>
+										['aaaa', 'aaab', 'aaac', 'aaba', 'aabb', 'aabc', 'aaca', 'aacb', 'aacc', 'abaa', 'abab', 'abac', 'abba', 'abbb', 'abbc', 'abca', 'abcb', 'abcc', 'acaa', 'acab', 'acac', 'acba', 'acbb', 'acbc', 'acca', 'accb', 'accc', 'baaa', 'baab', 'baac', 'baba', 'babb', 'babc', 'baca', 'bacb', 'bacc', 'bbaa', 'bbab', 'bbac', 'bbba', 'bbbb', 'bbbc', 'bbca', 'bbcb', 'bbcc', 'bcaa', 'bcab', 'bcac', 'bcba', 'bcbb', 'bcbc', 'bcca', 'bccb', 'bccc', 'caaa', 'caab', 'caac', 'caba', 'cabb', 'cabc', 'caca', 'cacb', 'cacc', 'cbaa', 'cbab', 'cbac', 'cbba', 'cbbb', 'cbbc', 'cbca', 'cbcb', 'cbcc', 'ccaa', 'ccab', 'ccac', 'ccba', 'ccbb', 'ccbc', 'ccca', 'cccb', 'cccc']
+									</p>
+									<p>
+										This quickly grows intractable for any reasonable problem.  For instance, if we're localizing a robot on a 100x100 grid, then <b>K = 10000</b>.  Let's suppose we're measuring at 30 frames per second for 10 seconds, so <b>T = 300</b>.  Then we'd need to check <b>10000<SUP>300</SUP></b> combinations of states.  This is <i>beyond astronomical</i> in size!  So we're going to need a smarter approach
+									</p>
+
+									<h3>The Viterbi Algorithm</h3>
+									<p>
+										Coming soon...
+									</p>
 
 
                                     
@@ -244,7 +302,7 @@
 													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Viterbi Notes</a>
 												</li>
 												<li>
-													<a href = "../../ClassExercises/Week6_HMM/robot.html">Week 6: Bayesian Robot Localization</a>
+													<a href = "../../ClassExercises/Week6_HMM/robo.html">Week 6: Bayesian Robot Localization</a>
 												</li>
 											</ul>
 										</li>

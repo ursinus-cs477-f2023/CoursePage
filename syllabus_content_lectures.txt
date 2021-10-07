@@ -73,11 +73,11 @@ Gaussian Naive Bayes for Continuous Data Distributions
 LECTURE
 Hidden Markov Models
 
-<ul><li><a href = "https://web.stanford.edu/~jurafsky/slp3/A.pdf">Jurafsky/Martin Notes on HMMs</a></li></ul>
+<ul><li><a href = "ClassExercises/Week6_HMM">Class notes on Hidden Markov Models / The Viterbi Algorithm</a></li><li><a href = "https://web.stanford.edu/~jurafsky/slp3/A.pdf">Jurafsky/Martin Notes on HMMs</a></li></ul>
 LECTURE
 The Viterbi Algorithm
 
-
+<ul><li><a href = "ClassExercises/Week6_HMM/robot.html">Class Exercise: Bayesian Robot Localization</a></li></ul>
 SECTION
 Unit 3: Classical Geometric Machine Learning
 
