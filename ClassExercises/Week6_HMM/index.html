@@ -46,7 +46,93 @@
 									</header>
 
 									<div id="page-content">
-										
+
+									<h3>Markov Chains As A Bayesian Network</h3>
+
+									<p>
+										We've already seen <a href = "../Week4_Markov/">Markov chains</a>, where the probability of transitioning from one state to the next is completely independent of the previous states.  This is known as the <b>Markov state assumption</b>.  If we let the variable <code>X<sub>i</sub></code> represent the state that we're in at step <code>i</code>, then we can depict this as the following state diagram: 
+									</p>
+
+									<img src = "MarkovStateDiagram.svg" width=500>
+
+									<p>
+										This is a specific instance of a more general state diagram known as a "<a href = "https://towardsdatascience.com/introduction-to-bayesian-networks-81031eeed94e">Bayesian Network</a>."  The arrows indicate conditional dependencies.  What this diagram is saying specifically is that the "joint probability" (AND) of all states in a Markov sequence can be written as follows:
+									</p>
+
+									<h3>
+										\[ p(x_1, x_2, ..., x_n) = p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_2) \times ... \times p(x_n | x_{n-1})\]
+									</h3>
+
+									<p>
+										Notice how we only condition on the states that are at the tail of arrows, which represents the Markov assumption graphically.
+									</p>
+
+									<h3>Hidden Markov Models</h3>
+									<p>
+										Markov models are applicable to time sequence data that we can observe directly, like the text strings in <a href = "../../Assignments/HW3_Markov/">assignment 3</a>.  However, there are plenty of time sequence scenarios where we can't observe what we actually want to know directly.  For example, in a <a href = "https://courses.physics.illinois.edu/ece417/fa2017/rabiner89.pdf">speech to text system</a>, we observe noisy audio data over time, but we actually want to know the text string that someone is saying.  Below is a table of some more examples of time sequences that have both a <b>hidden state</b> and an <b>observation</b>
+									</p>
+
+									<table style="width:800px;">
+										<tr><td><h4>Problem</h4></td><td><h4>Hidden State</h4></td><td><h4>Observation</h4></td></tr>
+										<tr>
+											<td><a href = "https://courses.physics.illinois.edu/ece417/fa2017/rabiner89.pdf">Speech To Text</a></td>
+											<td>Text String</td>
+											<td>Noisy audio samples</td>
+										</tr>
+										<tr>
+											<td><a href = "https://aclanthology.org/J90-2002.pdf">Machine translation</a> <p>(e.g. German to English)</p></td>
+											<td>Target Language (e.g. English)</td>
+											<td>Source Language (e.g. German)</td>
+										</tr>
+										<tr>
+											<td>Handwriting Recognition</td>
+											<td>Text string</td>
+											<td>Images of characters</td>
+										</tr>
+										<tr>
+											<td><a href = "https://ismir2006.ismir.net/PAPERS/ISMIR06152_Paper.pdf">Transcribing sheet music</a></td>
+											<td>Symbolic representation of a musical score </td>
+											<td>Images of sheet music (e.g. a <a href = "https://musiclab.chromeexperiments.com/Piano-Roll/">piano roll</a></td>
+										</tr>
+										<tr>
+											<td>
+												<a href = "https://ursinus-cs472a-s2021.github.io/CoursePage/Assignments/HW4_RhythmAnalysis/#beattrack">Audio beat tracking</a>
+											</td>
+											<td>
+												Time series indicating when to tap the foot
+											</td>
+											<td>
+												Audio data of music
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<a href = "robot.html">Robot Localization</a>
+											</td>
+											<td>
+
+											</td>
+										</tr>
+									</table>
+
+									<p>
+										We can model problems with a hidden state and an observation using a <b>Hidden Markov Model (HMM)</b>.  Now, in addition to our sequence <b>x<SUB>1</SUB>, x<SUB>2</SUB>, ..., x<SUB>n</SUB></b>, which is what we want to know, we also have a sequence <b>y<SUB>1</SUB>, y<SUB>2</SUB>, ..., y<SUB>n</SUB></b>, in which we observe something at each state.  The Bayes net for a hidden markov model looks like this:
+									</p>
+
+									<img src = "HiddenMarkovStateDiagram.svg" width=600>
+									
+									<p>
+										In addition to the Markov state assumption, we also have the <b>Markov observation assumption</b>; that is, each observation <b>y<SUB>i</SUB></b> only depends on the state <b>x<SUB>i</SUB></b> and is independent of all other states and all other observations.
+									</p>
+
+									<h3>Hidden Markov Likelihoods</h3>
+									<p>
+										We can use the <a href = "../Week5_BagOfWords/#theory">Bayesian classification framework</a> to figure out the likelihood of the hidden states given the observations.  In particular, the <b>posterior likelihood</b> of the hidden states given the observations is as follows
+									</p>
+
+									<h3>
+										\[ \ell(x_1, x_2, ... x_n | y_1, y_2, ..., y_n) = p(y_1, y_2, ..., y_n | x_1, x_2, ..., x_n) p(x_1, x_2, ..., x_n) \]
+									</h3>
 
 
                                     
@@ -155,7 +241,10 @@
 													<a href = "../../ClassExercises/Week6_GradSchoolAdmissions">Week 6: Gaussian Naive Bayes And Grad School Admissions</a>
 												</li>
 												<li>
-													<a href = "../../ClassExercises/Week6_HMM/robo.html">Week 6: Bayesian Robot Localization</a>
+													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM/robot.html">Week 6: Bayesian Robot Localization</a>
 												</li>
 											</ul>
 										</li>
