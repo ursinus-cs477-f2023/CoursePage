@@ -642,7 +642,54 @@
 									</script>  
 
 									<p>
-										For each segment from both Trump and Clinton, you can compute the log probability under both models and see which one has a higher probability.  If the correct one has a higher probability, then you can consider this a correct classification.  If not, then it is a mistake.  You can report the accuracy as the total number of correct classifications over the total number of items in the test set.  For example, if I got 60 correct and there were 80 items, the accuracy would be 60/80 = 0.75.  Here are some things you should explore and show in your notebook
+										For each segment from both Trump and Clinton, you can compute the log probability under both models and see which one has a higher probability.  If the correct one has a higher probability, then you can consider this a correct classification.  If not, then it is a mistake.  You can report the accuracy as the total number of correct classifications over the total number of items in the test set.  For example, if I got 60 correct and there were 80 items, the accuracy would be 60/80 = 0.75.  
+									</p>
+										
+									<p>
+										Below is pseudocode on how you might check the Clinton debate examples to see which ones your models got correct.  You'd do a similar thing for the Trump debate examples.
+									</p>
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										train clinton model on clinton quotes from the first two debates
+										train trump model on trump quotes from the first two debates
+
+										for quote in third clinton debate:
+											prob1 = log probability of quote given clinton model
+											prob2 = log probability of quote given trump model
+											if prob2 > prob1:
+												correct++
+											else
+												incorrect++
+									</script>  
+
+									<p>
+										In the end, you can think of generating something like a <a href = "https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/">confusion matrix</a> as follows
+									</p>
+
+									<table style="width:600px;">
+										<tr>
+											<td></td><td>Guessed that Trump said it (probability of Trump is higher)</td><td>Guessed that Clinton said it (probability of Clinton is higher)</td>
+										</tr>
+										<tr>
+											<td>Quote from Trump</td>
+											<td>x</td>
+											<td>y</td>
+										</tr>
+										<tr>
+											<td>Quote from Clinton</td>
+											<td>z</td>
+											<td>w</td>
+										</tr>
+									</table>
+
+									<p>
+										The elements along the diagonals represent correct classifications, so the proportion of correctly guessed examples would be 
+										<h3>
+											\[ \frac{x+y}{x+y+z+w} \]
+										</h3>
+									</p>
+
+									<p>
+										Here are some things you should explore and show in your notebook
 									</p>
 
 									<ol>
