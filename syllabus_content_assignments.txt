@@ -37,6 +37,12 @@ Assignment 3 Due
 <HR><a href = "Assignments/HW4_RobotLocalization">Mini Assignment 4: Bayesian Robot Localization</a> Out
 
 2021-10-08
+Supervised Learning Module Due Before Class
+
+2021-10-11
+Euclidean Vectors Module Due Before Class
+
+2021-10-13
 Assignment 4 Due
 
 2021-10-15
