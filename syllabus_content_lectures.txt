@@ -77,7 +77,7 @@ Hidden Markov Models
 LECTURE
 The Viterbi Algorithm
 
-<ul><li><a href = "ClassExercises/Week6_HMM/robot.html">Class Exercise: Bayesian Robot Localization</a></li></ul>
+
 SECTION
 Unit 3: Classical Geometric Machine Learning
 
@@ -118,6 +118,10 @@ LECTURE
 Survey: Multidimensional Scaling, Manifold Learning
 
 <ul><li>Class Exercise: College Subject Similarities</li><li><a href = "https://github.com/ctralie/DREiMac">DREiMac</a></li></ul>
+LECTURE
+Similarity Network Fusion
+
+<ul><li><a href = "https://d1wqtxts1xzle7.cloudfront.net/52503074/snf_nature_methods-with-cover-page-v2.pdf?Expires=1633669084&Signature=XqDjWYQsNCpULuGPUTVuQot~4abzDUatifl24aqkSuBma~REElQ4LZLJ6Y~u46zljjD5DE5LE9ZeGJFUX4IkDsClKxwo9kCOaW7yXyYhfWquNjHADzicT5AYx8Y-1zFy3guvtSRoY7-ZB6Uj6Tffem9aAjFX2J4DFw4ZgfLHrVUFP2IRVHeJ-mOMbvlOEFwZnWg3zRxyiadrsmByDv-6fTqDLfqLnhWn2DNUYd8q-CxLPreqZuATdIWzjqinuke4eEkWg39x3hGU3j7Q90-QPcFeuUtjfHGmMyj3EnYJnVERiauO-CjJmd4kW8GMUtaup1GyxIUTnwp4qS-ACK~pUA__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA">Original paper on SNF</a><li><a href = "https://arxiv.org/pdf/1707.04680.pdf">My paper on SNF for cover song identification</a></li></ul>
 SECTION
 Unit 4: Deep Learning
 
@@ -125,7 +129,7 @@ Unit 4: Deep Learning
 LECTURE
 Deep Neural Networks, Exploring Latent Spaces
 
-Module: Polynomial Regression And Overfitting
+
 LECTURE
 Back Propagation
 
@@ -136,6 +140,10 @@ Stochastic Gradient Descent
 
 LECTURE
 Convolutional Neural Networks
+
+
+LECTURE
+Generative Adversarial Networks
 
 
 LECTURE
@@ -154,34 +162,26 @@ LECTURE
 Autoencoders
 
 
-LECTURE
-Generative Adversarial Networks
-
-
 SECTION
 Unit 5: Reinforcement Learning, Game Playing
 
 
 LECTURE
-Reinforcement Learning
+The Multi-Armed Bandit
 
 
 LECTURE
-Bellman Equations
+Reinforcement Learning, Bellman Equations
+
+Class Exercise: Cat + Mouse
+LECTURE
+Reinforcement Learning, Bellman Equations
 
 
 LECTURE
 Deep Reinforcement Learning
 
 Class example: Playing Mario
-LECTURE
-Game Trees: Min-Max Trees
-
-
-LECTURE
-Game Trees: Alpha-Beta Pruning
-
-Class Exercise: Connect 4
 LECTURE
 Ethics: <i>Race After Technology</i>
 

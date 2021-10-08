@@ -34,30 +34,27 @@ Assignment 3 Check In
 Assignment 3 Due
 
 2021-10-08
-<HR>Assignment 4: Classical Supervised Learning Out
+<HR><a href = "Assignments/HW4_RobotLocalization">Mini Assignment 4: Bayesian Robot Localization</a> Out
 
 2021-10-08
-Assignment 4 Part 1: Naive Bayes, KNN Due
+Assignment 4 Due
 
 2021-10-15
-Assignment 4 Part 2: Logistic Regression Due
+Assignment 5: Gradient Descent And Logistic Regression Out
 
-2021-10-27
-<HR>Assignment 5: Unsupervised 3D Shape Classification with Fused Features
-
-2021-10-27
+2021-10-20
 Assignment 5 Due
 
-2021-11-08
-<HR>Assignment 6: Deep Smokestack Segmentation Out
+2021-11-03
+<HR>Assignment 6: Unsupervised 3D Shape Classification with Fused Features
 
-2021-11-08
+2021-11-03
 Assignment 6 Due
 
-2021-11-18
-Assignment 7: Cat And Mouse Out
+2021-11-17
+<HR>Assignment 7: Face Generation Out
 
-2021-11-19
+2021-11-17
 Assignment 7 Due
 
 2021-12-06
