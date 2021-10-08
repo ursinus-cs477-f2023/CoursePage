@@ -41,24 +41,19 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 6: Bayesian Robot Localization</h2>
+                                        <h2>Mini Assignment 4: Bayesian Robot Localization</h2>
                                         <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
-										<!--
-											<p>
-											<b>NOTE: </b> We'll spend the better part of two days on this exercise, and it will help get you ready for the next mini assignment
-											</p>
-										!-->
                                         <p>
-											The purpose of this exercise is to get you practice with the Viterbi algorithm for finding an optimal sequence of states through a Hidden Markov Model (HMM).  In this case, the hidden states are the <b>position of a robot in 2D</b>, and the observations are <b>omnidirectional range scans</b>.  This is an idealized model of a real "LIDAR scanner" such as the <a href = "https://hokuyo-usa.com/products/lidar-obstacle-detection/urg-04lx">Hokuyo URG-04LX laser range scanner</a>, which is able to sweep a laser in a 270 degree field of view in front of it
+											The purpose of this exercise is to get you practice with the Viterbi algorithm for finding an optimal sequence of states through a "<a href = "../../ClassExercises/Week6_HMM/">Hidden Markov Model (HMM)</a>."  In this case, the hidden states are the <b>position of a robot in 2D</b>, and the observations are <b>omnidirectional range scans</b>.  This is an idealized model of a real "LIDAR scanner" such as the <a href = "https://hokuyo-usa.com/products/lidar-obstacle-detection/urg-04lx">Hokuyo URG-04LX laser range scanner</a>, which is able to sweep a laser in a 270 degree field of view in front of it
 										</p>
 
 										<img src = "URG-04LX.jpg" width=250>
 
 										<p>
-											For this exercise, I've created a synthetic robot that can move right/left/up/down on a 2D grid, and which is always oriented the same way.  Below is an image of this robot moving around.  The ground truth position of the robot (the hidden state) is shown on the left on a map of the environment, while the laser scan (observation) is shown on the right
+											For this assignment, I've created a synthetic robot that can move right/left/up/down on a 2D grid, and which is always oriented the same way.  Below is an image of this robot moving around.  The ground truth position of the robot (the hidden state) is shown on the left on a map of the environment, while the laser scan (observation) is shown on the right
 										</p>
 
 										<img src = "clean_scan.gif">
@@ -100,20 +95,31 @@
 										<img src = "verynoisy_scan.gif">
 
 										<p>
-											At this level of noise, it seems like we're hardly getting any useful information.  However, amazingly, if you use the above sensor model and assume that the robot is equally likely to visit any of its neighbors, then you can actually recover a pretty good estimate of the robot's trajectory using the Viterbi algorithm.  Below is a plot of the original trajectory next to what the algorithm recovered here (NOTE: results may vary based on the noise samples):
+											At this level of noise, it seems like we're hardly getting any useful information.  However, amazingly, if you use the above sensor model and assume that the robot is equally likely to visit any of its neighbors, then you can actually recover an excellent estimate of the robot's trajectory using the Viterbi algorithm.  Below is a plot of the original trajectory next to what the algorithm recovered here (NOTE: results may vary based on the noise samples):
 										</p>
 
 										<img src = "Est_VeryNoisy.svg">
 
 										<p>
-											This is the power of <b>sequence modeling</b>; even if our measurements are total crap at a particular instant in time, if they have even a little bit of signal, then we can "boost" the signal strength by looking at many states in sequence.
+											The trajectory is nearly perfect, except for a bit of stalling near the end.  This is the power of <b>sequence modeling</b>; even if our measurements are total crap at a particular instant in time, if they have even a little bit of signal, then we can "boost" the signal strength by looking at many states in sequence.
 										</p>
 
 										<HR>
-											<h2>Programming Task</h2>
+											<h2>Programming Tasks</h2>
+
+											<h3><a name = "gettingstarted">Getting Started</a></h3>
 											<p>
-												<a href = "https://github.com/Ursinus-CS477-F2021/Week6_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for this exercise.  
+												<a href = "https://github.com/Ursinus-CS477-F2021/HW4_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for the assignment.  You should write your code in a Jupyter notebook that imports the simulation engine, which you can start off like this:
 											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+
+												%load_ext autoreload
+												%autoreload 2
+												import numpy as np
+												import matplotlib.pyplot as plt
+												from environment import *
+											</script>  
 
 											<p>
 												Below is some code you can use to initialize a world and to simulate the scans of a trajectory through that world
@@ -123,7 +129,7 @@
 												## Step 1: Create the world and devise robot motion
 												# Load in a particular environment
 												env = Environment("Maze1.png")
-												# Devise a path through that environment
+												# Devise a path through that environment that passes through 3 locations
 												X = env.simulate_trajectory([[13, 26], [28, 5], [39, 29]])
 												# Plot the environment with the path superimposed
 												plt.figure()
@@ -133,8 +139,10 @@
 												## Step 2: Simulate scans at each position
 												# How many angles to sample in the range scanner
 												res = 100 
-												# The noise of the scanner (start with 0 to make the problem easier)
-												alpha = 0 
+												# The noise of the scanner (start with low noise to make the problem easier)
+												alpha = 0.1
+												# Make this repeatably pseudorandom by seeding so that the numbers you get match up with mine
+												np.random.seed(0) 
 												# Create a list of scans.  Each scan holds a list of "res" laser ranges
 												observed_scans = [env.get_range_scan(X[i, :], res, alpha) for i in range(X.shape[0])]
 
@@ -154,28 +162,63 @@
 											<p>
 												Finally, there's a list member variable <code>env.neighbors</code>, where <code>env.neighbors[i]</code> lists the indices of the neighbors of state <code>i</code>. 
 											</p>
-											<p>
-												Now, you have all of the information you need to extract the optimal sequence of states using the Viterbi algorithm!  Let's say you come up with a list of state indices called <code>states</code>.  Then the following code will extract and plot the coordinates of the trajectory you estimated on top of the "ground truth" (correct) trajectory
-											</p>
+											
 
-											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-												states = np.array(states, dtype=int)
-												Y = env.X[states, :]
-												plt.figure()
-												plt.plot(X[:, 0], X[:, 1], 'k', linewidth=4)
-												plt.plot(Y[:, 0], Y[:, 1], 'C1', linestyle='--')
-												plt.legend(["Ground Truth", "Estimated"])
-												plt.axis("equal")
-												plt.title("Estimated Trajectory, $\\alpha={:.3f}$".format(alpha))
-											</script> 
+										<h3><a name = "sensormodel">Task 1: Sensor Model (5 Points)</a></h3>
 
-											<p>
-												First try to make sure you can handle the case where &alpha; = 0, then ratchet up the noise and see how much noise the algorithm can take and still give a good result.
-											</p>
+										<p>
+											The first step in gathering all of the components that are needed for an HMM is to come up with probabilities in a measurement model.  Let's let <b>r<SUB>i</SUB></b> be the perfect range measurement of the i<SUP>th</SUP> angle at a particular location, and let <b>x<SUB>i</SUB></b> be the corresponding measurement at that angle. Then the probability density of the measured range <b>x<SUB>i</SUB></b> in terms of <b>r<SUB>i</SUB></b> is 
+										</p>
+
+										<h2>
+											\[ p(x_i | r_i) = \frac{1}{\sqrt{2 \pi }(\alpha r_i + \gamma)} e^{-\frac{(x_i-r_i)^2}{2 (\alpha r_i + \gamma)^2}} \]
+										</h2>
+
+										<p>
+											where <b>&gamma;</b> is a small number to prevent numerical divide by 0 for ranges that are too closes or noise that is too small.  In this assignment, we'll let <b>&gamma; = 0.1</b>.  Notice how based on the denominator of the exponent, ranges which are further have a higher probability density for the same deviation.  This is another way of seeing that the noise is worse for large distances.
+										</p>
+										<p>
+											Assuming that the angles are all independent of each other, the joint probability of all of the angles in a single scan can be written as the product of all such probabilities.  <b>Create a method that takes in a ground truth scan array, a measured scan array, and the noise value &alpha;, and which returns the <u>log probability density</u> that a set of measured angles jointly occurred at a particular location</b>.  For example, let's say you called this method <code>get_measurement_prob</code> and you ran the <a href = "#gettingstarted">initialization sequence above</a> with <b>&alpha;=0</b>.  Then saying  
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											print(get_measurement_prob(observed_scans[0], state_scans[0], alpha))
+										</script> 
+
+										<p>
+											will give about <code>-2772</code>.  By contrast, the log probability of observation 0 given state 55 is much larger at about <code>-34</code>.  This is because the observation location is right on top of (the log probability would be 0 with no noise).  And the probability of observation 0 given state 57 is somewhere in between at around <code>-786</code>, because it's nearby but not exactly where the observation is.  The figure below shows this layout
+										</p>
+
+										<img src = "ObservationLocations.svg">
 
 
-										<HR>
-											<h2>For The Bored...</h2>
+
+										<h3><a name = "viterbi">Task 2: The Viterbi Algorithm (15 Points)</a></h3>
+
+										<p>
+											You now have your probability model for the sensor, and you can assume the robot is equally likely to stay in the same state or to transition to one of its neighbors.  This is all of the information you need to extract the optimal sequence of states using the Viterbi algorithm!
+										</p>
+										<p>
+											Let's say your Viterbi code outputs a list of state indices called <code>states</code>.  Then the following code will extract and plot the coordinates of the trajectory you estimated on top of the "ground truth" (correct) trajectory
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											states = np.array(states, dtype=int)
+											Y = env.X[states, :]
+											plt.figure()
+											plt.plot(X[:, 0], X[:, 1], 'k', linewidth=4)
+											plt.plot(Y[:, 0], Y[:, 1], 'C1', linestyle='--')
+											plt.legend(["Ground Truth", "Estimated"])
+											plt.axis("equal")
+											plt.title("Estimated Trajectory, $\\alpha={:.3f}$".format(alpha))
+										</script> 
+
+										<p>
+											First try to make sure you can handle the case where &alpha; = 0.1, then ratchet up the noise and see how much noise the algorithm can take and still give a good result.
+										</p>
+
+
+											<h3>For The Bored...</h3>
 											<p>
 												If you finish this early, here are a few things you can try
 											</p>
@@ -246,6 +289,9 @@
 												<li>
 													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
 												</li>
+												<li>
+													<a href = "&sAssignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
 											</ul>
 										</li>
                                         <li>
@@ -296,9 +342,6 @@
 												</li>
 												<li>
 													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Viterbi Notes</a>
-												</li>
-												<li>
-													<a href = "../../ClassExercises/Week6_HMM/robot.html">Week 6: Bayesian Robot Localization</a>
 												</li>
 											</ul>
 										</li>
