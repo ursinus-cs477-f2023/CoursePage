@@ -109,8 +109,19 @@
 
 											<h3><a name = "gettingstarted">Getting Started</a></h3>
 											<p>
-												<a href = "https://github.com/Ursinus-CS477-F2021/HW4_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for the assignment.  You should write your code in a Jupyter notebook that imports the simulation engine, which you can start off like this:
+												<a href = "https://github.com/Ursinus-CS477-F2021/HW4_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for the assignment.  Before you run any code, make sure that you have <a href = "https://scikit-image.org/">scikit-image</a> installed in your python environment by typing the following at the top of a Jupyter notebook
 											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											import sys
+											!{sys.executable} -m pip install scikit-image
+											</script>  
+
+											<p>
+												Then, setup a Jupyter notebook that imports the simulation engine, which you can start off like this:
+											</p>
+
+
 
 											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
 
@@ -196,7 +207,7 @@
 										<h3><a name = "viterbi">Task 2: The Viterbi Algorithm (15 Points)</a></h3>
 
 										<p>
-											You now have your probability model for the sensor, and you can assume the robot is equally likely to stay in the same state or to transition to one of its neighbors.  This is all of the information you need to extract the optimal sequence of states using the Viterbi algorithm!
+											You now have your probability model for the sensor, and you can assume the robot is equally likely to stay in the same state or to transition to one of its neighbors.  You can also assume that it is equally likely to start at any position on the grid.  This is all of the information you need to extract the optimal sequence of states using the Viterbi algorithm!
 										</p>
 										<p>
 											Let's say your Viterbi code outputs a list of state indices called <code>states</code>.  Then the following code will extract and plot the coordinates of the trajectory you estimated on top of the "ground truth" (correct) trajectory
