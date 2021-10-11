@@ -243,7 +243,7 @@
 												<li>The robot is equally likely to transition to any of its neighbors (which, as you recall, you can look up in <code>env.neighbors</code>)</li>
 												<li>The robot is equally likely to start at any position on the grid</li>
 											</ul>
-											<b>Your Task: </b>Given all of this information and the measurement model from before, implement Bayes filtering to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Create a separate notebook just for this task to stay organized.
+											<b>Your Task: </b>Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayesfilter">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Create a separate notebook just for this task to stay organized.
 										</p>
 										<p>
 											To look at the results, it's helpful to plot the probabilities as you're filtering over time.  Matplotlib has some good <a href = "https://matplotlib.org/stable/api/_as_gen/matplotlib.animation.ArtistAnimation.html">built in tools to help with this</a>.  Assuming that you have a list or numpy array called <code>probs</code> that holds the filtered probabilities of each cell at time <code>n</code>, here's how you would make a video of your filtering results

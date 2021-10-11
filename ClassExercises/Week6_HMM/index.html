@@ -47,7 +47,7 @@
 
 									<div id="page-content">
 
-									<h3>Markov Chains As Bayesian Networks</h3>
+									<h2>Markov Chains As Bayesian Networks</h2>
 
 									<p>
 										We've already seen <a href = "../Week4_Markov/">Markov chains</a>, where the probability of transitioning from one state to the next is completely independent of the previous states.  This is known as the <b>Markov state assumption</b>.  If we let the variable <code>X<sub>i</sub></code> represent the state that we're in at step <code>i</code>, then we can depict this as the following state diagram: 
@@ -67,7 +67,7 @@
 										Notice how we only condition on the states that are at the tail of arrows, which represents the Markov assumption graphically.
 									</p>
 
-									<h3>Hidden Markov Models</h3>
+									<h2><a name = "hmss">Hidden Markov Models</a></h2>
 									<p>
 										Markov models are applicable to time sequence data that we can observe directly, like the text strings in <a href = "../../Assignments/HW3_Markov/">assignment 3</a>.  However, there are plenty of time sequence scenarios where we can't observe what we actually want to know directly.  For example, in a <a href = "https://courses.physics.illinois.edu/ece417/fa2017/rabiner89.pdf">speech to text system</a>, we observe noisy audio data over time, but we actually want to know the text string that someone is saying.  Below is a table of some more examples of time sequences that have both a <b>hidden state</b> and an <b>observation</b>
 									</p>
@@ -128,9 +128,132 @@
 										In addition to the Markov state assumption, we also have the <b>Markov observation assumption</b>; that is, each observation <b>y<SUB>i</SUB></b> only depends on the state <b>x<SUB>i</SUB></b> and is independent of all other states and all other observations.
 									</p>
 
-									<h3><a name = "viterbi">The Viterbi Algorithm: Maximizing Joint Posterior Likelihood</a></h3>
+									<h2><a name = "bayesfilter">Bayes Filtering</a></h2>
 									<p>
-										We can use the <a href = "../Week5_BagOfWords/#theory">Bayesian classification framework</a> to figure out the likelihood of the hidden states given the observations.  In particular, the <b>posterior likelihood</b> of the hidden states given the observations is as follows
+										Now that we have the HMM framework, let's start trying to do some inference on it given some measurements over time.  The first problem we'll solve is known as <b>filtering</b>, and its goal is to estimate over time a probability distribution over all of the hidden states.  As more measurements come in, we update the distribution.  We can estimate where we think we are as the state which has the maximum probability given the measurements up to a particular point in time.  Because we update as things are streaming in, this is referred to as an <b>online method</b>.
+									</p>
+
+									<p>
+										Let's put on some formal notation and define exactly what it is we're looking for.  Given the first <b>n</b> measurements, we want to figure out the probability that the hidden state <b>x<SUB>n</SUB></b> is a particular state <b>k</b> at time <b>n</b>.  
+									</p>
+
+									<h3>
+										\[ f_n(k) =  p(x_n = k | y_1, y_2, ..., y_n) \]
+									</h3>
+
+									<p>
+										Let's consider what happens when we apply Bayes' rule within the space of intersection of all measurements that have happened before this step only: <b>y<SUB>1</SUB>, y<SUB>2</SUB>, ..., y<SUB>n-1</SUB></b>.  By Bayes' rule, we can rewrite our expression as 
+									</p>
+
+									<h3>
+										\[ f_n(k) = p(\boldsymbol{x_n = k | y_n}, y_1, y_2, ..., y_{n-1}) = \frac{p(\boldsymbol{y_n | x_n = k}, y_1, y_2, ..., y_{n-1}) p(\boldsymbol{x_n = k |} y_1, y_2, ..., y_{n-1})}{p(y_1, y_2, ..., y_n)} \]
+									</h3>
+
+									<p>
+										By the <b>Markov measurement assumption</b>, measurement <b>y<SUB>n</SUB></b> only depends on state <b>x<SUB>n</SUB></b> and is independent of all other measurements, so we can simplify this to 
+									</p>
+
+									<h3>
+										\[ f_n(k) = \frac{p(y_n | x_n = k) p(x_n = k | y_1, y_2, ..., y_{n-1})}{p(y_1, y_2, ..., y_n)} \]
+									</h3>
+
+									<p>
+										Now we have to tackle the second term in the numerator, <b>p(x<SUB>n</SUB> | y<SUB>1</SUB>, y<SUB>2</SUB>, ..., y<SUB>n-1</SUB>)</b>.  Actually, if we had solved something similar at the last measurement and kept track of it:
+									</p>
+
+									<h3>
+										\[ f_{n-1}(j) = p(x_{n-1} = j | y_1, y_2, ..., y_{n-1}) \]
+									</h3>
+
+									<p>
+										then we can make some headway here by coming up with an expression in terms of this.  The key insight is that in the absence of a new measurement, <b>p(x<SUB>n</SUB> | y<SUB>1</SUB>, y<SUB>2</SUB>, ..., y<SUB>n-1</SUB>)</b> is simply like transitioning from <b>x<SUB>n-1</SUB></b> to <b>x<SUB>n</SUB></b> by following an ordinary Markov state transition, since, by the <b>Markov state property</b>, the state <b>x<SUB>n</SUB></b> only depends on <b>x<SUB>n-1</SUB></b>.  So we'll consider what happens of we transitioned from every possible state at <b>x<SUB>n-1</SUB></b> to <b>x<SUB>n</SUB></b>.  The picture below shows this
+									</p>
+
+									<img src = "jtok.svg" width=200>
+									<p></p>
+									<p>
+										Since all of the possible <b>j</b> values at state <b>x<SUB>n-1</SUB></b> are disjoint, we can sum up the probabilities over all <b>j</b>.  Let's suppose we have <b>K</b> unique states.  Then the expression is as follows
+									</p>
+
+									<h3>
+										\[ p(x_n = k | y_1, y_2, ..., y_{n-1}) = \sum_{j=1}^K  f_{n-1}(j) p(x_n = k | x_{n-1} = j)\]
+									</h3>
+
+									<p>
+										Plugging this back into our original expression, we have
+									</p>
+
+									<h3>
+										\[ f_n(k) = \frac{p(y_n | x_n = k) \left( \sum_{j=1}^K  f_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}{p(y_1, y_2, ..., y_n)}  \]
+									</h3>
+
+									<p>
+										This is very neat, because now we almost have a recursive expression for <b>f<SUB>n</SUB></b> in terms of <b>f<SUB>n-1</SUB></b>.  The only thing that remains is the denominator.  Actually, because <b>x<SUB>n</SUB> = k</b> is disjoint over all <b>k</b>, we can write the denominator as the sum of all possible numerators.
+									</p>
+
+									<h3>
+										\[ f_n(k) = \frac{p(y_n | x_n = k) \left( \sum_{j=1}^K  f_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}{\sum_{k = 1}^K p(y_n | x_n = k) \left( \sum_{j=1}^K  f_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}  \]
+									</h3>
+
+									<p>
+										This is analogous to how we <a href = "https://ursinus.instructure.com/courses/12848/quizzes/16209">computed the overall probability of testing positive for covid</a> as 
+									</p>
+
+									<h3>
+										\[ p(\text{positive}) = p(\text{positive} | \text{covid}) + p(\text{positive} | \text{not covid}) \]
+									</h3>
+
+									<p>
+										So now, we have a complete expression for <b>f<SUB>n</SUB></b> in terms of known <b>measurement probabilities</b> <b>p(y<SUB>n</SUB> | x<SUB>n</SUB>)</b> and <b>transition probabilities</b> <b>p(x<SUB>n</SUB> = k | x<SUB>n-1</SUB> = j)</b>, which we assume we know.  This means we can continue to update a single array of probabilities over all states as we get a new measurement.  The complexity of such an update is <b>O(K)</b> space and time, since there are <b>K</b> states.  The pseudocode below summarizes the algorithm
+									</p>
+
+									<div style="padding:15px; background-color: blanchedalmond;">
+										<h3>Online Bayes Filtering</h3>
+										Given <b>K</b> states and <b>T</b> measurements, do the following steps
+										<ol>
+											<li>
+												Initialize an array <b>f</b> of length <b>K</b>
+											</li>
+											<li>
+												Let <b>f[k]</b> be the prior probability of starting in state <b>k</b>
+											</li>
+											<li>
+												for each new measurement <b>n = 1</b> to <b>T</b>
+												<ol>
+													<li>Initialize an array <b>g</b> of length <b>K</b></li>
+													<li>For each state <b>k = 1</b> to <b>K</b>
+														<ul>
+															<li>
+																Set <b>g[k]</b> to be the sum of <b>p(y<SUB>n</SUB> | x<SUB>n</SUB> = k)</b>
+															</li>
+															<li>
+																Multiply <b>g[k]</b> by the quantity 
+
+																<div style="width:100px;">
+																\[ \sum_{j=1}^K f[j] p(x_n = k | x_{n-1} = j) \]
+																</div>
+															</li>
+														</ul>
+													</li>
+													<li>
+														Let <b>&sigma;</b> be the sum of all elements in <b>g</b>. Set <b>f[k]</b> to be <b>g[k]/&sigma;</b> 
+													</li>
+												</ol>
+											</li>
+										</ol>
+									</div>
+
+									<p></p>
+
+									<h2><a name = "viterbi">The Viterbi Algorithm: Maximizing Joint Posterior Likelihood</a></h2>
+									<p>
+										We can also use the <a href = "../Week5_BagOfWords/#theory">Bayesian classification framework</a> to figure out the <b>joint likelihood over all of the hidden states given the observations</b> given the observations.  This will help us to avoid making mistakes in individual steps since all of the steps have to be coherent across the entire sequence.  This is the reason that speech to text works really well even when peoples' speech is noisy and garbled.  Since we have to have the entire sequence of measurements ahead of time, though, this is referred to as an <b>offline method</b>.
+										
+										
+									</p>
+									
+									<p>
+									Let's begin to get at the math by looking at the <b>posterior likelihood</b> of the hidden states given all observations
 									</p>
 
 									<h3>
@@ -187,10 +310,7 @@
 										This quickly grows intractable for any reasonable problem.  For instance, if we're localizing a robot on a 100x100 grid, then <b>K = 10000</b>.  Let's suppose we're measuring at 30 frames per second for 10 seconds, so <b>T = 300</b>.  Then we'd need to check <b>10000<SUP>300</SUP></b> combinations of states.  This is <i>beyond astronomical</i> in size!  So we're going to need a smarter approach
 									</p>
 
-									<h3>The Viterbi Algorithm</h3>
-									<p>
-										Coming soon...
-									</p>
+									
 
 
                                     
