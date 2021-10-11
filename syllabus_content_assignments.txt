@@ -34,33 +34,33 @@ Assignment 3 Check In
 Assignment 3 Due
 
 2021-10-08
-<HR><a href = "Assignments/HW4_RobotLocalization">Mini Assignment 4: Bayesian Robot Localization</a> Out
+<HR><a href = "Assignments/HW4_RobotLocalization">Assignment 4: Bayesian Robot Localization</a> Out
 
 2021-10-08
 Supervised Learning Module Due Before Class
 
-2021-10-11
+2021-10-13
 Euclidean Vectors Module Due Before Class
 
-2021-10-13
+2021-10-15
 Assignment 4 Due
 
-2021-10-15
-Assignment 5: Gradient Descent And Logistic Regression Out
+2021-10-22
+<HR>Assignment 5: Gradient Descent And Logistic Regression Out
 
-2021-10-20
+2021-10-22
 Assignment 5 Due
 
-2021-11-03
+2021-11-05
 <HR>Assignment 6: Unsupervised 3D Shape Classification with Fused Features
 
-2021-11-03
+2021-11-05
 Assignment 6 Due
 
-2021-11-17
+2021-11-19
 <HR>Assignment 7: Face Generation Out
 
-2021-11-17
+2021-11-19
 Assignment 7 Due
 
-2021-12-06
+2021-12-10
