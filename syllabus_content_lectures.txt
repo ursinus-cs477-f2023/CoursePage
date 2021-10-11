@@ -181,11 +181,7 @@ Class Exercise: Cat + Mouse
 LECTURE
 Reinforcement Learning, Bellman Equations
 
-
-LECTURE
-Deep Reinforcement Learning
-
-Class example: Playing Mario
+<ul><li>Link to deep reinforcement, Mario Playing</li></ul>
 LECTURE
 Ethics: <i>Race After Technology</i>
 
