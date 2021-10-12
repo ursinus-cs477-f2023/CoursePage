@@ -28,3 +28,6 @@
 [submodule "Assignments/HW4_RobotLocalization/HW4_RobotLocalization"]
 	path = Assignments/HW4_RobotLocalization/HW4_RobotLocalization
 	url = https://github.com/Ursinus-CS477-F2021/HW4_RobotLocalization.git
+[submodule "ClassExercises/Week7_DigitsNN"]
+	path = ClassExercises/Week7_DigitsNN
+	url = https://github.com/Ursinus-CS477-F2021/Week7_DigitsNN.git
