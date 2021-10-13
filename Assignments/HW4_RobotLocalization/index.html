@@ -243,7 +243,7 @@
 												<li>The robot is equally likely to transition to any of its neighbors (which, as you recall, you can look up in <code>env.neighbors</code>)</li>
 												<li>The robot is equally likely to start at any position on the grid</li>
 											</ul>
-											<b>Your Task: </b>Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayesfilter">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Create a separate notebook just for this task to stay organized.
+											<b>Your Task: </b>Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayespseudocode">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Create a separate notebook just for this task to stay organized.
 										</p>
 										<p>
 											To look at the results, it's helpful to plot the probabilities as you're filtering over time.  Matplotlib has some good <a href = "https://matplotlib.org/stable/api/_as_gen/matplotlib.animation.ArtistAnimation.html">built in tools to help with this</a>.  Assuming that you have a list or numpy array called <code>probs</code> that holds the filtered probabilities of each cell at time <code>n</code>, here's how you would make a video of your filtering results
@@ -298,7 +298,7 @@
 										<h3><a name = "viterbi">Task 3: The Viterbi Algorithm (15 Points)</a></h3>
 
 										<p>
-											As you can see, filtering can get confused at individual steps, and we know if we can do things <i>offline</i> (i.e. we have access to <i>all measurements</i> over time), we can maximize the <i>joint probability</i> over the whole trajectory using the <a href = "../../ClassExercises/Week6_HMM/#viterbi">Viterbi algorithm</a>.  This will fix things up so the trajectory doesn't jitter around as much locally, since it enforces consistency of the whole trajectory.  
+											As you can see, filtering can get confused at individual steps, and we know if we can do things <i>offline</i> (i.e. we have access to <i>all measurements</i> over time), we can maximize the <i>joint probability</i> over the whole trajectory using the <a href = "../../ClassExercises/Week6_HMM/index.html#viterbipseudocode">Viterbi algorithm</a>.  This will fix things up so the trajectory doesn't jitter around as much locally, since it enforces consistency of the whole trajectory.  
 										</p>
 										<p>
 											<b>Your task: </b> Implement the Viterbi algorithm to compute an optimal sequence of state indices given an array of measurements.  <b>Make a separate notebook to show this to keep organized</b>.  Since you'll be accumulating over many states, be sure to add <b>log likelihoods</b>, as <a href = "../../ClassExercises/Week6_HMM/#viterbi">explained in the notes</a> rather than multiplying probabilities.
