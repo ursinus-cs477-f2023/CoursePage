@@ -307,11 +307,94 @@
 										['aaaa', 'aaab', 'aaac', 'aaba', 'aabb', 'aabc', 'aaca', 'aacb', 'aacc', 'abaa', 'abab', 'abac', 'abba', 'abbb', 'abbc', 'abca', 'abcb', 'abcc', 'acaa', 'acab', 'acac', 'acba', 'acbb', 'acbc', 'acca', 'accb', 'accc', 'baaa', 'baab', 'baac', 'baba', 'babb', 'babc', 'baca', 'bacb', 'bacc', 'bbaa', 'bbab', 'bbac', 'bbba', 'bbbb', 'bbbc', 'bbca', 'bbcb', 'bbcc', 'bcaa', 'bcab', 'bcac', 'bcba', 'bcbb', 'bcbc', 'bcca', 'bccb', 'bccc', 'caaa', 'caab', 'caac', 'caba', 'cabb', 'cabc', 'caca', 'cacb', 'cacc', 'cbaa', 'cbab', 'cbac', 'cbba', 'cbbb', 'cbbc', 'cbca', 'cbcb', 'cbcc', 'ccaa', 'ccab', 'ccac', 'ccba', 'ccbb', 'ccbc', 'ccca', 'cccb', 'cccc']
 									</p>
 									<p>
-										This quickly grows intractable for any reasonable problem.  For instance, if we're localizing a robot on a 100x100 grid, then <b>K = 10000</b>.  Let's suppose we're measuring at 30 frames per second for 10 seconds, so <b>T = 300</b>.  Then we'd need to check <b>10000<SUP>300</SUP></b> combinations of states.  This is <i>beyond astronomical</i> in size!  So we're going to need a smarter approach
+										This quickly grows intractable for any reasonable problem.  For instance, if we're localizing a robot on a 100x100 grid, then <b>K = 10000</b>.  Let's suppose we're measuring at 30 frames per second for 10 seconds, so <b>T = 300</b>.  Then we'd need to check <b>10000<SUP>300</SUP></b> combinations of states.  This is <i>beyond astronomical</i> in size!  So we're going to need a smarter approach.
 									</p>
 
-									
+									<p>
+										Actually, we can do something kind of similar to Bayes filtering, except we're going to need to store a bit more information.  Let's let <b>L<SUB>n, k</SUB></b> be the maximum <b>log likelihood</b> of the joint distribution over the first <b>n</b> states that end at state <b>x<sub>n</sub> = k</b>.  We can think of <b>L</b> as holding optimal cumulative probabilities of traveling up to a certain point in time.  As with Bayes filtering, we can write <b>L<SUB>n, k</SUB></b> in terms of maximum likelihoods one step prior in time, since every step before that is independent, as well as the measurement at time <b>n</b>.  In particular, we have the following recurrence:
+									</p>
 
+									<h3>
+										\[ L_{n, k} = \log(p(y_n | x_n = k) + \max_{j} \left( L_{n-1, j} + \log(p(x_n = k | x_{n-1} = j)) \right) \]
+									</h3>
+
+									<p>
+										Or, in other words, accumulating the next step in the joint probability adds on a term for the measurement probability <b>log(p(y<SUB>n</SUB> | x<SUB>n</SUB> = k))</b>, as well as the transition probability <b>log(p(x<SUB>n</SUB> | x<SUB>n-1</SUB> = j))</b>.  So we pay a cost for how good or bad the transition is and how well the new state matches the next measurement we got.  Such a recursive specification lends itself well to a bottom up <b><a href = "https://ursinus-cs371-s2021.github.io/Modules/Module10/Video4">dynamic programming</a> solution</b>, where we fill in the first row of <b>L</b> and then fill in each row one at a time successively.  We'll also store a matrix <b>B</b> which remembers which state <b>j</b> maximized <b>L<SUB>n, k</SUB></b>
+									</p>
+
+									<p>
+										We start with the first row of <b>L</b> holding the prior probabilities and measurement probabilities only (since no measurements have happened yet).
+									</p>
+
+
+									<div style="padding:15px; background-color: blanchedalmond;">
+									<h3>Offline Viterbi Optimal Sequence Extraction</h3>
+									Given <b>K</b> states and <b>T</b> measurements, do the following steps
+									<ol>
+										<li>
+											Initialize a <b>T x K</b> 2D array <b>L</b> and a <b>T x K</b> 2D array <b>B</b>
+										</li>
+										<li>
+											Let 
+											<div style="width:200px;">
+											\[ L_{1, k} = \log(p(x_1 = k)) + \log(p(y_1 | x_1 = k)) \]
+											</div>
+											<div style="width:70px;">
+												\[ B_{1, k} = -1 \]
+											</div>
+										</li>
+										<li>
+											for each <b>n = 2</b> to <b>T</b>
+											<ul>
+												<li>For each state <b>k = 1</b> to <b>K</b>
+													<ul>
+														<li>
+															<div style="width:100px;">
+																\[ L_{n, k} = \log(p(y_n | x_n = k) + \max_{j} \left( L_{n-1, j} + \log(p(x_n = k | x_{n-1} = j)) \right) \]
+															</div>
+														</li>
+														<li>
+															<div style="width:100px;">
+																\[ B_{n, k} = \text{argmax}_{j} \left( L_{n-1, j} + \log(p(x_n = k | x_{n-1} = j)) \right) \]
+															</div>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li>
+											Now find the maximum element in the last row and backtrace through <b>B</b> to extract the optimal path in reverse
+
+											<ul>
+												<li>Let <b>state</b> = argmax<SUB>k</SUB> <b>B<SUB>T, k</SUB></b></li>
+												<li>Let <b>states</b> = []</li>
+												<li>Let <b>n = T</b></li>
+												<li>while <b>n > 1</b>
+													<ul>
+														<li><b>states</b>.push(<b>state</b>)</li>
+														<li>state = <b>B<SUB>n, state</SUB></b></li>
+														<li><b>n = n - 1</b></li>
+													</ul>
+												</li>
+												<li>
+													<b>states</b>.reverse()
+												</li>
+											</ul>
+										</li>
+									</ol>
+								</div>
+								<p></p><p></p><p></p>
+								<h2>Going Further: Continuous State Spaces</h2>
+								<p>
+									We've covered a lot of ground through some really important algorithms here.  But these algorithms will completely fail if the state space is continuous, since there are an infinite number of possible states.  We can choose to discretize the space; for instance, if we were trying to do GPS localization, we could round every latitude and longitude to the 3rd decimal place.  But this may not be fine enough, and we will still have tons of states, grinding our computation to a halt and blowing up memory.  
+								</p>
+								<p>
+									To deal with large or possibly infinite state space, there are two common approaches in CS.  One is to maintain a <b>continuous distribution</b> on all measurment probabilities, transition probabilties, and filtered probabilities.  If the choice of distribution is a <a href = "../Week6_GradSchoolAdmissions/">Gaussian</a>, then this leads to something known as a <a href = "https://www.kalmanfilter.net/background.html">Kalman filter</a>.  This is widely used in many localization problems (apparently my dad used to use this when working on the <a href = "https://www.kalmanfilter.net/kalman1d.html">Landsat 7 satellite</a>).  
+									
+								</p>
+								<p>
+									The problem with the Gaussian assumption, though, is that it only works for data that is "unimodal"; that is, there is only one peak in the probability distribution.  In other words, there is one state which is much more likely than all of the others given a particular sequence of measurements.  This doesn't work, for example, in our <a href = "../../Assignments/HW4_RobotLocalization/">robot localization</a> problem when the robot is in symmetric hallways, because there are many possible hypotheses.  There is an alternative known as a <b>particle filter</b> that can handle such cases by approximating a continuous distribution by a collection of discrete samples.  A particle filter is an instance of what's known as a "genetic algorithm."  You can <a href = "https://towardsdatascience.com/particle-filter-a-hero-in-the-world-of-non-linearity-and-non-gaussian-6d8947f4a3dc">click here</a> to read more about it.  I wish we had time to do it in this class, because it's really cool!
+								</p>
 
                                     
                                 </div>
