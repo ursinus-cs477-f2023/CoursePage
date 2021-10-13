@@ -172,7 +172,11 @@
 												# Make this repeatably pseudorandom by seeding so that the numbers you get match up with mine
 												np.random.seed(0) 
 												# Create a list of scans.  Each scan holds a list of "res" laser ranges across all angles
-												observed_scans = [env.get_range_scan(X[i, :], res, alpha) for i in range(X.shape[0])]
+												observed_scans = []
+												for i in range(X.shape[0]):
+													observed_scans.append(env.get_range_scan(X[i, :], res, alpha))
+												# NOTE: observed_scans[i][j] would be angle j at time i
+												
 
 											</script>  
 
