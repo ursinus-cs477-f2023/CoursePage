@@ -89,7 +89,7 @@ Unit 3: Classical Geometric Machine Learning
 LECTURE
 Euclidean Distances, K-Nearest Neighbor Classification
 
-Class Exercise: Digit Classification
+<ul><li><a href = "ClassExercises/Week7_DigitsNN.html">Class Exercise: Digit Classification, K-Nearest Neighbor Notes</a></li></ul>
 LECTURE
 Dot Products, Projections, A User's Guide To Principal Component Analysis (PCA)
 
