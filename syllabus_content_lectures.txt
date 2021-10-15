@@ -93,7 +93,27 @@ Euclidean Distances, K-Nearest Neighbor Classification
 LECTURE
 Dot Products, Projections, A User's Guide To Principal Component Analysis (PCA)
 
-<ul><li>Class Exercise: Eigenfaces</li><li><a href = "http://www.covers1000.net/LoopDitty/">Loop Ditty</a></li></ul>
+<ul><li>Class Exercise: Eigen Digits</li><li><a href = "https://setosa.io/ev/principal-component-analysis/">PCA Explained Visually</a></li><li><a href = "http://www.covers1000.net/LoopDitty/">Loop Ditty</a></li><li><a href = "https://www.cs.jhu.edu/~hager/Public/teaching/cs461/mturk-CVPR91.pdf">Original Paper on Eigenfaces</a></li></ul>
+LECTURE
+Dictionary Learning And Nonnegative Matrix Factorization (NMF)
+
+<ul><li><a href = "https://papers.nips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf">Lee/Seung Paper on NMF Algorithms</a></li><li>Class Exercise: The Netflix Problem</li></ul>
+LECTURE
+Continue NMF
+
+
+LECTURE
+Ethics: <i>Race After Technology</i>
+
+
+LECTURE
+Dimension Reduction: Survey of MDS / UMap
+
+<ul><li>Class Exercise: Academic Subject Similarities</li><li><a href = "https://github.com/ctralie/DREiMac">DREiMac</a></li></ul>
+LECTURE
+K-Means Clustering
+
+
 LECTURE
 Perceptrons, Decision Boundaries, Connection To Naive Bayes
 
@@ -106,26 +126,6 @@ LECTURE
 Logistic Regression
 
 <ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
-LECTURE
-Ethics: <i>Race After Technology</i>
-
-
-LECTURE
-Unsupervised Learning, K-Means Clustering
-
-
-LECTURE
-Dimension Reduction: Survey of MDS / UMap
-
-<ul><li>Class Exercise: Academic Subject Similarities</li><li><a href = "https://github.com/ctralie/DREiMac">DREiMac</a></li></ul>
-LECTURE
-Dimension Reduction: Dictionary Learning And Nonnegative Matrix Factorization (NMF)
-
-<ul><li><a href = "https://papers.nips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf">Lee/Seung Paper on NMF Algorithms</a></li></ul>
-LECTURE
-Continue NMF, Similarity Network Fusion Module
-
-<ul><li><a href = "https://d1wqtxts1xzle7.cloudfront.net/52503074/snf_nature_methods-with-cover-page-v2.pdf?Expires=1633669084&Signature=XqDjWYQsNCpULuGPUTVuQot~4abzDUatifl24aqkSuBma~REElQ4LZLJ6Y~u46zljjD5DE5LE9ZeGJFUX4IkDsClKxwo9kCOaW7yXyYhfWquNjHADzicT5AYx8Y-1zFy3guvtSRoY7-ZB6Uj6Tffem9aAjFX2J4DFw4ZgfLHrVUFP2IRVHeJ-mOMbvlOEFwZnWg3zRxyiadrsmByDv-6fTqDLfqLnhWn2DNUYd8q-CxLPreqZuATdIWzjqinuke4eEkWg39x3hGU3j7Q90-QPcFeuUtjfHGmMyj3EnYJnVERiauO-CjJmd4kW8GMUtaup1GyxIUTnwp4qS-ACK~pUA__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA">Original paper on SNF</a><li><a href = "https://arxiv.org/pdf/1707.04680.pdf">My paper on SNF for cover song identification</a></li></ul>
 SECTION
 Unit 4: Deep Learning
 

@@ -43,15 +43,18 @@ Assignment 3 Due
 Assignment 4 Due
 
 2021-10-22
-<HR>Assignment 5: Gradient Descent And Logistic Regression Out
+<HR>Assignment 5: Unsupervised Learning for Image Processing
 
 2021-10-22
 Assignment 5 Due
 
 2021-11-05
-<HR>Assignment 6: Unsupervised 3D Shape Classification with Fused Features
+<HR>Assignment 6: Gradient Descent And Logistic Regression Out
 
 2021-11-05
+Polynomial Regression / Overfitting Module Due
+
+2021-11-08
 Assignment 6 Due
 
 2021-11-19
