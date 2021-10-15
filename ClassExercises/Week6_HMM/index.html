@@ -226,16 +226,22 @@
 												<ol>
 													<li>Initialize an array <b>g</b> of length <b>K</b></li>
 													<li>For each state <b>k = 1</b> to <b>K</b>
+														We need to compute the probability that any sequence of states ends on state <b>k</b> at time <b>n</b>.  This is the product of the measurement probability at time <b>n</b> and the probability that we transition to <b>k</b> from any of the states at time <b>n-1</b>.  We show how to compute both of these below
 														<ul>
 															<li>
-																Set <b>g[k]</b> to be the measurement probability at time <b>n</b> given that <b>x<SUB>n</SUB> = k</b>, or <b>p(y<SUB>n</SUB> | x<SUB>n</SUB> = k)</b>
+																Let <b>meas</b> be the measurement probability at time <b>n</b> given that <b>x<SUB>n</SUB> = k</b>, or <b>p(y<SUB>n</SUB> | x<SUB>n</SUB> = k)</b>
 															</li>
 															<li>
-																Multiply <b>g[k]</b> by the quantity 
-
-																<div style="width:100px;">
-																\[ \sum_{j=1}^K f[j] p(x_n = k | x_{n-1} = j) \]
-																</div>
+																Set <b>trans = 0</b> (this will hold the Markov transition probabilities from the previous state)
+															</li>
+															<li>
+																For each prior state <b>j = 1</b> to <b>K</b>
+																<ul>
+																	<b>trans = trans + f[j] * p(x<SUB>n</SUB> = k | x<SUB>n-1</SUB> = j)</b>
+																</ul>
+															</li>
+															<li>
+																Let <b>g[k] = meas * trans</b>
 															</li>
 														</ul>
 													</li>
