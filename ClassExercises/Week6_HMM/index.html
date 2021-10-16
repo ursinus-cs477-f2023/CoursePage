@@ -232,7 +232,7 @@
 																Let <b>meas</b> be the measurement probability at time <b>n</b> given that <b>x<SUB>n</SUB> = k</b>, or <b>p(y<SUB>n</SUB> | x<SUB>n</SUB> = k)</b>
 															</li>
 															<li>
-																Set <b>trans = 0</b> (this will hold the Markov transition probabilities from the previous state)
+																Set <b>trans = 0</b> (this will hold the Markov transition probabilities from the previous state, accumulated over all previous states)
 															</li>
 															<li>
 																For each prior state <b>j = 1</b> to <b>K</b>
@@ -252,6 +252,12 @@
 											</li>
 										</ol>
 									</div>
+
+									<p></p>
+									<h4><a name = "bayesfiltercomplexity">A Note on Complexity</a></h4>
+									<p>
+										The above algorithm uses <b>O(K)</b> memory to store <b>f</b> and the intermediate <b>g</b> array.  On the other hand, it takes <b>O(KT<SUP>2</SUP>)</b> computation time in the worst case.  This is due to the triply nested for loop; for each timestep (of which there are <b>T</b>) for each state (of which there are <b>K</b>), we have to look back at <b>K</b> states at the previous timestep.  However, if we can limit the previous states we have to look at to a small constant, then this turns into <b>O(KT)</b> complexity.  For instance, in the <a href = "../../Assignments/HW4_RobotLocalization/index.html#filtering">robot localization</a> problem, we only have to consider the states that neighbor on the map and the state itself, which is at most 5.
+									</p>
 
 									<p></p>
 
@@ -393,7 +399,15 @@
 										</li>
 									</ol>
 								</div>
-								<p></p><p></p><p></p>
+								<p></p>
+								<p></p>
+								<h4><a name = "viterbicomplexity">A Note on Complexity</a></h4>
+								<p>
+									Like the <a href = "#bayesfiltercomplexity">bayes filter</a>, this algorithm takes <b>O(KT<SUP>2</SUP>)</b> computation time in the worst case, but this can be limited to <b>O(KT)</b> complexity if there are a small number of possible states that can be reached from any given state.  However, the memory requirements are worse at <b>O(KT)</b>, and there's no way around this, because we need to remember enough information to backtrace a full optimal trajectory at the end.  In practice, we could just store the <b>B</b> array and the most recently filled in row of <b>L</b>m but it's still <b>O(KT)</b> to store the entire <b>B</b> array.
+								</p>
+								
+								
+								<p></p><p></p>
 								<h2>Going Further: Continuous State Spaces</h2>
 								<p>
 									We've covered a lot of ground through some really important algorithms here.  But these algorithms will completely fail if the state space is continuous, since there are an infinite number of possible states.  We can choose to discretize the space; for instance, if we were trying to do GPS localization, we could round every latitude and longitude to the 3rd decimal place.  But this may not be fine enough, and we will still have tons of states, grinding our computation to a halt and blowing up memory.  

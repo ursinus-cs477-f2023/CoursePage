@@ -67,7 +67,7 @@
 										<img src = "URG-04LX.jpg" width=250>
 
 										<p>
-											For this assignment, I've created a synthetic robot that can move right/left/up/down on a 2D grid, and which is always oriented the same way.  Below is an image of this robot moving around.  The ground truth position of the robot (the hidden state) is shown on the left on a map of the environment, while the laser scan (observation) is shown on the right
+											For this assignment, I've created a synthetic robot that can move right/left/up/down on a 2D grid, and which is always oriented the same way.  Below is an image of this robot moving around.  The ground truth position of the robot (the hidden state) is shown on the left on a map of the environment, while the laser scan (observation) is shown in the middle.  The right shows the scan as stored in an array, which is what you'll be manipulating in code. There is an index in the array for each angle of the scan, and the value at the index corresponds to the range at that angle.  0 degrees is the first element, and 360 degrees is the last element, so you'll notice how the ranges loop around at the boundaries
 										</p>
 
 										<img src = "clean_scan.gif">
@@ -124,7 +124,11 @@
 
 											<h3><a name = "gettingstarted">Getting Started</a></h3>
 											<p>
-												<a href = "https://github.com/Ursinus-CS477-F2021/HW4_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for the assignment.  Before you run any code, make sure that you have <a href = "https://scikit-image.org/">scikit-image</a> installed in your python environment by typing the following at the top of a Jupyter notebook
+												<a href = "https://github.com/Ursinus-CS477-F2021/HW4_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for the assignment.  When you are finished, <b>submit any notebook files or code files with a clear description about what is implemented where.</b>
+											</p>
+											<p>
+												
+												Before you run any code, make sure that you have <a href = "https://scikit-image.org/">scikit-image</a> installed in your python environment by typing the following at the top of a Jupyter notebook
 											</p>
 
 											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
@@ -209,8 +213,20 @@
 											where <b>&gamma;</b> is a small number to prevent numerical divide by 0 for ranges that are too closes or noise that is too small.  In this assignment, we'll let <b>&gamma; = 0.1</b>.  Notice how based on the denominator of the exponent, ranges which are further have a higher probability density for the same deviation.  This is another way of seeing that the noise is worse for large distances.
 										</p>
 										<p>
-											Assuming that the angles are all independent of each other, the joint probability of all of the angles in a single scan can be written as the product of all such probabilities at each angle.
+											Assuming that the angles are all independent of each other, the joint probability of all of the angles in a single scan can be written as the product of all such probabilities at each angle.  
 										</p>
+
+										<p>
+											Let's think about which states would have a high probability given particular measurements.  Below is an image showing an observed scan with its ground truth position indicated as a blue dot on the map, as well as two ideal scans at different positions shown at their state locations as orange and green dots on the map
+										</p>
+
+										<p>
+											The orange dot is very close to the measured location, so its scan looks pretty similar.  The green dot is var and in a region that looks nothing like the region where the measurement was taken, so its scan is very different.  We can see the differences in the plot of the scans.  Each angle contributes a probability as in the above equation.  Because of the negative exponential which contains <b>-(x<SUB>i</SUB> - r<SUB>i</SUB>)<SUP>2</SUP></b>, the probability density at a particular angle peaks when <b>x<SUB>i</SUB> = r<SUB>i</SUB></b>, and it falls off the further apart they are. So we will incur large penalties in the product for angles that have very different range measurements compared to what should be seen at a state under consideration.  These bad angle measurements will drag all of the rest down in the product.
+										</p>
+
+										<img src = "ScanExamples.svg">
+
+
 										<p>
 											<b>Your Task:</b> Create a method that takes in a ground truth scan array, a measured scan array, and the noise value &alpha;, and which returns the probability density that a set of measured angles jointly occurred at a particular location.  For example, let's say you called this method <code>get_measurement_prob</code> and you ran the <a href = "#gettingstarted">initialization sequence above</a> with <b>&alpha;=0.1</b>.  Then running the following cell
 										</p>
@@ -219,7 +235,7 @@
 											N = len(state_scans)
 											# Compute the measurement probability of the scan at each location
 											meas_probs = np.zeros(N)
-											idx = 50
+											idx = 55
 											for i in range(N):
 												meas_probs[i] = get_measurement_prob(observed_scans[idx], state_scans[i], alpha)
 											# Plot the measurement probabilities on the map
@@ -230,14 +246,15 @@
 										</script> 
 
 										<p>
-											Should generate the following plot
+											should generate the following plot
 										</p>
 
 										<img src = "MeasurementProbs.svg">
 
 										<p>
-											The brighter the cell, the higher the probability is relative to cells at other locations.  You'll notice here that for this particular location (shown in green), it has a high probability around the true location, but it also has a high probability in similarly shaped narrow horizontal hallways.  As you will see in the tasks below, this kind of confusion can get resolved by tracking measurements over time.
+											The brighter the cell, the higher the probability is relative to cells at other locations.  You'll notice here that for this particular location (shown in green), it has a high probability around the true location, but it also has a high probability towards the right side of similarly shaped narrow horizontal hallways.  As you will see in the tasks below, this kind of confusion can get resolved by tracking measurements over time.
 										</p>
+
 
 
 										<h3><a name = "filtering">Task 2: Online Position Tracking (15 Points)</a></h3>
@@ -245,9 +262,9 @@
 											You now have all of the ingredients you need to do an online tracking of the robot positions as new measurements come in!  You can assume the following two things:
 											<ul>
 												<li>The robot is equally likely to transition to any of its neighbors (which, as you recall, you can look up in <code>env.neighbors</code>)</li>
-												<li>The robot is equally likely to start at any position on the grid</li>
+												<li>The robot is equally likely to start at any position on the grid.  This implies that the initial probabilities for each state are <b>1/K</b>, where <b>K</b> is the number of states.</li>
 											</ul>
-											<b>Your Task: </b>Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayespseudocode">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Create a separate notebook just for this task to stay organized.
+											<b>Your Task: </b>Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayespseudocode">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Also, when summing up the transition probabilities from previous states, <b>only consider states which are neighbors of the state you're transitioning to</b>.  Otherwise, the program will have <b>O(TK<SUP>2</SUP>)</b> complexity instead of <b>O(TK)</b> complexity.  
 										</p>
 										<p>
 											To look at the results, it's helpful to plot the probabilities as you're filtering over time.  Matplotlib has some good <a href = "https://matplotlib.org/stable/api/_as_gen/matplotlib.animation.ArtistAnimation.html">built in tools to help with this</a>.  Assuming that you have a list or numpy array called <code>probs</code> that holds the filtered probabilities of each cell at time <code>n</code>, here's how you would make a video of your filtering results
