@@ -256,7 +256,7 @@
 									<p></p>
 									<h4><a name = "bayesfiltercomplexity">A Note on Complexity</a></h4>
 									<p>
-										The above algorithm uses <b>O(K)</b> memory to store <b>f</b> and the intermediate <b>g</b> array.  On the other hand, it takes <b>O(KT<SUP>2</SUP>)</b> computation time in the worst case.  This is due to the triply nested for loop; for each timestep (of which there are <b>T</b>) for each state (of which there are <b>K</b>), we have to look back at <b>K</b> states at the previous timestep.  However, if we can limit the previous states we have to look at to a small constant, then this turns into <b>O(KT)</b> complexity.  For instance, in the <a href = "../../Assignments/HW4_RobotLocalization/index.html#filtering">robot localization</a> problem, we only have to consider the states that neighbor on the map and the state itself, which is at most 5.
+										Over all timesteps, the above algorithm uses <b>O(K)</b> memory to store <b>f</b> and the intermediate <b>g</b> array.  On the other hand, it takes <b>O(KT<SUP>2</SUP>)</b> computation time in the worst case.  This is due to the triply nested for loop; for each timestep (of which there are <b>T</b>) for each state (of which there are <b>K</b>), we have to look back at <b>K</b> states at the previous timestep.  However, if we can limit the previous states we have to look at to a small constant, then this turns into <b>O(KT)</b> complexity.  For instance, in the <a href = "../../Assignments/HW4_RobotLocalization/index.html#filtering">robot localization</a> problem, we only have to consider the states that neighbor on the map and the state itself, which is at most 5.
 									</p>
 
 									<p></p>
