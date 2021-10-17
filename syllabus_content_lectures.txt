@@ -95,11 +95,11 @@ Dot Products, Projections, A User's Guide To Principal Component Analysis (PCA)
 
 <ul><li>Class Exercise: Eigen Digits</li><li><a href = "https://setosa.io/ev/principal-component-analysis/">PCA Explained Visually</a></li><li><a href = "http://www.covers1000.net/LoopDitty/">Loop Ditty</a></li><li><a href = "https://www.cs.jhu.edu/~hager/Public/teaching/cs461/mturk-CVPR91.pdf">Original Paper on Eigenfaces</a></li></ul>
 LECTURE
-Matrix Multiplication, Begin Nonnegative Matrix Factorization (NMF)
+Continue PCA, Matrix Multiplication
 
 
 LECTURE
-Dictionary Learning And NMF
+Nonnegative Matrix Factorization
 
 <ul><li><a href = "https://papers.nips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf">Lee/Seung Paper on NMF Algorithms</a></li><li>Class Exercise: The Netflix Problem</li><li><a href = "https://ursinus-cs472a-s2021.github.io/CoursePage/Assignments/HW6_LetItBee/statements.html">Let It Bee</a></li></ul>
 LECTURE

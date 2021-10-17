@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+                                        <h2>Homework 2: The Rush Hour Problem</h2>
+									</header>
+									<h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
+									<h3>Competition Results Fall 2021</h3>
+
+									<h4><a href = "index.html">Click here</a> to see the assignment description</h4>
+
+									<div id="page-content">
+
+										<p>
+											Below are the results on the 40 puzzles, sorted in descending order of number of average nodes expanded over all the puzzles.  People who broke consistency and hence ended up with a non-optimal length of steps from start to finish are disqualified, so Kevin is the winner!
+										</p>
+
+										<p>
+											I bolded the number of expansions if that particular entry got the best score on a particular puzzle.  I crossed out the number of steps if that particular entry did not compute an optimal sequence from the start to the goal.
+											A few observations:
+											<ul>
+												<li>Greedy best-first blows other techniques out of the water in terms of number of expansions needed.  But it's not guaranteed to return an optimum</li>
+												<li>
+													The best performing techniques all did some combination of distance of goal car to goal + number of cars blocking.  Note that the number of cars blocking is stronger than the blocking heuristic.
+												</li>
+												<li>
+													No two people had exactly the same scores across all puzzles.  Even techniques that did very similar things ended with different scores.  This shows how very subtle changes (e.g. the order in which neighbors were expanded) can affect the results.  This is why we have to be very careful when drawing conclusions about what changes in AI/ML pipelines have led to improvements, and why we need good controls and many experiments!
+												</li>
+											</ul>
+										</p>
+
+										<table>
+											<tr><td><h3>Name</h3></td><td>Heuristic Description</td><td>Puzzle 0</td><td>Puzzle 1</td><td>Puzzle 2</td><td>Puzzle 3</td><td>Puzzle 4</td><td>Puzzle 5</td><td>Puzzle 6</td><td>Puzzle 7</td><td>Puzzle 8</td><td>Puzzle 9</td><td>Puzzle 10</td><td>Puzzle 11</td><td>Puzzle 12</td><td>Puzzle 13</td><td>Puzzle 14</td><td>Puzzle 15</td><td>Puzzle 16</td><td>Puzzle 17</td><td>Puzzle 18</td><td>Puzzle 19</td><td>Puzzle 20</td><td>Puzzle 21</td><td>Puzzle 22</td><td>Puzzle 23</td><td>Puzzle 24</td><td>Puzzle 25</td><td>Puzzle 26</td><td>Puzzle 27</td><td>Puzzle 28</td><td>Puzzle 29</td><td>Puzzle 30</td><td>Puzzle 31</td><td>Puzzle 32</td><td>Puzzle 33</td><td>Puzzle 34</td><td>Puzzle 35</td><td>Puzzle 36</td><td>Puzzle 37</td><td>Puzzle 38</td><td>Puzzle 39</td></tr>
+											<tr><td><h3><strike>tommytreflip</strike></h3> Avg 1967.3 Expansions</td><td>Greedy best-first</td><td><p><strike>19 steps</strike></p><p><b>509</b> Expansions</p></td><td><p><strike>47 steps</strike></p><p>1655 Expansions</p></td><td><p><strike>40 steps</strike></p><p>809 Expansions</p></td><td><p><strike>27 steps</strike></p><p><b>233</b> Expansions</p></td><td><p><strike>21 steps</strike></p><p><b>2032</b> Expansions</p></td><td><p><strike>22 steps</strike></p><p><b>536</b> Expansions</p></td><td><p><strike>48 steps</strike></p><p>2626 Expansions</p></td><td><p>23 steps</p><p><b>355</b> Expansions</p></td><td><p><strike>41 steps</strike></p><p>1234 Expansions</p></td><td><p><strike>58 steps</strike></p><p>2877 Expansions</p></td><td><p><strike>67 steps</strike></p><p><b>690</b> Expansions</p></td><td><p><strike>40 steps</strike></p><p><b>493</b> Expansions</p></td><td><p><strike>45 steps</strike></p><p><b>5917</b> Expansions</p></td><td><p><strike>52 steps</strike></p><p><b>3545</b> Expansions</p></td><td><p><strike>37 steps</strike></p><p><b>371</b> Expansions</p></td><td><p><strike>54 steps</strike></p><p>2774 Expansions</p></td><td><p><strike>59 steps</strike></p><p>2127 Expansions</p></td><td><p><strike>67 steps</strike></p><p><b>1563</b> Expansions</p></td><td><p><strike>51 steps</strike></p><p>525 Expansions</p></td><td><p><strike>30 steps</strike></p><p>784 Expansions</p></td><td><p><strike>55 steps</strike></p><p><b>252</b> Expansions</p></td><td><p><strike>61 steps</strike></p><p><b>1325</b> Expansions</p></td><td><p><strike>67 steps</strike></p><p><b>1857</b> Expansions</p></td><td><p><strike>65 steps</strike></p><p><b>3060</b> Expansions</p></td><td><p><strike>70 steps</strike></p><p><b>5703</b> Expansions</p></td><td><p><strike>82 steps</strike></p><p><b>3451</b> Expansions</p></td><td><p><strike>79 steps</strike></p><p><b>939</b> Expansions</p></td><td><p><strike>73 steps</strike></p><p><b>706</b> Expansions</p></td><td><p><strike>77 steps</strike></p><p><b>3923</b> Expansions</p></td><td><p><strike>64 steps</strike></p><p><b>1000</b> Expansions</p></td><td><p><strike>144 steps</strike></p><p><b>3740</b> Expansions</p></td><td><p><strike>69 steps</strike></p><p><b>545</b> Expansions</p></td><td><p><strike>106 steps</strike></p><p><b>1864</b> Expansions</p></td><td><p><strike>88 steps</strike></p><p><b>3847</b> Expansions</p></td><td><p><strike>113 steps</strike></p><p><b>3751</b> Expansions</p></td><td><p><strike>68 steps</strike></p><p>2915 Expansions</p></td><td><p><strike>75 steps</strike></p><p><b>1597</b> Expansions</p></td><td><p><strike>143 steps</strike></p><p><b>2845</b> Expansions</p></td><td><p><strike>97 steps</strike></p><p><b>2091</b> Expansions</p></td><td><p><strike>94 steps</strike></p><p><b>1628</b> Expansions</p></td></tr>
+											<tr><td><h3><strike>Rich</strike></h3> Avg 2546.2 Expansions</td><td>Distance to goal + # of cars blocking</td><td><p>17 steps</p><p>991 Expansions</p></td><td><p>15 steps</p><p><b>1395</b> Expansions</p></td><td><p><strike>36 steps</strike></p><p>733 Expansions</p></td><td><p>23 steps</p><p>359 Expansions</p></td><td><p>19 steps</p><p>2034 Expansions</p></td><td><p>19 steps</p><p>1505 Expansions</p></td><td><p>22 steps</p><p><b>1939</b> Expansions</p></td><td><p>23 steps</p><p>910 Expansions</p></td><td><p>18 steps</p><p>452 Expansions</p></td><td><p>33 steps</p><p>1745 Expansions</p></td><td><p><strike>59 steps</strike></p><p>820 Expansions</p></td><td><p>34 steps</p><p>621 Expansions</p></td><td><p>33 steps</p><p>9402 Expansions</p></td><td><p>35 steps</p><p>8750 Expansions</p></td><td><p>33 steps</p><p>525 Expansions</p></td><td><p>42 steps</p><p>2513 Expansions</p></td><td><p>48 steps</p><p>2070 Expansions</p></td><td><p>61 steps</p><p>1587 Expansions</p></td><td><p>45 steps</p><p>482 Expansions</p></td><td><p>19 steps</p><p><b>779</b> Expansions</p></td><td><p>50 steps</p><p>262 Expansions</p></td><td><p>47 steps</p><p>3664 Expansions</p></td><td><p>50 steps</p><p>1861 Expansions</p></td><td><p>51 steps</p><p>4199 Expansions</p></td><td><p>53 steps</p><p>8417 Expansions</p></td><td><p>50 steps</p><p>4164 Expansions</p></td><td><p>58 steps</p><p>2417 Expansions</p></td><td><p>52 steps</p><p>1880 Expansions</p></td><td><p><strike>57 steps</strike></p><p>4303 Expansions</p></td><td><p>56 steps</p><p>1163 Expansions</p></td><td><p>70 steps</p><p>3840 Expansions</p></td><td><p>63 steps</p><p>565 Expansions</p></td><td><p>78 steps</p><p>3184 Expansions</p></td><td><p><strike>74 steps</strike></p><p>4373 Expansions</p></td><td><p>76 steps</p><p>3879 Expansions</p></td><td><p>64 steps</p><p>2061 Expansions</p></td><td><p><strike>68 steps</strike></p><p>1942 Expansions</p></td><td><p>78 steps</p><p>3339 Expansions</p></td><td><p><strike>85 steps</strike></p><p>3807 Expansions</p></td><td><p>82 steps</p><p>2914 Expansions</p></td></tr>
+											<tr><td><h3>Kevin</h3> Avg 2573.8 Expansions</td><td>Distance to goal + # of cars blocking</td><td><p>17 steps</p><p>1039 Expansions</p></td><td><p>15 steps</p><p>1612 Expansions</p></td><td><p>34 steps</p><p><b>667</b> Expansions</p></td><td><p>23 steps</p><p>368 Expansions</p></td><td><p>19 steps</p><p>2126 Expansions</p></td><td><p>19 steps</p><p>1639 Expansions</p></td><td><p>22 steps</p><p>2194 Expansions</p></td><td><p>23 steps</p><p>944 Expansions</p></td><td><p>18 steps</p><p>378 Expansions</p></td><td><p>33 steps</p><p><b>1722</b> Expansions</p></td><td><p>57 steps</p><p>830 Expansions</p></td><td><p>34 steps</p><p>654 Expansions</p></td><td><p>33 steps</p><p>9281 Expansions</p></td><td><p>35 steps</p><p>8728 Expansions</p></td><td><p>33 steps</p><p>523 Expansions</p></td><td><p>42 steps</p><p>2432 Expansions</p></td><td><p>48 steps</p><p><b>2057</b> Expansions</p></td><td><p>61 steps</p><p>1572 Expansions</p></td><td><p>45 steps</p><p><b>476</b> Expansions</p></td><td><p>19 steps</p><p>830 Expansions</p></td><td><p>50 steps</p><p>261 Expansions</p></td><td><p>47 steps</p><p>3938 Expansions</p></td><td><p>50 steps</p><p>1904 Expansions</p></td><td><p>51 steps</p><p>4133 Expansions</p></td><td><p>53 steps</p><p>8518 Expansions</p></td><td><p>50 steps</p><p>4333 Expansions</p></td><td><p>58 steps</p><p>2477 Expansions</p></td><td><p>52 steps</p><p>1856 Expansions</p></td><td><p>55 steps</p><p>4300 Expansions</p></td><td><p>56 steps</p><p>1167 Expansions</p></td><td><p>70 steps</p><p>3784 Expansions</p></td><td><p>63 steps</p><p>587 Expansions</p></td><td><p>78 steps</p><p>3365 Expansions</p></td><td><p>72 steps</p><p>4389 Expansions</p></td><td><p>76 steps</p><p>3855 Expansions</p></td><td><p>64 steps</p><p><b>2049</b> Expansions</p></td><td><p>66 steps</p><p>1940 Expansions</p></td><td><p>78 steps</p><p>3362 Expansions</p></td><td><p>83 steps</p><p>3756 Expansions</p></td><td><p>82 steps</p><p>2906 Expansions</p></td></tr>
+											<tr><td><h3>Matt</h3> Avg 2654.8 Expansions</td><td>Distance to goal + blocking heuristic</td><td><p>17 steps</p><p>1030 Expansions</p></td><td><p>15 steps</p><p>1771 Expansions</p></td><td><p>34 steps</p><p>767 Expansions</p></td><td><p>23 steps</p><p>375 Expansions</p></td><td><p>19 steps</p><p>2277 Expansions</p></td><td><p>19 steps</p><p>1725 Expansions</p></td><td><p>22 steps</p><p>2244 Expansions</p></td><td><p>23 steps</p><p>951 Expansions</p></td><td><p>18 steps</p><p>435 Expansions</p></td><td><p>33 steps</p><p>1838 Expansions</p></td><td><p>57 steps</p><p>828 Expansions</p></td><td><p>34 steps</p><p>698 Expansions</p></td><td><p>33 steps</p><p>9993 Expansions</p></td><td><p>35 steps</p><p>9076 Expansions</p></td><td><p>33 steps</p><p>524 Expansions</p></td><td><p>42 steps</p><p>2441 Expansions</p></td><td><p>48 steps</p><p>2114 Expansions</p></td><td><p>61 steps</p><p>1587 Expansions</p></td><td><p>45 steps</p><p>479 Expansions</p></td><td><p>19 steps</p><p>901 Expansions</p></td><td><p>50 steps</p><p>262 Expansions</p></td><td><p>47 steps</p><p>3975 Expansions</p></td><td><p>50 steps</p><p>2149 Expansions</p></td><td><p>51 steps</p><p>4161 Expansions</p></td><td><p>53 steps</p><p>8652 Expansions</p></td><td><p>50 steps</p><p>4619 Expansions</p></td><td><p>58 steps</p><p>2541 Expansions</p></td><td><p>52 steps</p><p>1864 Expansions</p></td><td><p>55 steps</p><p>4300 Expansions</p></td><td><p>56 steps</p><p>1169 Expansions</p></td><td><p>70 steps</p><p>3867 Expansions</p></td><td><p>63 steps</p><p>589 Expansions</p></td><td><p>78 steps</p><p>3613 Expansions</p></td><td><p>72 steps</p><p>4381 Expansions</p></td><td><p>76 steps</p><p>3837 Expansions</p></td><td><p>64 steps</p><p>2143 Expansions</p></td><td><p>66 steps</p><p>1945 Expansions</p></td><td><p>78 steps</p><p>3474 Expansions</p></td><td><p>83 steps</p><p>3736 Expansions</p></td><td><p>82 steps</p><p>2863 Expansions</p></td></tr>
+											<tr><td><h3><strike>Sam</strike></h3> Avg 2665.5 Expansions</td><td>Distance to goal + number of cars blocking + # of blocking cars that are blocked</td><td><p>17 steps</p><p>1057 Expansions</p></td><td><p>15 steps</p><p>1791 Expansions</p></td><td><p>34 steps</p><p>777 Expansions</p></td><td><p>23 steps</p><p>355 Expansions</p></td><td><p>19 steps</p><p>2313 Expansions</p></td><td><p>19 steps</p><p>1751 Expansions</p></td><td><p><strike>23 steps</strike></p><p>2787 Expansions</p></td><td><p>23 steps</p><p>931 Expansions</p></td><td><p>18 steps</p><p><b>366</b> Expansions</p></td><td><p>33 steps</p><p>1839 Expansions</p></td><td><p>57 steps</p><p>841 Expansions</p></td><td><p>34 steps</p><p>630 Expansions</p></td><td><p>33 steps</p><p>9102 Expansions</p></td><td><p>35 steps</p><p>10836 Expansions</p></td><td><p>33 steps</p><p>523 Expansions</p></td><td><p><strike>44 steps</strike></p><p><b>2408</b> Expansions</p></td><td><p>48 steps</p><p>2078 Expansions</p></td><td><p>61 steps</p><p>1606 Expansions</p></td><td><p>45 steps</p><p>481 Expansions</p></td><td><p>19 steps</p><p>1412 Expansions</p></td><td><p>50 steps</p><p>261 Expansions</p></td><td><p>47 steps</p><p>4159 Expansions</p></td><td><p><strike>54 steps</strike></p><p>2139 Expansions</p></td><td><p>51 steps</p><p>4198 Expansions</p></td><td><p>53 steps</p><p>8591 Expansions</p></td><td><p>50 steps</p><p>3860 Expansions</p></td><td><p>58 steps</p><p>2443 Expansions</p></td><td><p>52 steps</p><p>1841 Expansions</p></td><td><p><strike>61 steps</strike></p><p>4300 Expansions</p></td><td><p>56 steps</p><p>1165 Expansions</p></td><td><p><strike>72 steps</strike></p><p>3868 Expansions</p></td><td><p>63 steps</p><p>600 Expansions</p></td><td><p>78 steps</p><p>3195 Expansions</p></td><td><p><strike>78 steps</strike></p><p>4202 Expansions</p></td><td><p>76 steps</p><p>3873 Expansions</p></td><td><p><strike>65 steps</strike></p><p>2269 Expansions</p></td><td><p>66 steps</p><p>1947 Expansions</p></td><td><p><strike>86 steps</strike></p><p>3469 Expansions</p></td><td><p><strike>85 steps</strike></p><p>3612 Expansions</p></td><td><p>82 steps</p><p>2743 Expansions</p></td></tr>
+											<tr><td><h3>Jon</h3> Avg 2687.3 Expansions</td><td>Blocking heuristic + distance of goal car to end</td><td><p>17 steps</p><p>1032 Expansions</p></td><td><p>15 steps</p><p>1881 Expansions</p></td><td><p>34 steps</p><p>781 Expansions</p></td><td><p>23 steps</p><p>378 Expansions</p></td><td><p>19 steps</p><p>2286 Expansions</p></td><td><p>19 steps</p><p>1774 Expansions</p></td><td><p>22 steps</p><p>2335 Expansions</p></td><td><p>23 steps</p><p>951 Expansions</p></td><td><p>18 steps</p><p>479 Expansions</p></td><td><p>33 steps</p><p>1876 Expansions</p></td><td><p>57 steps</p><p>832 Expansions</p></td><td><p>34 steps</p><p>698 Expansions</p></td><td><p>33 steps</p><p>10059 Expansions</p></td><td><p>35 steps</p><p>9542 Expansions</p></td><td><p>33 steps</p><p>524 Expansions</p></td><td><p>42 steps</p><p>2447 Expansions</p></td><td><p>48 steps</p><p>2119 Expansions</p></td><td><p>61 steps</p><p>1587 Expansions</p></td><td><p>45 steps</p><p>479 Expansions</p></td><td><p>19 steps</p><p>965 Expansions</p></td><td><p>50 steps</p><p>262 Expansions</p></td><td><p>47 steps</p><p>4024 Expansions</p></td><td><p>50 steps</p><p>2176 Expansions</p></td><td><p>51 steps</p><p>4170 Expansions</p></td><td><p>53 steps</p><p>8673 Expansions</p></td><td><p>50 steps</p><p>4645 Expansions</p></td><td><p>58 steps</p><p>2573 Expansions</p></td><td><p>52 steps</p><p>1874 Expansions</p></td><td><p>55 steps</p><p>4300 Expansions</p></td><td><p>56 steps</p><p>1169 Expansions</p></td><td><p>70 steps</p><p>3877 Expansions</p></td><td><p>63 steps</p><p>594 Expansions</p></td><td><p>78 steps</p><p>3613 Expansions</p></td><td><p>72 steps</p><p>4391 Expansions</p></td><td><p>76 steps</p><p>3837 Expansions</p></td><td><p>64 steps</p><p>2193 Expansions</p></td><td><p>66 steps</p><p>1946 Expansions</p></td><td><p>78 steps</p><p>3516 Expansions</p></td><td><p>83 steps</p><p>3758 Expansions</p></td><td><p>82 steps</p><p>2876 Expansions</p></td></tr>
+											<tr><td><h3>Dylan</h3> Avg 2786.9 Expansions</td><td>Distance of goal car to end</td><td><p>17 steps</p><p>1051 Expansions</p></td><td><p>15 steps</p><p>2101 Expansions</p></td><td><p>34 steps</p><p>805 Expansions</p></td><td><p>23 steps</p><p>398 Expansions</p></td><td><p>19 steps</p><p>2391 Expansions</p></td><td><p>19 steps</p><p>1840 Expansions</p></td><td><p>22 steps</p><p>2679 Expansions</p></td><td><p>23 steps</p><p>950 Expansions</p></td><td><p>18 steps</p><p>558 Expansions</p></td><td><p>33 steps</p><p>2001 Expansions</p></td><td><p>57 steps</p><p>839 Expansions</p></td><td><p>34 steps</p><p>768 Expansions</p></td><td><p>33 steps</p><p>10371 Expansions</p></td><td><p>35 steps</p><p>10262 Expansions</p></td><td><p>33 steps</p><p>524 Expansions</p></td><td><p>42 steps</p><p>2613 Expansions</p></td><td><p>48 steps</p><p>2138 Expansions</p></td><td><p>61 steps</p><p>1600 Expansions</p></td><td><p>45 steps</p><p>481 Expansions</p></td><td><p>19 steps</p><p>1129 Expansions</p></td><td><p>50 steps</p><p>261 Expansions</p></td><td><p>47 steps</p><p>4248 Expansions</p></td><td><p>50 steps</p><p>2327 Expansions</p></td><td><p>51 steps</p><p>4209 Expansions</p></td><td><p>53 steps</p><p>8745 Expansions</p></td><td><p>50 steps</p><p>4727 Expansions</p></td><td><p>58 steps</p><p>2658 Expansions</p></td><td><p>52 steps</p><p>2016 Expansions</p></td><td><p>55 steps</p><p>4306 Expansions</p></td><td><p>56 steps</p><p>1169 Expansions</p></td><td><p>70 steps</p><p>3939 Expansions</p></td><td><p>63 steps</p><p>611 Expansions</p></td><td><p>78 steps</p><p>3742 Expansions</p></td><td><p>72 steps</p><p>4404 Expansions</p></td><td><p>76 steps</p><p>3878 Expansions</p></td><td><p>64 steps</p><p>2329 Expansions</p></td><td><p>66 steps</p><p>1949 Expansions</p></td><td><p>78 steps</p><p>3625 Expansions</p></td><td><p>83 steps</p><p>3838 Expansions</p></td><td><p>82 steps</p><p>2995 Expansions</p></td></tr>
+											<tr><td><h3>Tom S</h3> Avg 2787.9 Expansions</td><td>Distance To Goal</td><td><p>17 steps</p><p>1052 Expansions</p></td><td><p>15 steps</p><p>2102 Expansions</p></td><td><p>34 steps</p><p>806 Expansions</p></td><td><p>23 steps</p><p>399 Expansions</p></td><td><p>19 steps</p><p>2392 Expansions</p></td><td><p>19 steps</p><p>1841 Expansions</p></td><td><p>22 steps</p><p>2680 Expansions</p></td><td><p>23 steps</p><p>951 Expansions</p></td><td><p>18 steps</p><p>559 Expansions</p></td><td><p>33 steps</p><p>2002 Expansions</p></td><td><p>57 steps</p><p>840 Expansions</p></td><td><p>34 steps</p><p>769 Expansions</p></td><td><p>33 steps</p><p>10372 Expansions</p></td><td><p>35 steps</p><p>10263 Expansions</p></td><td><p>33 steps</p><p>525 Expansions</p></td><td><p>42 steps</p><p>2614 Expansions</p></td><td><p>48 steps</p><p>2139 Expansions</p></td><td><p>61 steps</p><p>1601 Expansions</p></td><td><p>45 steps</p><p>482 Expansions</p></td><td><p>19 steps</p><p>1130 Expansions</p></td><td><p>50 steps</p><p>262 Expansions</p></td><td><p>47 steps</p><p>4249 Expansions</p></td><td><p>50 steps</p><p>2328 Expansions</p></td><td><p>51 steps</p><p>4210 Expansions</p></td><td><p>53 steps</p><p>8746 Expansions</p></td><td><p>50 steps</p><p>4728 Expansions</p></td><td><p>58 steps</p><p>2659 Expansions</p></td><td><p>52 steps</p><p>2017 Expansions</p></td><td><p>55 steps</p><p>4307 Expansions</p></td><td><p>56 steps</p><p>1170 Expansions</p></td><td><p>70 steps</p><p>3940 Expansions</p></td><td><p>63 steps</p><p>612 Expansions</p></td><td><p>78 steps</p><p>3743 Expansions</p></td><td><p>72 steps</p><p>4405 Expansions</p></td><td><p>76 steps</p><p>3879 Expansions</p></td><td><p>64 steps</p><p>2330 Expansions</p></td><td><p>66 steps</p><p>1950 Expansions</p></td><td><p>78 steps</p><p>3626 Expansions</p></td><td><p>83 steps</p><p>3839 Expansions</p></td><td><p>82 steps</p><p>2996 Expansions</p></td></tr>
+											<tr><td><h3><strike>Manning</strike></h3> Avg 2805.2 Expansions</td><td>Number of blocking cars</td><td><p>17 steps</p><p>1059 Expansions</p></td><td><p>15 steps</p><p>2012 Expansions</p></td><td><p>34 steps</p><p>813 Expansions</p></td><td><p>23 steps</p><p>411 Expansions</p></td><td><p>19 steps</p><p>2349 Expansions</p></td><td><p>19 steps</p><p>1833 Expansions</p></td><td><p>22 steps</p><p>2723 Expansions</p></td><td><p>23 steps</p><p>951 Expansions</p></td><td><p>18 steps</p><p>495 Expansions</p></td><td><p>33 steps</p><p>2021 Expansions</p></td><td><p><strike>59 steps</strike></p><p>843 Expansions</p></td><td><p>34 steps</p><p>770 Expansions</p></td><td><p>33 steps</p><p>10171 Expansions</p></td><td><p>35 steps</p><p>11133 Expansions</p></td><td><p>33 steps</p><p>525 Expansions</p></td><td><p>42 steps</p><p>2557 Expansions</p></td><td><p>48 steps</p><p>2152 Expansions</p></td><td><p>61 steps</p><p>1614 Expansions</p></td><td><p>45 steps</p><p>490 Expansions</p></td><td><p>19 steps</p><p>1201 Expansions</p></td><td><p>50 steps</p><p>262 Expansions</p></td><td><p>47 steps</p><p>4417 Expansions</p></td><td><p>50 steps</p><p>2382 Expansions</p></td><td><p>51 steps</p><p>4227 Expansions</p></td><td><p>53 steps</p><p>8771 Expansions</p></td><td><p>50 steps</p><p>4723 Expansions</p></td><td><p>58 steps</p><p>2718 Expansions</p></td><td><p>52 steps</p><p>1910 Expansions</p></td><td><p>55 steps</p><p>4300 Expansions</p></td><td><p>56 steps</p><p>1170 Expansions</p></td><td><p>70 steps</p><p>3903 Expansions</p></td><td><p>63 steps</p><p>605 Expansions</p></td><td><p>78 steps</p><p>3777 Expansions</p></td><td><p>72 steps</p><p>4399 Expansions</p></td><td><p>76 steps</p><p>3837 Expansions</p></td><td><p>64 steps</p><p>2373 Expansions</p></td><td><p>66 steps</p><p>1947 Expansions</p></td><td><p>78 steps</p><p>3680 Expansions</p></td><td><p>83 steps</p><p>3801 Expansions</p></td><td><p>82 steps</p><p>2882 Expansions</p></td></tr>
+											<tr><td><h3>Vincent</h3> Avg 2846.6 Expansions</td><td>0.5*(Distance to goal + # of cars blocking)</td><td><p>17 steps</p><p>1061 Expansions</p></td><td><p>15 steps</p><p>2337 Expansions</p></td><td><p>34 steps</p><p>802 Expansions</p></td><td><p>23 steps</p><p>411 Expansions</p></td><td><p>19 steps</p><p>2476 Expansions</p></td><td><p>19 steps</p><p>1926 Expansions</p></td><td><p>22 steps</p><p>3084 Expansions</p></td><td><p>23 steps</p><p>951 Expansions</p></td><td><p>18 steps</p><p>539 Expansions</p></td><td><p>33 steps</p><p>1991 Expansions</p></td><td><p>57 steps</p><p>845 Expansions</p></td><td><p>34 steps</p><p>811 Expansions</p></td><td><p>33 steps</p><p>10330 Expansions</p></td><td><p>35 steps</p><p>11133 Expansions</p></td><td><p>33 steps</p><p>525 Expansions</p></td><td><p>42 steps</p><p>2543 Expansions</p></td><td><p>48 steps</p><p>2146 Expansions</p></td><td><p>61 steps</p><p>1602 Expansions</p></td><td><p>45 steps</p><p>482 Expansions</p></td><td><p>19 steps</p><p>1291 Expansions</p></td><td><p>50 steps</p><p>262 Expansions</p></td><td><p>47 steps</p><p>4459 Expansions</p></td><td><p>50 steps</p><p>2440 Expansions</p></td><td><p>51 steps</p><p>4210 Expansions</p></td><td><p>53 steps</p><p>8775 Expansions</p></td><td><p>50 steps</p><p>4784 Expansions</p></td><td><p>58 steps</p><p>2721 Expansions</p></td><td><p>52 steps</p><p>2029 Expansions</p></td><td><p>55 steps</p><p>4303 Expansions</p></td><td><p>56 steps</p><p>1170 Expansions</p></td><td><p>70 steps</p><p>3903 Expansions</p></td><td><p>63 steps</p><p>606 Expansions</p></td><td><p>78 steps</p><p>3822 Expansions</p></td><td><p>72 steps</p><p>4407 Expansions</p></td><td><p>76 steps</p><p>3872 Expansions</p></td><td><p>64 steps</p><p>2348 Expansions</p></td><td><p>66 steps</p><p>1949 Expansions</p></td><td><p>78 steps</p><p>3712 Expansions</p></td><td><p>83 steps</p><p>3827 Expansions</p></td><td><p>82 steps</p><p>2977 Expansions</p></td></tr>
+											<tr><td><h3><strike>Michael L</strike></h3> Avg 2854.7 Expansions</td><td>Distance of goal car to end</td><td><p>17 steps</p><p>1063 Expansions</p></td><td><p>15 steps</p><p>2194 Expansions</p></td><td><p>34 steps</p><p>813 Expansions</p></td><td><p>23 steps</p><p>414 Expansions</p></td><td><p>19 steps</p><p>2359 Expansions</p></td><td><p>19 steps</p><p>1764 Expansions</p></td><td><p>22 steps</p><p>3771 Expansions</p></td><td><p>23 steps</p><p>951 Expansions</p></td><td><p>18 steps</p><p>554 Expansions</p></td><td><p>33 steps</p><p>2028 Expansions</p></td><td><p><strike>59 steps</strike></p><p>847 Expansions</p></td><td><p>34 steps</p><p>942 Expansions</p></td><td><p>33 steps</p><p>9708 Expansions</p></td><td><p>35 steps</p><p>10947 Expansions</p></td><td><p>33 steps</p><p>525 Expansions</p></td><td><p>42 steps</p><p>2541 Expansions</p></td><td><p>48 steps</p><p>2171 Expansions</p></td><td><p>61 steps</p><p>1620 Expansions</p></td><td><p>45 steps</p><p>492 Expansions</p></td><td><p>19 steps</p><p>1272 Expansions</p></td><td><p>50 steps</p><p>264 Expansions</p></td><td><p>47 steps</p><p>4712 Expansions</p></td><td><p>50 steps</p><p>2489 Expansions</p></td><td><p>51 steps</p><p>4252 Expansions</p></td><td><p>53 steps</p><p>8747 Expansions</p></td><td><p>50 steps</p><p>4836 Expansions</p></td><td><p>58 steps</p><p>2815 Expansions</p></td><td><p>52 steps</p><p>1953 Expansions</p></td><td><p>55 steps</p><p>4303 Expansions</p></td><td><p>56 steps</p><p>1170 Expansions</p></td><td><p>70 steps</p><p>3904 Expansions</p></td><td><p>63 steps</p><p>608 Expansions</p></td><td><p>78 steps</p><p>3961 Expansions</p></td><td><p><strike>74 steps</strike></p><p>4392 Expansions</p></td><td><p>76 steps</p><p>3878 Expansions</p></td><td><p>64 steps</p><p>2555 Expansions</p></td><td><p>66 steps</p><p>1950 Expansions</p></td><td><p>78 steps</p><p>3763 Expansions</p></td><td><p><strike>84 steps</strike></p><p>3917 Expansions</p></td><td><p>82 steps</p><p>2743 Expansions</p></td></tr>
+											<tr><td><h3><strike>Jeremy</strike></h3> Avg 2960.8 Expansions</td><td>Number of blocking cars</td><td><p>17 steps</p><p>1069 Expansions</p></td><td><p>15 steps</p><p>2337 Expansions</p></td><td><p>34 steps</p><p>830 Expansions</p></td><td><p>23 steps</p><p>425 Expansions</p></td><td><p>19 steps</p><p>2454 Expansions</p></td><td><p>19 steps</p><p>1942 Expansions</p></td><td><p>22 steps</p><p>3457 Expansions</p></td><td><p>23 steps</p><p>951 Expansions</p></td><td><p>18 steps</p><p>632 Expansions</p></td><td><p>33 steps</p><p>2183 Expansions</p></td><td><p><strike>59 steps</strike></p><p>851 Expansions</p></td><td><p>34 steps</p><p>868 Expansions</p></td><td><p>33 steps</p><p>10523 Expansions</p></td><td><p>35 steps</p><p>12893 Expansions</p></td><td><p>33 steps</p><p>525 Expansions</p></td><td><p>42 steps</p><p>2742 Expansions</p></td><td><p>48 steps</p><p>2174 Expansions</p></td><td><p>61 steps</p><p>1632 Expansions</p></td><td><p>45 steps</p><p>515 Expansions</p></td><td><p>19 steps</p><p>1500 Expansions</p></td><td><p>50 steps</p><p>264 Expansions</p></td><td><p>47 steps</p><p>4640 Expansions</p></td><td><p>50 steps</p><p>2574 Expansions</p></td><td><p>51 steps</p><p>4312 Expansions</p></td><td><p>53 steps</p><p>8851 Expansions</p></td><td><p>50 steps</p><p>4797 Expansions</p></td><td><p>58 steps</p><p>2851 Expansions</p></td><td><p>52 steps</p><p>2060 Expansions</p></td><td><p><strike>57 steps</strike></p><p>4317 Expansions</p></td><td><p>56 steps</p><p>1170 Expansions</p></td><td><p>70 steps</p><p>3965 Expansions</p></td><td><p>63 steps</p><p>620 Expansions</p></td><td><p>78 steps</p><p>3915 Expansions</p></td><td><p><strike>74 steps</strike></p><p>4417 Expansions</p></td><td><p>76 steps</p><p>3889 Expansions</p></td><td><p>64 steps</p><p>2589 Expansions</p></td><td><p>66 steps</p><p>1952 Expansions</p></td><td><p>78 steps</p><p>3844 Expansions</p></td><td><p>83 steps</p><p>3901 Expansions</p></td><td><p>82 steps</p><p>3002 Expansions</p></td></tr>
+											<tr><td><h3>Seraiah</h3> Avg 3014.8 Expansions</td><td>Blocking heuristic + 1 if the last car blocking is sandwiched in beteween two other cars</td><td><p>17 steps</p><p>1068 Expansions</p></td><td><p>15 steps</p><p>2730 Expansions</p></td><td><p>34 steps</p><p>829 Expansions</p></td><td><p>23 steps</p><p>421 Expansions</p></td><td><p>19 steps</p><p>2571 Expansions</p></td><td><p>19 steps</p><p>2051 Expansions</p></td><td><p>22 steps</p><p>4023 Expansions</p></td><td><p>23 steps</p><p>950 Expansions</p></td><td><p>18 steps</p><p>671 Expansions</p></td><td><p>33 steps</p><p>2171 Expansions</p></td><td><p>57 steps</p><p>850 Expansions</p></td><td><p>34 steps</p><p>900 Expansions</p></td><td><p>33 steps</p><p>10620 Expansions</p></td><td><p>35 steps</p><p>13400 Expansions</p></td><td><p>33 steps</p><p>524 Expansions</p></td><td><p>42 steps</p><p>2613 Expansions</p></td><td><p>48 steps</p><p>2178 Expansions</p></td><td><p>61 steps</p><p>1627 Expansions</p></td><td><p>45 steps</p><p>513 Expansions</p></td><td><p>19 steps</p><p>1723 Expansions</p></td><td><p>50 steps</p><p>263 Expansions</p></td><td><p>47 steps</p><p>4713 Expansions</p></td><td><p>50 steps</p><p>2659 Expansions</p></td><td><p>51 steps</p><p>4276 Expansions</p></td><td><p>53 steps</p><p>8848 Expansions</p></td><td><p>50 steps</p><p>4828 Expansions</p></td><td><p>58 steps</p><p>2900 Expansions</p></td><td><p>52 steps</p><p>2083 Expansions</p></td><td><p>55 steps</p><p>4314 Expansions</p></td><td><p>56 steps</p><p>1169 Expansions</p></td><td><p>70 steps</p><p>3957 Expansions</p></td><td><p>63 steps</p><p>619 Expansions</p></td><td><p>78 steps</p><p>3985 Expansions</p></td><td><p>72 steps</p><p>4416 Expansions</p></td><td><p>76 steps</p><p>3868 Expansions</p></td><td><p>64 steps</p><p>2536 Expansions</p></td><td><p>66 steps</p><p>1951 Expansions</p></td><td><p>78 steps</p><p>3905 Expansions</p></td><td><p>83 steps</p><p>3900 Expansions</p></td><td><p>82 steps</p><p>2971 Expansions</p></td></tr>
+											</table>
+
+										
+
+
+
+                                    
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#readings">Readings</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+													<ul>
+														<li><a href = "../../Assignments/HW2_RushHour/competition.html">Competition Results</a> </li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_WhatIsAI">Week 1: What Is AI?</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_COVID">Week 1: Monte Carlo COVID Simulation</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_COVID/solution.html">Solution</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Week 5: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Exercise / Theory of Bayesian Classifiers</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#exercise">Text Classification Exercise</a></li>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#theory">Naive Bayes Theory</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module3/Exercise0">Week 5: Bayes Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_GradSchoolAdmissions">Week 6: Gaussian Naive Bayes And Grad School Admissions</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->
