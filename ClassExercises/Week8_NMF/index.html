@@ -41,115 +41,109 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 6: Grad School Admissions And Gaussian Naive Bayes</h2>
+                                        <h2>Week 8: Nonnegative Matrix Factorization</h2>
                                         <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
-                                        <p>
-											The purpose of this exercise is to get you familiar with real-valued features and Gaussian Naive Bayes for modeling them.  We'll use a <a href = "https://www.kaggle.com/mohansacharya/graduate-admissions/version/2">graduate school admissions dataset from Kaggle</a> as an example.  Below is some code to load in this data
+
+										<p>
+											The goal of nonnegative matrix factorization is to approximate a matrix 𝑉 as the product of two other matrices 𝑊 and 𝐻; that is to get as close as possible to the matrix equation 𝑉 =  𝑊𝐻 being true.  As we will see, this will be a useful unsupervised technique for learning components that make our data.  The question itself, though, should already seem a little weird, because even if 𝑊, 𝐻, and 𝑉 are 1x1 matrices (i.e. ordinary nonnegative numbers), there can be infinitely many solutions.  For instance, if I ask you how you could multiply two numbers together to get the number 12, you could do the following:
+											<ul>
+												<li>1 x 12 = 12</li>
+												<li>2 x 6 = 12</li>
+												<li>3 x 4 = 12</li>
+												<li>2.4 x 5 = 12</li>
+												<li>...</li>
+
+											</ul>
+											
+											
+										<p>
+											But surprisingly, when we do this with matrices, sometimes just finding one factorization will be quite useful.  Crucially, though, we assume that all of the entries of 𝑊, 𝐻, and 𝑉 are <b>nonnegative</b>, which ends up allowing us to devise some simple <a href = "https://papers.nips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf">iterative algorithms to solve this numerically in practice</a>.  There is some great theory in the above paper to show that these algorithms converge and are related to something else we'll be talking about: gradient descent.  There is also other theory that characterizes probability distributions over the entries of the matrices we expect to get based on the different algorithms we choose (<a href = "https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.7402&rep=rep1&type=pdf">click here</a> to see a paper about this).  This is how we can characterize the solutions that we're more likely to get over a possibly infinite set of solutions.
+										</p>
+										<p>
+											The goal of today's exercise is to go through these algorithms in numpy.  We'll start with some synthetic examples, but this will set the stage for some interesting applications.  Even with the nonnegative constraint, we have plenty of applications.  For instance, 𝑉 could represent a data matrix of 2D images as in the <a href = "../Week7_PCA/UnsupervisedDigits.html">collection of MNIST digits</a>.  Or 𝑉 could represent something called a "spectrogram" of an audio signal.  You'll explore these two applications in the next homework.
+										</p>
+										
+										<HR>
+										<h3>Formulation 1: Euclidean NMF</h3>
+										<p>
+											We seek a  𝑊  and an  𝐻  so that we minimize the <b>loss function</b> (or what you may have called the "objective" function in Math 111)
+										</p>
+
+
+										<div style="width:250px;">
+										
+											<h3> \[ L(W, H) = \sum_{i, j} (WH[i, j] - V[i, j])^2 \]</h3>
+										</div>
+
+										<ol>
+											<li>
+												First, randomly initialize  𝑊  and  𝐻  with nonnegative numbers
+											</li>
+											<li>
+												If  𝑉  is a  𝑀𝑥𝑁  matrix, and we choose a number  𝐾  which is the "rank" of our approximate factorization
+												<ul>
+													<li>𝑊  is a  𝑀𝑥𝐾  matrix</li>
+													<li>𝐻  is a  𝐾𝑥𝑁  matrix</li>
+													<li>𝑊<SUP>𝑇</SUP>  is called the "transpose" of  𝑊 ;it's simply switching the rows for the columns. It is a  𝐾𝑥𝑀  matrix</li>
+													<li>𝐻<SUP>𝑇</SUP>  would be a  𝑁𝑥𝐾</li>
+													
+												</ul>
+											</li>
+										</ol>
+
+										
+
+										
+
+
+										<p>
+											To solve this, you'll follow the <b>multiplicative update rules</b> below in sequence; that is, swap back and forth between the first step and the second step in a loop.
+										</p>
+										<div style="width:300px;">
+											<uo>
+												<li>
+													<h3>
+														\[ H[i, j] = H[i, j] \frac{ (W^TV)[i, j] }{(W^TWH)[i, j]} \]
+													</h3>
+												</li>
+												<li>
+													<h3>
+														\[ W[i, j] = W[i, j] \frac{ (VH^T)[i, j] }{(WHH^T)[i, j]} \]
+													</h3>
+												</li>
+											</ol>
+										</div>
+											
+										<p>
+											The <a href = "https://papers.nips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf">original paper</a> that presented this algorithm proved that the loss function only decreases at every iteration.
 										</p>
 
 										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											import pandas as pd
 											import numpy as np
-											# Load in data
-											data = pd.read_csv("Admission_Predict.csv")
-											XAll = data[["GRE Score", "TOEFL Score", "University Rating", "SOP", "LOR ", "CGPA"]]
-											XAll = XAll.to_numpy()
-											y = data["Chance of Admit "].to_numpy().flatten()
-
-											# Split the data roughly in half based on admission chance
-											thresh = 0.728
-											admit = XAll[y > thresh, :]
-											notadmit = XAll[y <= thresh, :]
+											M = 100
+											N = 1000
+											K = 10
+											np.random.seed(0) # For repeatable results
+											V = np.random.rand(M, N)
+											# Initialize two random matrices to start with
+											W = np.random.rand(M, K)
+											H = np.random.rand(K, N)
 										</script>  
 
+										
+										<b>Your Task:</b>
 										<p>
-											The data is in a 2D numpy arrays <code>admit</code> and <code>notadmit</code>, where each row holds a different student and each column holds a feature for that student (GRE Score, TOEFL score, Univeristy Rating, Statement of Purpose, Letter of Recommendation, Cumulative GPA).
-										</p>
-
-										<p>
-											Your job will be to do a <b>leave one out classification</b>; that is, loop through and pull out each of the examples in <code>admit</code> and <code>notadmit</code>, train Naive bayes classifiers on the remaining data for both the admit class and the nonadmit class, and see which model has a higher likelihood for the student you pulled out.  Count how often you are correct based on the group you pulled out the student from.
-										</p>
-
-										<h3>Ethics Question</h3>
-										<p>
-											As you're doing this exercise, reflect on where this type of classification problem could come up, and what the ethical issues of automating it could be.
-										</p>
-
-										<h3>Gaussian Naive Bayes</h3>
-										<p>
-											Recall that for real-valued data, we can't use the same technique as we did for <a href = "../Week5_BagOfWords/">bag of words</a>.  Instead, we switch to a <i>continuous</i> distribution: the Gaussian
-										</p>
-
-										<h3>
-											\[ p(x) = \frac{1}{\sqrt{2 \pi} \sigma} e^{-(x-\mu)^2 / (2 \sigma^2)} \]
-										</h3>
-
-										<p>
-											There are two parameters here: the mean &lambda; and the standard deviation &sigma;.  Let's plot a few distributions fixing &mu; at 0 and varying &sigma;
-										</p>
-
-										<img src = "GaussExamples.svg" width=400>
-
-										<p>
-											As you can see, a larger standard deviation means that the distribution is wider.
-										</p>
-
-										<p>
-											Interestingly, the Gaussian is a realistic model for a lot of real data because of the <a href = "https://en.wikipedia.org/wiki/Central_limit_theorem">central limit theorem</a>.  If we simply make &mu; be the sample mean 
-										</p>
-
-										<h3>
-											\[ \overline{X} = \frac{1}{N}\sum_{i = 1}^N x_i \]
-										</h3>
-
-										<p>
-											and the standard deviation be the sample standard deviation
-										</p>
-
-										<h3>
-											\[ \overline{\sigma} = \sqrt{\frac{1}{N}\sum_{i = 1}^N (x_i - \overline{X})^2} \]
-										</h3>
-
-										<p>
-											Then we get a pretty good fit on the data above.  The pictures below show the histogram of not admitted (blue) versus admitted (orange), and the fit of the Gaussians superimposed over them.  What we see is while there is overlap between both distributions, the Gaussians are shifted to the left in the non admit distribution for every variable, which reflects the notion we have that doing better at any of these variables increases chances of being admitted.
-										</p>
-
-										<p>
-											<img src = "Histograms.svg" width = 800>
-										</p>
-
-										<p>
-											In the Naive Bayes framework, if you treat every variable as being independent (which they certainly are not in the above data!), then we simply multiply together a bunch of Gaussians
-										</p>
-
-										<h3>
-											\[ p(x | C) = \frac{1}{\sqrt{2 \pi} \sigma_1} e^{-(x_1-\mu_1)^2 / (2 \sigma_1^2)} \times \frac{1}{\sqrt{2 \pi} \sigma_2} e^{-(x_2-\mu_2)^2 / (2 \sigma_2^2)} \times ... \]
-										</h3>
-
-										<p>
-											If we take the log of this, we get a pretty nice expression
-										</p>
-
-										<h3>
-											\[ \log p(x | C) = \log \frac{1}{\sqrt{2 \pi} \sigma_1} -(x_1-\mu_1)^2 / (2 \sigma_1^2) + \log \frac{1}{\sqrt{2 \pi} \sigma_2}  - (x_2-\mu_2)^2 / (2 \sigma_2^2) + ...\]
-										</h3>
-
-										<p>
-											Here, we can see clearly that the further a variable gets away from the mean of the Gaussian, the more negative the log likelihood will become.
-										</p>
-
-										<h3>Histogram-Based Naive Bayes</h3>
-										<p>
-											If you finished early and are looking for things to do, you can try the same problem using histograms to represent discrete outcomes instead of fitting Gaussians.
-										</p>
-
-
-
 											
+											Implement the above rules in a loop to solve for 𝑊 and 𝐻.  Keep track of the loss function at every iteration.  When you plot it at the end, you should see that the loss is going down.  <i>How does K affect the error of what the algorithm converges to?</i>
+										</p>
 
+										<b>Your Next Task:</b>
+										<p>
+											Go back and load in all of the digits.  Make the matrix <b>V</b> be the transpose of the <b>1-X</b> for the data matrix, so that each column holds a unique digit and the digits are drawn in white on a black background instead of vice versa.  Perform NMF on this matrix, and plot the columns of <b>W</b> as reshaped images.  What do they look like?  How do they change if you vary <b>K</b>?  What if <b>K = 10</b>?
+										</p>
 
 
 
