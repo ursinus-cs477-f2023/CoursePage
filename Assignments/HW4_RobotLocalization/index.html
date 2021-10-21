@@ -232,11 +232,11 @@
 										</p>
 
 										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											N = len(state_scans)
+											K = len(state_scans)
 											# Compute the measurement probability of the scan at each location
-											meas_probs = np.zeros(N)
+											meas_probs = np.zeros(K)
 											idx = 55
-											for i in range(N):
+											for i in range(K):
 												meas_probs[i] = get_measurement_prob(observed_scans[idx], state_scans[i], alpha)
 											# Plot the measurement probabilities on the map
 											env.plot_probabilities(meas_probs, p=1e-2, show_max=False)
@@ -264,7 +264,7 @@
 												<li>The robot is equally likely to transition to any of its neighbors (which, as you recall, you can look up in <code>env.neighbors</code>)</li>
 												<li>The robot is equally likely to start at any position on the grid.  This implies that the initial probabilities for each state are <b>1/K</b>, where <b>K</b> is the number of states.</li>
 											</ul>
-											<b>Your Task: </b>Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayespseudocode">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Also, when summing up the transition probabilities from previous states, <b>only consider states which are neighbors of the state you're transitioning to</b>.  Otherwise, the program will have <b>O(TK<SUP>2</SUP>)</b> complexity instead of <b>O(TK)</b> complexity.  
+											<b>Your Task: </b>Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayespseudocode">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Also, when summing up the transition probabilities from previous states, <b>only consider states which are neighbors of the state you're transitioning to</b>.  Otherwise, the program will have <b>O(TK<SUP>2</SUP>)</b> complexity instead of <b>O(TK)</b> complexity, and your code will go <b>very slowly</b>.  
 										</p>
 										<p>
 											To look at the results, it's helpful to plot the probabilities as you're filtering over time.  Matplotlib has some good <a href = "https://matplotlib.org/stable/api/_as_gen/matplotlib.animation.ArtistAnimation.html">built in tools to help with this</a>.  Assuming that you have a list or numpy array called <code>probs</code> that holds the filtered probabilities of each cell at time <code>n</code>, here's how you would make a video of your filtering results
@@ -273,7 +273,7 @@
 										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
 											frames = [] # for storing the generated images
 											fig = plt.figure(figsize=(6, 6))
-											N = env.X.shape[0] # Number of states
+											K = len(state_scans) # Number of states
 											probs = np.zeros(N)
 											## TODO: Setup initial probabilities, etc
 											for i in range(X.shape[0]): # Filter every measurement that comes in
@@ -286,7 +286,15 @@
 										</script> 
 
 										<p>
-											If you've done this properly, here's what you should see on the trajectory example we've been looking at with <b>&alpha;=4</b> (the actual position is shown as a blue dot, while the maximum probability is shown as a <span style="color:green">X</span>)
+											<b><a name = "gifsave">NOTE: </a></b> You may get an error about ffmpeg if you try to run the last line in the above code.  If this is the case, you can instead save the animation to a gif in the same file that you're notebook is being run using the line 
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											ani.save("result.gif")
+											</script> 
+										</p>
+
+										<p>
+											Regardless of how you generate the animation, if you've implemented filtering properly, here's what you should see on the trajectory example we've been looking at with <b>&alpha;=4</b> (the actual position is shown as a blue dot, while the maximum probability is shown as a <span style="color:green">X</span>)
 										</p>
 
 										<img src = "Maze1_Tracking.gif">
