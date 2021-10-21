@@ -274,9 +274,10 @@
 											frames = [] # for storing the generated images
 											fig = plt.figure(figsize=(6, 6))
 											K = len(state_scans) # Number of states
-											probs = np.zeros(N)
+											T = X.shape[0] # Number of timesteps
+											probs = np.zeros(K)
 											## TODO: Setup initial probabilities, etc
-											for i in range(X.shape[0]): # Filter every measurement that comes in
+											for i in range(T): # Filter every measurement that comes in
 												## TODO: Bayes filtering for this frame index
 												plot = env.plot_probabilities(probs, p=1e-2)
 												plot.append(plt.scatter([X[i, 0]], [X[i, 1]], c='C0'))
@@ -313,11 +314,12 @@
 											X = env.simulate_trajectory([[10, 45], [120, 45], [126, 100]])
 											alpha = 4
 											np.random.seed(0)
-											observed_scans = [env.get_range_scan(X[i, :], res, alpha) for i in range(X.shape[0])]
-											N = len(env.X)
+											observed_scans = []
+											for i in range(X.shape[0]):
+												observed_scans.append(env.get_range_scan(X[i, :], res, alpha))
 											# These scans will take a second to generate on this map, so 
 											# be sure to just run this cell once at the beginning
-											state_scans = [env.get_range_scan(env.X[i], res, alpha=0) for i in range(N)] 
+											state_scans = env.get_state_scans(res)
 											## TODO: Make a new filtering model and try it out
 										</script>
 
