@@ -129,16 +129,32 @@
 									</p>
 
 									<h2><a name = "bayesfilter">Bayes Filtering</a></h2>
-									<p>
-										<b>NOTE: </b> In the discussion below, <b>argmax<SUB>j</SUB>(arr)</b> means to find the index <b>j</b> in the array <b>arr</b> that maximizes <b>arr[j]</b>.  For instance, if we were 0-indexing an array, <b>argmax<SUB>j</SUB> [5, 8, -4, 3]</b> would be 2
-									</p>
+									
 
 									<p>
 										Now that we have the HMM framework, let's start trying to do some inference on it given some measurements over time.  The first problem we'll solve is known as <b>filtering</b>, and its goal is to estimate over time a probability distribution over all of the hidden states.  As more measurements come in, we update the distribution.  We can estimate where we think we are as the state which has the maximum probability given the measurements up to a particular point in time.  Because we update as things are streaming in, this is referred to as an <b>online method</b>.
 									</p>
 
 									<p>
-										Let's put on some formal notation and define exactly what it is we're looking for.  Given the first <b>n</b> measurements, we want to figure out the probability that the hidden state <b>x<SUB>n</SUB></b> is a particular state <b>k</b> at time <b>n</b>.  
+										Before we dive into a formal specification of this process, let's sketch out an example for intuition.  Let's suppose we have a robot on a grid as in <a href = "../../Assignments/HW4_RobotLocalization/">assignment 4</a> that can move left/right/up/down or stay still at any time.  Let's also suppose that we know with perfect certainty that it starts at the center of a square map.  Below is how we would forecast the probability of being in future positions on that map if we knew nothing else, assuming that we're equally likely to stay still or move left/right/up/down:
+									</p>
+
+									<img src = "BayesMarkovOnly.gif">
+
+
+
+									<p>
+										Since we're equally likely to stay still or move left/right/up/down, we have to hedge our bets in all directions at each step.  The result is that the once very certain probability "smears out" and distributes in all directions.  This is pure Markov, and is referred to as the <b>state transition step</b> for the hidden states.  However, we have also have measurements at each timestep that help us to narrow down the possible states.  Let's suppose we were receiving noisy measurements that indicated that the robot was moving to the right.  Then we could do a two step process at each timestep where we diffuse the probability in the state transitions, but then we update our forecast based on measurement.  Here's how that might look in this example:
+									</p>
+
+									<img src = "BayesFullFilter.gif">
+
+									<p>
+										Notice how the probability density still diffuses at each transition, but the measurement helps it to sharpen around the true location.  This is the power of Bayes filtering in the HMM framework: it takes into consideration both <b>transitions</b> of the hidden states, as well as <b>measurement probabilities</b> to help narrow down the states.
+									</p>
+
+									<p>
+										Now let's put on some formal notation and define exactly what it is we're looking for.  Given the first <b>n</b> measurements, we want to figure out the probability that the hidden state <b>x<SUB>n</SUB></b> is a particular state <b>k</b> at time <b>n</b>.  
 									</p>
 
 									<h3>
@@ -262,6 +278,10 @@
 									<p></p>
 
 									<h2><a name = "viterbi">The Viterbi Algorithm: Maximizing Joint Posterior Likelihood</a></h2>
+									<p>
+										<b>NOTE: </b> In the discussion below, <b>argmax<SUB>j</SUB>(arr)</b> means to find the index <b>j</b> in the array <b>arr</b> that maximizes <b>arr[j]</b>.  For instance, if we were 0-indexing an array, <b>argmax<SUB>j</SUB> [5, 8, -4, 3]</b> would be 2
+									</p>
+
 									<p>
 										We can also use the <a href = "../Week5_BagOfWords/#theory">Bayesian classification framework</a> to figure out the <b>joint likelihood over all of the hidden states given the observations</b> given the observations.  This will help us to avoid making mistakes in individual steps since all of the steps have to be coherent across the entire sequence.  This is the reason that speech to text works really well even when peoples' speech is noisy and garbled.  Since we have to have the entire sequence of measurements ahead of time, though, this is referred to as an <b>offline method</b>.
 										
