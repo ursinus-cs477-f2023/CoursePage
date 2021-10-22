@@ -31,3 +31,6 @@
 [submodule "ClassExercises/Week7_DigitsNN"]
 	path = ClassExercises/Week7_DigitsNN
 	url = https://github.com/Ursinus-CS477-F2021/Week7_DigitsNN.git
+[submodule "ClassExercises/Week8_NMF/NMFBuildAFace"]
+	path = ClassExercises/Week8_NMF/NMFBuildAFace
+	url = https://github.com/Ursinus-CS477-F2021/NMFBuildAFace.git

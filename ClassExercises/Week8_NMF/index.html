@@ -46,9 +46,24 @@
 									</header>
 
 									<div id="page-content">
+										<h3>Building Up Data from Primitive Components</h3>
+										<p>
+											We saw with the <a href = "../Week7_PCA/">PCA examples</a> that it's possible to decompose data into different components that sum up to make a more complex whole.  This is sometimes referred to as <a href = "https://team.inria.fr/panama/projects/please/dictionary-learning/">dictionary learning</a>.  We'll now consider a different way of learning such a dictionary.  But first, we need to get more comfortable with matrix multiplication.  
+										</p>
 
 										<p>
-											The goal of nonnegative matrix factorization is to approximate a matrix 𝑉 as the product of two other matrices 𝑊 and 𝐻; that is to get as close as possible to the matrix equation 𝑉 =  𝑊𝐻 being true.  As we will see, this will be a useful unsupervised technique for learning components that make our data.  The question itself, though, should already seem a little weird, because even if 𝑊, 𝐻, and 𝑉 are 1x1 matrices (i.e. ordinary nonnegative numbers), there can be infinitely many solutions.  For instance, if I ask you how you could multiply two numbers together to get the number 12, you could do the following:
+											<a href = "https://github.com/Ursinus-CS477-F2021/NMFBuildAFace/archive/refs/heads/main.zip">Click here</a> to download an image processing example to warm us up.  In this example, we have the following primitive 9 primitive 500x500 images, which we flatten and stack up into a <b>250,000 x 9</b> matrix <b>W</b>
+										</p>
+
+										<img src = "FaceColumns.png">
+
+										<p>
+											Your challenge is to find a 9-element column matrix that, when multiplied on the left by <b>W</b>, gives a smiling, winking man with a handlebar moustache.
+										</p>
+
+										<h3>Nonnegative Matrix Factorization Theory</h3>
+										<p>
+											The goal of nonnegative matrix factorization is to approximate a matrix 𝑉 as the product of two other matrices 𝑊 and 𝐻; that is to get as close as possible to the matrix equation 𝑉 =  𝑊𝐻 being true.  Solving this problem will allow us to <b>learn</b> the kinds of templates we saw above in data.  The question itself, though, should already seem a little weird, because even if 𝑊, 𝐻, and 𝑉 are 1x1 matrices (i.e. ordinary nonnegative numbers), there can be infinitely many solutions.  For instance, if I ask you how you could multiply two numbers together to get the number 12, you could do the following:
 											<ul>
 												<li>1 x 12 = 12</li>
 												<li>2 x 6 = 12</li>
@@ -67,7 +82,7 @@
 										</p>
 										
 										<HR>
-										<h3>Formulation 1: Euclidean NMF</h3>
+										<h4>Formulation 1: Euclidean NMF</h4>
 										<p>
 											We seek a  𝑊  and an  𝐻  so that we minimize the <b>loss function</b> (or what you may have called the "objective" function in Math 111)
 										</p>
