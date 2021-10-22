@@ -144,7 +144,7 @@
 
 
 									<p>
-										Since we're equally likely to stay still or move left/right/up/down, we have to hedge our bets in all directions at each step.  The result is that the once very certain probability "smears out" and distributes in all directions.  This is pure Markov, and is referred to as the <b>state transition step</b> for the hidden states.  However, we have also have measurements at each timestep that help us to narrow down the possible states.  Let's suppose we were receiving noisy measurements that indicated that the robot was moving to the right.  Then we could do a two step process at each timestep where we diffuse the probability in the state transitions, but then we update our forecast based on measurement.  Here's how that might look in this example:
+										Since we're equally likely to stay still or move left/right/up/down, we have to hedge our bets in all directions at each step.  The result is that the once very certain probability "smears out" and distributes in all directions.  This is pure Markov, and is referred to as the <b>state transition step</b> for the hidden states.  However, we have also have measurements at each timestep that help us to narrow down the possible states.  Let's suppose we receive noisy measurements that indicate that the robot is moving to the right.  Then we can do a two step process at each timestep where we diffuse the probability in the state transitions, but then we update our forecast based on measurement.  Here's how that might look in this example:
 									</p>
 
 									<img src = "BayesFullFilter.gif">
