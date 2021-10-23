@@ -336,6 +336,33 @@
 										</p>
 
 										<p>
+											<a name = "logmeasnote">NOTE: </a>
+											If you use the same measurement probability function as you did in the last section and then you take the log, you might suffer from underflow and get complaints about taking the log of 0.  Instead, you should create a different version of your measurement function where you use a different analytical expression to compute the log probability directly.  You can use the following three facts about logs:
+											<div style="width:100px;">
+												<ul>
+													<li>
+														\[ \log(AB) = \log(A) + \log(B) \]
+													</li>
+													<li>
+														\[ \log \left( \frac{1}{x} \right) = -\log(x) \]
+													</li>
+													<li>
+														\[ e^{\log(x)} = x \]
+													</li>
+												</ul> 
+											</div>
+
+											Taken together, this means that
+										</p>
+
+										<div style="width:300px;">
+											<h3>
+												\[ \log \left(  \left( \frac{1}{\sqrt{2 \pi }(\alpha r_i + \gamma)} \right) e^{ -\frac{(x_i-r_i)^2}{2(\alpha r_i + \gamma)^2}} \right) = -\log \left( \sqrt{2 \pi }(\alpha r_i + \gamma) \right) -\frac{(x_i-r_i)^2}{2(\alpha r_i + \gamma)^2} \]
+											</h3>
+										</div>
+										
+
+										<p>
 											Let's say your Viterbi code outputs a list of state indices called <code>states</code>.  Then the following code will extract and plot the coordinates of the trajectory you estimated on top of the "ground truth" (correct) trajectory
 										</p>
 

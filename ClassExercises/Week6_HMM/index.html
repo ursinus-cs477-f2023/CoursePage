@@ -371,17 +371,26 @@
 											Initialize a <b>T x K</b> 2D array <b>L</b> and a <b>T x K</b> 2D array <b>B</b>
 										</li>
 										<li>
-											Let 
-											<div style="width:200px;">
-											\[ L_{1, k} = \log(p(x_1 = k)) + \log(p(y_1 | x_1 = k)) \]
-											</div>
-											That is, we start off with the prior probabilities in each state, also integrating in the measurement probabilities at the first timestep.
-
+											For each state <b>k = 1</b> to <b>K</b>
+											<ul>
+										<li>											Let 
+												<div style="width:200px;">
+												\[ L_{1, k} = \log(p(x_1 = k)) + \log(p(y_1 | x_1 = k)) \]
+												</div>
+												That is, we start off with the prior probabilities in each state, also integrating in the measurement probabilities at the first timestep.
+										</li>
+										<li>
+											Let
 											<div style="width:70px;">
 												\[ B_{1, k} = -1 \]
 											</div>
 											We'll use this array <b>B</b> to remember transitions from state to state
 											<p></p>
+										</li>
+										</ul>
+
+
+
 										</li>
 										<li>
 											for each <b>n = 2</b> to <b>T</b>

@@ -103,13 +103,13 @@ Nonnegative Matrix Factorization
 
 <ul><li><a href = "Week8_NMF">Class Notes</a></li><li><a href = "https://papers.nips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf">Lee/Seung Paper on NMF Algorithms</a></li><li><a href = "https://ursinus-cs472a-s2021.github.io/CoursePage/Assignments/HW6_LetItBee/statements.html">Let It Bee</a></li></ul>
 LECTURE
+
+
+<ul><li>Class Exercise: Academic Subject Similarities</li><li><a href = "https://github.com/ctralie/DREiMac">DREiMac</a></li></ul>
+LECTURE
 Ethics: <i>Race After Technology</i>
 
 
-LECTURE
-Dimension Reduction: Survey of MDS / UMap
-
-<ul><li>Class Exercise: Academic Subject Similarities</li><li><a href = "https://github.com/ctralie/DREiMac">DREiMac</a></li></ul>
 LECTURE
 K-Means Clustering
 
