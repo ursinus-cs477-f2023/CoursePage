@@ -279,7 +279,7 @@
 
 									<h2><a name = "viterbi">The Viterbi Algorithm: Maximizing Joint Posterior Likelihood</a></h2>
 									<p>
-										<b>NOTE: </b> In the discussion below, <b>argmax<SUB>j</SUB>(arr)</b> means to find the index <b>j</b> in the array <b>arr</b> that maximizes <b>arr[j]</b>.  For instance, if we were 0-indexing an array, <b>argmax<SUB>j</SUB> [5, 8, -4, 3]</b> would be 2
+										<b>NOTE: </b> In the discussion below, <b>argmax<SUB>j</SUB>(arr)</b> means to find the index <b>j</b> in the array <b>arr</b> that maximizes <b>arr[j]</b>.  For instance, if we were 0-indexing an array, <b>argmax<SUB>j</SUB> [5, 8, -4, 3]</b> would be 1
 									</p>
 
 									<p>
@@ -398,28 +398,48 @@
 												<li>For each state <b>k = 1</b> to <b>K</b>
 													<ul>
 														<li>
-															Let <b>probs_from</b> be a new array of length <b>K</b>.  This will be an array that holds the probability of coming to state <b>k</b> at this timestep from all possible previous states <b>j</b>
+															Let <b>maxj = -1</b>.  This will store the index of previous state which maximizes the cumulative probability plus the next transition probability
+														</li>
+
+														<li>
+															Let <b>maxval = -infinity</b>.  This will store the maximum cumulative probability plus the next transition probability
 														</li>
 														<li>
-															For each state <b>j = 1</b> to <b>K</b>
-															<ul>
+															For each <b>j = 1 to K</b>						<ul>
 																<li>
 																	<div style="width:100px;">
-																		\[ \text{probs_from}[j] =   L_{n-1, j} + \log(p(x_n = k | x_{n-1} = j))  \]
-																	</div>
-																	In other words, the probability of coming from <b>j</b> at the last step to <b>k</b> in this step, without knowledge of a new measurement, is the probability of being at <b>j</b> in the last step, plus the transition probability from state <b>j</b> to state <b>k</b>.
+																		\[ val = L_{n-1, j} + \log(p(x_n = k | x_{n-1} = j))  \]
+
+								
+																	</div>										<p>
+																			In other words, the probability of coming from <b>j</b> at the last step to <b>k</b> in this step, without knowledge of a new measurement, is the log probability of being at <b>j</b> in the last step, plus the log transition probability from state <b>j</b> to state <b>k</b>.
+																		</p>
+								
+												
+																</li>
+																<li>
+
+																	If val > maxval:  (We just found a more probable transition than the best we've found so far)
+																	<ul>
+																		<li>
+																			maxval = val
+																		</li>
+																		<li>
+																			maxj = j
+																		</li>
+																	</ul>
 																</li>
 															</ul>
 														</li>
 														<li>
 															<div style="width:100px;">
-																\[ L_{n, k} =  \log(p(y_n | x_n = k)) + \max(\text{probs_from}) \]
+																\[ L_{n, k} =  \log(p(y_n | x_n = k)) + \text{maxval} \]
 															</div>
 															In other words, once we have looked over all possible transitions, we pick the one with the highest probability, and we also integrate the new measurement at this step
 														</li>
 														<li>
 															<div style="width:100px;">
-																\[ B_{n, k} =  \text{argmax}_j(\text{probs_from}) \]
+																\[ B_{n, k} =  \text{maxj} \]
 															</div>
 															In other words, we remember which <b>j</b> gave us the highest probability.  We'll use this later when backtracing to reconstruct a full path from start to finish.
 														</li>
