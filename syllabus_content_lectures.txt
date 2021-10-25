@@ -103,15 +103,15 @@ Nonnegative Matrix Factorization
 
 <ul><li><a href = "Week8_NMF">Class Notes</a></li><li><a href = "https://papers.nips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf">Lee/Seung Paper on NMF Algorithms</a></li><li><a href = "https://ursinus-cs472a-s2021.github.io/CoursePage/Assignments/HW6_LetItBee/statements.html">Let It Bee</a></li></ul>
 LECTURE
+Finish NMF, Begin K-Means Clustering
 
-
-<ul><li>Class Exercise: Academic Subject Similarities</li><li><a href = "https://github.com/ctralie/DREiMac">DREiMac</a></li></ul>
+<ul><li><a href = "Week9_KMeans3DShapes">KMeans Clustering Notes</a></li></ul>
 LECTURE
-Ethics: <i>Race After Technology</i>
+Clustering 3D Shapes
 
-
+<ul><li><a href = "Week9_KMeans3DShapes/index.html#shapes3d">3D Shape Exercise</a></li></ul>
 LECTURE
-K-Means Clustering
+Ethics: <i>Race After Technology</i>: Default Discrimination And Coded Exposure
 
 
 LECTURE
@@ -127,7 +127,27 @@ Logistic Regression
 
 <ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
 SECTION
-Unit 4: Deep Learning
+Unit 4: Reinforcement Learning
+
+
+LECTURE
+The Multi-Armed Bandit
+
+<ul><li><a href = "https://towardsdatascience.com/multi-armed-bandits-and-reinforcement-learning-dc9001dcb8da">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
+LECTURE
+Reinforcement Learning, Bellman Equations
+
+Class Exercise: Cat + Mouse
+LECTURE
+Reinforcement Learning, Bellman Equations
+
+<ul><li>Link to deep reinforcement, Mario Playing</li></ul>
+LECTURE
+Ethics: <i>Race After Technology</i>: Coded Exposure And Technological Benevolence
+
+
+SECTION
+Unit 5: Deep Learning
 
 
 LECTURE
@@ -159,30 +179,10 @@ Long Short Term Memory
 
 <ul><li><a href = "https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21">An illustrated guide to LSTMs and GRUs</a></li></ul>
 LECTURE
-Ethics: <i>Race After Technology</i>
+Ethics: <i>Race After Technology</i>: Retooling Solidarity, Re-Imagining Justice
 
 
 LECTURE
 Autoencoders
-
-
-SECTION
-Unit 5: Reinforcement Learning, Game Playing
-
-
-LECTURE
-The Multi-Armed Bandit
-
-<ul><li><a href = "https://towardsdatascience.com/multi-armed-bandits-and-reinforcement-learning-dc9001dcb8da">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
-LECTURE
-Reinforcement Learning, Bellman Equations
-
-Class Exercise: Cat + Mouse
-LECTURE
-Reinforcement Learning, Bellman Equations
-
-<ul><li>Link to deep reinforcement, Mario Playing</li></ul>
-LECTURE
-Ethics: <i>Race After Technology</i>
 
 

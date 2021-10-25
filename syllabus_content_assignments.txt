@@ -46,24 +46,30 @@ Assignment 3 Due
 Assignment 4 Due
 
 2021-10-25
-<HR>Assignment 5: Unsupervised Learning in Images & Music Out
+<HR>Assignment 5a: KMeans Digital Cartoons Out
 
 2021-10-25
-Assignment 5 Due
+Assignment 5a Due
 
-2021-11-05
+2021-11-01
+<HR>Assignment 5b: Component Analysis in Digital Images And Music Out
+
+2021-11-01
+Assignment 5b Due
+
+2021-11-10
 <HR>Assignment 6: Gradient Descent And Logistic Regression Out
 
-2021-11-05
+2021-11-10
 Polynomial Regression / Overfitting Module Due
 
-2021-11-08
+2021-11-17
 Assignment 6 Due
 
-2021-11-19
-<HR>Assignment 7: Face Generation Out
+2021-11-21
+Assignment 7: Face Generation Out
 
-2021-11-19
+2021-11-29
 Assignment 7 Due
 
 2021-12-10

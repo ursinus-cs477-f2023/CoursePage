@@ -41,24 +41,88 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 1: AI Jamboards</h2>
+                                        <h2>Week 9: K-Means Clustering</h2>
+                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
-                                        <p>
-                                            Here's what you all wrote in class
-                                        </p>
 
-                                        <img src = "1.png" width=800>
-
-                                        <p></p>
+										<p>
+											We're now going to consider another unsupervised algorithm that has a model of geometric structure in our data, namely a "cluster."  To get at it, let's generate and plot the following 2D dataset in matplotlib:
+										</p>
 
 
-                                        <img src = "2.png" width=800>
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											import numpy as np
+											import matplotlib.pyplot as plt
+											from scipy.spatial import KDTree # We'll use this later
+											
+											np.random.seed(0)
+											N = 150
+											X = np.random.randn(N, 2)
+											X[0:50] += np.array([8, 0])
+											X[100::] += np.array([4, 4])
 
-                                        <p></p>
+											plt.scatter(X[:, 0], X[:, 1])
+											plt.axis("equal")
+										</script>  
 
-                                        <img src = "3.png" width=800>
+
+
+										<img src = "Cluster.svg">
+
+										<p>
+											It looks like there are three distinct groups, or "clusters" of points here.  As it turns out, making this notion precise is quit challenging, and there are many models for what constitutes a cluster.  But at this stage of the course, we'll consider a constructive model of a cluster by following a simple geometric algorithm known as <b>KMeans Clustering</b>.  The steps are as follows:
+										</p>
+										
+										<div style="background-color: blanchedalmond; padding:20px;">
+										<h3>Algorithm: KMeansClustering(X, K)</h3>
+										<p>
+											Where <b>X</b> is a set of <b>N</b> points in <b>d</b> Euclidean dimensions, which we're representing as a data matrix above, and <b>K &lt; N</b> is some a priori number of clusters that we think are in the data
+										</p>
+										<ol>
+											<li>Choose <b>K</b> random points in the dataset called <b>centers</b></li>
+											<li>
+												For each <b>x<SUB>i</SUB></b> &in; <b>X</b>, find the nearest center, according to some distance
+											</li>
+											<li>
+												Replace the coordinates each center with the mean of the points that were closest to that center.
+											</li>
+											<li>
+												Repeat steps 2 and 3 for some number of iterations
+											</li>
+										</ol>
+										</div>
+
+										<p>
+											Below is an animation showing successive applications of steps 2 and 3 on the above data, assuming that there are 3 clusteres
+										</p>
+
+										<img src = "ClusterProcess.gif">
+
+										<p>
+											At some point, we <b>converge</b>; that is, the assignment of points to cluster centers remains fixed, and so the updated cluster centers don't change.  It only takes 4 iterations for us to converge in the above example:
+										</p>
+										<img src = "ClusterResults.svg">
+
+										<p>
+											<b>Your task:</b> Implement KMeans clustering to find the clusters of the above point set.  What happens when you choose <b>K = 2</b> vs <b>K = 3</b> vs <b>K = 4</b>?
+										</p>
+
+										<HR>
+											<h3><a name = "shapes3d">Application: 3D Shape Clustering</a></h3>
+
+											<p>
+												We can apply the KMeans algorithm to find clusters of like objects in a dataset, even if we don't have labels on the data.
+											</p>
+
+											<p>
+												<b>Coming soon...</b>
+											</p>
+										
+
+										
+
 
 
 

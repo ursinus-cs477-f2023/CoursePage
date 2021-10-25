@@ -34,3 +34,6 @@
 [submodule "ClassExercises/Week8_NMF/NMFBuildAFace"]
 	path = ClassExercises/Week8_NMF/NMFBuildAFace
 	url = https://github.com/Ursinus-CS477-F2021/NMFBuildAFace.git
+[submodule "ClassExercises/Week9_KMeans3DShapes/Week9_KMeans3DShapes"]
+	path = ClassExercises/Week9_KMeans3DShapes/Week9_KMeans3DShapes
+	url = https://github.com/Ursinus-CS477-F2021/Week9_KMeans3DShapes.git
