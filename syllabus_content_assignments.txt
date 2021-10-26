@@ -46,9 +46,9 @@ Assignment 3 Due
 Assignment 4 Due
 
 2021-10-25
-<HR>Assignment 5a: KMeans Digital Cartoons Out
+<a href = "Assignments/HW5a_3DShapeCluster">Assignment 5a: 3D Shape Clustering</a> Out
 
-2021-10-25
+2021-10-26
 Assignment 5a Due
 
 2021-11-01

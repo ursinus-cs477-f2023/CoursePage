@@ -41,15 +41,28 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Homework 5a: 3D Shape Clustering</h2>
+                                        <h2>Homework 5a: 3D Shape Clustering (22 Points)</h2>
 										<h3>Chris Tralie</h3>
 									</header>
 									
 
 									<div id="page-content">
 
+                                        <p>
+                                            <h2><a name = "objectives">Learning Objectives</a></h2>
+                                            <ul>
+												<li>Practice "data wrangling," or loading in and organizing data in a way that's digestible in code</li>
+												<li>Implement an unsupervised learning technique to discover structure in data</li>
+												<li>
+													Implement KMeans clustering
+												</li>
+                                            </ul>
+										</p>
+
+										<h2><a name = "overview">Overview</a></h2>
+
 										<p>
-											The purpose of this assignment is to get you practice implementing <a href = "../../ClassExercises/Week9_KMeans3DShapes/">KMeans clustering</a> and loading in and organizing data.  Your task will be to cluster a collection of 40 3D shapes into 4 clusters.  The shapes are <b>guitar</b>, <b>fighter jet</b>, <b>sedan</b>, and <b>shelves</b>, and they are a subset of the <a href = "https://shape.cs.princeton.edu/benchmark/">Princeton shape benchmark</a>.  Each 3D shape is represented as a <a href = "https://www.cs.cornell.edu/courses/cs4620/2014fa/lectures/02trimesh1.pdf">triangle mesh</a>, or a bunch of triangle stitched together to approximate a surface.  Below is a table showing all of the meshes you'll be dealing with in this assignment
+											The purpose of this assignment is to get you practice implementing <a href = "../../ClassExercises/Week9_KMeans3DShapes/">KMeans clustering</a> and loading in and organizing data.  Your task will be to cluster a collection of 40 3D shapes into 4 clusters.  The shapes are <b>guitar</b>, <b>fighter jet</b>, <b>sedan</b>, and <b>shelves</b>, and they are a subset of the <a href = "https://shape.cs.princeton.edu/benchmark/">Princeton shape benchmark</a>.  Each 3D shape is represented as a <a href = "https://www.cs.cornell.edu/courses/cs4620/2014fa/lectures/02trimesh1.pdf">triangle mesh</a>, or a bunch of triangle stitched together to approximate a surface.  Below is a table showing all of the meshes you'll be dealing with in this assignment.  If you're curious, you can click on the name of the mesh to view it interactively in a 3D browser engine I made called <a href = "https://github.com/ctralie/ggslac">ggslac</a>.
 										</p>
 
 										<div id="meshtable"></div>
@@ -67,7 +80,7 @@
 													img.width = 80;
 													let label = document.createElement("a");
 													label.innerHTML = shapeClasses[i] + k;
-													label.href = "MeshViewer.html?meshfile=" + shapeClasses[i] + k;
+													label.href = "MeshViewer.html?meshfile=" + shapeClasses[i] + k + ".off";
 													let td = document.createElement("td");
 													td.appendChild(label);
 													td.appendChild(img);
@@ -78,20 +91,80 @@
 											elem.appendChild(table);
 										</script>
 
-                                        <p>
-                                            <h3><a name = "objectives">Learning Objectives</a></h3>
-                                            <ul>
-												<li>Practice "data wrangling," or loading in and organizing data in a way that's digestible in code</li>
-												<li>Implement an unsupervised learning technique to discover structure in data</li>
-												<li>
-													Implement KMeans clustering
-												</li>
-                                            </ul>
+										<p>
+											Of course, in the spirit of <b>unsupervised learning</b>, we'll pretend we don't actually know what they are, and we'll attempt to cluster them into 4 categories which will hopefully reflect the true groups that we know about.
 										</p>
 
-										<h3>Loading Data / Generating Features</h3>
+
+
+										<h3><a name = "loading">3D Shape Features</a></h3>
+
 										<p>
-											<a href = "https://github.com/Ursinus-CS477-F2021/HW5a_3DShapeCluster/archive/refs/heads/main.zip">Click here</a> to download the data and some 3D shape processing utilities I wrote in Python.
+											Somehow, we will have to design some <b>features</b> to summarize each shape.  We will be following a simple but robust classical paper in computer graphics that defines 3D shape features known as <b>shape distributions</b> (<a href = "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.478.8742&rep=rep1&type=pdf">Click here</a> to view the paper).  The idea is to create a histogram of the distance between a bunch of random pairs of points on the surface.  Each bin of the histogram becomes a dimension of the feature.  Below shows a 3D guitar (viewed using <a href = "https://github.com/nmwsharp/polyscope">polyscope</a>), as well as a bunch of points sampled randomly by area among the surface that can be compared in a histogram.
+										</p>
+
+
+										<img src = "PointSamplingAnimation.gif">
+
+										<p>
+											Below is a plot of the histograms of distances between points for all of the shapes in the collection.
+										</p>
+
+
+										<img src = "D2Collection.svg" width=700>
+
+										<p>
+											We can see that there are trends within each class.  Our goal will be to have our algorithm find these trends and cluster.
+										</p>
+
+
+										<h2><a name = "programming">Programming Tasks</a></h2>
+										<h3>Getting Started</h3>
+										<p>
+											<a href = "https://github.com/Ursinus-CS477-F2021/HW5a_3DShapeCluster/archive/refs/heads/main.zip">Click here</a> to download the data and some 3D shape processing utilities I wrote in Python.  When you're finished, submit your Jupyter notebook and answers to questions below, as well as an indication of who your buddy was if you had one.
+										</p>
+
+										<p>
+											Your task will be to implement KMeans clustering on these 3D shapes by using the D2 features.  There are <a href = "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wasserstein_distance.html">smarter ways</a> to compare histograms, but we'll just treat them as Euclidean vectors like we have with all of our other features so far.  So you can use the KMeans algorithm just as we did <a href = "../../ClassExercises/Week9_KMeans3DShapes/">in class</a>, except you'll be in 100 dimensions instead of 2.
+										</p>
+
+										<p>
+											Below is code that you can use to generate a D2 histogram on the "guitar0.off" mesh file, assuming you're writing in a Jupyter notebook at the root of the starter code directory.  We'll sample 10,000 points on each mesh and sample a million pairwise distances between them.  We'll summarize these pairwise distances in a histogram with 100 bins (NOTE: The shapes have been normalized so that they're all roughly the same size to make these features "scale invariant")
+										</p>
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											%load_ext autoreload
+											%autoreload 2
+											import numpy as np
+											import matplotlib.pyplot as plt
+											from trimesh import *
+
+											n_points = 10000
+											n_dists = 1000000
+											bins = 100
+
+											# Load in points and triangles of the mesh
+											(VPos, VColors, ITris) = load_off("shapes/guitar0.off")
+											# Sample a bunch of points evenly by area
+											(pts, normals) = sample_by_area(VPos, ITris, n_points)
+											# Compute the 100-dimensional histogram, which is the feature
+											# vector for this shape
+											h = get_d2_feature(pts, n_dists, bins)
+										</script>   
+										<p></p><p></p>
+
+										<h3><a name = "task1">Task 1: Load Data (5 Points)</a></h3>
+										<p>
+											Your first task is to load in and compute the histogram for all 40 shapes in the dataset, which are in the <code>shapes</code> folder.  You'll then keep these in memory and use them in clustering
+										</p>
+
+										<h3><a name = "task2">Task 2: KMeans Clustering (10 Points)</a></h3>
+										<p>
+											Implement KMeans clustering and run it on the data using 4 clusters.  Figure out a way to print out what shapes are in what clusters.  Run the algorithm several times.  <b>Question: </b> What happens when you run this multiple times with multiple different initializations?  Do the clusters make sense to you?
+										</p>
+
+										<h3><a name = "task3">Task 3: Multiple Runs for Robustness (7 Points)</a></h3>
+										<p>
+											One common trick to make KMeans more robust is to run it a bunch of times with different random initial points, and to keep the result which minimizes the sum of all distances of points to their cluster centers.  Implement this strategy and verify that the results are better on 4 clusters each time.  <b>Question: </b>  What happens when you only use two clusters at this point?  Do the results make sense to you?
 										</p>
 
 										<!--
@@ -107,12 +180,11 @@
 											ps.register_point_cloud("samples", pts)
 											ps.show()
 										</script>   
-										-->
 
 										<p>
 											You can also <a href = "https://ctralie.github.io/ggslac/viewers/MeshViewer.html">click here</a> to view the mesh in my own interactive viewer called <a href = "https://github.com/ctralie/ggslac">ggslac</a>
 										</p>
-
+										-->
 
 
                                     
@@ -177,6 +249,9 @@
 												</li>
 												<li>
 													<a href = "../../Assignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5a_3DShapeCluster">HW5a: 3D Shape Clustering</a>
 												</li>
 											</ul>
 										</li>
