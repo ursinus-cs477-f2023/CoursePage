@@ -63,7 +63,7 @@ Bayes Rule, Begin Naive Bayes Classification
 
 <ul><li><a href = "https://www.greenteapress.com/thinkbayes/html/thinkbayes002.html">Think Bayes Notes</a></li></ul>
 LECTURE
-Naive Bayes Classification And Bag of Words (Mention Visual Bag of Words)
+Naive Bayes Classification And Bag of Words
 
 <ul><li>Class Exercise: <a href = "ClassExercises/Week5_BagOfWords">2016 Presidental Debates Bag of Words</a></li><li><a href = "ClassExercises/Week5_BagOfWords/index.html#theory">Naive Bayes Theory Notes</a></li><li><a href = "https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.374.7966&rep=rep1&type=pdf">Naive bayes for detecting computer viruses</a></li></ul>
 LECTURE
@@ -107,7 +107,7 @@ Finish NMF, Begin K-Means Clustering
 
 <ul><li><a href = "ClassExercises/Week9_KMeans3DShapes">KMeans Clustering Notes</a></li></ul>
 LECTURE
-Clustering 3D Shapes
+Clustering 3D Shapes, Continue Workshopping K-Means
 
 <ul><li><a href = "ClassExercises/Week9_KMeans3DShapes/index.html#shapes3d">3D Shape Exercise</a></li></ul>
 LECTURE
@@ -115,11 +115,15 @@ Ethics: <i>Race After Technology</i>: Default Discrimination And Coded Exposure
 
 
 LECTURE
-Perceptrons, Decision Boundaries, Connection To Naive Bayes
+Visual Bag of Words: A Connection Between K-Means And Naive Bayes
 
 
 LECTURE
 Gradient Descent
+
+
+LECTURE
+Perceptrons, Decision Boundaries, Connection To Naive Bayes
 
 
 LECTURE
@@ -175,14 +179,10 @@ Recurrent Neural Networks
 
 
 LECTURE
-Long Short Term Memory
+Autoencoders
 
-<ul><li><a href = "https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21">An illustrated guide to LSTMs and GRUs</a></li></ul>
+
 LECTURE
 Ethics: <i>Race After Technology</i>: Retooling Solidarity, Re-Imagining Justice
-
-
-LECTURE
-Autoencoders
 
 
