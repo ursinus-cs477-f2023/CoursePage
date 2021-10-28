@@ -41,7 +41,7 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 9: K-Means Clustering</h2>
+                                        <h2>Week 9: K-Means Clustering And Some Applications</h2>
                                         <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
@@ -83,10 +83,10 @@
 										<ol>
 											<li>Choose <b>K</b> random points in the dataset called <b>centers</b></li>
 											<li>
-												For each <b>x<SUB>i</SUB></b> &in; <b>X</b>, find the nearest center, according to some distance
+												For each data point <b>x<SUB>i</SUB></b> &in; <b>X</b>, find the nearest cluster center, according to some distance
 											</li>
 											<li>
-												Replace the coordinates each center with the mean of the points that were closest to that center.
+												Replace the coordinates each cluster center with the mean of the points that were closest to that center.
 											</li>
 											<li>
 												Repeat steps 2 and 3 for some number of iterations
@@ -116,6 +116,15 @@
 												We can apply the KMeans algorithm to find clusters of like objects in a dataset, even if we don't have labels on the data.  You will apply this to clustering 3D shape in <a href = "../../Assignments/HW5a_3DShapeCluster/">homework 5a</a>.
 											</p>
 										
+
+										<HR>
+											<h3><a name = "imagecartoons">Application: Image Quantization / Cartoonization</a></h3>
+
+										<p>
+											There are some cool applications in image processing, which I wrote a <a href = "https://writings.stephenwolfram.com/2017/11/what-is-a-computational-essay/">computational essay</a> about below (<a href = "QuantizationCartoons.ipynb">Click here</a> to download the jupyter file and <a href = "theo.jpg">here</a> to download the image I was using)
+										</p>
+
+										<iframe src = "QuantizationCartoons.html" width=900 height=7000></iframe>
 
 										
 
@@ -252,7 +261,7 @@
 													<a href = "../../ClassExercises/Week8_NMF">Week 8: Nonnegative Matrix Factorization</a>
 												</li>
 												<li>
-													<a href = "../../ClassExercises/Week9_KMeans3DShapes">Week 9: KMeans Clustering / 3D Shape Clustering</a>
+													<a href = "../../ClassExercises/Week9_KMeans3DShapes">Week 9/10: KMeans Clustering, Applications To Image Processing</a>
 												</li>
 											</ul>
 										</li>
