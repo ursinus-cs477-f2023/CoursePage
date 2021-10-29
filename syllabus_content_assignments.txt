@@ -73,3 +73,6 @@ Assignment 7: Face Generation Out
 Assignment 7 Due
 
 2021-12-10
+Indicate <a href = "FinalProject/index.html">Final Project</a> Choice
+
+2021-11-12
