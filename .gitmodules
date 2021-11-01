@@ -34,3 +34,6 @@
 [submodule "Assignments/HW5a_3DShapeCluster/HW5a_3DShapeCluster"]
 	path = Assignments/HW5a_3DShapeCluster/HW5a_3DShapeCluster
 	url = https://github.com/Ursinus-CS477-F2021/HW5a_3DShapeCluster.git
+[submodule "ClassExercises/Week10_VisualBOW/VisualBOW"]
+	path = ClassExercises/Week10_VisualBOW/VisualBOW
+	url = https://github.com/Ursinus-CS477-F2021/VisualBOW.git
