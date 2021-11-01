@@ -117,7 +117,7 @@ Ethics: <i>Race After Technology</i>: Default Discrimination And Coded Exposure
 LECTURE
 Visual Bag of Words: A Connection Between K-Means And Naive Bayes
 
-<ul><li><a href = "ClassExercises/Week10_VisualBOW/VisualBOW/ImageBOW.ipynb">Visual BOW notes</a></li><li><a href = "ClassExercises/Week10_NumpyTricks/NumpyTricks.html">Numpy tricks</a></li></ul>
+<ul><li><a href = "ClassExercises/Week10_VisualBOW/index.html">Visual BOW notes</a></li><li><a href = "ClassExercises/Week10_NumpyTricks/NumpyTricks.html">Numpy tricks</a></li></ul>
 LECTURE
 Perceptrons, Decision Boundaries, Connection To Naive Bayes
 
