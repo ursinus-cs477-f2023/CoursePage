@@ -16,9 +16,6 @@
 [submodule "Assignments/HW3_Markov/HW3_Markov"]
 	path = Assignments/HW3_Markov/HW3_Markov
 	url = https://github.com/Ursinus-CS477-F2021/HW3_Markov.git
-[submodule "ClassExercises/Week5_BagOfWords/Week5_VisualBOW"]
-	path = ClassExercises/Week5_BagOfWords/Week5_VisualBOW
-	url = https://github.com/Ursinus-CS477-F2021/Week5_VisualBOW.git
 [submodule "ClassExercises/Week6_Music_Speech"]
 	path = ClassExercises/Week6_Music_Speech
 	url = https://github.com/Ursinus-CS477-F2021/Week6_Music_Speech.git

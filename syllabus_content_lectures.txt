@@ -105,21 +105,17 @@ Nonnegative Matrix Factorization
 LECTURE
 Finish NMF, Begin K-Means Clustering
 
-<ul><li><a href = "ClassExercises/Week9_KMeans3DShapes">KMeans Clustering Notes</a></li></ul>
+<ul><li><a href = "ClassExercises/Week9_KMeans3DShapes/index.html">KMeans Clustering Notes</a></li></ul>
 LECTURE
-Clustering 3D Shapes, Continue Workshopping K-Means
+Applications of KMeans To Image Quantization / Superpixels
 
-<ul><li><a href = "ClassExercises/Week9_KMeans3DShapes/index.html#shapes3d">3D Shape Exercise</a></li></ul>
+<ul><li><a href = "ClassExercises/Week9_KMeans3DShapes/index.html#imagecartoons">KMeans + Image Processing Notes</a></li></ul>
 LECTURE
 Ethics: <i>Race After Technology</i>: Default Discrimination And Coded Exposure
 
 
 LECTURE
 Visual Bag of Words: A Connection Between K-Means And Naive Bayes
-
-
-LECTURE
-Gradient Descent
 
 
 LECTURE
@@ -130,6 +126,10 @@ LECTURE
 Logistic Regression
 
 <ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
+LECTURE
+Gradient Descent
+
+
 SECTION
 Unit 4: Reinforcement Learning
 
