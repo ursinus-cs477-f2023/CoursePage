@@ -110,6 +110,125 @@
 										</p>
 
 										<HR>
+											<h3><a name = "hints">Algorithm Hints</a></h3>
+
+											<h4>Step 1: Choosing Random Points As Cluster Centers</h4>
+											<p>
+												Let's suppose that we store <b>N</b> points in <b>d</b> dimensions in an <b>N x d</b> <a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video3">data matrix</a> <code>X</code>, and that we will store the <b>n_clusters</b> cluster centers in an <b>n_clusters x d</b> data matrix called <code>clusters</code>.  Then, as we discussed in class, we can use the following code for step 1
+											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												# Pick some disjoint random indices of points to start 
+												# with for a cluster
+												idxs = np.random.permutation(X.shape[0])[0:n_clusters]
+												clusters = []
+												for idx in idxs:
+													clusters.append(X[idx, :]) # Pull out the next random point and put it into the clusters array 
+												clusters = np.array(clusters) # Convert 2D list into an official numpy array so we can do 2D slicing
+											</script>  
+
+											<p>
+												Actually, there's a super slick shortcut we can use in numpy to do index-based selection, turning this into a 2-liner
+											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												# Pick some disjoint random indices of points to start 
+												# with for a cluster
+												idxs = np.random.permutation(X.shape[0])[0:n_clusters]
+												clusters = X[idxs, :] # Create an n_clusters x d 
+											</script>  
+
+											<h4>Step 2: Finding Nearest Cluster Centers</h4>
+
+											<p>
+												Here's one option for pseudocode that finds the index <b>j</b> in the clusters list of the closest cluster center to each <b>x<SUB>i</SUB></b>
+											</p>
+
+											<div style="background-color: blanchedalmond; padding: 10px; width:600px;">
+
+												<ul>
+													<li>
+														For each <b>x<SUB>i</SUB> &in; X</b>
+														<ul>
+															<li>Let <b>min_dist</b> = infinity (<code>np.inf</code> in numpy)</li>
+															<li>Let <b>min_index</b> = 0</li>
+															<li>For each cluster <b>c<SUB>j</SUB> &in; clusters</b>
+																<ul>
+																	<li>Let <b>d</b> = dist(<b>x<SUB>i</SUB></b>, <b>c<SUB>j</SUB></b>)</li>
+																	<li>
+																		If <b>d &lt; min_dist</b>
+																		<ul>
+																			<li>
+																				<b>min_dist = d</b>
+																			</li>
+																			<li>
+																				<b>min_index = j</b>
+																			</li>
+																		</ul>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</div>
+
+											<p>
+												We also have to think how we would compute a distance in high Euclidean dimensions.  If you recall in the module on <a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video3">data vectorization</a>, the magnitude of a vector is the square root of the sum of the squares of its components. 
+											</p>
+
+											<div style="width:100px;">
+												<h3>
+													\[ |\vec{v}| = \sqrt{\sum_{i = 1}^d \vec{v}_i^2} \]
+												</h3>
+											</div>
+
+											<p>
+												Which, in 2D (d = 2), reduces to the familiar pythagorean theorem for a right triangle with one side length along the x component and one side length along the y component
+											</p>
+
+											<div style="width:100px;">
+												<h3>
+													\[ |\vec{v}| = \sqrt{x^2 + y^2} \]
+												</h3>
+											</div>
+
+											<p>
+												To compute the distance between two vectors, we compute the magnitude/length of the vector between them.  This vector is obtained via a vector subtraction, so the final formula is the square root of the sum of the squared differences between parallel dimensions between the two vectors"
+											</p>
+
+											<div style="width:100px;">
+												<h3>
+													\[ |\vec{u} - \vec{v}| = \sqrt{\sum_{i = 1}^d (\vec{u}_i - \vec{v}_i)^2} \]
+												</h3>
+											</div>
+
+											<p>
+												In 2D (d = 2), this reduces to 
+											</p>
+
+											<div style="width:100px;">
+												<h3>
+													\[ |(a, b) - (c, d)| = \sqrt{ (a-c)^2 + (d-b)^2 } \]
+												</h3>
+											</div>
+
+											<p>
+												Actually, there's a slick way to compute this using numpy's linear algebra library for two different vectors <code>x</code> and <code>y</code>
+											</p>
+
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												from numpy import linalg
+												d = linalg.norm(x-y)
+											</script> 
+
+											<h4>Step 3: Computing Means</h4>
+											<p>
+												See the notes on <a href = "../Week10_NumpyTricks/NumpyTricks.html">numpy tricks</a> from week 10 on a slick way to do this.
+											</p>
+
+
+										<HR>
 											<h3><a name = "shapes3d">Application: 3D Shape Clustering</a></h3>
 
 											<p>
