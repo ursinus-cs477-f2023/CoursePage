@@ -119,19 +119,55 @@ Visual Bag of Words: A Connection Between K-Means And Naive Bayes
 
 <ul><li><a href = "ClassExercises/Week10_VisualBOW/index.html">Visual BOW notes</a></li><li><a href = "ClassExercises/Week10_NumpyTricks/NumpyTricks.html">Numpy tricks</a></li></ul>
 LECTURE
-Perceptrons, Decision Boundaries, Connection To Naive Bayes
+Separating Lines, Decision Boundaries
 
 
 LECTURE
-Logistic Regression
+Logistic Regression / Gradient Descent
 
 <ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
+SECTION
+Unit 4: Deep Learning
+
+
 LECTURE
-Gradient Descent
+Intro To Neural Networks
+
+<ul><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li></ul>
+LECTURE
+Back Propagation
+
+
+LECTURE
+Convolutional Neural Networks
+
+
+LECTURE
+PCA Component Review, Exploring Latent Spaces of Deep Neural Networks
+
+
+LECTURE
+Ethics: <i>Race After Technology</i>: Retooling Solidarity, Re-Imagining Justice
+
+
+LECTURE
+Stochastic Gradient Descent
+
+
+LECTURE
+Generative Adversarial Networks
+
+
+LECTURE
+Recurrent Neural Networks
+
+
+LECTURE
+Autoencoders
 
 
 SECTION
-Unit 4: Reinforcement Learning
+Unit 5: Reinforcement Learning
 
 
 LECTURE
@@ -149,40 +185,5 @@ Reinforcement Learning, Bellman Equations
 LECTURE
 Ethics: <i>Race After Technology</i>: Coded Exposure And Technological Benevolence
 
-
-SECTION
-Unit 5: Deep Learning
-
-
-LECTURE
-Deep Neural Networks, Exploring Latent Spaces
-
-
-LECTURE
-Back Propagation
-
-
-LECTURE
-Stochastic Gradient Descent
-
-
-LECTURE
-Convolutional Neural Networks
-
-
-LECTURE
-Generative Adversarial Networks
-
-
-LECTURE
-Recurrent Neural Networks
-
-
-LECTURE
-Autoencoders
-
-
-LECTURE
-Ethics: <i>Race After Technology</i>: Retooling Solidarity, Re-Imagining Justice
 
 

@@ -37,3 +37,6 @@
 [submodule "ClassExercises/Week10_VisualBOW/VisualBOW"]
 	path = ClassExercises/Week10_VisualBOW/VisualBOW
 	url = https://github.com/Ursinus-CS477-F2021/VisualBOW.git
+[submodule "Assignments/HW5b_Unsupervised/HW5b_Components"]
+	path = Assignments/HW5b_Unsupervised/HW5b_Components
+	url = https://github.com/Ursinus-CS477-F2021/HW5b_Components.git

@@ -1,0 +1,426 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+                                        <h2>Homework 5b: NMF for Music Component Separation (28 Points)</h2>
+										<h3>Chris Tralie</h3>
+									</header>
+									
+
+									<div id="page-content">
+
+                                        <p>
+                                            <h2><a name = "objectives">Learning Objectives</a></h2>
+                                            <ul>
+												<li>Implement an unsupervised learning technique to discover structure in data</li>
+												<li>
+													Use matrix multiplication in the service of a data science application
+												</li>
+												<li>
+													Implement nonnegative matrix factorization
+												</li>
+                                            </ul>
+										</p>
+
+										<h2><a name = "overview">Background / Getting Started</a></h2>
+
+										<p>
+											<a href = "https://github.com/Ursinus-CS477-F2021/HW5b_Components/archive/refs/heads/main.zip">Click here</a> to download the starter code, which you can use to follow along with the examples below.  When you're finished, <b>submit your notebooks to canvas, along with answers to the questions and an indication of your buddy if you had one.</b>  Any feedback about the assignment for future generations of students is also welcome at that point.
+										</p>
+
+										<p>
+											In this assignment, you will be implementing a problem called "blind source separation," which is also referred to as the "cocktail party problem" in the context of audio; that is, if we're at a cocktail party and 20 people are talking at the same time, how do we hone in on just the sound of the person speaking to us?  In the context of musical audio, this is akin to honing in on a particular instrument in a mix of many instruments (e.g. picking out the guitar sound from a mix of guitar, vocals, and drums).  In this homework, you will be using <a href = "../../ClassExercises/Week8_NMF/">nonnegative matrix factorization</a> to implement a solution to this problem.
+										</p>
+
+										<h3>Audio Spectrograms</h3>
+										<p>
+											It is possible to represent audio in a nonnegative matrix called a spectrogram, in which the columns represent time and the represent "frequency content"; that is, higher index rows are element corresponding to higher pitches, and rightward columns progress through time. A bright pixel indicates that there is a lot of energy at that time and frequency, and a darker pixel indicates that there is less energy.  For example, let's create the spectrogram of 10 seconds from Prince's song <a href = "HW5b_Components/doves.wav">When Doves Cry</a> from his Purple Rain album
+										</p>
+
+										<iframe src = "AudioExample.html" width=800 height=1000></iframe>
+
+										<p>
+											We can pick out some cool aspects of the audio in these matrices.  Vertical lines correspond to percussive events, and bands of horizontal lines correspond to <a href = "https://ursinus-cs472a-s2021.github.io/Modules/Module6/Video0">pitched instruments/voice</a>.  But they're all mixed together, and we want to separate them!
+										</p>
+
+										<h3>Nonnegative Matrix Factorization of Audio Spectrograms</h3>
+										<p>
+											If the spectrogram is an <b>M x N</b> matrix and we want to try to represent it with <b>K</b> components, we can solve for an <b>M x K</b> matrix <b>W</b> that represents each little instrument sound, as well as a <b>K x N</b> matrix <b>H</b> which represents the activations of each column of <b>W</b> over time.  Let's define code for  <a href = "../../ClassExercises/Week8_NMF/index.html#euclidean">Euclidean NMF</a> like we discussed in class, as well as code to compute the loss over time
+										</p>
+
+										
+										<button type="button" onclick="showNMFEuc()">Show NMF Euclidean Code</button> 
+										<button type="button" onclick="hideNMFEuc()">Hide NMF Euclidean Code</button> 
+
+										<div id="NMFEuc" style="padding: 20px;">
+
+										<h4>NMF Euclidean Loss/Code</h4>
+										
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										def euc_loss(V, W, H):
+											"""
+											Compute the Euclidean loss between V and W*H
+											
+											Parameters
+											----------
+											V: ndarray(M, N)
+												Original matrix to decompose
+											W: ndarray(M, K)
+												The K components
+											H: ndarray(K, N)
+												Activations of each component over time
+											"""
+											return np.sum((V-W.dot(H))**2)
+										
+										def nmf_euc(V, K, n_iters=100):
+											"""
+											Perform Euclidean Nonnegative Matrix Factorization using
+											efficient numpy operations
+											
+											Parameters
+											----------
+											V: ndarray(M, N)
+												Original matrix to decompose
+											K: int
+												Number of components in which to decompose V
+											n_iters: int
+												Number of iterations to perform
+											
+											Returns
+											-------
+											W: ndarray(M, K)
+												The K components
+											H: ndarray(K, N)
+												Activations of each component over time
+											errs: ndarray(n_iters)
+												Loss at each iteration
+											"""
+											M = V.shape[0]
+											N = V.shape[1]
+											# Randomly initialize my W and my H matrices
+											W = np.random.rand(M, K)
+											H = np.random.rand(K, N)
+											errs = np.zeros(n_iters)
+											for it in range(n_iters):
+												H = H * (W.T.dot(V))/(W.T.dot(W.dot(H)))
+												W = W * (V.dot(H.T))/(W.dot(H.dot(H.T)))
+												errs[it] = euc_loss(V, W, H)
+											return W, H, errs
+										</script>   
+
+										</div>
+										
+										<script>
+											let NMFEuc = document.getElementById("NMFEuc");
+											function showNMFEuc() {
+												NMFEuc.style.display="block";
+											}
+											function hideNMFEuc() {
+												NMFEuc.style.display = "none";
+											}
+											hideNMFEuc();
+										</script>
+
+										<p>
+											Let's suppose we run this code with <b>K = 3</b> on the spectrogram for "When Doves Cry"
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										W, H, errs = nmf_euc(S, 3)
+										S_approx = W.dot(H)
+										plt.figure()
+										plt.plot(errs)
+										plt.xlabel("Iteration Number")
+										plt.ylabel("Euclidean Loss")
+										plt.figure()
+										plt.figure(figsize=(12, 5))
+										plot_specgram(S_approx, sr, win, hop)
+										plt.ylim([0, 6000])
+										</script>
+
+										<p>
+											We get the following loss over time (we see that it's always decreasing but it starts to bottom out after about 40 iterations)
+										</p>
+
+										<img src = "DovesLoss.svg" width=700>
+
+										<p>
+											And we get the following spectrogram
+										</p>
+
+										<img src = "DovesNMF3.png">
+
+										<p>
+											We can see that we've lost a lot of the finer details in the spectrogram, though the rhythmic events are still visible. But what does it sound like?  We can use a procedure known as <a href = "https://ursinus-cs472a-s2021.github.io/CoursePage/Assignments/HW3_Vocoders/#griffinlim">Griffin Lim phase retrieval</a> to go from a spectrogram back to audio and listen.  I provided code for this with this assignment, so let's use it
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											y = griffin_lim(S_approx, win, hop) # Go back from a spectrogram to audio
+											ipd.Audio(y, rate=sr)
+										</script>
+
+										<p>Here's what we get</p>
+
+										<audio controls>
+											<source src="doveseuck3.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+										 
+										<p>
+											It's no longer possible to make out the vocals or to play more than one note, but we can definitely hear the vocals, percussion, and note separately.  So somehow, with our three components, it seems we've managed to pick up on these three things!  Your job in this assignment will be to separate them out individually, and then to use these ideas to filter out vocals.
+										</p>
+
+										<h2><a name = "programming">Programming Tasks</a></h2>
+
+										<h3>Task 1: Kullback-Liebler NMF (10 Points)</h3>
+										<p>
+											I've shown you how to implement the Euclidean NMF, but I want you to implement a different version which works better for musical audio that optimizes for a different loss function known as the <a href = "../../ClassExercises/Week8_NMF/index.html#kl">Kullback-Liebler Divergence</a>.  Have a look at the linked notes and implement this version.  Then, perform an experiment where you let <b>K = 3, 10, 30</b> and plot the spectrogram and loss.  Be sure that the loss is decreasing over time.  Finally, use griffin lim to listen to the audio in each case. <b>Question: </b> What do you notice about the spectrograms, audio, and loss trajectories as you increase <b>K</b>?  How would you explain this?
+										</p>
+
+										<h3>Task 2: Separating Components (8 Points)</h3>
+										<p>
+											Once you learn <b>W</b> and <b>H</b>, you can take out individual components of the audio and listen to them.  You can do this by zeroing out the activations in <b>H</b> for all but one column in <b>W</b>.  To do this, keep <b>W</b> fixed, but change <b>H</b>.  You'll have to think carefully about the <a href = "https://ursinus-cs477-f2021.github.io/Modules/MatrixModule/Video2">column vector interpretation</a> of matrix multiplication when you modify <b>H</b>.
+										</p>
+
+										<p>
+											When you use <b>K = 3</b> and isolate the three tracks separately, you should be able to hear what sounds a bit like vocals, drums, and vocals when you do Griffin Lim.  Demonstrate in your notebook that you are able to do this.  
+										</p>
+
+										<h3>Task 3: Music Sample Processing (6 Points)</h3>
+										<p>
+											There was a really neat paper that came out a few years ago that showed how it's possible to use "partially fixed" nonnegative matrix factorization to figure out if one audio clip sampled another one (which often happens in hip hop, for example).  <a href = "https://musicinformatics.gatech.edu/wp-content_nondefault/uploads/2017/07/Gururani_Lerch_2017_Automatic-Sample-Detection-in-Polyphonic-Music.pdf">Click here</a> to read the paper if you're curious.  The idea was to learn some columns for <b>W</b> from the sample, and then to use these and additional columns to represent the sampling track.  We'll do a simplified version of this by training the <b>W</b> matrix on the sample and then learning activations in the <b>H</b> matrix to approximate the track that samples it.  As an example, let's a clip from "My Name Is" by Eminem
+										</p>
+
+										<audio controls>
+											<source src="HW5b_Components/eminem.wav" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<p>
+											A little known fact is that this actually uses a sample verbatim from a tune known as "I Got The" by British musician/poet <a href = "https://en.wikipedia.org/wiki/Labi_Siffre">Labi Siffre</a>
+										</p>
+
+										<audio controls>
+											<source src="HW5b_Components/labi.wav" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<p>
+											Both of these audio files have been provided in the starter code.
+										</p>
+										<p>
+											<b>Your task: </b> You will be doing a "fully fixed W" version of KL NMF here.  Learn the <b>W</b> matrix from Labi's original tune using <b>K = 30</b>, and keep it totally fixed (i.e. skip the update rules for W) to learn an <b>H</b> which approximates the spectrogram for Eminem's tune.  Then, listen to the <b>WxH</b> that you get. 
+											<b>Question: </b>  How do the results of this compare to the results of using <b>K = 30</b> for learning both <b>W</b> and <b>H</b> from scratch on Eminem?  How would you explain this?
+										</p>
+
+
+										<h3>Task 4: Ethics (4 Points)</h3>
+										<p>
+											Discuss any ethical issues that you see coming up from a program that's able to un-mix audio this way, or a program that's able to detect samples.  Are there positive and negative uses are there for this technology running at scale?
+										</p>
+                                    
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#readings">Readings</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+													<ul>
+														<li><a href = "../../Assignments/HW2_RushHour/competition.html">Competition Results</a> </li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5a_3DShapeCluster">HW5a: 3D Shape Clustering</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5b_Unsupervised">HW5b: NMF for Music Component Separation</a>
+												</li>
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_WhatIsAI">Week 1: What Is AI?</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_COVID">Week 1: Monte Carlo COVID Simulation</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_COVID/solution.html">Solution</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Week 5: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Exercise / Theory of Bayesian Classifiers</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#exercise">Text Classification Exercise</a></li>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#theory">Naive Bayes Theory</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module3/Exercise0">Week 5: Bayes Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_GradSchoolAdmissions">Week 6: Gaussian Naive Bayes And Grad School Admissions</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/MatrixModule/Video1">Week 8: Matrix Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week8_NMF">Week 8: Nonnegative Matrix Factorization</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week9_KMeans3DShapes">Week 9/10: KMeans Clustering, Applications To Image Processing</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_VisualBOW/index.html">Week 10: Visual Bag of Words</a>
+												</li>
+											</ul>
+										</li>
+										<li><a href = "../../Ethics/index.html">Ethics Reading / Discussions</a></li>
+										<li><a href = "../../FinalProject/index.html">Final Ethics Project</a></li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->

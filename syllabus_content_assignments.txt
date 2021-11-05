@@ -51,23 +51,26 @@ Assignment 4 Due
 2021-10-26
 Assignment 5a Due
 
-2021-11-01
-<HR>Assignment 5b: Component Analysis in Digital Images And Music Out
+2021-11-10
+<a href = "Assignments/HW5b_Unsupervised">Assignment 5b: NMF for Music Component Separation</a> Out
 
-2021-11-01
+2021-11-04
 Assignment 5b Due
 
-2021-11-10
+2021-11-12
 <HR>Assignment 6: Gradient Descent And Logistic Regression Out
 
-2021-11-10
+2021-11-12
 Polynomial Regression / Overfitting Module Due
 
 2021-11-17
-Assignment 6 Due
+Assignment 6 Part 1 Due
 
 2021-11-21
-Assignment 7: Face Generation Out
+Assignment 6 Part 2 Due
+
+2021-11-29
+<HR>Assignment 7: Face Generation Out
 
 2021-11-29
 Assignment 7 Due
@@ -75,4 +78,4 @@ Assignment 7 Due
 2021-12-10
 Indicate <a href = "FinalProject/index.html">Final Project</a> Choice
 
-2021-11-12
+2021-11-15

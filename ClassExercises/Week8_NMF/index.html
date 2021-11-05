@@ -82,7 +82,7 @@
 										</p>
 										
 										<HR>
-										<h4>Formulation 1: Euclidean NMF</h4>
+										<h4><a name = "euclidean">Formulation 1: Euclidean NMF</a></h4>
 										<p>
 											We seek a  𝑊  and an  𝐻  so that we minimize the <b>loss function</b> (or what you may have called the "objective" function in Math 111)
 										</p>
@@ -149,7 +149,7 @@
 										</script>  
 
 										
-										<b>Your Task:</b>
+										<b>Your Task in Class:</b>
 										<p>
 											
 											Implement the above rules in a loop to solve for 𝑊 and 𝐻.  Keep track of the loss function at every iteration.  When you plot it at the end, you should see that the loss is going down.  <i>How does K affect the error of what the algorithm converges to?</i>
@@ -158,6 +158,52 @@
 										<b>Your Next Task:</b>
 										<p>
 											Go back and load in all of the digits.  Make the matrix <b>V</b> be the transpose of the <b>1-X</b> for the data matrix, so that each column holds a unique digit and the digits are drawn in white on a black background instead of vice versa.  Perform NMF on this matrix, and plot the columns of <b>W</b> as reshaped images.  What do they look like?  How do they change if you vary <b>K</b>?  What if <b>K = 10</b>?
+										</p>
+
+										<HR>
+											<h4><a name = "kl">Formulation 2: Kullback-Liebler Divergence NMF</a></h4>
+
+											<p>
+												There are other loss functions we can use other than the sum of the squared differences of the entries of <b>V</b> and <b>WxH</b>.  One of them is called the "Kullback-Liebler" loss, and it's defined as follows
+											</p>
+
+											<div style="width:200px">
+
+												<h3>
+													\[  \sum_{i, j} V[i, j] \left( \log \frac{V[i, j]}{WH[i, j]} \right) - V[i, j] + WH[i, j]\]
+												</h3>
+
+											</div>
+
+
+											<p>
+												Notice how, like the Euclidean loss, this loss is 0 if <b>V = WxH</b>.  As it turns out, this loss will decrease under the following update rules
+											</p>
+
+											<div style="width:200px">
+											
+											<h3>
+												<ul>
+													<li>
+														\[ V_L[i, j] = V[i, j] / (WH)[i, j] \]
+													</li>
+													<li>
+														\[ H[i, j] = H[i, j] \left( \frac{  (W^T V_L)[i, j] }{{\sum_a}W[a, j]} \right) \]
+													</li>
+													<li>
+														\[ V_L[i, j] = V[i, j] / (WH)[i, j] \]
+													</li>
+													<li>
+														\[  W[i, j] = W[i, j] \left( \frac{  (V_L H^T)[i, j] }{{\sum_b}H[i, b]} \right) \]
+													</li>
+												</ul>
+
+												
+											</h3>
+										</div>
+
+										<p>
+											You will implement this on <a href = "../../Assignments/HW5b_Unsupervised/">assignment 5</a>
 										</p>
 
 
@@ -228,6 +274,9 @@
 												</li>
 												<li>
 													<a href = "../../Assignments/HW5a_3DShapeCluster">HW5a: 3D Shape Clustering</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5b_Unsupervised">HW5b: NMF for Music Component Separation</a>
 												</li>
 											</ul>
 										</li>
