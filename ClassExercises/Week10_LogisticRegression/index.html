@@ -1,0 +1,340 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+                                        <h2>Week 10/11: Logistic Regression</h2>
+                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
+									</header>
+
+									<div id="page-content">
+
+										<p>
+											The logistic function is 
+										</p>
+
+										<div style="width:200px;">
+										<h3>
+											\[ f(x) = \frac{1}{1+e^{-x}} \]
+										</h3>
+										</div>
+
+										<p>
+											If you use the chain rule, you can compute its derivative as 
+										</p>
+
+										<div style="width:200px;">
+											<h3>
+												\[ \frac{d f(x)}{dx} = \frac{1}{1+e^{-x}} = \frac{e^{-x}}{(1+e^{-x})^2} \]
+											</h3>
+										</div>
+
+										<p>
+											Actually, there's a really slick way to rewrite this as just 
+										</p>
+
+										<div style="width:200px;">
+											<h3>
+												\[ \frac{d f(x)}{dx} = f(x)(1-f(x)) \]
+											</h3>
+										</div>
+
+										<p>
+											Now let's consider the problem of using the logistic function to find a separator of 1D data in two classes.  In this case, we're trying to find the optimal parameters <b>a</b> and <b>b</b> so that the equation
+										</p>
+
+										<div style="width:200px;">
+											<h3>
+												\[ f(ax + b) =  \frac{1}{1+e^{-ax - b}} \]
+											</h3>
+										</div>
+
+										<p>
+											Best fits our data.  Let <b>y</b> be the label (either 0 or 1) that a particular input <b>x</b> should lead to.  Then we can define the <b>squared loss</b> loss function as follows
+										</p>
+
+										<div style="width:200px;">
+											<h3>
+												\[ L(x) = \left( \frac{1}{1+e^{-ax - b}} - y \right)^2 \]
+											</h3>
+										</div>
+
+										<p>
+											We want to minimize this function, and one fundamental optimization technique for doing so is <b>gradient descent</b>, whereby we compute the derivative of our loss with respect to each parameter, treating everything else as a constant.  This is referred to as the <b>partial derivative  &part;</b> with respect to each parameter.  For example, let's consider the partial derivative of our loss with respect to the parameter <b>a</b>.  We can obtain this with multiple applications of the chain rule, noting that everything other than <b>a</b> is a constant
+										</p>
+
+										<div style="width:200px;">
+											<h3>
+												\[ \frac{\partial L(x)}{\partial a} = \frac{\partial (f(ax+b) - y)^2}{\partial a} = 2(f(ax+b) - y) \frac{\partial f(ax+b)}{\partial a} \]
+											</h3>
+											<h3>
+												\[ \frac{\partial L(x)}{\partial a} = 2(f(ax+b) - y) f(ax+b)(1-f(ax+b)) \frac{\partial ax+b}{\partial a}\]
+											</h3>
+											<p>
+												and finally
+											</p>
+											<h3>
+												\[ \frac{\partial L(x)}{\partial a} = 2x (f(ax+b) - y) f(ax+b)(1-f(ax+b)) \]
+											</h3>
+										</div>
+
+										<p>
+											By a similar procedure, we find that the partial derivative with respect to <b>b</b> is 
+										</p>
+
+										<div style="width:200px;">
+											<h3>
+												\[ \frac{\partial L(x)}{\partial b} = 2 (f(ax+b) - y) f(ax+b)(1-f(ax+b)) \]
+											</h3>
+										</div>
+
+										<p>
+											You will have to subtract from each parameter some constant <b>step</b> times the partial derivative at each iteration.  Here's what gradient descent looks like after modifying the <a href = "https://github.com/Ursinus-CS477-F2021/Week10_LogisticRegression/blob/main/3-Logistic1DGradient.ipynb">starter code here</a>, with a step of 0.1
+										</p>
+
+										<img src = "Step0.1.gif">
+
+										<p>
+											This step size is a bit large and causes it to zig zag.  Here is a smaller step size, which moves more slowly but which does not cause the same zig zagging:
+										</p>
+
+										<img src = "Step0.01.gif">
+
+
+										<HR>
+											<h2>Separating Lines in 2D</h2>
+
+											<p>
+												Your challenge will be to do something similar for separating lines in 2D.  Here, the boundary decision boundary is described with the equation <b>ax + by + c</b>, so there are three parameters: <b>a</b>, <b>b</b>, and <b>c</b>
+											</p>
+
+											<p>
+												Here's an example of a working implementation of gradient descent starting from <a href = "https://github.com/Ursinus-CS477-F2021/Week10_LogisticRegression/blob/main/4-Logistic2DGradient.ipynb">this file</a>
+											</p>
+
+											<img src = "2DExample1.gif">
+
+											<p>
+												Here's another example where the line started off in the backwards orientation
+											</p>
+
+											<img src = "2DExample2.gif">
+
+											<p>
+												Here's an example where the data isn't separable
+											</p>
+											<img src = "2DExample3.gif">
+
+										
+
+
+
+
+                                    
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#readings">Readings</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+													<ul>
+														<li><a href = "../../Assignments/HW2_RushHour/competition.html">Competition Results</a> </li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5a_3DShapeCluster">HW5a: 3D Shape Clustering</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5b_Unsupervised">HW5b: NMF for Music Component Separation</a>
+												</li>
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_WhatIsAI">Week 1: What Is AI?</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_COVID">Week 1: Monte Carlo COVID Simulation</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_COVID/solution.html">Solution</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Week 5: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Exercise / Theory of Bayesian Classifiers</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#exercise">Text Classification Exercise</a></li>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#theory">Naive Bayes Theory</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module3/Exercise0">Week 5: Bayes Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_GradSchoolAdmissions">Week 6: Gaussian Naive Bayes And Grad School Admissions</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/MatrixModule/Video1">Week 8: Matrix Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week8_NMF">Week 8: Nonnegative Matrix Factorization</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week9_KMeans3DShapes">Week 9/10: KMeans Clustering, Applications To Image Processing</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_VisualBOW/index.html">Week 10: Visual Bag of Words</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_LogisticRegression/index.html">Week 10/11: Logistic Regression And Gradient Descent</a>
+												</li>
+											</ul>
+										</li>
+										<li><a href = "../../Ethics/index.html">Ethics Reading / Discussions</a></li>
+										<li><a href = "../../FinalProject/index.html">Final Ethics Project</a></li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->
