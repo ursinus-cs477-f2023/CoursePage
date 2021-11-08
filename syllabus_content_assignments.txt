@@ -61,7 +61,7 @@ Assignment 5b Due
 <HR>Assignment 6: Gradient Descent And Logistic Regression Out
 
 2021-11-12
-Polynomial Regression / Overfitting Module Due
+Polynomial Regression / Overfitting / Stochastic Gradient Descent Module Due
 
 2021-11-17
 Assignment 6 Part 1 Due

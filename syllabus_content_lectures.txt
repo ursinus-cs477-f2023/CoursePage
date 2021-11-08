@@ -123,9 +123,13 @@ Separating Lines, Decision Boundaries
 
 
 LECTURE
-Logistic Regression / Gradient Descent
+Begin Logistic Regression
 
-<ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
+<ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li><li><a href = "https://dphi.tech/blog/tutorial-on-logistic-regression-using-python/">Logistic Regression in Python</a></li></ul>
+LECTURE
+Logistic Regression And Gradient Descent
+
+
 SECTION
 Unit 4: Deep Learning
 
@@ -137,7 +141,7 @@ Intro To Neural Networks
 LECTURE
 Back Propagation
 
-
+<ul><li>Class Example: MNist Deja Vu</li></ul>
 LECTURE
 Convolutional Neural Networks
 
@@ -148,10 +152,6 @@ PCA Component Review, Exploring Latent Spaces of Deep Neural Networks
 
 LECTURE
 Ethics: <i>Race After Technology</i>: Retooling Solidarity, Re-Imagining Justice
-
-
-LECTURE
-Stochastic Gradient Descent
 
 
 LECTURE

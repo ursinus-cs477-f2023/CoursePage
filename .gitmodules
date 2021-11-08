@@ -40,3 +40,6 @@
 [submodule "Assignments/HW5b_Unsupervised/HW5b_Components"]
 	path = Assignments/HW5b_Unsupervised/HW5b_Components
 	url = https://github.com/Ursinus-CS477-F2021/HW5b_Components.git
+[submodule "ClassExercises/Week10_LogisticRegression/Week10_LogisticRegression"]
+	path = ClassExercises/Week10_LogisticRegression/Week10_LogisticRegression
+	url = git@github.com:Ursinus-CS477-F2021/Week10_LogisticRegression.git
