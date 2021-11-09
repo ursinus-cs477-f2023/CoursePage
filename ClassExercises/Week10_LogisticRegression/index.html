@@ -171,7 +171,17 @@
 										</div>
 
 										<p>
-											We want to minimize this function.  In class, we saw how instead of doing a full on grid search, we could look in a small neighborhood around each point and walk in the direction of where the function seems to be decreasing, and then to repeat this process.  One fundamental optimization technique for doing mathematically is <b>gradient descent</b>, whereby we compute the derivative of our loss with respect to each parameter, treating everything else as a constant.  This is referred to as the <b>partial derivative  &part;</b> with respect to each parameter.  For example, let's consider the partial derivative of our loss with respect to the parameter <b>a</b>.  We can obtain this with multiple applications of the chain rule, noting that everything other than <b>a</b> is a constant
+											We want to minimize this function.  As an example of what this looks like, let's fix <b>a = 1</b> and look at grid search again
+											
+										</p>
+										<img src = "LogisticLossGrid.svg">
+
+										<p>
+											One thing we notice right away is that not only is this function smooth, but this function is also <b>convex</b>.  This means that is has a single minimum which is the <b>global minimum</b>.  The same applies when we compose it with <b>ax + b</b>, so let's see what we can do towards optimizing both parameters jointly.
+										</p>
+										<p>
+											
+											In class, we saw how instead of doing a full on grid search, we could look in a small neighborhood around each point and walk in the direction of where the function seems to be decreasing, and then to repeat this process.  One fundamental optimization technique for doing mathematically is <b>gradient descent</b>, whereby we compute the derivative of our loss with respect to each parameter, treating everything else as a constant.  This is referred to as the <b>partial derivative  &part;</b> with respect to each parameter.  For example, let's consider the partial derivative of our loss with respect to the parameter <b>a</b>.  We can obtain this with multiple applications of the chain rule, noting that everything other than <b>a</b> is a constant
 										</p>
 
 										<div style="width:200px;">
@@ -228,7 +238,7 @@
 										<img src = "Step0.01.gif">
 
 										<p>
-											We should be mindful of this tradeoff as we choose our learning rate
+											We should be mindful of this tradeoff as we choose our learning rate.  Theoretically, if we choose the learning rate to be small enough and we're applying gradient descent over a <b>convex function</b>, such as the loss function above, we're guaranteed to reach a <b>global optimum</b> of the loss function in the parameter space.  This guarantee will not be true when we consider more complicated models such as neural nets, but it is a really nice property of logistic regression.
 										</p>
 
 
