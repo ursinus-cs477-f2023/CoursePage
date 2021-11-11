@@ -106,7 +106,7 @@
 										</p>
 
 										<img src = "StepFit.svg" width=500>
-
+										
 										<p>
 											This seems like it worked out pretty well!  The problem is that it doesn't scale if we're trying to fit a model that has more than one parameter.  For example, if we have two parameters and we likewise divvy up the range into 1000 evenly spaced regions for each parameter, we have to try a million parameter combinations.  If we have 3 parameters, we have to try a billion.  And in general, if we take <b>N</b> samples of each parameter and we have <b>P</b> parameters, we will have to try <b>N<SUP>P</SUP></b> parameter combinations!  This is known as the <b>curse of dimensionality</b>.  To give you an idea of how bad this is, when we go to classify images, we will have on parameter for pixel.  In a fairly small 100x100 image, this is 10,000 pixels.  If we try even a paltry 10 unique parameter values in grid search, we get <b>10<SUP>10,000</SUP></b> different combinations, which is <b>beyond astronomical</b>.  We're definitely going to need a more sophisticated technique.
 										</p>
@@ -332,9 +332,217 @@
 												\[  f(\vec{w}, c) = f( w_1x_1 + w_2x_2 + ... + w_dx_d + c ) \]
 											</h3>
 
-											<p>
-												This is what you'll be doing with the movie reviews on homework 6
-											</p>
+											<HR>
+												<h2>Convexity And Logistic Loss</h2>
+												<p>
+													This seems like it worked pretty well on the example we looked at, but there is a theoretical problem.  To get at it, let's look at a simpler example where something strange can happen.  In particular, let's setup the following data
+													<ul>
+														<li>
+															2 points with a 0 label at <b>x=-1.8</b> and <b>x = -0.4</b>
+														</li>
+														<li>
+															2 points with a 1 label at <b>x=-0.7</b> and <b>x = -0.8</b>
+														</li>
+													</ul>
+												</p>
+
+												<p>
+													Let's suppose we take an <b>initial guess</b> of <b>a = 0, b = 0</b> for our parameters, and then we run gradient descent from that point in parameter space.  Here is what we get, which converges nicely to something with a squared loss of 0.891
+												</p>
+
+												<img src = "../Week11_Convexity_NNIntro/Nonconvex_1.gif">
+
+												<p>
+													However, if we start with an initial guess of <b>a = -7, be = -2</b>, we end up converging to a different local min with slightly higher loss
+												</p>
+												<img src = "../Week11_Convexity_NNIntro/Nonconvex_2.gif">
+
+												<p>
+													The problem here is that there are additional local mins of squared loss over the parameter space in addition to the global min.  If we're unlucky about our initial guess, we may end up in a non-optimal local min that's not a global min.  We could try starting at multiple different places and leading to the one which gives the best result, like we did in <a href = "../../Assignments/HW5a_3DShapeCluster/index.html#task3">K-Means clustering task 3</a>, but there is a better answer for logistic regression.
+												</p>
+
+												<h3>Convexity</h3>
+												<p>
+													The root of the issue for why we can end up with more than one local min is that the loss function we're using is <b>nonconvex</b>.  For example, the loss function if <b>y = 0</b> is 
+												</p>
+
+												<div style="width:200px;">
+												<h3>
+													\[ \left( \frac{1}{1+e^{-u}} \right)^2 \]
+												</h3></div>
+
+												<p>
+													which is shown in a plot below 
+												</p>
+												
+												<img src = "SquaredLoss0.svg" width=500>
+
+												<p>
+													A convex function has the property that a line segment between any pairs of points on the graph of the function stays <b>above</b> the graph.  We see that we can violate this with the squared logistic function, as shown by the example below (in which a line segment should always stay in the pink region above the graph if the function is convex)
+												</p>
+
+												<img src = "SquaredLoss0Convex.svg" width=500>
+
+												<p>
+													And the squared loss for <b>y = 1</b> looks exactly the same but reflected about the y-axis, so it has the same problem.  
+												</p>
+
+												<p>
+													Let's devise another loss function that is convex, which we'll call <b>logistic loss</b>.  We'll start by taking the negative log of the logistic function 
+												</p>
+
+												<div style="width:200px;">
+												<h3>
+													\[ -\log(f(u)) = - \log\left( \frac{1}{1 + e^{-u}} \right) = \log (1 + e^{-u}) \]
+												</h3>
+												
+												</div>
+
+												<p>
+													Here's what this looks like 
+												</p>
+
+												<img src = "LogisticLoss1.svg" width=500>
+												
+
+												<p>
+													We see that this function actually is convex!  Also, if we are trying to solve for an input where the logistic function should be closest to 1 (i.e. the input is large), then this loss function makes sense; we get an increasing penalty when we go in the wrong direction and a very small penalty when we go in the correct direction.
+												</p>
+
+												<p>
+													We can create a very similar loss function for the case when <b>y = 0</b> as 
+												</p>
+
+												<div style="width:200px;">
+													<h3>
+														\[ -\log(1-f(u))  \]
+												</h3>
+												</div>
+
+												<p>
+													Which will also be convex (like the squared loss, it is a reflection about the y-axis of the original function -log(f(u))).  Below is a plot comparing both squared loss functions 
+												</p>
+
+												<img src = "SquaredVsLogisticLoss.svg">
+													
+												<p>
+													In addition to being convex, these loss functions have a really nice property that they always decrease as we get further away from the target value; that is, they don't suffer from the problem of <b>vanishing gradients</b> like the logistic function, which flattens out on both sides. 
+												</p>
+
+												<p>
+													Let's put both of these loss functions together into one final equation for logistic loss over the entire dataset.  We'll multiply the 1-loss term by y so that it's only active for <b>y = 1</b>, and we'll multiply the 0-loss term by (1-y) so it's only active for <b>y = 0</b>
+												</p>
+
+												<div style="width:200px;">
+												<h3>
+													\[ L(a, b) = \sum_{i=1}^N -y_i \log(f(ax_i + b)) - (1-y_i)\log(1-f(ax_i+b)) \]
+												</h3>
+												</div>
+													
+												<p>									
+													To show that the above function is convex, we use two properties of convex functions
+
+													<ol>
+														<li>
+															The composition of convex functions is still convex
+														</li>
+														<li>
+															The sum of convex functions is still convex
+														</li>
+													</ol>
+
+													Our final loss function is the sum of compositions of individual convex functions with "affine functions" (e.g. ax + by + c or ax + by + cz + d), which are flat and hence also convex. So the whole thing is convex.
+												</p>
+
+												<p>
+													Why do we care so much about convex functions though?  It's because they have a <b>single minimum</b>.  This means that there's only one place gradient descent can converge to if we choose the step size correctly, so it doesn't matter where the min is with respect to our initial guess.
+												</p>
+
+												<h3>Taking The Gradient</h3>
+												<p>
+													Now that we know that using the logistic loss is a good idea, let's take its gradient so we can apply gradient descent.  Let's suppose we're taking the derivative with respect to some parameter <b>w</b> of which each parameter <b>u<SUB>i</SUB></b> is a function (such as the parameter <b>a</b> in <b>u<SUB>i</SUB> = ax<SUB>i</SUB> + by<SUB>i</SUB> + c</b>)
+												</p>
+
+												<div style="width:200px;">
+													<h3>
+														\[ \frac{\partial}{ \partial w} \left( \sum_{i=1}^N -y_i \log(f(u_i)) - (1-y_i)\log(1-f(u_i)) \right)  \]
+													</h3>
+													<h3>
+														\[ = \sum_{i=1}^N \left( -y_i \frac{1}{f(u_i)}f(u_i)(1-f(u_i)) - (1-y_i)\frac{1}{1-f(u_i)}(-f(u_i)(1-f(u_i))) \right) \frac{\partial u_i}{\partial w} \]
+													</h3>
+												</div>
+
+												<p>
+													which can be simplified to 
+												</p>
+
+												<div style="width:200px;">
+													<h3>
+														\[ = \sum_{i=1}^N \left( -y_i (1-f(u_i)) + (1-y_i)f(u_i) \right) \frac{\partial u_i}{\partial w} \]
+													</h3>
+												</div>
+
+												<p>
+													Which simplifies quite nicely down to 
+												</p>
+
+
+												<div style="width:200px;">
+													<h3>
+														\[ = \sum_{i=1}^N (f(u_i) - y_i) \frac{\partial u_i}{\partial w} \]
+													</h3>
+												</div>
+
+												<p>
+													Since we move in the negative direction of the gradient in gradient descent, this translates into the rule 
+												</p>
+
+												<div style="width:200px;">
+													<h3>
+														\[ w \gets w + \alpha \sum_{i=1}^N (y_i - f(u_i)) \frac{\partial u_i}{\partial w} \]
+													</h3>
+												</div>
+
+												<p>
+													where <b>&alpha;</b> is the learning rate.  This is a super nice equation, and it's very intuitive!  What is says is we need to update a parameter at a rate proportional to the difference between the logistic function and the labels <b>y<SUB>i</SUB></b>.  For instance, if <b>y<SUB>i</SUB></b> is a 1 and <b>f(y<SUB>i</SUB>)</b> is close to 0, we need to move our parameter in the positive direction.  Conversely, if <b>y<SUB>i</SUB></b> is a 0 and <b>f(y<SUB>i</SUB>)</b> is close to 1, we need to move <b>w</b> in a negative direction.
+												</p>
+
+												<p>
+													To summarize for general high dimensional logistic regression, if 
+												</p>
+
+												<h3>
+													\[  f(\vec{w}, c) = f( w_1x_1 + w_2x_2 + ... + w_dx_d + c ) \]
+												</h3>
+
+												Then the update rules are 
+										
+
+												<h3>
+													\[  w_k \gets w_k + \alpha \sum_{i=1}^N x_k(y_i - f(\vec{w}, c)) \]
+												</h3>
+	
+												<h3>
+													\[  c \gets c + \alpha \sum_{i=1}^N (y_i - f(\vec{w}, c)) \]
+												</h3>
+	
+
+
+												<p>
+													Below is running this on the pathological example we started from the point that ended up with a non-optimal local min with squared loss.  As you can see, there's only one global min at the bottom of the hill
+												</p>
+
+												<img src = "../Week11_Convexity_NNIntro/Convex.gif">
+
+
+
+	
+												<h3>Code</h3>
+												<p>
+													The notebook below shows the code I used to generate the pathological example for a squared loss that has more than one local min.  You may find some useful tidbits in here for assignment 6.
+												</p>
+	
+												<iframe src="LogisticLoss.html" width=800 height=800></iframe>
 
 
                                     
