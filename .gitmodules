@@ -43,3 +43,6 @@
 [submodule "ClassExercises/Week10_LogisticRegression/Week10_LogisticRegression"]
 	path = ClassExercises/Week10_LogisticRegression/Week10_LogisticRegression
 	url = https://github.com/Ursinus-CS477-F2021/Week10_LogisticRegression.git
+[submodule "ClassExercises/Week11_Convexity_NNIntro/Week11_Convexity_NNIntro"]
+	path = ClassExercises/Week11_Convexity_NNIntro/Week11_Convexity_NNIntro
+	url = https://github.com/Ursinus-CS477-F2021/Week11_Convexity_NNIntro.git
