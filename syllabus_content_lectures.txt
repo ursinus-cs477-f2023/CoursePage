@@ -129,15 +129,15 @@ Begin Logistic Regression
 LECTURE
 Logistic Regression And Gradient Descent
 
-
+<ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li></ul>
 SECTION
 Unit 4: Deep Learning
 
 
 LECTURE
-Intro To Neural Networks
+Convexity And Logistic Loss, Intro To Neural Networks
 
-<ul><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li></ul>
+<ul><li><a href = "ClassExercises/Week10_LogisticRegression/index.html#convexitylogistic">Class Notes on Convexity And Logistic Loss</a></li><li><a href = "https://github.com/Ursinus-CS477-F2021/Week11_Convexity_NNIntro/archive/refs/heads/main.zip">Class Exercise: Design your own neural net</a></li><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 LECTURE
 Back Propagation
 
