@@ -272,7 +272,7 @@
 									<p></p>
 									<h4><a name = "bayesfiltercomplexity">A Note on Complexity</a></h4>
 									<p>
-										Over all timesteps, the above algorithm uses <b>O(K)</b> memory to store <b>f</b> and the intermediate <b>g</b> array.  On the other hand, it takes <b>O(KT<SUP>2</SUP>)</b> computation time in the worst case.  This is due to the triply nested for loop; for each timestep (of which there are <b>T</b>) for each state (of which there are <b>K</b>), we have to look back at <b>K</b> states at the previous timestep.  However, if we can limit the previous states we have to look at to a small constant, then this turns into <b>O(KT)</b> complexity.  For instance, in the <a href = "../../Assignments/HW4_RobotLocalization/index.html#filtering">robot localization</a> problem, we only have to consider the states that neighbor on the map and the state itself, which is at most 5.
+										Over all timesteps, the above algorithm uses <b>O(K)</b> memory to store <b>f</b> and the intermediate <b>g</b> array.  On the other hand, it takes <b>O(TK<SUP>2</SUP>)</b> computation time in the worst case.  This is due to the triply nested for loop; for each timestep (of which there are <b>T</b>) for each state (of which there are <b>K</b>), we have to look back at <b>K</b> states at the previous timestep.  However, if we can limit the previous states we have to look at to a small constant, then this turns into <b>O(KT)</b> complexity.  For instance, in the <a href = "../../Assignments/HW4_RobotLocalization/index.html#filtering">robot localization</a> problem, we only have to consider the states that neighbor on the map and the state itself, which is at most 5.
 									</p>
 
 									<p></p>
@@ -472,7 +472,7 @@
 								<p></p>
 								<h4><a name = "viterbicomplexity">A Note on Complexity</a></h4>
 								<p>
-									Like the <a href = "#bayesfiltercomplexity">bayes filter</a>, this algorithm takes <b>O(KT<SUP>2</SUP>)</b> computation time in the worst case, but this can be limited to <b>O(KT)</b> complexity if there are a small number of possible states that can be reached from any given state.  However, the memory requirements are worse at <b>O(KT)</b>, and there's no way around this, because we need to remember enough information to backtrace a full optimal trajectory at the end.  In practice, we could just store the <b>B</b> array and the most recently filled in row of <b>L</b>m but it's still <b>O(KT)</b> to store the entire <b>B</b> array.
+									Like the <a href = "#bayesfiltercomplexity">bayes filter</a>, this algorithm takes <b>O(TK<SUP>2</SUP>)</b> computation time in the worst case, but this can be limited to <b>O(KT)</b> complexity if there are a small number of possible states that can be reached from any given state.  However, the memory requirements are worse at <b>O(KT)</b>, and there's no way around this, because we need to remember enough information to backtrace a full optimal trajectory at the end.  In practice, we could just store the <b>B</b> array and the most recently filled in row of <b>L</b>m but it's still <b>O(KT)</b> to store the entire <b>B</b> array.
 								</p>
 								
 								

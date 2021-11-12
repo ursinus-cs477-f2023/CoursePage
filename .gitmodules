@@ -46,3 +46,6 @@
 [submodule "ClassExercises/Week11_Convexity_NNIntro/Week11_Convexity_NNIntro"]
 	path = ClassExercises/Week11_Convexity_NNIntro/Week11_Convexity_NNIntro
 	url = https://github.com/Ursinus-CS477-F2021/Week11_Convexity_NNIntro.git
+[submodule "ClassExercises/Week11_Backprop/Week11_NNGradientDescent"]
+	path = ClassExercises/Week11_Backprop/Week11_NNGradientDescent
+	url = https://github.com/Ursinus-CS477-F2021/Week11_NNGradientDescent.git
