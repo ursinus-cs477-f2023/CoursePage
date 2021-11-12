@@ -109,7 +109,7 @@ Finish NMF, Begin K-Means Clustering
 LECTURE
 Applications of KMeans To Image Quantization / Superpixels
 
-<ul><li><a href = "ClassExercises/Week9_KMeans3DShapes/index.html#imagecartoons">KMeans + Image Processing Notes</a></li></ul>
+<ul><li><a href = "ClassExercises/Week9_KMeans3DShapes/index.html#imagecartoons">KMeans + Image Processing Class Notes</a></li></ul>
 LECTURE
 Ethics: <i>Race After Technology</i>: Default Discrimination And Coded Exposure
 
@@ -117,7 +117,7 @@ Ethics: <i>Race After Technology</i>: Default Discrimination And Coded Exposure
 LECTURE
 Visual Bag of Words: A Connection Between K-Means And Naive Bayes
 
-<ul><li><a href = "ClassExercises/Week10_VisualBOW/index.html">Visual BOW notes</a></li><li><a href = "ClassExercises/Week10_NumpyTricks/NumpyTricks.html">Numpy tricks</a></li></ul>
+<ul><li><a href = "ClassExercises/Week10_VisualBOW/index.html">Visual BOW class notes</a></li><li><a href = "https://github.com/ovysotska/in_simple_english/blob/master/bag_of_visual_words.ipynb">"In Simple English" notes on TF-IDF, Cosine Distance, And Visual Bag of Words</a></li><li><a href = "ClassExercises/Week10_NumpyTricks/NumpyTricks.html">Numpy tricks</a></li></ul>
 LECTURE
 Separating Lines, Decision Boundaries
 
@@ -125,7 +125,7 @@ Separating Lines, Decision Boundaries
 LECTURE
 Begin Logistic Regression
 
-<ul><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li><li><a href = "https://dphi.tech/blog/tutorial-on-logistic-regression-using-python/">Logistic Regression in Python</a></li></ul>
+<ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
 LECTURE
 Logistic Regression And Gradient Descent
 
