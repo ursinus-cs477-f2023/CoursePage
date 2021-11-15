@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+                                        <h2>Homework 6: Logistic Regression on Movie Reviews</h2>
+										<h3>Chris Tralie</h3>
+									</header>
+									
+
+									<div id="page-content">
+
+                                        <p>
+                                            <h2><a name = "objectives">Learning Objectives</a></h2>
+                                            <ul>
+												<li>
+													Implement logistic regression
+												</li>
+												<li>
+													Use cross-validation to verify that a model is not overfitting
+												</li>
+												<li>
+													Derive update rules that incorporate regularization
+												</li>
+												<li>
+													Uncover mathematical relationships between different supervised learning models
+												</li>
+                                            </ul>
+										</p>
+
+										<h2><a name = "overview">Background / Getting Started</a></h2>
+
+										<h3>The Problem</h3>
+										<p>
+											In this assignment, you will do supervised learning using a vectorized representation of text.  We'll return to the movie reviews data from <a href = "../HW3_Markov/index.html#moviereview">assignment 3</a>, and you will likewise train a model to tell the difference between negative and positive reviews.  This time, though, you'll use logistic regression on a bag of words representation, which is incredibly simple and elegant in code, and which suprisingly works even better.  You will also be more careful to assess the performance of your model using something called <b>cross validation</b> to ensure that you are not overfitting.
+										</p>
+									
+									<h3>Vectorizing Text with Binary Bag of Words (BBOW)</h3>
+
+										<p>
+											In this assignment, we will show that logistic regression performs fairly well on a simple <b>"binary bag of words" (BBOW)</b> representation of documents.  Like the <a href = "../../ClassExercises/Week5_BagOfWords/">bag of words representation we discussed before</a>, we completely disregard the order of the words and simply keep track of which words occur in each document, but this time, <b>we don't care about how often a word occurs, just that it occurred</b>.  For example, the phrase "first go left, then go right, then go left, then go right and right again" would simply have the words <code>["go","again", "left", "then", "right", "first", "and"]</code>, in no particular order.  Even though our representation loses all information about the sequence, this works surprisingly well in many natural language processing tasks.
+										</p>
+											
+										<p>
+											Though we won't explicitly construct a data matrix in this assignment, it's helpful to think of what it might look like.  In a BBOW representation, each row corresponds to a document, and each column corresponds to a word.  We call the set of all words across all columns the <b>vocabulary</b> of our representation.  For a particular document, we put a 1 in a column if the corresponding word exists in that document, and a 0 otherwise. To demonstrate a data matrix in a BBOW representation, we show below a limerick by Kaitlyn Guenther in which every "document" is simply a single line of text.  The data matrix then looks like this.
+										</p>
+
+									<table border=1 cellpadding=5>
+										<tr><td>Document</td>
+										<td>there</td><td>once</td><td>was</td><td>a</td><td>wonderful</td><td>star</td><td>who</td><td>thought</td><td>she</td><td>would</td><td>go</td><td>very</td><td>far</td><td>until</td><td>fell</td><td>down</td><td>and</td><td>looked</td><td>like</td><td>clown</td><td>knew</td><td>never</td></tr><tr><td>There once was a wonderful star
+										</td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td></tr><tr><td>Who thought she would go very far
+										</td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td></tr><tr><td>Until she fell down
+										</td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td></tr><tr><td>And looked like a clown
+										</td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td></tr><tr><td>She knew she would never go far
+										</td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>0</h3></center></td><td><center><h3>1</h3></center></td><td><center><h3>1</h3></center></td></tr></table>
+										
+
+										<p>
+											Note that the columns of the vocabulary can be in an arbitrary order, but the order should be consistent across documents.
+										</p>
+
+
+									
+
+										
+										
+
+										<!--<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											fin = open("words.txt")
+											words = fin.read().split() # Create a list of words
+										</script> !-->
+
+
+								<HR>
+									<h2>Part 1: Programming Tasks</h2>
+									<p>
+										There is no starter code for this assignment.  Instead, you should wrangle up the movie data from assignment 3 and setup an empty notebook from which that data is accessible.  You may also want to develop some methods in a separate file to keep things organized.  <b>When you are finished, upload your notebook and any .py files it reiles on </b>
+									</p>
+
+									<h3>Task 1: BBOW + Logistic Regression Implementation (20 Points)</h3>
+									<p>
+										Your first task is to implement logistic regression on a binary bag of words representation of all 2000 movie reviews using <b>logistic loss</b>.  Review the code for <a href = "../../ClassExercises/Week5_BagOfWords/">bag of words</a> and the math/code for <a href = "../../ClassExercises/Week10_LogisticRegression/">logistic regression</a>, particularly for the <a href = "../../ClassExercises/Week10_LogisticRegression/index.html#convexitylogistic">logistic loss</a>.  Take a moment to plan everything out before you start writing code.  It may not be immediately obvious what to do, but once you figure it out, the code is extremely simple, short, and elegant. 
+									</p>
+
+									<p>
+										Here are a few tips for your implementation:
+									</p>
+									<ul>
+										<li>
+											Make the <b>y</b> value for a negative movie be 0 and the <b>y</b> value for a positive movie be 1.
+										</li>
+										<li>
+											Use a dictionary to come up with a consistent dimension index for each word.
+										</li>
+										<li>
+											Don't represent any of the 0's in your data.  Instead, only store the dimensions for each document that were actually used.  Then, when going to do gradient descent, look up the dimensions that are actually relevant for each document.  They are all 1's.
+										</li>
+										<li>
+											Use a learning rate <b>&alpha; = 0.001</b> and go for 200 iterations.  If you've done this properly, then every single movie review should be classified properly in your entire set by the end; that is, every positive movie should evaluate to something greater than 0.5 when fed to the logistic function, and every negative movie should evaluate to something less than 0.5.
+										</li>
+										<li>
+											<p>
+												Recall that code to load in a movie review is as follows:
+											</p>
+		
+											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+												fin = open("text/movies/pos/{}.txt".format(i), encoding="utf8")
+												s = fin.read().lower() # Read in review and convert ot lowercase
+												words = s.split() # Make a list of words
+												fin.close()
+											</script>   
+										</li>
+									</ul>
+									
+
+									<h3>Task 2: Interpreting The Model (8 Points)</h3>
+									<p>
+										Once you've successfully trained logistic regression onf the 2,000 movie reviews, print out the top 20 words with the highest weight <b>w</b>, which have the largest impact on positive movie reviews (they should be positive words overall).  Then, print out the words with the bottom 20 weights, which have the largest impact on negative movie reviews (they should be negative words overall).  The <a href = "https://numpy.org/doc/stable/reference/generated/numpy.argsort.html">argsort</a> command should come in handy here.
+									</p>
+
+									<h3>Task 3: Cross-Validation (8 Points)</h3>
+									<p>
+										You might be a bit suspicious that we seem to get 100% classification accuracy on this dataset.  Your suspicion is correct, because we never split our data into a training set and a test set!  So it is quite possible that we are just overfitting the model to data, particularly because each feature vector has so many dimensions!  We need to do something more to convince ourselves that our model will <b>generalize</b> to unseen data.
+									</p>
+
+									<p>
+										In the Markov assignment, we simply used the first 900 reviews of each type as training and tested on the rest, but we review a more rigorous strategy here known as <b>cross-validation</b>.  What you should do is randomly split up the data into a training and a test set as follows:
+									</p>
+									<ol>
+										<li>
+											Split the data up evenly into <b>K</b> random chunks (which you can do with the help of <a href = "https://numpy.org/doc/stable/reference/random/generated/numpy.random.permutation.html">np.random.permutation</a>)
+										</li>
+										<li>
+											Use each chunk as a test set, and use the rest of the chunks as the training set.
+										</li>
+									</ol>
+									<p>
+										Each document will show up in exactly one "test fold" in this scheme, so simply add up all of the correct classifications over all <b>K</b> folds to report the total accuracy.
+									</p>
+
+									<p>
+										In this task, you should implement <b>5-fold cross-validation</b>; that is, <b>K = 5</b>.  If this is working properly, you should see about 85% accuracy with the model, which is not bad given how simple it is!
+									</p>
+
+
+								<HR>
+									<h2>Part 2: Mathematical Derivations</h2>
+								<p>Coming soon...</p>
+
+								<h3>Task 1: Ridge Regularization Update Rules (8 Points)</h3>
+										
+								<h3>Task 2: Relationship Between Naive Bayes Bag of Words And Logistic Regression (8 Points)</h3>
+
+								<h3>Task 3: Relationship Between Naive Bayes Gaussian And Nearest Neighbors (8 Points)</h3>
+
+                                    
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#readings">Readings</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+													<ul>
+														<li><a href = "../../Assignments/HW2_RushHour/competition.html">Competition Results</a> </li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5a_3DShapeCluster">HW5a: 3D Shape Clustering</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5b_Unsupervised">HW5b: NMF for Music Component Separation</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW6_LogisticRegression">HW6: Logistic Regression on Movie Reviews</a>
+												</li>
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_WhatIsAI">Week 1: What Is AI?</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_COVID">Week 1: Monte Carlo COVID Simulation</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_COVID/solution.html">Solution</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Week 5: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Exercise / Theory of Bayesian Classifiers</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#exercise">Text Classification Exercise</a></li>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#theory">Naive Bayes Theory</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module3/Exercise0">Week 5: Bayes Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_GradSchoolAdmissions">Week 6: Gaussian Naive Bayes And Grad School Admissions</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/MatrixModule/Video1">Week 8: Matrix Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week8_NMF">Week 8: Nonnegative Matrix Factorization</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week9_KMeans3DShapes">Week 9/10: KMeans Clustering, Applications To Image Processing</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_VisualBOW/index.html">Week 10: Visual Bag of Words</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_LogisticRegression/index.html">Week 10/11: Logistic Regression And Gradient Descent</a>
+												</li>
+											</ul>
+										</li>
+										<li><a href = "../../Ethics/index.html">Ethics Reading / Discussions</a></li>
+										<li><a href = "../../FinalProject/index.html">Final Ethics Project</a></li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->

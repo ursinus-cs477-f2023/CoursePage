@@ -137,17 +137,17 @@ Unit 4: Deep Learning
 LECTURE
 Convexity And Logistic Loss, Intro To Neural Networks
 
-<ul><li><a href = "ClassExercises/Week10_LogisticRegression/index.html#convexitylogistic">Class Notes on Convexity And Logistic Loss</a></li><li><a href = "https://github.com/Ursinus-CS477-F2021/Week11_Convexity_NNIntro/archive/refs/heads/main.zip">Class Exercise: Design your own neural net</a></li><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
+<ul><li><a href = "ClassExercises/Week10_LogisticRegression/index.html#convexitylogistic">Class Notes on Convexity And Logistic Loss</a></li><li><a href = "https://github.com/Ursinus-CS477-F2021/Week11_Convexity_NNIntro/archive/refs/heads/main.zip">Class Exercise: Design your own neural net</a></li><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li></ul>
 LECTURE
-Back Propagation
+Begin Backpropagation
 
-<ul><li>Class Example: MNist Deja Vu</li></ul>
+
+LECTURE
+Continue Backpropagation, Overfitting
+
+<ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 LECTURE
 Convolutional Neural Networks
-
-
-LECTURE
-PCA Component Review, Exploring Latent Spaces of Deep Neural Networks
 
 
 LECTURE
