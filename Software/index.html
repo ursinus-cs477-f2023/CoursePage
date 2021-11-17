@@ -71,6 +71,81 @@
 										These days, to keep things clean, I almost always use Jupyter as a front end for loading data and plotting results, while the code that does the heavy lifting and algorithms is in separate files.
 									</p>
 
+									<HR>
+
+									<h2><a name = "vscodeinstall">Visual Studio Code Installation with WebServer</a></h2>
+									<p>
+										Towards the end of the course, we will be using <a href = "https://www.tensorflow.org/js/">tensorflow.js</a> to train deep learning models in Javascript.  This is because deep learning software is an incredible pain to get setup in Python, and you need a CUDA compatible graphics card to run it.  By contrast, even though js is a bit slower, it should work on anyone's computer.
+									</p>
+									<p>
+										To make this as easy as possible, we use an Integrated Development Environment (IDE) known as <b>Microsoft Visual Studio Code</b> (VSCode), which will make it easy to organize your projects and to run the code you write.  Please visit <a href = "https://code.visualstudio.com/Download">this link</a> to download VSCode for your appropriate operating system.  Most Windows and Linux users will want the <b>64-bit</b> download.  Please post on Discord if you are having any issues installing VSCode.
+									</p>
+
+
+									<h3><a name = "liveserver">Live Server Plugin</a></h3>
+									<p>
+										VSCode has a ton of awesome, open source plugins.  One that's particularly useful for our course is a local web server that can launch your pages in the browser and automatically refresh them as you save your file.  Once you have downloaded VSCode, you will need to click on the <code>Extensions</code> button (circled in red in the image below) and search for <code>Live Server</code>, and then click install
+									</p>
+
+									<img src = "LiveServer.png">
+
+									<p>
+										Then, open a top level folder containing the code that you want to run, right click on an HTML file you want to run, and click <BR><code>Open with Live Server</code>
+									</p>
+
+									<img src = "OpenServer.png">
+
+									<p>
+										This will then launch your code in a browser window, and as you type and save any code that the HTML page depends on, it will automatically refresh in the browser(!!).  
+									</p>
+
+									<p>
+										If you want to change the default browser that opens with the live server, then you have to change the <code>settings.json</code> to have the <code>CustomBrowser</code> field.  For example, my <code>settings.json</code> file has the following code to get it to launch Chrome by default
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: js"><![CDATA[
+									{
+										"window.zoomLevel": 2,
+										"terminal.integrated.inheritEnv": false,
+										"liveServer.settings.AdvanceCustomBrowserCmdLine": "",
+										"liveServer.settings.CustomBrowser":"chrome"
+									}
+									]]></script> 
+
+									<p>
+										The GIF below shows how to access the <code>settings.json</code> file
+									</p>
+
+									<img src = "LiveServer_CustomBrowser.gif">
+
+									<p>
+										<b>NOTE: </b> The assignments have been tested in Firefox and Chrome, so it's best if you stick to one of those browsers.
+									</p>
+									
+									<h3><a name = "vscodefeatures">Quick Features Overview</a></h3>
+
+									<p>
+										Below are a few features I want to highlight that will come in handy as your working.
+									</p>
+
+									<h4>Unused variable highlighting</h4>
+									<p>
+										If you don't use a variable, it will show up in darker text.  This is very useful when debugging.  It means that either you didn't actually need the variable, you forgot to use it (hence you didn't complete your code), or you spelled it wrong somewhere.  This saved many a student last year!
+									</p>
+
+									<img src = "HighlightingUnused.gif">
+
+									<h4>Replace within Selection</h4>
+									<p>
+										If you want to change the name of a variable in one section of your code, you can do a <code>CTRL+F</code>, which will bring up the find/replace menu, then follow these steps:
+									</p>
+									<img src = "ReplaceSelection.gif">
+
+								<h2>Debugging Javascript</h2>
+								<p>
+									Firefox and Chrome have robust tools built in that you can use to debug your code.  On most computers, you can hit <code>F12</code> to bring up the debugging console.  There, you will see any output from <code>console.log()</code>, and you will be able to set breakpoints in an interactive debugger.
+								</p>
+
 
 
 

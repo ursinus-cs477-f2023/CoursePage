@@ -49,3 +49,6 @@
 [submodule "ClassExercises/Week11_Backprop/Week11_NNGradientDescent"]
 	path = ClassExercises/Week11_Backprop/Week11_NNGradientDescent
 	url = https://github.com/Ursinus-CS477-F2021/Week11_NNGradientDescent.git
+[submodule "ClassExercises/Week12_CNNs/Week12_CNNs"]
+	path = ClassExercises/Week12_CNNs/Week12_CNNs
+	url = https://github.com/Ursinus-CS477-F2021/Week12_CNNs.git
