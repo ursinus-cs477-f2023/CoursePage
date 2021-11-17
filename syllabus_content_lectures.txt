@@ -147,11 +147,15 @@ Continue Backpropagation, Overfitting
 
 <ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 LECTURE
-Convolutional Neural Networks
+Tensorflow.js, Begin Convolutional Neural Networks
+
+<ul><li><a href = "https://www.tensorflow.org/js/guide/models_and_layers">Guide to tensorflow.js layers</a></li><li><a href = "https://setosa.io/ev/image-kernels/">Live 2D convolution demo</a></li><li><a href = "https://cs231n.github.io/convolutional-networks/">Stanford CS 231n Notes on Convolutional Neural Networks</a></li></ul>
+LECTURE
+Ethics: <i>Race After Technology</i>: Coded Exposure And Technological Benevolence
 
 
 LECTURE
-Ethics: <i>Race After Technology</i>: Retooling Solidarity, Re-Imagining Justice
+More Convolutional Neural Networks
 
 
 LECTURE
@@ -179,11 +183,7 @@ Reinforcement Learning, Bellman Equations
 
 Class Exercise: Cat + Mouse
 LECTURE
-Reinforcement Learning, Bellman Equations
-
-<ul><li>Link to deep reinforcement, Mario Playing</li></ul>
-LECTURE
-Ethics: <i>Race After Technology</i>: Coded Exposure And Technological Benevolence
+Ethics: <i>Race After Technology</i>: Retooling Solidarity, Re-Imagining Justice
 
 
 

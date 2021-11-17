@@ -52,3 +52,6 @@
 [submodule "ClassExercises/Week12_CNNs/Week12_CNNs"]
 	path = ClassExercises/Week12_CNNs/Week12_CNNs
 	url = https://github.com/Ursinus-CS477-F2021/Week12_CNNs.git
+[submodule "ClassExercises/Week12_CNNs/Week12_tensorflowjs_convolution"]
+	path = ClassExercises/Week12_CNNs/Week12_tensorflowjs_convolution
+	url = https://github.com/Ursinus-CS477-F2021/Week12_tensorflowjs_convolution.git
