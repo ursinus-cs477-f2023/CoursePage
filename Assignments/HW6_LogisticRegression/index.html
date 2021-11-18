@@ -123,12 +123,21 @@
 										</h3>
 	
 										<h3>
-											\[  b \gets c + \alpha \sum_{i=1}^N (y_i - f(w_1x_1 + w_2x_2 + ... + w_dx_d + b) \]
+											\[  b \gets b + \alpha \sum_{i=1}^N (y_i - f(w_1x_1 + w_2x_2 + ... + w_dx_d + b) \]
 										</h3>
 									</div>
 
 									<p>
-										where in this context each <b>x<SUB>k</SUB></b> is either 1 if the corresponding word is in the review or 0 otherwise, and the sum is over all <b>N</b> reviews.  Therefore, for each review, the input to the logistic function is simply the sum of all of the weights for the words that are actually in that review, and the update rules simplify to 
+										where in this context 
+										<ul>
+											<li>
+												<b>y<SUB>i</SUB></b> is a 0 if the i<SUP>th</SUP> review is negative or 1 if it's positive
+											</li>
+											<li>
+												Each <b>x<SUB>k</SUB></b> is either 1 if the corresponding word is in the review or 0 otherwise
+											</li>
+										</ul>
+										,and the sum is over all <b>N</b> reviews.  Therefore, for each review, the input to the logistic function is simply the sum of all of the weights for the words that are actually in that review, and the update rules simplify to 
 									</p>
 
 									<div style="width:200px;">
@@ -137,7 +146,7 @@
 										</h3>
 	
 										<h3>
-											\[  b \gets c + \alpha \sum_{i=1}^N (y_i - f(b + \sum_j w_j)) \]
+											\[  b \gets b + \alpha \sum_{i=1}^N (y_i - f(b + \sum_j w_j)) \]
 										</h3>
 									</div>
 
