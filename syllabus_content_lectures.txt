@@ -153,7 +153,7 @@ Tensorflow.js, Begin Convolutional Neural Networks
 LECTURE
 Ethics: <i>Race After Technology</i>: Coded Exposure And Technological Benevolence
 
-
+<ul><li><a href = "https://twitter.com/quasimondo/status/1274636495941500928">The Verge: What a machine learning tool that turns Obama white can (and can’t) tell us about AI bias</a></li></ul>
 LECTURE
 More Convolutional Neural Networks
 
