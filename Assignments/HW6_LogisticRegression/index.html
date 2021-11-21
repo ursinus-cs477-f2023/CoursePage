@@ -137,7 +137,7 @@
 												Each <b>x<SUB>k</SUB></b> is either 1 if the corresponding word is in the review or 0 otherwise
 											</li>
 										</ul>
-										,and the sum is over all <b>N</b> reviews.  Therefore, for each review, the input to the logistic function is simply the sum of all of the weights for the words that are actually in that review, and the update rules simplify to 
+										and the sum is over all <b>N</b> reviews.  Therefore, for each review, the input to the logistic function is simply the sum of all of the weights for the words that are actually in that review, and the update rules simplify to 
 									</p>
 
 									<div style="width:200px;">
@@ -151,7 +151,12 @@
 									</div>
 
 									<p>
-										Where the <b>j</b> is summed over all indices of words that are in review <b>i</b>, and only the <b>w<SUB>k</SUB></b> corresponding to words in the review are updated.
+										Where the <b>j</b> is summed over all indices of words that are in review <b>i</b>, and only the <b>w<SUB>k</SUB></b> corresponding to words in the review are updated for that review.
+									</p>
+
+									<h4>Batch Gradient Descent</h4>
+									<p>
+										In practice, what you should do is something referred to as <b>batch gradient descent</b>, where you wait until you've gone through all of the reviews in your training set to update the weights.  So accumulate the weight changes over all reviews in some accumulation array, and add this to the weights once you've gone through all reviews.
 									</p>
 
 
