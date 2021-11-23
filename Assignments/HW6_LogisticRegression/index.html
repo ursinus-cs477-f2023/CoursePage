@@ -248,14 +248,69 @@
 
 
 								<HR>
-									<h2>Part 2: Mathematical Derivations</h2>
-								<p>Coming soon...</p>
+									<h2><a name = "mathematical">Part 2: Mathematical Derivations</a></h2>
 
 								<h3>Task 1: Ridge Regularization Update Rules (8 Points)</h3>
 										
+
+								<p>
+									If we have a lot more weights in logistic regression than we do data points, we are at risk of overfitting to our data.  One way to mitigate this is to introduce something known as <b>regularization</b>.  In general, regularization refers to an additional constraint we put on our model to control the complexity.  In this part of the assignment, you will explore a particular kind of regularization known as <b>ridge regularization</b>.  Given <b>N</b> examples in <b>d</b> dimensions, as well as a weight vector <b>w</b> and a bias <b>b</b>, the standard unregularized logistic loss minimizes the equation 
+								</p>
+
+								<div style="width:200px;">
+									<h3>
+										\[ L(\vec{w}, b) = \sum_{i=1}^N -y_i \log(f(u_i)) - (1-y_i)\log(1-f(u_i))   \]
+									</h3>
+
+									where 
+
+									<h3>
+										\[ u_i = b + \sum_{j = 1^d} w_j x_{ij} \]
+									</h3>
+								</div>
+
+								<p>
+									and <b>x<SUB>ij</SUB></b> refers to the <b>j<SUP>th</SUP></b> dimension of example <b>i</b>.  Given all of the weights in a <b>d</b>-dimensional vector and all of the components of <b>x<SUB>i</SUB></b> in a d-dimensional vector.  Ridge regularization adds another term weighted by some constant <b>&lambda;</b>, which controls how big the weights can be
+								</p>
+
+								<div style="width:200px;">
+									<h3>
+										\[ L_{\lambda}(\vec{w}, b) = \left( \sum_{i=1}^N -y_i \log(f(u_i)) - (1-y_i)\log(1-f(u_i)) \right) + \frac{\lambda}{2} \sum_{j=1}^d w_j^2 \]
+									</h3>
+								</div>
+
+								<p>
+									The larger <b>&lambda;</b> is, the more the objective function penalizes a large weight.
+								</p>
+
+								<p>
+									Your job in this task is to derive the update rules for a gradient descent procedure that minimizes <b>L<SUB>&lambda;</SUB></b>.  In particular, you should compute the partial derivative with respect to each weight and with respect to the bias, and then re-arrange them into update rules.  You may want to refer back to <a href = "Week10_LogisticRegression/index.html">the notes where we took the gradient of the original expression</a>.
+								</p>
+
 								<h3>Task 2: Relationship Between Naive Bayes Bag of Words And Logistic Regression (8 Points)</h3>
 
-								<h3>Task 3: Relationship Between Naive Bayes Gaussian And Nearest Neighbors (8 Points)</h3>
+								<p>
+									We can actually think of a bag of words Naive Bayes classifier as a linear separator if we re-interpret the equations through a geometric lens.  To see this, have a look back at <a href = "../../ClassExercises/Week5_BagOfWords/index.html#theory">the equations for Naive bayes</a>.  Then answer the following questions:
+									
+									<ol>
+										<li>
+											What are the weights of each word if you interpret the maximum log posterior likelihood estimator as a linear separator? What is the bias?
+										</li>
+										<li>
+											If they're in the same form, why would you expect logistic regression to do better in general?
+										</li>
+										<li>
+											Which one of these is more computationally efficient?
+										</li>
+									</ol>    
+								</p>
+
+								<h3>Task 3: Testing Tensorflow (8 Points)</h3>
+								<p>
+									To prepare for the next programming assignment, I want every student to run a convolutional neural network in tensorflow in python and in tensorflow.js and to report the running times 
+								</p>
+
+								<!--<h3>Task 3: Relationship Between Naive Bayes Gaussian And Nearest Neighbors (8 Points)</h3>!-->
 
                                     
                                 </div>

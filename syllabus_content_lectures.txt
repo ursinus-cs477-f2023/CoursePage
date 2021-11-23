@@ -157,17 +157,17 @@ Ethics: <i>Race After Technology</i>: Coded Exposure And Technological Benevolen
 LECTURE
 More Convolutional Neural Networks
 
-
-LECTURE
-Generative Adversarial Networks
-
-
-LECTURE
-Recurrent Neural Networks
-
-
+<ul><li><a href = "https://machinelearningmastery.com/how-to-develop-a-convolutional-neural-network-to-classify-photos-of-dogs-and-cats/">Dogs, Cats, And Quantifying Overfitting</a></li></ul>
 LECTURE
 Autoencoders
+
+
+LECTURE
+Generative Adversarial Networks (GANs)
+
+<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li></ul>
+LECTURE
+Recurrent Neural Networks
 
 
 SECTION
