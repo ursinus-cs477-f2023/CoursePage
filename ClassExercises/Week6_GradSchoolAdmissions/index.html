@@ -126,19 +126,19 @@
 										</p>
 
 										<h3>
-											\[ p(x | C) = \frac{1}{\sqrt{2 \pi} \sigma_1} e^{-(x_1-\mu_1)^2 / (2 \sigma_1^2)} \times \frac{1}{\sqrt{2 \pi} \sigma_2} e^{-(x_2-\mu_2)^2 / (2 \sigma_2^2)} \times ... \]
+											\[ p(x | C) = \frac{1}{\sqrt{2 \pi} \sigma_{C1}} e^{-(x_1-\mu_{C1})^2 / (2 \sigma_{C1}^2)} \times \frac{1}{\sqrt{2 \pi} \sigma_{C2}} e^{-(x_2-\mu_{C2})^2 / (2 \sigma_{C2}^2)} \times ... \]
 										</h3>
 
 										<p>
-											If we take the log of this, we get a pretty nice expression
+											where <b>(&mu;<SUB>Ck</SUB>, &sigma;<SUB>Ck</SUB>)</b> are the mean and standard deviation, respectively, of variable <b>k</b> under model <b>C</b>. If we take the log of this, we get a pretty nice expression
 										</p>
 
 										<h3>
-											\[ \log p(x | C) = \log \frac{1}{\sqrt{2 \pi} \sigma_1} -(x_1-\mu_1)^2 / (2 \sigma_1^2) + \log \frac{1}{\sqrt{2 \pi} \sigma_2}  - (x_2-\mu_2)^2 / (2 \sigma_2^2) + ...\]
+											\[ \log p(x | C) = \log \frac{1}{\sqrt{2 \pi} \sigma_{C1}} -(x_1-\mu_{C2})^2 / (2 \sigma_{C1}^2) + \log \frac{1}{\sqrt{2 \pi} \sigma_{C2}}  - (x_2-\mu_{C2})^2 / (2 \sigma_{C2}^2) + ...\]
 										</h3>
 
 										<p>
-											Here, we can see clearly that the further a variable gets away from the mean of the Gaussian, the more negative the log likelihood will become.
+											Here, we can see clearly that the further a variable gets away from the mean of the Gaussian, the more negative the log likelihood will become for this model.  So the maximum likelihood point is directly at the mean of each variable.
 										</p>
 
 										<h3>Histogram-Based Naive Bayes</h3>

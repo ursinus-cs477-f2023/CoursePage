@@ -55,3 +55,6 @@
 [submodule "ClassExercises/Week12_CNNs/Week12_tensorflowjs_convolution"]
 	path = ClassExercises/Week12_CNNs/Week12_tensorflowjs_convolution
 	url = https://github.com/Ursinus-CS477-F2021/Week12_tensorflowjs_convolution.git
+[submodule "Assignments/HW7_NeuralNets/TensorflowDigitsTest"]
+	path = Assignments/HW7_NeuralNets/TensorflowDigitsTest
+	url = https://github.com/Ursinus-CS477-F2021/TensorflowDigitsTest.git
