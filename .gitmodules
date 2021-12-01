@@ -58,3 +58,6 @@
 [submodule "Assignments/HW7_NeuralNets/TensorflowDigitsTest"]
 	path = Assignments/HW7_NeuralNets/TensorflowDigitsTest
 	url = https://github.com/Ursinus-CS477-F2021/TensorflowDigitsTest.git
+[submodule "ClassExercises/Week14_Autoencoderes/Week14_Autoencoderes"]
+	path = ClassExercises/Week14_Autoencoderes/Week14_Autoencoderes
+	url = https://github.com/Ursinus-CS477-F2021/Week14_Autoencoderes.git
