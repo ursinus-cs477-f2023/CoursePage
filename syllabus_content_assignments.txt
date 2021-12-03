@@ -73,12 +73,9 @@ Assignment 6 Part 2 Due
 Pre Assignment 7 Due
 
 2021-11-29
-<HR>Assignment 7: Face Generation Out
+<a href = "Assignments/HW7_DeepLearning">Assignment 7: (Deep) Neural Networks</a> Out
 
-2021-12-01
-Assignment 7 Due
-
-2021-12-10
+2021-12-02
 Indicate <a href = "FinalProject/index.html">Final Project</a> Choice
 
 2021-11-15

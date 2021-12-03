@@ -41,7 +41,7 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Homework 7: (Deep) Neural Networks</h2>
+                                        <h2>Homework 7: (Deep) Neural Networks on Images (65 Points)</h2>
 										<h3>Chris Tralie</h3>
 									</header>
 									
@@ -75,6 +75,23 @@
 													</li>
 												</ul>
 
+											</li>
+											<li>
+												<a name = "#thiscat">Part 3: This Cat Doesn't Exist (aka "Deep Fakes")</a>
+												<ul>
+													<li>
+														<a href = "#task31">Task 3.1: Generator Network (7 Points)</a>
+													</li>
+													<li>
+														<a href = "#task32">Task 3.2: Discriminator Network (7 Points)</a>
+													</li>
+													<li>
+														<a href = "#task34">Task 3.3: Discriminator Loss (7 Points)</a>
+													</li>
+													<li>
+														<a href = "#task34">Task 3.4: Ethics (4 Points)</a>
+													</li>
+												</ul>
 											</li>
 										</ul>
 
@@ -690,9 +707,145 @@
 									<HR>
 									<h2><a name = "thiscat">Part 3: This Cat Doesn't Exist (aka "Deep Fakes")</a></h2>
 									<p>
-										Let's now jump into tensorflow to do something more complicated with convolutional neural networks.
+										Let's now jump into tensorflow to do something more complicated with convolutional neural networks.  We're going to look at a very interesting <b>unsupervised technique</b> known as a <b>Deep Convolutional Generative Adversarial Network (DCGAN)</b> that will learn how to <b>generate</b> fake images that fit the distribution of a set of training images.  Somehow, by the end of this exercise, we're going to feed a random vector to a network, and it's going to spit out an image that looks like a cat.
 									</p>
+										
+										The GAN, devised by <a href = "https://proceedings.neurips.cc/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf">Goodfellow et al</a> back in 2014, accomplishes this feat by putting two networks into competition with each other.  The first network, known as the <b>generator</b>, takes as input a "noise vector" (a vector of random numbers) and outputs a counterfeit image.  The second network, known as the <b>discriminator</b>, compares these fake images to real images in the training set and classifies them as real (1) or fake (0).  The schematic below shows this visually
+									</p>
+
+									<img src = "GANDiagram.svg" width=800>
+
+									<p>
+										As the training goes along, we try to minimize the sum of two losses, one for each network:
+										<ol>
+											<li>
+												The <b>generator loss</b> penalizes fake images outputted by the generator that are classified as fake.  So the generator is incentivized to improve the quality of its counterfeit images over time.
+											</li>
+											<li>
+												The <b>discriminator loss</b> penalizes fake images that are classified as real and real images that are classified as fake.  In this way, it learns to get better and better at telling counterfeits from fakes.
+											</li>
+										</ol>
+									</p>
+
+									<p>
+										The learning proceeds by taking steps to minimize the loss over steps 1 and 2 over and over again in a loop.  What's interesting is that as the generator improves, the loss of the discriminator goes up, and it must improve, and vice versa.  So they keep going back and forth in competition and improving each other.  Eventually, the generator will start creating new images out of thin air that look like they might belong to the distribution of the training set.  The cartoon picture below shows something like what me might expect:
+									</p>
+
+									<img src = "GANCartoon.svg" width=600>
+
+									<h4>Your Task</h4>
+									<p>
+										In this part of the assignment, you will use roughly 20,000 64x64 grayscale images of cats to train a simple GAN in Tensorflow to generate fake cat images.  You will edit a few methods in the file <code>dcgan.py</code>, and you will run the results in the notebook <code>CatsGAN.ipynb</code>.  If this works properly, you will see "cats emerging from the noise" like so after about 40 iterations
+									</p>
+
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/Md8QRkcTRTU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									<p></p>
+
+									<p>
+										Before you proceed, you might want to review the <a href = "https://github.com/Ursinus-CS477-F2021/Week14_CatDog_Layers/blob/main/CatDog_Train.ipynb">Tensorflow Cat/Dog classifier</a> from class, as well as the <a href = "https://github.com/Ursinus-CS477-F2021/Week14_CatDog_Layers/blob/main/Cats_Autoencoder.ipynb">Tensorflow Cat Autoencoder</a> (you'll see at the bottom of this example that out of the box autoencoders don't work well for generation of new examples!).  Once you get the syntax down, this part of the assignment should be among the more straightforward things you've done in this class.
+									</p>
+
+									<h3><a name = "task31">Task 3.1: Generator Network (7 Points)</a></h3>
+									<p>
+										For the first task, fill in the <code>make_generator</code> method to create a generator network with the following architecture:
+									</p>
+									<ol>
+										<li>
+											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense">Dense</a> layer with no bias taking the dimension of the noise vector, <code>(self.noise_dim,)</code>, as the input shape, and which outputs to enough neurons to fill up the pixel shape in step 4
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization">Batch Normalization</a>
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/LeakyReLU">Leaky ReLU</a>
+										</li>
+										<li>
+											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Reshape">Reshape</a> layer to reshape the dense outputs to a quarter resolution of the original image
+										</li>
+										<li>
+											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2DTranspose">Conv2DTranspose</a> with no bias at a kernel size of 5x5 and a stride of 2, up to 32 channels.  This is convolution in the other direction, or "deconvolution"; it upsamples the image by a factor of 2 with overlap/adding
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization">Batch Normalization</a>
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/LeakyReLU">Leaky ReLU</a>
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2DTranspose">Conv2DTranspose</a> with no bias at a kernel size of 5x5 and a stride of 2, down to a single channel, with a <b>tanh</b> activation (this has a similar shape to the logistic function).  This is the output layer that will generate the final counterfeit image.
+										</li>
+										
+									</ol>
 									
+
+									<p>
+										If you've done this properly, when you initialize the network and feed it a random vector with the following code
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										imgres = 64
+										noise_dim = 100
+										foldername = 'cats_{}x{}_grayscale/all'.format(imgres, imgres)
+										gan = DCGAN(foldername, imgres, noise_dim)
+										# Generate a random image, which should look like noise at this point
+										gan.generate_random_image()
+									</script>
+									
+									<p>
+										Then you should get an image like below:
+									</p>
+
+									<img src = "random_initial.png">
+
+									<p>
+										Since the weights are initialized randomly and no training has happened yet, the image has no structure
+									</p>
+
+
+									<h3><a name = "task32">Task 3.2: Discriminator Network (7 Points)</a></h3>
+									<p>
+										Now we're going to make the discriminator.  This is a lot more like the example we did in class <a href = "https://github.com/Ursinus-CS477-F2021/Week14_CatDog_Layers/blob/main/CatDog_Train.ipynb">telling cats apart from dogs</a>, since they are both binary classification problems on images.  But to keep our training time reasonable, we're going to use a simpler network.  To keep symmetry with the generator, we will also avoid doing any max pooling.  Implement the following architecture in the <code>make_discriminator</code> method:
+									</p>
+
+									<ol>
+										<li>
+											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2D">Conv2D</a> layer with a 5x5 kernel size and a stride of 2 to 32 channels.
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/LeakyReLU">Leaky ReLU</a>
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout">Dropout</a> of 0.3
+										</li>
+										<li>
+											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2D">Conv2D</a> layer with a 5x5 kernel size and a stride of 2 to 64 channels.
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/LeakyReLU">Leaky ReLU</a>
+										</li>
+										<li>
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout">Dropout</a> of 0.3
+										</li>
+										<li>A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Flatten">Flatten</a> layer to reshape the input to be 1 dimensional</li>
+										<li>
+											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense">Dense</a> layer that outputs to a single neuron, which is the output classification.
+										</li>
+									</ol>
+
+
+									<h3><a name = "task34">Task 3.3: Discriminator Loss (7 Points)</a></h3>
+									<p>
+										If have provided code to implement the generator loss in the <code>generator_loss</code> method.  Study this, and create a similar method to implement the discriminator loss in the <code>discriminator_loss</code> method.  
+									</p>
+
+									<p>
+										Once you have finished this, you'll have all of the pieces to a working GAN (including the code I provided to setup a training loop).  Go ahead and run the <code>CatsGAN.ipynb</code> notebook and see if it works!
+									</p>
+
+									<h3><a name = "task34">Task 3.4: Ethics (4 Points)</a></h3>
+									<p>
+										It's kind of amazing that with relatively little effort we were able to create a system from scratch to create fake images.  Reflect on the dangers of having this technology be so accessible.  What are possible countermeasures to this technology?
+									</p>
 									
                                 </div>
 						</div>
@@ -764,6 +917,9 @@
 												</li>
 												<li>
 													<a href = "../../Assignments/HW6_LogisticRegression">HW6: Logistic Regression on Movie Reviews</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW7_DeepLearning">HW7: (Deep) Neural Networks on Images</a>
 												</li>
 											</ul>
 										</li>
