@@ -173,7 +173,7 @@
 										Where the <b>j</b> is summed over all indices of words that are in review <b>i</b>, and only the <b>w<SUB>k</SUB></b> corresponding to words in the review are updated for that review.
 									</p>
 
-									<h4>Batch Gradient Descent</h4>
+									<h4><a name = "batch">Batch Gradient Descent</a></h4>
 									<p>
 										In practice, what you should do is something referred to as <b>batch gradient descent</b>, where you wait until you've gone through all of the reviews in your training set to update the weights.  So accumulate the weight changes over all reviews in some accumulation array, and add this to the weights once you've gone through all reviews.
 									</p>

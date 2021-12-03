@@ -1,0 +1,870 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+                                        <h2>Homework 7: (Deep) Neural Networks</h2>
+										<h3>Chris Tralie</h3>
+									</header>
+									
+									<h3>
+										Table of Contents
+										<ul>
+											<li><a href = "#objectives">Learning Objectives</a></li>
+											<li><a href = "#softwaretest">Part 1: Software Test (5 Points)</li>
+											<li>
+												<a href = "#softwaretest">Part 2: Backpropagation from Scratch</a>
+												<ul>
+													<li><a href = "#background">Background</a>
+													<ul>
+														<li>
+															<a href = "#forward">Forward Pass via Matrix Operations</a>
+														</li>
+														<li>
+															<a href = "#backward">Backward Pass via Matrix Operations</a>
+														</li>
+													</ul>
+													</li>
+													<li><a href = "#task21">Task 2.1: Leaky ReLU (5 Points)</a></li>
+													<li>
+														<a href = "#task22">Task 2.2: Backpropagation (15 Points)</a>
+													</li>
+													<li>
+														<a href = "#task23">Task 2.3: Softmax (5 Points)</a>
+													</li>
+													<li>
+														<a href = "#task24">Task 2.4: Digits Classification (10 Points)</a>
+													</li>
+												</ul>
+
+											</li>
+										</ul>
+
+									</h3>
+
+									<div id="page-content">
+
+                                        <p>
+                                            <h2><a name = "objectives">Learning Objectives</a></h2>
+                                            <ul>
+												<li>
+													Implement backpropagation for densely connected neural networks.
+												</li>
+												<li>
+													Implement stochastic gradient descent.
+												</li>
+												<li>
+													Explore different architectures of (deep) neural networks for different tasks.
+												</li>
+												<li>
+													Implement a generative adversarial network for deep fake generation using tensorflow and convolutional neural networks
+												</li>
+                                            </ul>
+										</p>
+
+										<h2><a name = "logistics">Logistics / Getting Started</a></h2>
+
+										<p>
+											In this assignment, you will implement your own neural network solver from scratch in Python.  Then, you will use <a href = "https://www.tensorflow.org/">Tensorflow</a>, and industry strength neural network library, to generate "deep fake" pictures of cats by training on an 
+										</p>
+
+										<p>
+											<a href = "https://github.com/Ursinus-CS477-F2021/HW7_DeepLearning/archive/refs/heads/main.zip">Click here</a> to download the starter code, which also includes a directory of about 10k cat images that you will use to create a deep fake network in <a href = "#thiscat">part 3</a>
+										</p>
+
+										
+										<h2><a name = "softwaretest">Part 1: Software Test (5 Points)</a></h2>
+
+										<p><b>UPDATE:</b> We have decided to use Python's CPU Tensorflow port in <a href = "#part3">part 3</a> instead of Javascript based on the student timing results shown below</p>
+										<img src = "TimingResults.png">
+
+										<p>
+											Click below to expand directions for the original test we did 
+										</p>
+										<button type="button" onclick="showSoftwareTest()">Show Software Test Instructions</button> 
+										<button type="button" onclick="hideSoftwareTest()">Hide Software Test Instructions</button> 
+
+
+										<div id="softwaretest" style="background-color: blanchedalmond; padding:10px;">
+											<p>
+												To get us setup for this final assignment, I want everyone to test two different versions of tensorflow: one in Javascript and one in Python.  The <a href = "https://www.tensorflow.org/js/">Javascript version</a> uses GPU acceleration via WebGL on the backend.  The Python version will default to using a CPU unless you have an NVidia GPU with CUDA configured (which is a pain, so we can probably count on it running on the CPU).
+											</p>
+
+											<p>
+												Even though the Javascript version uses the GPU for some operations, there is some overhead incurred by running in Javascript, so it's not clear which one will be faster for everyone.  So I've tried to setup the same convolutional neural network for digit recognition in both Python and Javascript and to run it long enough so that we'll get significant results on timing.
+											</p>
+
+											<p>
+												To run the Javascript test, simply <a href = "https://ursinus-cs477-f2021.github.io/TensorflowDigitsTest/">click here</a> to navigate to a page that will run the test live.  To run the python test, <a href = "https://github.com/Ursinus-CS477-F2021/TensorflowDigitsTest/archive/refs/heads/main.zip">click here</a> to download a zip file which contains the notebook <code>Digits.ipynb</code> (as well as all of the javasript code if you're curious).  Run the <code>Digits.ipynb</code> notebook.  Then answer the following questions on canvas
+											</p>
+											<ol>
+												<li>How many seconds did the Javascript demo take?  Or did it not run?</li>
+												<li>If it ran, what was the final testing accuracy for the Javascript demo?</li>
+												<li>How many seconds did the Python demo take?  Or did it not run?</li>
+												<li>If it ran, what was the final testing accuracy for the Python demo?</li>
+											</ol>
+
+										</div>
+
+										<script>
+											let SoftwareTest = document.getElementById("softwaretest");
+											function showSoftwareTest() {
+												SoftwareTest.style.display="block";
+											}
+											function hideSoftwareTest() {
+												SoftwareTest.style.display = "none";
+											}
+											hideSoftwareTest();
+										</script>
+										<p></p>
+
+										
+									<h2><a name = "softwaretest">Part 2: Backpropagation from Scratch</a></h2>
+
+									<h2><a name = "background">Background</a></h2>
+									<p>
+										In <a href = "../HW6_LogisticRegression/">homework 6</a>, you implemented gradient descent to perform logistic regression.  This can be thought of as learning a neural network with a single neuron, but the best we can do in this case is to learn a separating hyperplane.  As we discussed in class, though, when we put a bunch of neurons together, we can learn arbitrarily complicated functions.  So now we're going to take gradient descent to the next level to learn how to solve arbitrary fully connected feed forward networks using an algorithm called <b>backpropagation</b> as a subroutine.
+									</p>
+
+									<h3><a name = "forward">Forward Pass via Matrix Operations</a></h3>
+									<p>
+										At this point, we could just turn to one of the myriad libraries out there like Tensorflow to optimize neural network models for us, but I want you to see if we use the right definitions, then creating a vanilla neural network solver really isn't that much code in numpy.  It's also important that know how everything works under the hood when you run tensorflow (see <a href = "https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b">this Medium article by Andrej Karpathy</a> on why it's important to understand these details).
+									</p>
+
+									<p>
+										The key trick is to recast a neural network as a sequence of matrix multiplications and element-wise applications of activation functions<SUP><a href = "#goodfellow">[1]</a></SUP>.  Let's take the following piece of a network below, for instance, where the blue nodes show inputs to the orange neurons:
+									</p>
+
+									<p>
+										<a name = "goodfellow"><SUP>[1]</SUP></a> In what follows, I'll be mostly following notational conventions from <a href = "https://www.deeplearningbook.org/contents/mlp.html">Ch. 6.5 of <i>Deep Learning</i> by Goodfellow, Bengio, and Courville</a>
+									</p>
+
+
+									<img src = "NetworkSnapshot.svg" width=200>
+
+
+									<p>
+										Let's also assume that the <b>i<SUP>th</SUP></b> orange node has a bias <b>b<SUB>i</SUB></b>.  Assuming that the activation function for the orange neurons is a function <b>f(u)</b>, then we could write the output of the <b>i<SUP>th</SUP> neuron as</b>
+									</p>
+
+									<div style="width:100px;">
+									<h3>
+										\[ a[i] = w_{0i} x_0 + w_{1i} x_1 + w_{2i} x_2 + w_{3i} x_3 + b_i \]
+										\[ h[i] = f(a[i])  \]
+									</h3>
+									</div>
+
+									<p>
+										But there is a much more elegant way to write transformations for <b>all</b> inputs if we reformulate it as a matrix expression, and this will be much easier to implement in code.  In particular, define the following matrices 
+									</p>
+
+									<div style="width:100px;">
+										<h3>
+											\[ x = \left[ \begin{array}{c} x_0 \\ x_1 \\ x_2 \\ x_3 \\ x_4 \end{array} \right], W = \left[ \begin{array}{cccc}w_{00}&w_{10}&w_{20}&w_{30}\\w_{01}&w_{11}&w_{21}&w_{31}\\w_{02}&w_{12}&w_{22}&w_{32}\\w_{03}&w_{13}&w_{23}&w_{33}\\w_{04}&w_{14}&w_{24}&w_{34}\end{array}
+											\right], b = \left[ \begin{array}{c} b_0 \\ b_1 \\ b_2 \\ b_3 \\ b_4 \end{array} \right] \]
+										</h3>
+									</div>
+
+									<p>
+										Then the output of a layer in the network can be defined in two stages
+									</p>
+
+									<div style="width:50px;">
+										<h3>
+										 \[a = Wx + b \text{, which is a linear operation }\]
+										\[ h = f(a)  \text{, which is a nonlinear operation }\]
+										</h3>
+									</div>
+
+									<p>
+										In general, the parameters to map from the output of a layer with <b>N</b> neurons to the input of a layer with <b>M</b> neurons can be described by an <b>M x N</b> weight matrix <b>W</b> and an <b>Mx1</b> bias column vector <b>b</b>.  To propagate information through the whole network, we continually apply this sequence of linear and nonlinear operators in matrix form.  We just have to store the matrix <b>W</b>, the vector <b>b</b>, and the nonlinear function <b>f</b> that we're using at each layer.  And that's it!
+									</p>
+
+									<p>
+										In sum, below is pseudocode that describes how to do a forward pass to transform the input from each layer to the next through the entire network
+									</p>
+
+									<div style="background-color: blanchedalmond; padding:20px;">
+									<h3><a name = "forwardalg">Algorithm 1: Forward Propagation Through A Fully Connected Feedforward Neural Network</a></h3>
+									<h4>def forward(x)
+									<ul>
+										<li>Let <b>L</b> be the number of layers</li>
+										<li>h<SUB>0</SUB> = x</li>
+										<li>
+											for k = 1, ..., L
+											<ul>
+												<li>
+													a<SUB>k</SUB> = W<SUB>k</SUB> h<SUB>k-1</SUB> + b<SUB>k</SUB> // The input to this layer is the output of the last layer
+												</li>
+												<li>
+													h<SUB>k</SUB> = f(a<SUB>k</SUB>)
+												</li>
+											</ul>
+										</li>
+										<li>
+											y<SUB>est</SUB> = h<SUB>L</SUB> // The output of the last layer is the output of our network
+										</li>
+									</ul>
+									</h4>
+									</div>
+
+									<p></p>
+									<h4><a name = "forwardimp">Forward implementation in code</a></h4>
+									<p>I've implemented this for you already in <code>neuralnet.py</code> so you can see how this translates into numpy.   </p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										def forward(self, x):
+										"""
+										Do a forward pass on the network
+										
+										Parameters
+										----------
+										x: ndarray(d)
+											Input to feed through
+										
+										Returns
+										-------
+										ndarray(m)
+											Output of the network
+										"""
+										self.h = [x]
+										self.a = [None]
+										for k in range(len(self.Ws)):
+											a = self.bs[k] + self.Ws[k].dot(self.h[k])
+											h = self.fs[k]["f"](a)
+											self.a.append(a)
+											self.h.append(h)
+										return self.h[-1].flatten()
+									</script>  
+
+									<p>
+										Notice how I changed the indexing slightly, but that otherwise it's almost a straight translation from the pseudocode.  I also remember the h's and the a's in member list variables, as they will come in handy in a moment.
+									</p>
+									
+
+
+									<h3><a name = "backward">Backward Pass via Matrix Operations</a></h3>
+									<p>
+										We're now ready to express the equations to compute the gradient over all parameters in the network.  These will again boil down to some matrix equations that should be fairly painless to implement in code.  Though a full derivation of these equations is beyond the scope of this writeup, I will give some intuition by looking at the at a simple network with 3 neurons, each with one input and one output<SUP><a name = "matrixnote">[2]</a></SUP>.  In particular, let's consider the following function:
+									</p>
+									
+									<div style="width:100px;">
+									<h3>
+										\[ g(x) = f_3(w_3 f_2(w_2 f_1(w_1x + b_1) + b_2) + b_3) \]
+									</h3>
+									</div>
+
+									<p>
+										<a name = "#matrixnote"><SUP>[2]</SUP></a> This is so that we can avoid doing matrix derivatives for the moment
+									</p>
+
+									<p>
+										In order to do updates, we need derivatives with respect to our weights <b>w<SUB>1</SUB></b>, <b>w<SUB>2</SUB></b>, <b>w<SUB>3</SUB></b> and our biases  <b>b<SUB>1</SUB></b>, <b>b<SUB>2</SUB></b>, <b>b<SUB>3</SUB></b>.  Let's use the notation we established in the forward pass to define the following variables 
+										<div style="width:50px;">
+											<ul>
+												<li>
+													\[ a_1 = w_1x + b_1 \]
+												</li>
+												<li>
+													\[ h_1 = f_1(a_1) \]
+												</li>
+												<li>
+													\[ a_2 =  w_2 h_1 + b_2 \]
+												</li>
+												<li>
+													\[ h_2 =  f_2(a_2) \]
+												</li>
+												<li>
+													\[ a_3 = w_3 h_2 + b_3 \]
+												</li>
+												<li>
+													\[ g(x) = f_3(a_3) \]
+												</li>
+											</ul>
+										</div>
+
+										<p>
+											Then we can compute the following derivatives from the outside of the expression inwards, using the chain rule (recall that a partial derivative holds all of the variables fixed as constants except for the one we're taking the derivative with respect to)
+										</p>
+										
+										<div style="width:50px;">
+											<ol>
+												<li>
+													\[ \frac{\partial g}{\partial w_3} =  f_3'(a_3) \times  h_2 \]
+												</li>
+												<li>
+													\[ \frac{\partial g}{\partial b_3} =  f_3'(a_3)  \]
+												</li>
+												<li>
+													\[ \frac{\partial g}{\partial w_2} =  f_3'(a_3) \times w_3 \times f_2'(a_2) \times h_1 \]
+												</li>
+												<li>
+													\[ \frac{\partial g}{\partial b_2} =  f_3'(a_3) \times w_3 \times f_2'(a_2) \]
+												</li>
+												<li>
+													\[ \frac{\partial g}{\partial w_1} =  f_3'(a_3) \times w_3 \times f_2'(a_2) \times w_2 \times f_1'(a_1) \times x \]
+												</li>
+												<li>
+													\[ \frac{\partial g}{\partial b_1} =  f_3'(a_3) \times w_3 \times f_2'(a_2) \times w_2 \times f_1'(a_1) \]
+												</li>
+											</ol>
+										</div>
+
+									</p>
+
+									<p>
+										A pattern is starting to emerge here.  In particular, notice how equation 2 is contained in part of equations 3 and 4 and how equation 4 is contained in part of equations 5 and 6.  So this means we'll be able to define some recursive substitutions from layer to layer as we go along, just like we remembered outputs of layers from one to the next as we went along during the forward pass.
+									</p>
+									<p>
+										From the point of view of the network, the first derivatives we're able to compute are with respect to parameters at the end of the network.  We can then use these expressions to substitute in for parameters in layers that precede them.  We can avoid recomputing things by remembering some of the products we computed along the way.  This leads to an efficient dynamic programming algorithm known as <b>backpropagation</b>.  It earns its name since, by contrast to evaluating moving forward layer to layer when evaluating an input, we actually start with the output of the network and compute the gradients backwards layer by layer.
+									</p>
+
+									<p>
+										There's one more thing I ommitted, which is that we also define a loss function over the output, and we're really looking for the gradient with respect to the loss function.  But the above gives a flavor for the patterns that emerge.
+									</p>
+
+									<p>
+										Below is the pseudocode for the matrix form of backpropagation for general feedforward networks of any shape.  It may look daunting at first, but each bullet point should be a single line of code since we set up things in such an organized way with matrices.
+									</p>
+
+									<div style="background-color: blanchedalmond; padding:20px;">
+										<h3><a name = "backpropalg">Algorithm 2: Backpropagation Through A Fully Connected Feedforward Neural Network</a></h3>
+										<p>
+											<b>NOTE: </b> Below I refer to derivatives <b>f'</b> as <b>f_deriv</b> so that the <b>'</b> doesn't get lost in the shuffle
+										</p>
+
+										<h4>def backprop(x, y), where x is input and y is ground truth label
+											<p>
+												After this iterates, the lists <b>W<SUB>derivs</SUB></b> and <b>b<SUB>derivs</SUB></b>
+											</p>
+										<ul>
+											<li>Let <b>L</b> be the number of layers</li>
+											<li>Call forward(x) to compute a's and h's at each layer</li>
+											<li>Let y<SUB>est</SUB> = h<SUB>L</SUB></li>
+											<li>Let g = est_lossderiv(y<SUB>est</SUB>, y) // This is the derivative of the loss function with respect to the inputs of the last layer </li>
+											<li>
+												for k = L, L-1, ..., 1
+												<ul>
+													<li>
+														// Step 1: Propagate gradient backwards through the nonlinear output <b>f<SUB>k</SUB></b> of this layer<BR>
+														if k &lt; L 
+														<ul>
+															<li>
+																g = g*f_deriv<SUB>k</SUB>(a<SUB>k</SUB>) // This is element-wise multiplication of g and f_deriv<SUB>k</SUB>(a<SUB>k</SUB>), which are parallel arrays
+															</li>
+														</ul>
+													</li>
+													<li>
+														// Step 2: Compute the gradients of the weights and biases at this layer 
+														<Ul>
+															<li>
+																Let <b>b_derivs[k] = g</b> // We now have the gradient for biases in this level
+															</li>
+															<li>
+																W_derivs[k] = g h<SUB>k-1</SUB></b><SUP>T</SUP> // This is a matrix multiplication.  Treating <b>h<SUB>k-1</SUB></b> and <b>g</b> as column matrices, this performs their <a href = "https://en.wikipedia.org/wiki/Outer_product">outer product</a> to get the gradient for each weight at this layer 
+
+																<p>
+																	// As a sanity dimension check, note that h<SUB>k-1</SUB></b> is the output of the layer before, which is the input to this layer, and <b>g</b> is the gradient of the output of this layer.  So if h<SUB>k-1</SUB></b> is an <b>N x 1</b> matrix and <b>g</b> is an <b>M x 1</b> matrix, then <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will be an <b>M x N</b> matrix, which matches the dimensions of <b>W<SUB>k</SUB></b>.  So each element of <b>W<SUB>k</SUB></b> will hold the derivative of its corresponding weight.
+																</p>
+															</li>
+														</Ul>
+													</li>
+													<li>
+														// Step 3: Propagate the gradient backwards through the linear part of this layer to be used at the next layer back 
+														<ul>
+															<li>
+																g = W<SUB>k</SUB><SUP>T</SUP> g // This is a matrix multiplication
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										</h4>
+									</div>
+
+									<p>
+										If yo look closely, you can match these steps up with the simple example I gave and see where the substitutions happen from one layer to the next.  If you've had multivariable calculus and linear algebra and you're curious about how to derive the matrix update rules, have a look at <a href = "http://cs231n.stanford.edu/slides/2018/cs231n_2018_ds02.pdf">these notes</a> from a Stanford class on deep learning.
+									</p>
+
+									<HR>
+									<h3>
+										<a name = "task21">Task 2.1: Leaky ReLU (5 Points)</a>
+									</h3>
+
+									<p>
+										One of the issues with the logistic function (aka the "<a href = "https://www.tensorflow.org/api_docs/python/tf/math/sigmoid">sigmoid function</a>" in Tensorflow parlance) is that it suffers from the problem of "vanishing gradients"; if the input to the logistic function is far from zero, then it is nearly flat, as shown below:
+									</p>
+
+									<img src = "Logistic.svg" width=650>
+									
+									<p>
+										This makes it slow to learn, as the step sizes for internal weights in the network in these regimes will be very slow.  To address this, there's another activation function that's very popular known as the <b>Leaky Rectified Linear Unit (Leaky ReLU)</b>, which can be defined as the following piecewise function 
+									</p>
+
+									<div style="width:200px">
+									<h3>
+										\[ f(u) = \left\{  \begin{array}{cc}  u & u > 0 \\ 0.01 u & u \leq 0  \end{array}  \right\} \]
+									</h3>
+									</div>
+
+									<p>
+										The derivative of this function is then 
+									</p>
+
+									<div style="width:200px">
+										<h3>
+											\[ f'(u) = \left\{  \begin{array}{cc}  1 & u > 0 \\ 0.01 & u \leq 0  \end{array}  \right\} \]
+										</h3>
+									</div>
+
+									<p>
+										These functions are plotted below
+									</p>
+
+									<img src = "LeakyReLU.svg" width=650>
+
+									<p>
+										We've lost continuity of the derivative at the origin, but otherwise, it's great numerically and it never saturates, and you'll find that learning can happen much faster.
+									</p>
+
+									<p>
+										<h4>Your Task</h4> Fill in the methods <code>leaky_relu</code> and <code>leaky_relu_deriv</code> in the file <code>layers.py</code> to implement these functions.  As you'll see in the method comments, your methods should take in numpy arrays and return the <b>element-wise</b>  application of the leaky ReLU and its derivative at each element.
+									</p>
+
+									<h3>
+										<a name = "task22">Task 2.2: Backpropagation (15 Points)</a>
+									</h3>
+									<p>
+										Now it's finally time to implement backpropagation.  
+									</p>
+									<p>
+										<h4>Your Task</h4> Study the class I've setup in <code>neuralnet.py</code>, and then fill in the method <code>backprop_descent</code>.  This consists of two steps:
+										<ol>
+											<li>
+												Use backpropagation to compute the gradients of all of the weights and biases
+											</li>
+											<li>
+												Subtract the learning factor <b>&alpha;</b> times these gradients from all of the parameters.
+											</li>
+										</ol>
+									</p>
+
+									<p>
+										The <code>backprop_descent</code> method accepts as input a single training example and its target output, and it updates the weights right away.  This is referred to as <a name = "stochastic">stochastic gradient descent</a>, and it contrasts to the <a href = "../HW6_LogisticRegression/index.html#batch">batch gradient descent</a> we used on the last homework where we waited until accumulating gradients from all training samples before updating the weights/bias.
+									</p>
+
+									<p>
+										As I <a href = "#forwardimp">mentioned above</a>, I have already provided a method <code>forward</code> to evaluate each layer of the neural network and to store the inputs <b>a</b> to each activation function and the outputs <b>h</b> of the activation function.  I have also provided a method <code>add_layer</code> to randomly initialize all of the weights and biases (this simply boils down to calling <a href = "https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html">numpy's randn</a> to generate random matrices).  So once you finish <code>backprop_descent</code>, you'll have a complete system to train arbitrary feedforward neural networks.
+									</p>
+
+									<p>
+										To help you test your system, I've provided the notebook <code>DiscTest.ipynb</code> which will learn a network to separate the points on the inside of a disc from the points on the outside of the disc, which <i>is not something that we could do with 2D logistic regression</i>!  Dataset shown below:
+									</p>
+
+									<img src = "DiscData.svg">
+
+									<p>
+										
+										which uses a network with the following three layers:
+										<ol>
+											<li>
+												100 neurons with a leaky ReLU
+											</li>
+											<li>
+												2 neurons with a leaky ReLU
+											</li>
+											<li>
+												The final output neuron with a logistic activation, using the logistic loss
+											</li>
+										</ol>
+									</p>
+									<p>
+										Using our little API, we can define this network with the following code
+									</p>
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										nn = NeuralNet(2, logistic_est_loss_deriv) # Input is in 2 dimensions, and we want to use logistic loss
+										nn.add_layer(100,  leaky_relu, leaky_relu_deriv) # First layer is 100 dimensions with a leaky ReLU
+										nn.add_layer(2, leaky_relu, leaky_relu_deriv) # Second layer is 2 dimensions with a leaky ReLU
+										nn.add_layer(1, logistic, None) # Last layer is the logistic function.  Its derivative is handled separately
+									</script>  
+
+									<p>
+										Since our API is designed to update one example at a time with backpropagation.  This is all in the notebook already and you can just run it.  If it works properly, you should see an animation like this, where the left plot shows the 2 coordinates of the output of layer 2 as well as the linear separator inferred from the final layer, and the right plot shows the loss over time.  As you can see, after a few iterations, the orange points get moved to the other side of the final linear separator from the blue points
+									</p>
+
+									<img src = "DiscResult.gif" width=1000>
+
+
+
+
+									<h3>
+										<a name = "task23">Task 2.3: Softmax (5 Points)</a>
+									</h3>
+									<p>
+										Our code is definitely powerful enough to move beyond simple synthetic examples of 2-class problems, so let's move towards a more realistic application with MNist digit classification to recognize 28x28 grayscale images of digits from 0-9.  What's different about this problem from any that we saw so far, though, is that it's a <b>multiclass</b> regression problem; our network needs to indicate which of 10 possibilities is the most likely.  To do this, we'll have the <b>output layer of our neural network consist of 10 neurons instead of just one</b>.  We can think of each neuron as indicating the probability that the input belonged to a particular digit.
+									</p>
+
+									<p>
+										To make these proper probabilities and to lead to a differentiable loss function, we're going to use a generalization of the logistic function to multi-class problems known as <b>softmax</b>.  The softmax function is defined over an array of elements <b>u</b> as follows:
+									</p>
+									<div style="width:200px;">
+										<h3>
+											\[ f(u)[i] = \frac{e^{u[i]}}{\sum_{j=1}^N e^{u[j]}} \]
+										</h3>
+									</div>
+
+									<p>
+										Notice how the denominator makes it so that all of the elements of the softmax sum to 1.  Furthermore, since we've exponentiated each term, the largest value will quickly dominate the smaller values, leading to a clearer winner in the output (which is really like an indicator function on the <a href = "https://numpy.org/doc/stable/reference/generated/numpy.argmax.html">argmax</a> of the function).  In light of the above reasoning, we can view the input to the softmax as log probabilities, and the output of the softmax as ordinary probabilities.  The animation below shows the input and output of the softmax on the network you're about to train to classify the digits (<a href = "https://www.youtube.com/watch?v=hbR-IGTlVw0">Click here to view this on youtube</a> if you want to pause on individual examples)
+									</p>
+
+									<img src = "softmaxexamples.gif">
+
+									<h4>Your Task</h4>
+									<p>
+										Fill in the <code>softmax</code> method in <code>layers.py</code> to complete code for the softmax activation layer.  Be sure to adhere to the input/output spec in the docstring.
+									</p>
+
+									<h3>
+										<a name = "task24">Task 2.4: Digits Classification (10 Points)</a>
+									</h3>
+
+									<p>
+										We're now just about ready to apply this to digits!  The last step is that we need to define a loss function over the output of the softmax, compared to ground truth.  For this, define ground truth as an an "indicator array," or also referred to as a <b>one-hot vector</b>.  Here are all of the possible 1-hot vectors based on ground truth 
+
+										<table style="width:400px;">
+											<tr><td>Ground truth Value</td><td>1-Hot Vector <b>y</b></td></tr>
+											<tr>
+												<td>0</td>
+												<td>
+													[ <b>1</b>, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>1</td>
+												<td>
+													[0,  <b>1</b>, 0, 0, 0, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td>
+													[0, 0,  <b>1</b>, 0, 0, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td>
+													[0, 0, 0,  <b>1</b>, 0, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>4</td>
+												<td>
+													[0, 0, 0, 0,  <b>1</b>, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>5</td>
+												<td>
+													[0, 0, 0, 0, 0,  <b>1</b>, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>6</td>
+												<td>
+													[0, 0, 0, 0, 0, 0,  <b>1</b>, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>7</td>
+												<td>
+													[0, 0, 0, 0, 0, 0, 0,  <b>1</b>, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>8</td>
+												<td>
+													[0, 0, 0, 0, 0, 0, 0, 0, <b>1</b>, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>9</td>
+												<td>
+													[0, 0, 0, 0, 0, 0, 0, 0, 0, <b>1</b>]
+												</td>
+											</tr>
+										</table>
+									</p>
+									<p>
+										Based on this, we can define a loss function which is a generalization of the <a href = "../../ClassExercises/Week10_LogisticRegression/index.html#logisticloss">logistic loss</a> to multivariate output.  Given the output <b>y<SUB>est</SUB></b> of the softmax function and the ground truth 1-hot vectors <b>y</b>, we can define the <b>multivariate cross-entropy logistic loss</b> as 
+									</p>
+
+									<div style="width:100px;">
+									<h3>
+										\[ L(y, y_{\text{est}}) = -\sum_{i=1}^N  y[i] \log(y_{\text{est}}[i]) \]
+									</h3>
+									</div>
+
+									<p>
+										where in our digits problem <b>N = 10</b>.  We need to take the gradient of this loss with respect to the input to the logistic function, but this is actually incredibly simple and exactly like the single variable logistic loss case.  In particular, the gradient of the <b>i<SUP>th</SUP></b> component to the input of the softmax function is simply <b>y<SUB>est</SUB>[i] - y[i]</b>!  This should look pretty familiar! (Look back to the <a href = "../HW6_LogisticRegression/index.html#logisticbbow">update rules</a> in the last assignment).  To save time, I've already implemented this for you.  The loss function and its derivatives are the methods <code>softmax_est_crossentropy_loss</code> and <code>softmax_est_crossentropy_deriv</code>, respectively, in the <code>losses.py</code> file.
+									</p>
+
+									<p>
+										<h4>Your Task</h4> Put everything together in a Jupyter notebook to train a neural network in our little API that classifies digits in the MNist dataset.  Train a network using <b><a href = "#stochastic">stochastic gradient descent</a> on the training set for 60 iterations</b>, and report the accuracy on all of the images in the test set.  You should compare two networks: the first network should have a single hidden layer with 20 neurons and a softmax output, which you can define like this:
+
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											nn = NeuralNet(x_train.shape[1], softmax_est_crossentropy_deriv)
+											nn.add_layer(20, leaky_relu, leaky_relu_deriv)
+											nn.add_layer(10, softmax, None)
+										</script>  
+										
+										The second network should also start with a hidden layer with 20 neurons, but you should add an additional ReLU layer with 40 neurons.  <b>Indicate clearly in your notebook which network works better and why you think this is</b>.
+									</p>
+
+
+									<h4>Loading data</h4>
+									<p>
+										Tensorflow has this dataset built in, so we'll use it just for a moment to load it in:
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										import tensorflow
+										from tensorflow.keras.datasets import mnist
+										imgres = 28 # Resolution of images
+										num_classes = 10
+
+										# Load in the training set and the test set and convert them into data matrices
+										# where each row is a different digit and a each column is a different pixel
+										# out of the 28x28 = 784 pixels
+										(x_train, y_train), (x_test, y_test) = mnist.load_data()
+										x_train = np.array(x_train, dtype=float)/255
+										x_test = np.array(x_test, dtype=float)/255
+										x_train = np.reshape(x_train, (x_train.shape[0], imgres**2))
+										x_test = np.reshape(x_test, (x_test.shape[0], imgres**2))
+
+										# Convert the training labels to 1-hot vectors
+										y_train = tensorflow.keras.utils.to_categorical(y_train, num_classes)
+									</script>  
+
+									<p>
+
+									</p>
+
+									<HR>
+									<h2><a name = "thiscat">Part 3: This Cat Doesn't Exist (aka "Deep Fakes")</a></h2>
+									<p>
+										Let's now jump into tensorflow to do something more complicated with convolutional neural networks.
+									</p>
+									
+									
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#readings">Readings</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+													<ul>
+														<li><a href = "../../Assignments/HW2_RushHour/competition.html">Competition Results</a> </li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5a_3DShapeCluster">HW5a: 3D Shape Clustering</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5b_Unsupervised">HW5b: NMF for Music Component Separation</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW6_LogisticRegression">HW6: Logistic Regression on Movie Reviews</a>
+												</li>
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_WhatIsAI">Week 1: What Is AI?</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_COVID">Week 1: Monte Carlo COVID Simulation</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_COVID/solution.html">Solution</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Week 5: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Exercise / Theory of Bayesian Classifiers</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#exercise">Text Classification Exercise</a></li>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#theory">Naive Bayes Theory</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module3/Exercise0">Week 5: Bayes Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_GradSchoolAdmissions">Week 6: Gaussian Naive Bayes And Grad School Admissions</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2021.github.io/Modules/MatrixModule/Video1">Week 8: Matrix Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week8_NMF">Week 8: Nonnegative Matrix Factorization</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week9_KMeans3DShapes">Week 9/10: KMeans Clustering, Applications To Image Processing</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_VisualBOW/index.html">Week 10: Visual Bag of Words</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_LogisticRegression/index.html">Week 10/11: Logistic Regression And Gradient Descent</a>
+												</li>
+											</ul>
+										</li>
+										<li><a href = "../../Ethics/index.html">Ethics Reading / Discussions</a></li>
+										<li><a href = "../../FinalProject/index.html">Final Ethics Project</a></li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->
