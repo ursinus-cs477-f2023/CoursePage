@@ -51,7 +51,7 @@
 											<li><a href = "#objectives">Learning Objectives</a></li>
 											<li><a href = "#softwaretest">Part 1: Software Test (5 Points)</li>
 											<li>
-												<a href = "#softwaretest">Part 2: Backpropagation from Scratch</a>
+												<a href = "#backpropscratch">Part 2: Backpropagation from Scratch</a>
 												<ul>
 													<li><a href = "#background">Background</a>
 													<ul>
@@ -157,7 +157,7 @@
 										<p></p>
 
 										
-									<h2><a name = "softwaretest">Part 2: Backpropagation from Scratch</a></h2>
+									<h2><a name = "backpropscratch">Part 2: Backpropagation from Scratch</a></h2>
 
 									<h2><a name = "background">Background</a></h2>
 									<p>
@@ -224,26 +224,25 @@
 
 									<div style="background-color: blanchedalmond; padding:20px;">
 									<h3><a name = "forwardalg">Algorithm 1: Forward Propagation Through A Fully Connected Feedforward Neural Network</a></h3>
-									<h4>def forward(x)
+									<h4>def forward(x)</h4>
 									<ul>
 										<li>Let <b>L</b> be the number of layers</li>
-										<li>h<SUB>0</SUB> = x</li>
+										<li>Let <b>h<SUB>0</SUB> = x</b></li>
 										<li>
-											for k = 1, ..., L
+											for <b>k = 1, 2, ..., L</b>
 											<ul>
 												<li>
-													a<SUB>k</SUB> = W<SUB>k</SUB> h<SUB>k-1</SUB> + b<SUB>k</SUB> // The input to this layer is the output of the last layer
+													Let <b>a<SUB>k</SUB> = W<SUB>k</SUB> h<SUB>k-1</SUB> + b<SUB>k</SUB></b> // Linear step. The input to this layer, h<SUB>k-1</SUB>, is the output of the last layer
 												</li>
 												<li>
-													h<SUB>k</SUB> = f(a<SUB>k</SUB>)
+													Let <b>h<SUB>k</SUB> = f(a<SUB>k</SUB>)</b> // Nonlinear step
 												</li>
 											</ul>
 										</li>
 										<li>
-											y<SUB>est</SUB> = h<SUB>L</SUB> // The output of the last layer is the output of our network
+											<b>y<SUB>est</SUB> = h<SUB>L</SUB></b> // The output of the last layer is the output of our network
 										</li>
 									</ul>
-									</h4>
 									</div>
 
 									<p></p>
@@ -371,24 +370,24 @@
 											<b>NOTE: </b> Below I refer to derivatives <b>f'</b> as <b>f_deriv</b> so that the <b>'</b> doesn't get lost in the shuffle
 										</p>
 
-										<h4>def backprop(x, y), where x is input and y is ground truth label
+										<h4><b>def backprop(x, y)</b>, where x is input and y is ground truth label</h4>
 											<p>
-												After this iterates, the lists <b>W<SUB>derivs</SUB></b> and <b>b<SUB>derivs</SUB></b>
+												After this iterates, the lists <b>W<SUB>derivs</SUB></b> and <b>b<SUB>derivs</SUB></b> will be populated with matrices that hold the derivatives of all weights and biases, respectively
 											</p>
 										<ul>
 											<li>Let <b>L</b> be the number of layers</li>
-											<li>Call forward(x) to compute a's and h's at each layer</li>
-											<li>Let y<SUB>est</SUB> = h<SUB>L</SUB></li>
-											<li>Let g = est_lossderiv(y<SUB>est</SUB>, y) // This is the derivative of the loss function with respect to the inputs of the last layer </li>
+											<li>Call <b>forward(x)</b> to compute a's and h's at each layer</li>
+											<li>Let <b>y<SUB>est</SUB> = h<SUB>L</b></SUB></li>
+											<li>Let <b>g = est_lossderiv(y<SUB>est</SUB>, y)</b> // This is the derivative of the loss function with respect to the inputs of the last layer </li>
 											<li>
-												for k = L, L-1, ..., 1
+												for <b>k = L, L-1, ..., 1</b>
 												<ul>
 													<li>
 														// Step 1: Propagate gradient backwards through the nonlinear output <b>f<SUB>k</SUB></b> of this layer<BR>
-														if k &lt; L 
+														if <b>k &lt; L</b> 
 														<ul>
 															<li>
-																g = g*f_deriv<SUB>k</SUB>(a<SUB>k</SUB>) // This is element-wise multiplication of g and f_deriv<SUB>k</SUB>(a<SUB>k</SUB>), which are parallel arrays
+																<b>g = g*f_deriv<SUB>k</SUB>(a<SUB>k</SUB>)</b> // This is element-wise multiplication of g and f_deriv<SUB>k</SUB>(a<SUB>k</SUB>), which are parallel arrays
 															</li>
 														</ul>
 													</li>
@@ -399,7 +398,7 @@
 																Let <b>b_derivs[k] = g</b> // We now have the gradient for biases in this level
 															</li>
 															<li>
-																W_derivs[k] = g h<SUB>k-1</SUB></b><SUP>T</SUP> // This is a matrix multiplication.  Treating <b>h<SUB>k-1</SUB></b> and <b>g</b> as column matrices, this performs their <a href = "https://en.wikipedia.org/wiki/Outer_product">outer product</a> to get the gradient for each weight at this layer 
+																Let <b>W_derivs[k] = g h<SUB>k-1</SUB><SUP>T</SUP></b> // This is a matrix multiplication.  Treating <b>h<SUB>k-1</SUB></b> and <b>g</b> as column matrices, this performs their <a href = "https://en.wikipedia.org/wiki/Outer_product">outer product</a> to get the gradient for each weight at this layer 
 
 																<p>
 																	// As a sanity dimension check, note that h<SUB>k-1</SUB></b> is the output of the layer before, which is the input to this layer, and <b>g</b> is the gradient of the output of this layer.  So if h<SUB>k-1</SUB></b> is an <b>N x 1</b> matrix and <b>g</b> is an <b>M x 1</b> matrix, then <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will be an <b>M x N</b> matrix, which matches the dimensions of <b>W<SUB>k</SUB></b>.  So each element of <b>W<SUB>k</SUB></b> will hold the derivative of its corresponding weight.
@@ -411,14 +410,13 @@
 														// Step 3: Propagate the gradient backwards through the linear part of this layer to be used at the next layer back 
 														<ul>
 															<li>
-																g = W<SUB>k</SUB><SUP>T</SUP> g // This is a matrix multiplication
+																<b>g = W<SUB>k</SUB><SUP>T</SUP> g</b> // This is a matrix multiplication
 															</li>
 														</ul>
 													</li>
 												</ul>
 											</li>
 										</ul>
-										</h4>
 									</div>
 
 									<p>
