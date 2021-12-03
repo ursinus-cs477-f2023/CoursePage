@@ -236,7 +236,7 @@
 									<div style="width:50px;">
 										<h3>
 										 \[a = Wx + b \text{, which is a linear operation }\]
-										\[ h = f(a)  \text{, which is a nonlinear operation }\]
+										\[ h = f(a)  \text{, which is a nonlinear operation applied element-wise to } a\]
 										</h3>
 									</div>
 
@@ -427,7 +427,7 @@
 																Let <b>W_derivs[k] = g h<SUB>k-1</SUB><SUP>T</SUP></b> // This is a matrix multiplication.  Treating <b>h<SUB>k-1</SUB></b> and <b>g</b> as column matrices, this performs their <a href = "https://en.wikipedia.org/wiki/Outer_product">outer product</a> to get the gradient for each weight at this layer 
 
 																<p>
-																	// As a sanity dimension check, note that h<SUB>k-1</SUB></b> is the output of the layer before, which is the input to this layer, and <b>g</b> is the gradient of the output of this layer.  So if h<SUB>k-1</SUB></b> is an <b>N x 1</b> matrix and <b>g</b> is an <b>M x 1</b> matrix, then <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will be an <b>M x N</b> matrix, which matches the dimensions of <b>W<SUB>k</SUB></b>.  So each element of <b>W<SUB>k</SUB></b> will hold the derivative of its corresponding weight.
+																	// As a sanity dimension check, note that <b>h<SUB>k-1</SUB></b> is the output of the layer before, which is the input to this layer, and <b>g</b> is the gradient of the output of this layer.  So if <b>h<SUB>k-1</SUB></b> is an <b>N x 1</b> matrix and <b>g</b> is an <b>M x 1</b> matrix, then <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will be an <b>M x N</b> matrix, which matches the dimensions of <b>W<SUB>k</SUB></b>.  So each element of <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will hold the derivative of <b>W<SUB>k</SUB></b>'s corresponding weight.
 																</p>
 															</li>
 														</Ul>
