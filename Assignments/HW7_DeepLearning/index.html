@@ -528,7 +528,7 @@
 
 									<p>
 										
-										which uses a network with the following three layers:
+										To do the separation, we use a network with the following three layers:
 										<ol>
 											<li>
 												100 neurons with a leaky ReLU
@@ -552,7 +552,7 @@
 									</script>  
 
 									<p>
-										Since our API is designed to update one example at a time with backpropagation.  This is all in the notebook already and you can just run it.  If it works properly, you should see an animation like this, where the left plot shows the 2 coordinates of the output of layer 2 as well as the linear separator inferred from the final layer, and the right plot shows the loss over time.  As you can see, after a few iterations, the orange points get moved to the other side of the final linear separator from the blue points
+										Then, since our API is designed to update one example at a time with backpropagation, we continuously feed it random permutations of our data one at a time.  This is all in the notebook already and you can just run it.  If it works properly, you should see an animation like this, where the left plot shows the 2 coordinates of the output of layer 2 as well as the linear separator inferred from the final layer, and the right plot shows the loss over time.  As you can see, after a few iterations, the orange points get moved to the other side of the final linear separator from the blue points
 									</p>
 
 									<img src = "DiscResult.gif" width=1000>
