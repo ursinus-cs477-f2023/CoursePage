@@ -61,9 +61,6 @@
 [submodule "ClassExercises/Week14_Autoencoderes/Week14_Autoencoderes"]
 	path = ClassExercises/Week14_Autoencoderes/Week14_Autoencoderes
 	url = https://github.com/Ursinus-CS477-F2021/Week14_Autoencoderes.git
-[submodule "Assignments/HW7_NeuralNets/HW7_NeuralNets"]
-	path = Assignments/HW7_NeuralNets/HW7_NeuralNets
-	url = https://github.com/Ursinus-CS477-F2021/HW7_NeuralNets.git
 [submodule "Assignments/HW7_DeepLearning/HW7_DeepLearning"]
 	path = Assignments/HW7_DeepLearning/HW7_DeepLearning
 	url = https://github.com/Ursinus-CS477-F2021/HW7_DeepLearning.git
