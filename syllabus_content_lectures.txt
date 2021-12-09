@@ -177,7 +177,7 @@ Unit 5: Reinforcement Learning
 LECTURE
 The Multi-Armed Bandit
 
-<ul><li><a href = "https://towardsdatascience.com/multi-armed-bandits-and-reinforcement-learning-dc9001dcb8da">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
+<ul><li><a href = "https://www.datahubbs.com/multi_armed_bandits_reinforcement_learning_1/">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
 LECTURE
 Reinforcement Learning, Bellman Equations
 

@@ -64,3 +64,6 @@
 [submodule "Assignments/HW7_DeepLearning/HW7_DeepLearning"]
 	path = Assignments/HW7_DeepLearning/HW7_DeepLearning
 	url = https://github.com/Ursinus-CS477-F2021/HW7_DeepLearning.git
+[submodule "ClassExercises/Week15_MultiArmedBandit"]
+	path = ClassExercises/Week15_MultiArmedBandit
+	url = https://github.com/Ursinus-CS477-F2021/Week15_MultiArmedBandit.git
