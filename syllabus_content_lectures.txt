@@ -183,7 +183,6 @@ Reinforcement Learning, Bellman Equations
 
 Class Exercise: Cat + Mouse
 LECTURE
-Ethics: <i>Race After Technology</i>: Retooling Solidarity, Re-Imagining Justice
+Finish <i>Race After Technology</i>, AI Ethics And AI Snake Oil
 
-
-
+<ul><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li></ul>
