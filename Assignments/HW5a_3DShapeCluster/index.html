@@ -164,8 +164,10 @@
 
 										<h3><a name = "task3">Task 3: Multiple Runs for Robustness (7 Points)</a></h3>
 										<p>
-											One common trick to make KMeans more robust is to run it a bunch of times with different random locations of the clusters at the beginning of each run, and to keep the result which minimizes the sum of the squared distances of points to their cluster centers (this is the "loss function" for KMeans).  Implement this strategy and verify that the results are better on 4 clusters each time.  <b>Question: </b>  What happens when you only use two clusters at this point?  Do the results make sense to you?
+											Recall that the <b>loss function</b> that KMeans is attempting to minimize is the sum of squared distances of each point to its assigned center.  KMeans will always converge to a local min of this loss, but depending on the centers we started with, this may not be an optimal min over all possibilities.  Therefore, a common trick is to run KMeans many times with different intial cluster centers and to return the clusters that achieve a minimum in loss.  Implement this strategy and verify that the clusters you get group the shapes together better overall than a single iteration of KMeans with random cluster centers in the previous task.
 										</p>
+
+										<!--<b>Question: </b>  What happens when you only use two clusters at this point?  Do the results make sense to you?-->
 
 										<!--
 										<h4>Interactively Viewing Meshes (For Fun)</h4>
