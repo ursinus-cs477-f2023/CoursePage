@@ -769,10 +769,10 @@
 											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/LeakyReLU">Leaky ReLU</a>
 										</li>
 										<li>
-											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Reshape">Reshape</a> layer to reshape the dense outputs to a quarter resolution of the original image
+											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Reshape">Reshape</a> layer to reshape the dense outputs to a quarter resolution of the original image, with 32 channels.  (The reason we do a quarter of the resolution is that we have two deconvolutional layers after this, each which upsamples by a factor of 2).
 										</li>
 										<li>
-											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2DTranspose">Conv2DTranspose</a> with no bias at a kernel size of 5x5 and a stride of 2, up to 32 channels.  This is convolution in the other direction, or "deconvolution"; it upsamples the image by a factor of 2 with overlap/adding
+											A <a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2DTranspose">Conv2DTranspose</a> with no bias at a kernel size of 5x5 and a stride of 2, up to 32 channels, with padding "same."  This is convolution in the other direction, or "deconvolution"; it upsamples the image by a factor of 2 with overlap/adding
 										</li>
 										<li>
 											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization">Batch Normalization</a>
@@ -781,7 +781,7 @@
 											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/LeakyReLU">Leaky ReLU</a>
 										</li>
 										<li>
-											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2DTranspose">Conv2DTranspose</a> with no bias at a kernel size of 5x5 and a stride of 2, down to a single channel, with a <b>tanh</b> activation (this has a similar shape to the logistic function).  This is the output layer that will generate the final counterfeit image.
+											<a href = "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2DTranspose">Conv2DTranspose</a> with no bias at a kernel size of 5x5 and a stride of 2, down to a single channel, with a <b>tanh</b> activation (this has a similar shape to the logistic function) and a padding of "same."  This is the output layer that will generate the final counterfeit image.
 										</li>
 										
 									</ol>
