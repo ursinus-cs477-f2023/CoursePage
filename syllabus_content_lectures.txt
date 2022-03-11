@@ -61,7 +61,7 @@ Ethics: <i>Race After Technology</i> Introductory Chapter
 LECTURE
 Bayes Rule, Begin Naive Bayes Classification
 
-<ul><li><a href = "https://www.greenteapress.com/thinkbayes/html/thinkbayes002.html">Think Bayes Notes</a></li></ul>
+<ul><li><a href = "https://www.youtube.com/watch?v=HZGCoVF3YvM">Three Blue One Brown Video on Bayes Rule</a></li><li><a href = "https://www.greenteapress.com/thinkbayes/html/thinkbayes002.html">Think Bayes Notes</a></li></ul>
 LECTURE
 Naive Bayes Classification And Bag of Words
 
