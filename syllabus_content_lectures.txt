@@ -5,7 +5,7 @@ Unit 1: Intro To AI / Classical Search
 LECTURE
 What is AI?  <p>Python Basics: Variables, Lists, Conditionals, Methods, Loops </p>
 
-<ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "ClassExercises/Week1_WhatIsAI">Class Jamboard</a></li><li><a href = "https://blog.piekniewski.info/">AI Winter Blog</a></li><li><a href = "https://arxiv.org/pdf/2103.10292.pdf">Shortcomings and recommendations for machine learning in medical imaging</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li><li><a href = "ClassExercises/Week1_WhatIsAI/ShazamSonify.html">Shazam Adversarial Example</a></li></ul>
+<ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "ClassExercises/Week1_WhatIsAI">Class Jamboard</a></li><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li><li><a href = "https://arxiv.org/pdf/2103.10292.pdf">Shortcomings and recommendations for machine learning in medical imaging</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li><li><a href = "ClassExercises/Week1_WhatIsAI/ShazamSonify.html">Shazam Adversarial Example</a></li></ul>
 LECTURE
 Python Dictionaries, Python Practice
 
@@ -23,7 +23,7 @@ Continue DFS/BFS, Abstract Search Spaces
 
 <ul><li><a href = "ClassExercises/Week2_8Puzzle">Class Exercise: 8-Puzzle</a></li></ul>
 LECTURE
-Ethics: The Social Dilemma
+Ethics #1
 
 
 LECTURE
@@ -33,29 +33,25 @@ Iterative Deepening, Uniform Cost Search, Continue 8-Puzzle
 LECTURE
 Greedy Best-First Search, A* Search
 
-<ul><li><a href = "ClassExercises/Week3_PrioritySearch">Notes on Uniform Cost, Greedy Best-First, and A* Search</a></li></ul>
+<ul><li><a href = "ClassExercises/Week3_PrioritySearch">Notes on Uniform Cost, Greedy Best-First, and A* Search</a></li><li>Class Exercise: 8-Puzzle Heuristics</li></ul>
 LECTURE
-A* Heuristics for 8-Puzzle And Rush Hour
+Game Trees
 
 
 LECTURE
-HW2 / A* Workshopping
+Game Trees: Alpha-Beta Pruning
 
-Tree Rotations Demo
+
 SECTION
 Unit 2: Statistical Modeling
 
 
 LECTURE
-Markov Chains
+Markov Chains, Basics of Probability and Conditional Probability
 
 <ul><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
 LECTURE
-Markov Chains Continued, Basics of Probability and Conditional Probability
-
-
-LECTURE
-Ethics: <i>Race After Technology</i> Introductory Chapter
+Ethics #2
 
 
 LECTURE
@@ -67,111 +63,115 @@ Naive Bayes Classification And Bag of Words
 
 <ul><li>Class Exercise: <a href = "ClassExercises/Week5_BagOfWords">2016 Presidental Debates Bag of Words</a></li><li><a href = "ClassExercises/Week5_BagOfWords/index.html#theory">Naive Bayes Theory Notes</a></li><li><a href = "https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.374.7966&rep=rep1&type=pdf">Naive bayes for detecting computer viruses</a></li></ul>
 LECTURE
-Gaussian Naive Bayes for Continuous Data Distributions
-
-<ul><li><a href = "ClassExercises/Week6_GradSchoolAdmissions">Class Exercise: Grad School Admissions</a></li><li><a href = "https://www.statlect.com/fundamentals-of-statistics/normal-distribution-maximum-likelihood">Notes on MLE of a Gaussian</a></li></ul>
-LECTURE
 Hidden Markov Models
 
-<ul><li><a href = "ClassExercises/Week6_HMM">Class notes on Hidden Markov Models / The Viterbi Algorithm</a></li><li><a href = "https://web.stanford.edu/~jurafsky/slp3/A.pdf">Jurafsky/Martin Notes on HMMs</a></li><li><a href = "https://aclanthology.org/J90-2002.pdf">A Statistical Approach To Machine Translation</a></li></ul>
+<ul><li>Class Exercise: Captain H. Markov</li><li><a href = "ClassExercises/Week6_HMM">Class notes on Hidden Markov Models / The Viterbi Algorithm</a></li><li><a href = "https://web.stanford.edu/~jurafsky/slp3/A.pdf">Jurafsky/Martin Notes on HMMs</a></li><li><a href = "https://aclanthology.org/J90-2002.pdf">A Statistical Approach To Machine Translation</a></li></ul>
+LECTURE
+Bayes Filtering, Robot Localization
+
+<ul><li><a href = "https://www.kalmanfilter.net/kalman1d.html">Kalman filter article</a></li><li><a href = "https://towardsdatascience.com/particle-filter-a-hero-in-the-world-of-non-linearity-and-non-gaussian-6d8947f4a3dc">Particle filtering article</a></li></ul>
 LECTURE
 The Viterbi Algorithm
 
 
 LECTURE
-Bayes Filtering, Robot Localization Workshopping
+Kalman Filtering
 
-<ul><li><a href = "https://www.kalmanfilter.net/kalman1d.html">Kalman filter article</a></li><li><a href = "https://towardsdatascience.com/particle-filter-a-hero-in-the-world-of-non-linearity-and-non-gaussian-6d8947f4a3dc">Particle filtering article</a></li></ul>
+
 SECTION
-Unit 3: Classical Geometric Machine Learning
+Unit 3: Data Vectorization, Feedforward Neural Networks
 
 
 LECTURE
-Euclidean Distances, K-Nearest Neighbor Classification
+Data Vectorization, K-Nearest Neighbor Classification
 
 <ul><li><a href = "ClassExercises/Week7_DigitsNN.html">Class Exercise: Digit Classification, K-Nearest Neighbor Notes</a></li></ul>
 LECTURE
-Dot Products, Projections, Projected Variance, Begin Principal Component Analysis (PCA)
+Dot Products, Projections, Projected Variance
 
-<ul><li>Class Exercise: Eigen Digits</li><li><a href = "https://setosa.io/ev/principal-component-analysis/">PCA Explained Visually</a></li><li><a href = "http://www.covers1000.net/LoopDitty/">Loop Ditty</a></li><li><a href = "https://www.cs.jhu.edu/~hager/Public/teaching/cs461/mturk-CVPR91.pdf">Original Paper on Eigenfaces</a></li></ul>
+<ul><li>Class Exercise: Eigen Digits</li></ul>
 LECTURE
-Continue PCA, Matrix Multiplication
+Principal Component Analysis
 
-
+<ul><li><a href = "https://setosa.io/ev/principal-component-analysis/">PCA Explained Visually</a></li><li><a href = "http://www.covers1000.net/LoopDitty/">Loop Ditty</a></li><li><a href = "https://www.cs.jhu.edu/~hager/Public/teaching/cs461/mturk-CVPR91.pdf">Original Paper on Eigenfaces</a></li></ul>
 LECTURE
-Nonnegative Matrix Factorization
+Logistic Regression, Introduction To pytorch and data loaders
 
-<ul><li><a href = "ClassExercises/Week8_NMF">Class Notes</a></li><li><a href = "https://papers.nips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf">Lee/Seung Paper on NMF Algorithms</a></li><li><a href = "https://ursinus-cs472a-s2021.github.io/CoursePage/Assignments/HW6_LetItBee/statements.html">Let It Bee</a></li></ul>
+<ul><li><a href = "https://pytorch.org/tutorials/beginner/basics/data_tutorial.html">PyTorch Datasets & DataLoaders Documentation</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
 LECTURE
-Finish NMF, Begin K-Means Clustering
-
-<ul><li><a href = "ClassExercises/Week9_KMeans3DShapes/index.html">KMeans Clustering Notes</a></li></ul>
-LECTURE
-Applications of KMeans To Image Quantization / Superpixels
-
-<ul><li><a href = "ClassExercises/Week9_KMeans3DShapes/index.html#imagecartoons">KMeans + Image Processing Class Notes</a></li></ul>
-LECTURE
-Ethics: <i>Race After Technology</i>: Default Discrimination And Coded Exposure
+Ethics #3
 
 
 LECTURE
-Visual Bag of Words: A Connection Between K-Means And Naive Bayes
+Softmax, Logistic Regression And Gradient Descent
 
-<ul><li><a href = "ClassExercises/Week10_VisualBOW/index.html">Visual BOW class notes</a></li><li><a href = "https://github.com/ovysotska/in_simple_english/blob/master/bag_of_visual_words.ipynb">"In Simple English" notes on TF-IDF, Cosine Distance, And Visual Bag of Words</a></li><li><a href = "ClassExercises/Week10_NumpyTricks/NumpyTricks.html">Numpy tricks</a></li></ul>
+<ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li><li>Class Exercise: Logistic Regression on MNIST</li></ul>
 LECTURE
-Separating Lines, Decision Boundaries
+Stochastic Gradient Descent
 
 
 LECTURE
-Begin Logistic Regression
+Intro To Neural Networks
 
-<ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
+<ul><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li></ul>
 LECTURE
-Logistic Regression And Gradient Descent
+Backpropagation
 
-<ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li></ul>
+<ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 SECTION
 Unit 4: Deep Learning
 
 
 LECTURE
-Convexity And Logistic Loss, Intro To Neural Networks
+Convolutional Neural Networks (CNNs)
 
-<ul><li><a href = "ClassExercises/Week10_LogisticRegression/index.html#convexitylogistic">Class Notes on Convexity And Logistic Loss</a></li><li><a href = "https://github.com/Ursinus-CS477-F2021/Week11_Convexity_NNIntro/archive/refs/heads/main.zip">Class Exercise: Design your own neural net</a></li><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li></ul>
+<ul><li><a href = "https://setosa.io/ev/image-kernels/">Live 2D convolution demo</a></li><li><a href = "https://cs231n.github.io/convolutional-networks/">Stanford CS 231n Notes on Convolutional Neural Networks</a></li></ul>
 LECTURE
-Begin Backpropagation
+Continue CNNs, Quantifying Overfitting
 
 
 LECTURE
-Continue Backpropagation, Overfitting
+Data Augmentation
 
-<ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
-LECTURE
-Tensorflow.js, Begin Convolutional Neural Networks
 
-<ul><li><a href = "https://www.tensorflow.org/js/guide/models_and_layers">Guide to tensorflow.js layers</a></li><li><a href = "https://setosa.io/ev/image-kernels/">Live 2D convolution demo</a></li><li><a href = "https://cs231n.github.io/convolutional-networks/">Stanford CS 231n Notes on Convolutional Neural Networks</a></li></ul>
-LECTURE
-Ethics: <i>Race After Technology</i>: Coded Exposure And Technological Benevolence
-
-<ul><li><a href = "https://twitter.com/quasimondo/status/1274636495941500928">The Verge: What a machine learning tool that turns Obama white can (and can’t) tell us about AI bias</a></li></ul>
-LECTURE
-More Convolutional Neural Networks
-
-<ul><li><a href = "https://machinelearningmastery.com/how-to-develop-a-convolutional-neural-network-to-classify-photos-of-dogs-and-cats/">Dogs, Cats, And Quantifying Overfitting</a></li></ul>
 LECTURE
 Autoencoders
 
-
+<ul><li>Class Exercise: Digits Autoencoder</li></ul>
 LECTURE
 Generative Adversarial Networks (GANs)
 
-<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li></ul>
+<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist</li></ul>
 LECTURE
 Recurrent Neural Networks
 
+<ul><li><a href = "http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks</a></li></ul>
+LECTURE
+Long Short Term Memory (LSTM) Networks
 
+<ul><li><a href = "https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Chris Olah: Understanding LSTMs</li></ul>
 SECTION
-Unit 5: Reinforcement Learning
+Unit 5: Advanced Deep Learning Topics
+
+
+LECTURE
+Attention
+
+
+LECTURE
+Ethics #4
+
+
+LECTURE
+The Transformer Architecture
+
+
+LECTURE
+Diffusion Part 1
+
+
+LECTURE
+Diffusion Part 2
 
 
 LECTURE
@@ -182,7 +182,3 @@ LECTURE
 Reinforcement Learning, Bellman Equations
 
 Class Exercise: Cat + Mouse
-LECTURE
-Finish <i>Race After Technology</i>, AI Ethics And AI Snake Oil
-
-<ul><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li><li><a href = "https://github.com/msalganik/cos597E-soc555_f2020/blob/master/schedule.md">Princeton COS 597E / SOC 555: Limits To Prediction</a></li><li><a href = "https://rodneybrooks.com/a-better-lesson/">Rodney Brooks: "A Better Lesson"</a> (the debate about humans in the loop with modern AI)</li><li><a href = "https://www.mentimeter.com/s/7b18896eb400c41af4df2f9af7455aea/3fa179087276">Class Ethical Problems Voting Results</a></li></ul>

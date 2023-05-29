@@ -1,81 +1,99 @@
 <a href = "https://ursinus-cs477-f2021.github.io/Modules/Module1/Video1">Assignment 0: Python Self Study Module</a> Out
 
-2021-08-30
+2023-08-28
 Assignment 0 Parts 1-3 Due before Class
 
-2021-09-01
+2023-08-30
 Assignment 0 Parts 4,5 Due before Class
 
-2021-09-03
+2023-09-01
 <a href = "Assignments/HW1_WelcomeToCS477">Assignment 1: Welcome To CS 477</a> Out
 
-2021-08-31
+2023-08-29
 Assignment 1 Due
 
-2021-09-06
+2023-09-04
 <a href = "Assignments/HW2_RushHour">Assignment 2: The Rush Hour Problem</a> Out
 
-2021-09-07
-Assignment 2  Due
+2023-09-05
+Assignment 2 Part 1 Due
 
-2021-09-22
-<a href = "Assignments/HW3_Markov">Assignment 3: Markov Chains for Text Processing</a> Out
+2023-09-12
+Assignment 2 Part 2 Due
 
-2021-09-24
-<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Probability Module</a> due before class
+2023-09-19
+Markov Chains Mini-Module Due Before Class
 
-2021-09-29
-Assignment 3 Check In
+2023-09-20
+<HR><a href = "Assignments/HW3_Markov">Assignment 3: Markov Chains for Text Processing</a> Out
 
-2021-10-01
-<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module3/Exercise0">Bayes Module</a> due before class
+2023-09-20
+<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module2/Video1">Probability Module</a> Due
 
-2021-10-04
+2023-09-22
+Bayes Rule Module due before class
+
+2023-09-25
+<a href = "https://ursinus-cs477-f2021.github.io/Modules/Module3/Video1">Bayesian Classification Module</a> due before class
+
+2023-09-27
 Assignment 3 Due
 
-2021-10-08
+2023-10-02
 <HR><a href = "Assignments/HW4_RobotLocalization">Assignment 4: Bayesian Robot Localization</a> Out
 
-2021-10-08
+2023-10-02
 <a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video1">Euclidean Vectors / Data Vectorization Module</a> Due Before Class
 
-2021-10-15
-<a href = "https://ursinus-cs477-f2021.github.io/Modules/MatrixModule/Video1">Matrix Module</a> due before class
+2023-10-09
+<a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video1">Dot Products / Projection Module</a> Due Before Class
 
-2021-10-22
+2023-10-11
+Assignment 4 Part 1 Due
+
+2023-10-06
 Assignment 4 Due
 
-2021-10-25
-<a href = "Assignments/HW5a_3DShapeCluster">Assignment 5a: 3D Shape Clustering</a> Out
+2023-10-13
+<a href = "https://ursinus-cs372-s2023.github.io/Modules/Module20/Video1">Logistic Regression Module</a> Part 1-3 Due Before Class
 
-2021-10-26
-Assignment 5a Due
+2023-10-18
+<HR>Assignment 5: Logistic Regression on Movie Reviews Out
 
-2021-11-10
-<a href = "Assignments/HW5b_Unsupervised">Assignment 5b: NMF for Music Component Separation</a> Out
+2023-10-18
+<a href = "https://ursinus-cs372-s2023.github.io/Modules/Module20/Video3">Rest of Logistic Regression Module</a> Due Before Class
 
-2021-11-04
-Assignment 5b Due
+2023-10-23
+<a href = "https://ursinus-cs372-s2023.github.io/Modules/Module21/Video1">Feedforward Neural Networks Module</a> Due Before Class
 
-2021-11-12
-<HR><a href = "Assignments/HW6_LogisticRegression">Assignment 6: Gradient Descent And Logistic Regression</a> Out
+2023-10-27
+Assignment 5 Due
 
-2021-11-12
-Polynomial Regression / Overfitting / Stochastic Gradient Descent Module Due
+2023-10-30
+<HR>Assignment 6: Build Your Own Neural Net (BYONN) Out
 
-2021-11-17
-Assignment 6 Part 1 Due
+2023-10-30
+Convolution Module Due before Class
 
-2021-11-22
-Assignment 6 Part 2 Due
+2023-11-01
+Assignment 6 Due
 
-2021-12-01
-Pre Assignment 7 Due
+2023-11-06
+<HR>Assignment 7: Dogs vs Cats out
 
-2021-11-29
-<a href = "Assignments/HW7_DeepLearning">Assignment 7: (Deep) Neural Networks</a> Out
+2023-11-06
+Assignment 7 Due
 
-2021-12-02
-Indicate <a href = "FinalProject/index.html">Final Project</a> Choice
+2023-11-13
+<HR>Assignment 8: LSTM Text Synthesis with GRUs Out
 
-2021-11-15
+2023-11-13
+Assignment 8 Due
+
+2023-11-21
+Assignment 9: Alpaca Training Out
+
+2023-11-27
+<HR>Assignment 10: Diffusion-Based Image Synthesis Out
+
+2023-11-27
