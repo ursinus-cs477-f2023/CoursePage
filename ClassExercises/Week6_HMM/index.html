@@ -7,7 +7,7 @@
 <html>
 <!-- Header !-->
 	<head>
-		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2021</title>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -154,19 +154,19 @@
 									</p>
 
 									<p>
-										Now let's put on some formal notation and define exactly what it is we're looking for.  Given the first <b>n</b> measurements, we want to figure out the probability that the hidden state <b>x<SUB>n</SUB></b> is a particular state <b>k</b> at time <b>n</b>.  
+										Now let's put on some formal notation and define exactly what it is we're looking for.  Given the first <b>n</b> measurements, we want to figure out the probability that the hidden state <b>x<SUB>n</SUB></b> is a particular state <b>k</b> at time <b>n</b>.  We'll refer to this as <b>b<SUB>n</SUB>(k)</b>, or the <b>belief</b> that <b>x<SUB>n</SUB> = k</b>
 									</p>
 
 									<h3>
-										\[ f_n(k) =  p(x_n = k | y_1, y_2, ..., y_n) \]
+										\[ b_n(k) =  p(x_n = k | y_1, y_2, ..., y_n) \]
 									</h3>
 
 									<p>
-										Let's consider what happens when we apply Bayes' rule within the space of intersection of all measurements that have happened before this step only: <b>y<SUB>1</SUB>, y<SUB>2</SUB>, ..., y<SUB>n-1</SUB></b>.  By Bayes' rule, we can rewrite our expression as 
+										Let's consider what happens when we apply Bayes' rule within the space of intersection of all measurements that have happened before this step only: <b>y<SUB>1</SUB>, y<SUB>2</SUB>, ..., y<SUB>n-1</SUB></b>.  By Bayes' rule, we can rewrite our expression for the belief as 
 									</p>
 
 									<h3>
-										\[ f_n(k) = p(\boldsymbol{x_n = k | y_n}, y_1, y_2, ..., y_{n-1}) = \frac{p(\boldsymbol{y_n | x_n = k}, y_1, y_2, ..., y_{n-1}) p(\boldsymbol{x_n = k |} y_1, y_2, ..., y_{n-1})}{p(y_1, y_2, ..., y_n)} \]
+										\[ b_n(k) = p(\boldsymbol{x_n = k | y_n}, y_1, y_2, ..., y_{n-1}) = \frac{p(\boldsymbol{y_n | x_n = k}, y_1, y_2, ..., y_{n-1}) p(\boldsymbol{x_n = k |} y_1, y_2, ..., y_{n-1})}{p(y_1, y_2, ..., y_n)} \]
 									</h3>
 
 									<p>
@@ -174,15 +174,15 @@
 									</p>
 
 									<h3>
-										\[ f_n(k) = \frac{p(y_n | x_n = k) p(x_n = k | y_1, y_2, ..., y_{n-1})}{p(y_1, y_2, ..., y_n)} \]
+										\[ b_n(k) = \frac{p(y_n | x_n = k) p(x_n = k | y_1, y_2, ..., y_{n-1})}{p(y_1, y_2, ..., y_n)} \]
 									</h3>
 
 									<p>
-										Now we have to tackle the second term in the numerator, <b>p(x<SUB>n</SUB> | y<SUB>1</SUB>, y<SUB>2</SUB>, ..., y<SUB>n-1</SUB>)</b>.  Actually, if we had solved something similar at the last measurement and kept track of it:
+										Now we have to tackle the second term in the numerator, <b>p(x<SUB>n</SUB> | y<SUB>1</SUB>, y<SUB>2</SUB>, ..., y<SUB>n-1</SUB>)</b>.  Actually, if we had solved something similar for the belief at the last measurement and kept track of it:
 									</p>
 
 									<h3>
-										\[ f_{n-1}(j) = p(x_{n-1} = j | y_1, y_2, ..., y_{n-1}) \]
+										\[ b_{n-1}(j) = p(x_{n-1} = j | y_1, y_2, ..., y_{n-1}) \]
 									</h3>
 
 									<p>
@@ -196,23 +196,23 @@
 									</p>
 
 									<h3>
-										\[ p(x_n = k | y_1, y_2, ..., y_{n-1}) = \sum_{j=1}^K  f_{n-1}(j) p(x_n = k | x_{n-1} = j)\]
+										\[ p(x_n = k | y_1, y_2, ..., y_{n-1}) = \sum_{j=1}^K  b_{n-1}(j) p(x_n = k | x_{n-1} = j)\]
 									</h3>
 
 									<p>
-										Plugging this back into our original expression, we have
+										Plugging this back into our original expression for the belief <b>b<SUB>n</SUB>(k)</b>, we have
 									</p>
 
 									<h3>
-										\[ f_n(k) = \frac{p(y_n | x_n = k) \left( \sum_{j=1}^K  f_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}{p(y_1, y_2, ..., y_n)}  \]
+										\[ b_n(k) = \frac{p(y_n | x_n = k) \left( \sum_{j=1}^K  b_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}{p(y_1, y_2, ..., y_n)}  \]
 									</h3>
 
 									<p>
-										This is very neat, because now we almost have a recursive expression for <b>f<SUB>n</SUB></b> in terms of <b>f<SUB>n-1</SUB></b>.  The only thing that remains is the denominator.  Actually, because <b>x<SUB>n</SUB> = k</b> is disjoint over all <b>k</b>, we can write the denominator as the sum of all possible numerators.
+										This is very neat, because now we almost have a recursive expression for <b>b<SUB>n</SUB></b> in terms of <b>b<SUB>n-1</SUB></b>.  The only thing that remains is the denominator.  Actually, because <b>x<SUB>n</SUB> = k</b> is disjoint over all <b>k</b>, we can write the denominator as the sum of all possible numerators.
 									</p>
 
 									<h3>
-										\[ f_n(k) = \frac{p(y_n | x_n = k) \left( \sum_{j=1}^K  f_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}{\sum_{k = 1}^K p(y_n | x_n = k) \left( \sum_{j=1}^K  f_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}  \]
+										\[ b_n(k) = \frac{p(y_n | x_n = k) \left( \sum_{j=1}^K  b_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}{\sum_{k = 1}^K p(y_n | x_n = k) \left( \sum_{j=1}^K  b_{n-1}(j) p(x_n = k | x_{n-1} = j) \right)}  \]
 									</h3>
 
 									<p>
@@ -224,7 +224,7 @@
 									</h3>
 
 									<p>
-										So now, we have a complete expression for <b>f<SUB>n</SUB></b> in terms of known <b>measurement probabilities</b> <b>p(y<SUB>n</SUB> | x<SUB>n</SUB>)</b> and <b>transition probabilities</b> <b>p(x<SUB>n</SUB> = k | x<SUB>n-1</SUB> = j)</b>, which we assume we know.  This means we can continue to update a single array of probabilities over all states as we get a new measurement.  The complexity of such an update is <b>O(K)</b> space and time, since there are <b>K</b> states.  The pseudocode below summarizes the algorithm
+										So now, we have a complete expression for <b>b<SUB>n</SUB></b> in terms of known <b>measurement probabilities</b> <b>p(y<SUB>n</SUB> | x<SUB>n</SUB>)</b> and <b>transition probabilities</b> <b>p(x<SUB>n</SUB> = k | x<SUB>n-1</SUB> = j)</b>, which we assume we know.  This means we can continue to update <b>a single array of beliefs over all states as we get a new measurement</b>.  The complexity of such an update is <b>O(K)</b> space and time, since there are <b>K</b> states.  The pseudocode below summarizes the algorithm
 									</p>
 
 									<div style="padding:15px; background-color: blanchedalmond;">
@@ -232,10 +232,10 @@
 										Given <b>K</b> states and <b>T</b> measurements, do the following steps
 										<ol>
 											<li>
-												Initialize an array <b>f</b> of length <b>K</b>
+												Initialize an array <b>b</b> of length <b>K</b>
 											</li>
 											<li>
-												Let <b>f[k]</b> be the prior probability of starting in state <b>k</b>
+												Let <b>b[k]</b> be the prior probability of starting in state <b>k</b>
 											</li>
 											<li>
 												for each new measurement <b>n = 1</b> to <b>T</b>
@@ -257,12 +257,12 @@
 																</ul>
 															</li>
 															<li>
-																Let <b>g[k] = meas * trans</b>
+																Let <b>g[k] = meas * trans</b> (this is the "measurement correction" step that updates the probability based on the measurement)
 															</li>
 														</ul>
 													</li>
 													<li>
-														Let <b>&sigma;</b> be the sum of all elements in <b>g</b>. Set <b>f[k]</b> to be <b>g[k]/&sigma;</b> 
+														Let <b>&sigma;</b> be the sum of all elements in <b>g</b>. Set <b>b[k]</b> to be <b>g[k]/&sigma;</b> 
 													</li>
 												</ol>
 											</li>

@@ -23,7 +23,7 @@ Continue DFS/BFS, Abstract Search Spaces
 
 <ul><li><a href = "ClassExercises/Week2_8Puzzle">Class Exercise: 8-Puzzle</a></li></ul>
 LECTURE
-Ethics #1
+Ethics #1: Overview
 
 
 LECTURE
@@ -51,7 +51,7 @@ Markov Chains, Basics of Probability and Conditional Probability
 
 <ul><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
 LECTURE
-Ethics #2
+Ethics #2: Climate and AI
 
 
 LECTURE
@@ -99,7 +99,7 @@ Logistic Regression, Introduction To pytorch and data loaders
 
 <ul><li><a href = "https://pytorch.org/tutorials/beginner/basics/data_tutorial.html">PyTorch Datasets & DataLoaders Documentation</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
 LECTURE
-Ethics #3
+Ethics #3: Colonialism in AI / The Cost of Data Labeling
 
 
 LECTURE
@@ -159,9 +159,9 @@ Attention
 
 
 LECTURE
-Ethics #4
+Ethics #4: Stochastic Parrots
 
-
+<ul><li><a href = "https://dl.acm.org/doi/abs/10.1145/3442188.3445922">On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?🦜</a></li></ul>
 LECTURE
 The Transformer Architecture
 
@@ -182,3 +182,7 @@ LECTURE
 Reinforcement Learning, Bellman Equations
 
 Class Exercise: Cat + Mouse
+LECTURE
+Ethics #5: Intellectual property and AI / Music in AI
+
+

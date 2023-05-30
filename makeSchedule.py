@@ -15,7 +15,6 @@ lines = fin.readlines()
 fin.close()
 assignments = []
 for i in range(int(len(lines)/3)):
-    print(lines[i*3+2])
     datefields = [int(s) for s in str.split(lines[i*3+2], '-')]
     date = datetime.date(datefields[0], datefields[1], datefields[2])
     assignments.append([date, lines[i*3], lines[i*3+1]])
