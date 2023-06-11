@@ -79,7 +79,7 @@ Convolution Module Due before Class
 Assignment 6 Due
 
 2023-11-06
-<HR>Assignment 7: UNet out
+<HR>Assignment 7: Ursinus Smokestack Segmentation Out
 
 2023-11-06
 Assignment 7 Due
@@ -91,7 +91,7 @@ Assignment 7 Due
 Assignment 8 Due
 
 2023-11-21
-Assignment 9: LSTM Text Synthesis with GRUs Out
+Assignment 9: Text Synthesis with GRUs Out
 
 2023-11-27
 Assignment 9 Due
