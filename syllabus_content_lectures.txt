@@ -139,10 +139,6 @@ Unsupervised Learning, Autoencoders
 
 <ul><li>Class Exercise: Digits Autoencoder</li></ul>
 LECTURE
-Generative Adversarial Networks (GANs)
-
-<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist</li></ul>
-LECTURE
 Variational Autoencoders
 
 <ul><li><a href = "https://lilianweng.github.io/posts/2018-08-12-vae/">Lilian Weng's notes on variational autoencoders</a></li></ul>
@@ -150,6 +146,10 @@ LECTURE
 Diffusion Models for Generative AI
 
 <ul><li><a href = "https://theaisummer.com/diffusion-models/">AI Summer Notes on Diffusion Models</a></li><li><a href = "https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">Lilian Weng</a> Mathematics Behind Reverse Diffusion</a></li><li><a href = "https://arxiv.org/abs/2301.13188">Extracting the training data from diffusion models</a></li></ul>
+LECTURE
+Generative Adversarial Networks (GANs)
+
+<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
 SECTION
 Unit 5: Recurrent Neural Networks, Reinforcement Learning
 
