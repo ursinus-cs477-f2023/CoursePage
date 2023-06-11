@@ -35,11 +35,11 @@ Greedy Best-First Search, A* Search
 
 <ul><li><a href = "ClassExercises/Week3_PrioritySearch">Notes on Uniform Cost, Greedy Best-First, and A* Search</a></li><li>Class Exercise: 8-Puzzle Heuristics</li></ul>
 LECTURE
-Game Trees
+Game Trees, Alpha-Beta Pruning
 
 
 LECTURE
-Game Trees: Alpha-Beta Pruning
+Game Trees: Expectimax
 
 
 SECTION
@@ -69,17 +69,17 @@ Hidden Markov Models
 LECTURE
 Bayes Filtering, Robot Localization
 
-
+<ul><li><a href = "https://www.kalmanfilter.net/kalman1d.html">Kalman filter article</a></li><li><a href = "https://towardsdatascience.com/particle-filter-a-hero-in-the-world-of-non-linearity-and-non-gaussian-6d8947f4a3dc">Particle filtering article</a></li></ul>
 LECTURE
 The Viterbi Algorithm
 
-
+<ul><li>Class Exercise: Robot Localization</li></ul>
 LECTURE
-Kalman Filtering
+Bayes Nets
 
-<ul><li><a href = "https://www.kalmanfilter.net/kalman1d.html">Kalman filter article</a></li><li><a href = "https://towardsdatascience.com/particle-filter-a-hero-in-the-world-of-non-linearity-and-non-gaussian-6d8947f4a3dc">Particle filtering article</a></li></ul>
+
 SECTION
-Unit 3: Data Vectorization, Feedforward Neural Networks
+Unit 3: Data Vectorization, Deep Learning
 
 
 LECTURE
@@ -119,7 +119,7 @@ Backpropagation
 
 <ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 SECTION
-Unit 4: Deep Learning
+Unit 4: Convolutional Neural Networks
 
 
 LECTURE
@@ -143,30 +143,6 @@ Generative Adversarial Networks (GANs)
 
 <ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist</li></ul>
 LECTURE
-Recurrent Neural Networks
-
-<ul><li><a href = "http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks</a></li></ul>
-LECTURE
-Long Short Term Memory (LSTM) Networks
-
-<ul><li><a href = "https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Chris Olah: Understanding LSTMs</li></ul>
-SECTION
-Unit 5: Advanced Deep Learning Topics
-
-
-LECTURE
-Attention
-
-<ul><li><a href = "https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention Is All You Need</a></li></ul>
-LECTURE
-Ethics #4: Stochastic Parrots
-
-<ul><li><a href = "https://dl.acm.org/doi/abs/10.1145/3442188.3445922">On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?🦜</a></li></ul>
-LECTURE
-The Transformer Architecture
-
-
-LECTURE
 Diffusion Part 1
 
 <ul><li><a href = "https://theaisummer.com/diffusion-models/">AI Summer Notes on Diffusion Models</a></li></ul>
@@ -174,15 +150,39 @@ LECTURE
 Diffusion Part 2
 
 
+SECTION
+Unit 5: Recurrent Neural Networks, Reinforcement Learning
+
+
+LECTURE
+Recurrent Neural Networks
+
+<ul><li><a href = "http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks</a></li></ul>
+LECTURE
+Ethics #4: Intellectual property and AI / Music in AI
+
+
+LECTURE
+Long Short Term Memory (LSTM) Networks
+
+<ul><li><a href = "https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Chris Olah: Understanding LSTMs</li></ul>
+LECTURE
+Attention
+
+<ul><li><a href = "https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention Is All You Need</a></li></ul>
+LECTURE
+The Transformer Architecture
+
+
 LECTURE
 The Multi-Armed Bandit
 
 <ul><li><a href = "https://www.datahubbs.com/multi_armed_bandits_reinforcement_learning_1/">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
 LECTURE
-Reinforcement Learning, Bellman Equations
+Reinforcement Learning with Human Feedback
 
 Class Exercise: Cat + Mouse
 LECTURE
-Ethics #5: Intellectual property and AI / Music in AI
+Ethics #5: Stochastic Parrots
 
-
+<ul><li><a href = "https://dl.acm.org/doi/abs/10.1145/3442188.3445922">On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?🦜</a></li></ul>

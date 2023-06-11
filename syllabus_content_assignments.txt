@@ -40,7 +40,7 @@ Bayes Rule Module due before class
 Assignment 3 Due
 
 2023-10-02
-<HR><a href = "Assignments/HW4_RobotLocalization">Assignment 4: Bayesian Robot Localization</a> Out
+<HR><a href = "Assignments/HW4_RobotLocalization">Assignment 4: Kalman Filtering</a> Out
 
 2023-10-02
 <a href = "https://ursinus-cs477-f2021.github.io/Modules/VectorModule/Video1">Euclidean Vectors / Data Vectorization Module</a> Due Before Class
@@ -79,21 +79,24 @@ Convolution Module Due before Class
 Assignment 6 Due
 
 2023-11-06
-<HR>Assignment 7: Dogs vs Cats out
+<HR>Assignment 7: UNet out
 
 2023-11-06
 Assignment 7 Due
 
 2023-11-13
-<HR>Assignment 8: LSTM Text Synthesis with GRUs Out
+<HR>Assignment 8: This Cat Doesn't Exist Out
 
 2023-11-13
 Assignment 8 Due
 
 2023-11-21
-Assignment 9: Alpaca Training Out
+Assignment 9: LSTM Text Synthesis with GRUs Out
 
 2023-11-27
-<HR>Assignment 10: Diffusion-Based Image Synthesis Out
+Assignment 9 Due
 
-2023-11-27
+2023-12-06
+<HR>Assignment 10: RLHF from The Data Labeler's POV Out
+
+2023-12-06
