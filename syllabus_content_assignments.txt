@@ -79,7 +79,7 @@ Convolution Module Due before Class
 Assignment 6 Due
 
 2023-11-06
-<HR>Assignment 7: Ursinus Smokestack Segmentation Out
+<HR>Assignment 7: Adversarial Attacks on Images Out
 
 2023-11-06
 Assignment 7 Due

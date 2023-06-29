@@ -1,69 +1,6 @@
-[submodule "ClassExercises/Week1_COVID/Week1_COVID"]
-	path = ClassExercises/Week1_COVID/Week1_COVID
-	url = https://github.com/Ursinus-CS477-F2021/Week1_COVID.git
-[submodule "Materials/MazeExplorer"]
-	path = Materials/MazeExplorer
-	url = https://github.com/Ursinus-CS477-F2021/MazeExplorer.git
-[submodule "Assignments/HW2_RushHour/rushhour"]
-	path = Assignments/HW2_RushHour/rushhour
-	url = https://github.com/Ursinus-CS477-F2021/rushhour.git
-[submodule "Assignments/HW2_RushHour/HW2_RushHour"]
-	path = Assignments/HW2_RushHour/HW2_RushHour
-	url = https://github.com/Ursinus-CS477-F2021/HW2_RushHour.git
-[submodule "ClassExercises/Week2_8Puzzle/Week2_8Puzzle"]
-	path = ClassExercises/Week2_8Puzzle/Week2_8Puzzle
-	url = https://github.com/Ursinus-CS477-F2021/Week2_8Puzzle.git
-[submodule "Assignments/HW3_Markov/HW3_Markov"]
-	path = Assignments/HW3_Markov/HW3_Markov
-	url = https://github.com/Ursinus-CS477-F2021/HW3_Markov.git
-[submodule "ClassExercises/Week6_Music_Speech"]
-	path = ClassExercises/Week6_Music_Speech
-	url = https://github.com/Ursinus-CS477-F2021/Week6_Music_Speech.git
 [submodule "ClassExercises/Week6_HMM/Week6_RobotLocalization"]
 	path = ClassExercises/Week6_HMM/Week6_RobotLocalization
 	url = https://github.com/Ursinus-CS477-F2021/Week6_RobotLocalization.git
-[submodule "Assignments/HW4_RobotLocalization/HW4_RobotLocalization"]
-	path = Assignments/HW4_RobotLocalization/HW4_RobotLocalization
-	url = https://github.com/Ursinus-CS477-F2021/HW4_RobotLocalization.git
-[submodule "ClassExercises/Week7_DigitsNN"]
-	path = ClassExercises/Week7_DigitsNN
-	url = https://github.com/Ursinus-CS477-F2021/Week7_DigitsNN.git
-[submodule "ClassExercises/Week8_NMF/NMFBuildAFace"]
-	path = ClassExercises/Week8_NMF/NMFBuildAFace
-	url = https://github.com/Ursinus-CS477-F2021/NMFBuildAFace.git
-[submodule "Assignments/HW5a_3DShapeCluster/HW5a_3DShapeCluster"]
-	path = Assignments/HW5a_3DShapeCluster/HW5a_3DShapeCluster
-	url = https://github.com/Ursinus-CS477-F2021/HW5a_3DShapeCluster.git
-[submodule "ClassExercises/Week10_VisualBOW/VisualBOW"]
-	path = ClassExercises/Week10_VisualBOW/VisualBOW
-	url = https://github.com/Ursinus-CS477-F2021/VisualBOW.git
-[submodule "Assignments/HW5b_Unsupervised/HW5b_Components"]
-	path = Assignments/HW5b_Unsupervised/HW5b_Components
-	url = https://github.com/Ursinus-CS477-F2021/HW5b_Components.git
-[submodule "ClassExercises/Week10_LogisticRegression/Week10_LogisticRegression"]
-	path = ClassExercises/Week10_LogisticRegression/Week10_LogisticRegression
-	url = https://github.com/Ursinus-CS477-F2021/Week10_LogisticRegression.git
-[submodule "ClassExercises/Week11_Convexity_NNIntro/Week11_Convexity_NNIntro"]
-	path = ClassExercises/Week11_Convexity_NNIntro/Week11_Convexity_NNIntro
-	url = https://github.com/Ursinus-CS477-F2021/Week11_Convexity_NNIntro.git
-[submodule "ClassExercises/Week11_Backprop/Week11_NNGradientDescent"]
-	path = ClassExercises/Week11_Backprop/Week11_NNGradientDescent
-	url = https://github.com/Ursinus-CS477-F2021/Week11_NNGradientDescent.git
-[submodule "ClassExercises/Week12_CNNs/Week12_CNNs"]
-	path = ClassExercises/Week12_CNNs/Week12_CNNs
-	url = https://github.com/Ursinus-CS477-F2021/Week12_CNNs.git
-[submodule "ClassExercises/Week12_CNNs/Week12_tensorflowjs_convolution"]
-	path = ClassExercises/Week12_CNNs/Week12_tensorflowjs_convolution
-	url = https://github.com/Ursinus-CS477-F2021/Week12_tensorflowjs_convolution.git
 [submodule "Assignments/HW7_NeuralNets/TensorflowDigitsTest"]
 	path = Assignments/HW7_NeuralNets/TensorflowDigitsTest
 	url = https://github.com/Ursinus-CS477-F2021/TensorflowDigitsTest.git
-[submodule "ClassExercises/Week14_Autoencoderes/Week14_Autoencoderes"]
-	path = ClassExercises/Week14_Autoencoderes/Week14_Autoencoderes
-	url = https://github.com/Ursinus-CS477-F2021/Week14_Autoencoderes.git
-[submodule "Assignments/HW7_DeepLearning/HW7_DeepLearning"]
-	path = Assignments/HW7_DeepLearning/HW7_DeepLearning
-	url = https://github.com/Ursinus-CS477-F2021/HW7_DeepLearning.git
-[submodule "ClassExercises/Week15_MultiArmedBandit"]
-	path = ClassExercises/Week15_MultiArmedBandit
-	url = https://github.com/Ursinus-CS477-F2021/Week15_MultiArmedBandit.git
