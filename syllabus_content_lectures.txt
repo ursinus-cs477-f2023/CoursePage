@@ -5,15 +5,15 @@ Unit 1: Intro To AI / Classical Search
 LECTURE
 What is AI?  <p>Python Basics: Variables, Lists, Conditionals, Methods, Loops </p>
 
-<ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "ClassExercises/Week1_WhatIsAI">Class Jamboard</a></li><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li><li><a href = "https://arxiv.org/pdf/2103.10292.pdf">Shortcomings and recommendations for machine learning in medical imaging</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li><li><a href = "ClassExercises/Week1_WhatIsAI/ShazamSonify.html">Shazam Adversarial Example</a></li></ul>
+<ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "ClassExercises/Week1_WhatIsAI">Class Jamboard</a></li><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li><li><a href = "https://arxiv.org/pdf/2103.10292.pdf">Shortcomings and recommendations for machine learning in medical imaging</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li><li><a href = "https://www.beepytunes.com">beepytunes.com</a></li></ul>
 LECTURE
-Python Dictionaries, Python Practice
+Reinforcement Learning, One Armed Bandit Problem<p>Python Objects, Object References</p>
+
+<ul><li><a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 3</a></li><li><a href = "https://www.datahubbs.com/multi_armed_bandits_reinforcement_learning_1/">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
+LECTURE
+Python Dictionaries, Finite State Machines
 
 <ul><li><a href = "ClassExercises/Week1_Adventure">Class Exercise: Choose Your Own Adventure</a></li><li><a href = "https://www.w3schools.com/python/python_dictionaries.asp">w3schools Dictionary Reference</a></li><li><a href = "https://www.geeksforgeeks.org/python-dictionary/">Geeks for Geeks Dictionary Reference</a></li><li><a href = "ClassExercises/Week1_Adventure/Loops_Dictionaries.html">Class Notes on Loops / Dictionaries</a></li></ul>
-LECTURE
-Python Objects, Object References, COVID Simulation, Monte Carlo Techniques
-
-<ul><li><a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 3</a></li><li><a href = "ClassExercises/Week1_COVID">Class Exercise: COVID Simulation</a> (<a href = "ClassExercises/Week1_COVID/solution.html">Solution</a>)</li></ul>
 LECTURE
 Tree Search, Graph Search: Breadth-First Search (BFS), Depth-First Search (DFS)
 
@@ -175,9 +175,9 @@ The Transformer Architecture
 
 
 LECTURE
-The Multi-Armed Bandit
+Deep Reinforcment Learning
 
-<ul><li><a href = "https://www.datahubbs.com/multi_armed_bandits_reinforcement_learning_1/">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
+
 LECTURE
 Reinforcement Learning with Human Feedback
 
