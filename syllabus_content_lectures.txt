@@ -3,11 +3,11 @@ Unit 1: Intro To AI / Classical Search
 
 
 LECTURE
-What is AI?  <p>Python Basics: Variables, Lists, Conditionals, Methods, Loops </p>
+<p>What is AI?</p>  <p>Python Basics: Variables, Lists, Conditionals, Methods, Loops </p>
 
-<ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "ClassExercises/Week1_WhatIsAI">Class Jamboard</a></li><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li><li><a href = "https://arxiv.org/pdf/2103.10292.pdf">Shortcomings and recommendations for machine learning in medical imaging</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li><li><a href = "https://www.beepytunes.com">beepytunes.com</a></li></ul>
+<ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li></ul><ul><li><a href = "https://www.scientificamerican.com/article/we-need-to-focus-on-ais-real-harms-not-imaginary-existential-risks/">Bender/Hanna: "AI Causes Real Harm. Let's Focus on That over the End-of-Humanity Hype"</a></li><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li><li><a href = "https://knightcolumbia.org/content/how-to-prepare-for-the-deluge-of-generative-ai-on-social-media">Kapoor/Narayanan: How To Prepare for The Deluge of Generative AI on Social Media</a></li><li><a href = "https://www.beepytunes.com">beepytunes.com</a></li></ul>
 LECTURE
-Reinforcement Learning, One Armed Bandit Problem<p>Python Objects, Object References</p>
+<p>Reinforcement Learning, One Armed Bandit Problem</p><p>Python Objects, Object References</p>
 
 <ul><li><a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 3</a></li><li><a href = "https://www.datahubbs.com/multi_armed_bandits_reinforcement_learning_1/">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
 LECTURE
@@ -75,7 +75,7 @@ The Viterbi Algorithm
 
 <ul><li>Class Exercise: Robot Localization</li></ul>
 LECTURE
-Bayes Nets
+Reinforcement Learning: Markov Decision Processes
 
 
 SECTION
@@ -175,9 +175,9 @@ The Transformer Architecture
 
 
 LECTURE
-Deep Reinforcment Learning
+Deep Reinforcment Learning, Policy Gradients
 
-
+<ul><li><a href = "http://karpathy.github.io/2016/05/31/rl/">Andrej Karpathy deep RL pong tutorial</a></li></ul>
 LECTURE
 Reinforcement Learning with Human Feedback
 
