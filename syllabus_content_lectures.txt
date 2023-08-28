@@ -5,7 +5,7 @@ Unit 1: Intro To AI / Classical Search
 LECTURE
 <p>What is AI?</p>  <p>Python Basics: Variables, Lists, Conditionals, Methods, Loops </p>
 
-<ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li></ul><ul><li><a href = "https://www.scientificamerican.com/article/we-need-to-focus-on-ais-real-harms-not-imaginary-existential-risks/">Bender/Hanna: "AI Causes Real Harm. Let's Focus on That over the End-of-Humanity Hype"</a></li><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li><li><a href = "https://knightcolumbia.org/content/how-to-prepare-for-the-deluge-of-generative-ai-on-social-media">Kapoor/Narayanan: How To Prepare for The Deluge of Generative AI on Social Media</a></li><li><a href = "https://www.beepytunes.com">beepytunes.com</a></li></ul>
+<ul><li><a href = "https://docs.google.com/presentation/d/1aj3wZ1eVq0AzGgA-40we4Q66GqU2RMGQLYyXQTe2FZg/edit?usp=sharing">Slices from today</a></li></ul><ul><li>Python reference: <a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 2</a></li><li><a href = "https://www.learnpython.org/">learnpython.org</a></li></ul><ul><li><a href = "https://www.scientificamerican.com/article/we-need-to-focus-on-ais-real-harms-not-imaginary-existential-risks/">Bender/Hanna: "AI Causes Real Harm. Let's Focus on That over the End-of-Humanity Hype"</a></li><li><a href = "https://www.cs.princeton.edu/~arvindn/talks/MIT-STS-AI-snakeoil.pdf">Arvind Narayanan slides on AI Snake Oil</li><li><a href = "https://knightcolumbia.org/content/how-to-prepare-for-the-deluge-of-generative-ai-on-social-media">Kapoor/Narayanan: How To Prepare for The Deluge of Generative AI on Social Media</a></li><li><a href = "https://www.beepytunes.com">beepytunes.com</a></li></ul>
 LECTURE
 <p>Reinforcement Learning, One Armed Bandit Problem</p><p>Python Objects, Object References</p>
 
@@ -119,7 +119,7 @@ Backpropagation
 
 <ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 SECTION
-Unit 4: Convolutional Neural Networks
+Unit 4: Convolutional Neural Networks, Generative Models
 
 
 LECTURE
