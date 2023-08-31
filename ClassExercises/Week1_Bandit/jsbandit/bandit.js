@@ -1,6 +1,9 @@
 let totalReward = 0;
 let pullsLeft = 40;
 
+const PULL_TIME = 500;
+let pulling = false;
+
 function printReward() {
     let dom = document.getElementById("totalReward");
     dom.innerHTML = "<h1>" + pullsLeft + " pulls left, Total Earnings: $<span style=\"color:green;\">" + totalReward + "</span></h1>";
@@ -24,15 +27,19 @@ class Bandit {
         const that = this;
         dom.onclick = function() {
             if (pullsLeft > 0) {
-                this.innerHTML = "<img src = \"" + picmoving + "\" width=\"80%\">";
-                setTimeout(function() {
-                    let pull = that.pull();
-                    totalReward += pull;
-                    that.dom.innerHTML = "<img src = \"" + picstill + "\" width=\"80%\">";
-                    that.dom.innerHTML += "<h1>$" + pull + "</h1>";
-                    pullsLeft--;
-                    printReward();
-                }, 1000);
+                if (!pulling) {
+                    pulling = true; // Lock
+                    this.innerHTML = "<img src = \"" + picmoving + "\" width=\"80%\">";
+                    setTimeout(function() {
+                        let pull = that.pull();
+                        totalReward += pull;
+                        that.dom.innerHTML = "<img src = \"" + picstill + "\" width=\"80%\">";
+                        that.dom.innerHTML += "<h1>$" + pull + "</h1>";
+                        pullsLeft--;
+                        printReward();
+                        pulling = false; // Unlock
+                    }, PULL_TIME);
+                }
             }
             else {
                 alert("You're out of pulls!");
