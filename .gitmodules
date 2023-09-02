@@ -4,3 +4,6 @@
 [submodule "Assignments/HW7_NeuralNets/TensorflowDigitsTest"]
 	path = Assignments/HW7_NeuralNets/TensorflowDigitsTest
 	url = https://github.com/Ursinus-CS477-F2021/TensorflowDigitsTest.git
+[submodule "Materials/MazeExplorer"]
+	path = Materials/MazeExplorer
+	url = https://github.com/ursinus-cs477-f2023/MazeExplorer.git
