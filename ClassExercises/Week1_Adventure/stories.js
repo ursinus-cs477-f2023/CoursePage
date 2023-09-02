@@ -90,7 +90,7 @@ places["left"] = {"description":left_description, "next":[]};
 places["right"] = {"description":right_description, "next":["castle", "fork"]};
 places["castle"] = {"description":castle_descritption, "next":["right"]};
 
-stories["James"] = places;
+stories["Henry"] = places;
 
 
 
@@ -113,7 +113,23 @@ stories["Josh"] = places;
 
 
 
+places = {}
+places["bed"] = {"description":"Time for bed","next":["carpet"]};
+places["carpet"] = {"description":"Stand around like you don't know what to do","next":["bed","desk","workstation","fridge","roommatesside"]};
+places["desk"] = {"description":"Do some studying","next":["carpet"]};
+places["workstation"] = {"description":"Fiddle around on an instrument or do art","next":["carpet"]};
+places["fridge"] = {"description":"Make some tea or look for something you don't really want to eat", "next":["carpet"]};
+places["roommatesside"] = {"description":"Interlope across your roommate's side of the room","next":["carpet","door"]};
+places["door"] = {"description":"The door doesn't have a working latch.","next":["roommatesside","hall"]};
+places["hall"] = {"description":"Are you coming or going? oooo its a LiMiNaL sPaCe","next":["door","bathroom","END"]};
+places["bathroom"] = {"description":"Shower or get off the pot","next":["hall"]};
+places["START"] = {"description":"Welcome home","next":["hall"]};
+places["END"] = {"description":"Great job fending for yourself in there. You didn't forget anything, did you?", "next":[]};
 
+places["start"] = "START";
+places["end"] = "END";
+
+stories["Adrian"] = places;
 
 
 
