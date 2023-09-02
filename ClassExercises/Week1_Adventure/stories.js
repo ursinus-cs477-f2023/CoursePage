@@ -1,103 +1,120 @@
 let stories = {};
-stories["Alexa / Manning"] = {"start":"swings",
-                            "end":"WaterFountain",
-                            "slide":{"description":"meant to go down, but more fun to run up", "next":["merryGoRound", "WaterFountain"]},
-                            "seesaw": {"description":"grab a friend and bounce up and down","next":["monkey bars", "slide"]},
-                            "monkey bars": {"description":"experience the life of a primate jumping from tree to tree","next":["swings", "seesaw"]},
-                            "swings": {"description":"Soar through the air", "next":["seesaw", "monkey bars", "merryGoRound"]},
-                            "merryGoRound": {"description":"warning beware of dizziness","next":["seesaw", "monkey bars", "WaterFountain"]},
-                            "WaterFountain": {"description":"take a refreshing drink"}
-};
+let places = {};
+
+places = {};
+places["Vault 111"] = {"description":"After the start of the nuclear war in 2077, you and your family escaped here to live until the surface was safe. Little did you know, Vault-Tec would have you all cryogenically frozen as an experiment...", "next":["Sanctuary"]};
+
+places["Sanctuary"] = {"description":"Now the year 2287, you find the neighborhood you used to live in before the war, along with your old robot Codsworth. Most of the houses are leveled, but there is potential to start rebuilding here.",
+                       "next":["Vault 111", "Red Rocket", "Concord"]};
+
+places["Red Rocket"] = {"description":"The old gas station down the road from your home. Here you find a lonely dog, eager for new companionship. You decide to bring him along for the journey.",
+                        "next":["Sanctuary", "Concord"]};
+
+places["Concord"] = {"description":"A larger town past Red Rocket, you find a group of survivors pinned down in the museum by Raiders.", 
+                     "next":["Museum", "Red Rocket", "Sanctuary", "Diamond City"]};
+
+places["Museum"] = {"description":"In the museum, you help fight off the Raiders and save the survivors. You find out that they are the last of the Minutemen, a group dedicated to helping out other settlers in the wastland. They offer to help rebuild Sanctuary.",
+                     "next":["Concord"]};
+
+places["Diamond City"] = {"description":"You made it to Diamond City, the 'Great Green Jewel' of the Commonwealth. Inside the old baseball stadium, you find a bustling town full of vendors, residents, and new opportunities.\nThis is where the real adventure will begin...", "next":[]};
+
+places["start"] = "Vault 111";
+places["end"] = "Diamond City";
+
+stories["Brenden"] = places;
 
 
-stories["Julian / Vincent"] = {
-    "start":"Dorm",
-    "end":"ROOM 107",
-    "Dorm":{"description":"You are in your dorm which is the start!", "next":["Hallway","Window"]},
-    "Hallway":{"description":"There can only do so much here... like walk and more walk", "next":["Bathroom","Outdoors"]},
-    "Window":{"description":"If you jump out you'll die", "next":["Dorm"]},
-    "Bathroom":{"description":"You do your daily bathroom routine. Use the toilet, brush your teeth and then use the bathroom again", "next":["Hallway"]},
-    "Outdoors":{"description":"You head outside and the sun is beaming on you. You feel like Jesus is watching over you", "next":["Pfahler","Reimert"]},
-    "Pfahler":{"description":"The best building in town and where dreams are made of", "next":["ROOM 107"]},
-    "Reimert":{"description":"HEY YOU SHOULDN'T BE HERE RIGHT NOW", "next":["Outdoors"]},
-    "ROOM 107":{"description":"Welcome to your utopia of CS 477!"}
-};
 
 
-stories["Shane / Will"] = {
-"start":"LA",
-"end":"Dubai",
-"LA" : {"description":"You're so fancy, we already know. You're in the fast lane, from LA to Tokyo.", "next": ["Tokyo"]},
-"Tokyo" : {"description":"Ok Iggy where to now? Ikimashou!", "next":["LA", "London", "Paris"]},
-"London" : {"description":"After some tea and crumpets its time to hop on the jet to fly elsewhere.", "next":["Tokyo", "Paris"]},
-"Paris" : {"description":"You are getting bedazzled by the paparazzi, quick get out while you still can!", "next":["LA", "London", "Dubai"]},
-"Dubai" : {"description":"You made it to your five star hotel, it's time to relax by the pool."}
-};
-
-stories["Mike K / Jeremy"] = {"start":"main",
-                    "end":"commons",
-                    "main": {"description":"Where you enter campus. Hmm, I want coffee.", "next":["library", "wismer", "pfahler", "north"]}, 
-                    "pfahler": {"description":"For the musuem and math stuff. The desire for coffee grows stronger.", "next":["library", "ritter"]},
-                    "wismer": {"description":"A place to have lunch. You want more exciting coffee than the coffee from wismer.", "next":["library", "north", "commons"]},
-                    "library": {"description":"Books and reading. Ironically, you find a book about coffee.", "next":["wismer", "pfahler", "commons"]},
-                    "ritter": {"description":"Pretty cool place but not the commons.", "next":["wismer", "pfahler"]},
-                    "north": {"description":"I think I want to go to the commons.", "next":["wismer", "commons"]},
-                    "commons": {"description":"Yay, you finally got coffee!"}
-                };
-
-stories["Mike L / Tom S"] = {
-    "start":"ticket booth",
-    "ticket booth": {"description":"place where you buy tickets", "next":["rollercoaster park", "water park"]},
-    "water park": {"description":"a place to enjoy water slides and pools", "next":["ticket booth"]},
-    "rollercoaster park": {"description":"place filled with rides and games", "next":["ticket booth"]}
-};
-
-stories["John / Seraiah"] = {
-    "start":"Entrance",
-    "end":"Penguins",
-    "Entrance": {"description":"The entrance to the zoo.", "next":["Tigers", "Elephants"]},
-    "Tigers": {"description":"You've reached the tiger exhibit.", "next":["Elephants", "Penguins"]},
-    "Elephants": {"description":"You've reached the elephant exhibit.", "next":["Penguins"]},
-    "Penguins": {"description":"You've reached the penguin exhibit. They are adorable."}
-};
-
-stories["Marcos / Sam"] = {
-    "start":"My Room",
-    "end":"Wismer",
-    "My Room":{"description":"There are some LED's and posters. Your humble abode.", "next":["Wismer","IDC"]},
-    "IDC":{"description":"You studied some in the IDC.", "next":["Pfhaler","Wismer"]},
-    "Wismer":{"description":"You eat some food and run into some friends. You are now trapped at Wismer >:)"},
-    "Pfhaler":{"description":"You just went to theory of computation and AI.", "next":["My Room","Wismer"]}
-};
-
-stories["Kevin / Jon"] = {
-    "start":"Master Bedroom",
-        "Master Bedroom": {"description":"You just woke up. Your phone tells you its 11:00 AM and you are were supposed to arrive at 9:00 AM to work. Find your keys!!", "next":["Master Bathroom", "Hallway"]},
-        "Master Bathroom": {"description":"Doesn't look like you left your keys here. You see yourself in the mirror. You look hideous", "next":["Master Bedroom"]},
-        "Hallway": {"description":"Looks empty. There's a few locations you can check from here", "next":["Kitchen","Outside", "Master Bedroom"]},
-        "Kitchen": {"description":"Nothing here. Clean up this place, its rough  in here", "next":["Hallway"]},
-        "Outside": {"description":"You found the keys! How did you forget them here. Congrats, now get to work.", "next":["Hallway"]}
-};
-
-stories["Jeff / Matt"] = {"start":"Office",
-                         "end":"Outside",
-                         "Office": {"description": "The place you spent way too much time in over the past year",
-                         "next": ["Bathroom", "Kitchen"]},
-                         "Bathroom": {"description": "Yes", "next": ["Office"]},
-                        "Kitchen": {"description": "Food Place", "next": ["Office", "Upstairs Bedroom", "Outside"]},
-                        "Upstairs Bedroom": {"description": "Sleep place", "next": ["Kitchen"]},
-                        "Outside": {"description": "Not in the house", "next": ["Kitchen"]}};
 
 
-stories["Tom B / Rich"] = {
-    "start":"room",
-    "room":{"description":"this is the place that i sleep XD", "next":["bathroom", "wismer", "class", "gym", "bomberger"]},
-    "bathroom":{"description":"this is the sacred palace", "next":["room", "wismer", "class", "gym",  "bomberger"]},
-    "wismer":{"description":"this is where i get to eat some food", "next":["room", "gym", "bomberger"]},
-    "class":{"description":"i hope to learn here", "next":["gym",  "bomberger"]},
-    "gym":{"description":"GET BUFF man, LIFT", "next":["bomberger", "room"]},
-    "bomberger":{"description":"the place where me and my friends sing to all of the greatest christmas hits ever heard", "next":["room"]}
-};
+
+
+
+
+
+
+places = {};
+
+places["Bedroom"] = {"description":"This is the place where you sleep at night and hang out with your friends during the day.", "next":["Bathroom", "Cassie & June's Room", "Maya & Emily's Room", "Bed"]}
+places["Bathroom"] = {"description":"This is the place where you start your day by brushing your teeth or taking a shower.", "next":["Wismer", "Olin 108"]}
+places["Maya & Emily's Room"] = {"description":"This is the place where you occasionally go when someone needs something.", "next":["Cassie & June's Room", "Wismer", "Bedroom"]}
+places["Cassie & June's Room"] = {"description":"This is the place where you go to play danganrompa and zelda.", "next":["Bedroom", "Pfahler 107", "Wismer"]}
+places["Wismer"] = {"description":"This is the place where you go for your meals.", "next":["Upper", "Lower"]}
+places["Upper"] = {"description":"This is the place you go for buffet style food and to hang out with friends.", "next":["Bedroom", "Pfahler 107", "Library", "Kaleidoscope 215"]}
+places["Lower"] = {"description":"This is the place you go when you want a burger from the grill.", "next":["Bedroom", "Pfahler 107", "Kaleidoscope 215", "Library"]}
+places["Library"] = {"description":"This is the place where you go to do work with friends.", "next":["Kaleidoscope 215", "Pfahler 107", "Bedroom"]}
+places["Pfahler 107"] = {"description":"This is the place you go for CS 477.", "next":["Bedroom", "Cassie & June's Room"]}
+places["Kaleidoscope 215"] = {"description":"This is the place you go for THEA 100.", "next":["Thomas 324"]}
+places["Thomas 324"] = {"description":"This is the place where you go for PSYCH 100.", "next":["Bedroom", "Cassie & June's Room"]}
+places["Olin 108"] = {"description":"This is the place where you go for CS 271.", "next":["Wismer", "Bedroom"]}
+places["Bed"] = {"description":"This is the place you go to sleep at night.", "next":[]}
+places["start"] = "Bedroom";
+places["end"] = "Bed";
+
+stories["Emily"] = places;
+
+
+
+
+
+
+
+
+
+places = {};
+
+
+let forest_description = "You wake up in an old growth forest, you find the faint glow of the sun to be warming. There's not much around but you notice a well worn path."
+let path1_description = "As you walk down the path, other than a lot of trees, flowers, and weeds, you spot a small cottage along the path."
+let cottage_description = "The door is unlocked and it's a normal little cottage and you see the oven on. You notice a staircase that goes up. Also, you see a picture frame with a cute little family."
+let upstairs_description = "As you round the corner on the stair case, the father jumps out and says \"Who are you, how did you get in?\". He charges at you, and with your quick thinking you see a window."
+let jump_description = "You jump through the window, breaking it in the process and all you hear from the cottage is \"You better get back here!\""
+let fork_description = "You continue to walk down the path, you notice a slight incline to it. Soon you get a fork in the path."
+let left_description = "As you walk down the path, the trees grow younger and you see more sunlight. You near the city where you live, you must have fell asleep in the woods again."
+let right_description = "The path gets darker and you turn a corner and see a massive castle, one where you don't think you should go inside."
+let castle_descritption = "The castle is locked, you have to turn around."
+
+
+places["hidden"] = {"description":"You found the hidden easter egg, you win nothing. You broke the game :(", "next":[]};
+places["end"] = "hidden";
+places["start"] = "wake up";
+
+places["wake up"] = {"description":forest_description, "next":["path"]};
+places["path"] = {"description":path1_description, "next":["cottage", "fork", "wake up"]};
+places["cottage"] = {"description":cottage_description, "next":["path", "upstairs"]};
+places["upstairs"] = {"description":upstairs_description, "next":["jump"]};
+places["jump"] = {"description":jump_description, "next":["path"]};
+places["fork"] = {"description":fork_description, "next":["left", "right", "path"]};
+places["left"] = {"description":left_description, "next":[]};
+places["right"] = {"description":right_description, "next":["castle", "fork"]};
+places["castle"] = {"description":castle_descritption, "next":["right"]};
+
+stories["James"] = places;
+
+
+
+
+places = {
+    "Kitchen":{"description":"Dirty dishes overflow the sink. You should get on that soon","next":[ "Living Room", "Office"]},
+    "Office":{"description":"The place where watching YouTube is done","next":[ "Kitchen", "Hallway"]},
+    "Living Room":{"description":"This is the domain of the cats. No humans allowed", "next":["Kitchen", "Hallway", "Basement Hallway"]},
+    "Hallway":{"description":"Shelves of DVDs line the walls, never to be played again","next":[ "Living Room", "Office", "Upstairs Hallway"]},
+    "Upstairs Hallway":{"description":"You begin to sweat because the second floor is 90 degrees","next":[ "Hallway", "Attic"]},
+    "Attic":{"description":"Beware of the creatures that hide in the dark","next":[ "Upstairs Hallway"]},
+    "Basement Hallway":{"description":"A single light illuminates the darkness", "next":["Gaming Room", "Living Room"]},
+    "Gaming Room":{"description":"An inescapable cave.", "next":["Basement Hallway"]},
+    "start":"Kitchen",
+    "end":"Gaming Room"
+}
+
+stories["Josh"] = places;
+
+
+
+
+
+
 
 
 
