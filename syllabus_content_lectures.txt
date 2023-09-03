@@ -9,7 +9,7 @@ LECTURE
 LECTURE
 <p>Reinforcement Learning, One Armed Bandit Problem</p><p>Python Objects, Object References</p>
 
-<ul><li><a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 3</a></li><li><a href = "https://www.datahubbs.com/multi_armed_bandits_reinforcement_learning_1/">Notes on multi-armed bandits and reinforcement learning</a></li></ul>
+<ul><li><a href = "https://donsheehy.github.io/datastructures/fullbook.pdf">Sheehy Ch. 3</a></li><li><a href = "ClassExercises/Week1_Bandit/jsbandit/index.html">The bandit game</a></li><li><a href = "ClassExercises/Week1_Bandit/index.html">Class notes on multi-armed bandits and reinforcement learning</a></li></ul>
 LECTURE
 Python Dictionaries, Finite State Machines
 
