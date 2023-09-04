@@ -23,11 +23,11 @@ Continue DFS/BFS, Abstract Search Spaces
 
 <ul><li><a href = "ClassExercises/Week2_8Puzzle">Class Exercise: 8-Puzzle</a></li></ul>
 LECTURE
-Ethics #1: Overview
+Iterative Deepening, Uniform Cost Search, Continue 8-Puzzle
 
 
 LECTURE
-Iterative Deepening, Uniform Cost Search, Continue 8-Puzzle
+Ethics #1: Overview
 
 
 LECTURE

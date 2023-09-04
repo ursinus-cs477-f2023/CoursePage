@@ -13,12 +13,12 @@ Assignment 0 Parts 4,5 Due before Class
 Assignment 1 Due
 
 2023-09-04
-<a href = "Assignments/HW2_RushHour">Assignment 2: The Rush Hour Problem</a> Out
+<HR><!--<a href = "Assignments/HW2_RushHour">Assignment 2: The Rush Hour Problem</a> Out!-->Assignment 2: The Rush Hour Problem Out
 
-2023-09-05
+2023-09-04
 Assignment 2 Part 1 Due
 
-2023-09-12
+2023-09-11
 Assignment 2 Part 2 Due
 
 2023-09-19
