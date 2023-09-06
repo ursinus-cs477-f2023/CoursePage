@@ -226,7 +226,7 @@ BFSTree(start, goal):
 											Now it only takes 224 steps instead of nearly 5000!  Furthermore, there are never more than 9 nodes on the queue since we're careful not to re-add anything that's already on the frontier or which has already been visited. 
 										</p>
 
-										<h2>Depth-First Search</h2>
+										<h2><a name = "dfs">Depth-First Search</a></h2>
 										<p>
 											Another strategy we can take is to try to follow one direction for a while until we run out of things to explore, and then back up and try another direction.  This is what's known as <b>depth first search (DFS)</b>.  The pseudocode is nearly identical to the pseudocode for BFS, except <b>we use a stack instead of a queue</b> to store the states in the frontier.  A stack is what's known as a "Last in First Out" (LIFO), or, equivalently, a "First In Last Out" data structure (<a href = "https://www.geeksforgeeks.org/stack-data-structure/">Click here</a> to review stacks).  Instead of thinking of it like people lining up, you can think of it like a stack of plates.  You don't want to disturb the stack, so you always pop off the very top most plate, which also happens to be the most recently added one.
 										</p>
@@ -271,9 +271,11 @@ BFSTree(start, goal):
 										<img src = "DFSTreeExpansion.svg" width="60%">
 
 										<p>
-											Surprisingly, there is actually a way to patch this up so that it works and has some advantages over the other techniques.  We will discuss this within the next few classes
+											There are a few ways to patch this up in practice, though, as we'll discuss in a moment
 										</p>
 
+
+										<h2><a name = "dfsfix">Fixing Depth-First Tree Search</a></h2>
 
 
                                     
