@@ -270,13 +270,102 @@ BFSTree(start, goal):
 
 										<img src = "DFSTreeExpansion.svg" width="60%">
 
+										<h3><a name = "fixingdfs">Fixing Depth-First Tree Search</a></h3>
 										<p>
-											There are a few ways to patch this up in practice, though, as we'll discuss in a moment
+											There are two main ways to patch this up:
 										</p>
+										<ol>
+											<li>
+												<p>
+													<b><a name = "pathchecking">Path checking:</a></b> While we don't have a memory of states we've visited, we can still preserve information about the current path we're exploring, and we can make sure that we don't expand any states that are already on this path.  In other words, as someone said in class, we're going to play "snake" with our path; it can't it itself.  We just need to remember a pointer to the state that gave rise to each state that we expand along our path, and then we don't expand any node that would be repeating one along the directed path back to the root, as shown in the picture below:
+												</p>
+
+												<img src = "PathCheck.svg" width="30%">
+
+												<p>
+													The demo below shows the difference:
+												</p>
 
 
-										<h2><a name = "dfsfix">Fixing Depth-First Tree Search</a></h2>
+												<div id = "dfsgraph4"></div>
+												<script>
+													let maze7 = new BFSDFS("dfsgraph4", null, false, true, "", "", true);
+													maze7.loadMaze("../../Materials/MazeExplorer/Maze1.png");
+												</script>
+												<p></p>
 
+											</li>
+
+											<li>
+												<p>
+													<b><a name = "depthlimited">Depth-Limited Search</a></b>: Another option is to limit the how far we can go down in depth before we stop expanding.  You can think of this like attaching a leash of a certain length to the start position and not letting us go further than that amount away from the start.  This is depicted in the picture below:
+												</p>
+
+												<img src = "DFSTreeExpansion_Limited.svg" width="55%">
+
+												<p>
+													The example below shows the same maze with a depth of 15.  This will avoid infinite loops, but it may take a while depending on the branching factor.  Furthermore, if the depth limit is not as long as the shortest distance to the solution, we may not find the solution. We can address this by doing <b>iterative deepening</b>, in which we gradually increase the depth limit and start over if we go through all possibilities without finding a solution.
+												</p>
+
+												
+												<div id = "dfsgraph5"></div>
+												<script>
+													let maze8 = new BFSDFS("dfsgraph5", null, false, true, "", "", true, 15);
+													maze8.loadMaze("../../Materials/MazeExplorer/Maze1.png");
+												</script>
+
+											</li>
+										</ol>
+
+										<HR>
+										<h2><a name = "graphpython">Graph Search in Python</a></h2>
+										
+										<p>
+											<a href = "https://github.com/ursinus-cs477-f2023/Week2_pyMaze/blob/main/maze.py">Click here</a> to view an implementation of graph search in python, and <a href = "https://github.com/ursinus-cs477-f2023/Week2_pyMaze/blob/main/Maze.ipynb">click here</a> to view the notebook to run it.  A few notes about this code:
+											<ul>
+												<li>
+													<p>
+														We store the states as <b>tuples</b> of <code>(row, column)</code> so that they are <i>hashable</i> and can be stored in sets
+													</p>
+												</li>
+												<li>
+													<p>
+														We actually store both the state and <b>backpointers</b> to the state that was expanded to get to it on the frontier.
+													</p>
+
+													<p>
+														<code>
+															frontier.append({"state":(i2, j2), "came_from":state_info})
+														</code>
+													</p>
+
+													<p>
+														This is so that we can <b>backtrace</b> from the end back to the start to enumerate a solution that tells us all the steps we took to get from the start to the end:
+													</p>
+
+
+														<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+															solution = [self.end]
+															node = state_info
+															while node: # As long as we actually came from somewhere
+																solution.append(node["state"])
+																node = node["came_from"]
+															solution.reverse() # We want to return going from beginning to end instead of end to beginning
+															
+														</script>
+
+													</p>
+
+													
+												</li>
+
+												<li>
+													<p>
+														In addition to storing the frontier with the backpointers, we maintain an additional set data structure called <code>frontier_set</code> with just the states on the frontier, so that we can quickly lookup which states on the frontier using python's fast hash table implementation of a set, rather than a linear search through the list of states on the frontier. 
+													</p>
+												</li>
+											</ul>
+										</p>
 
                                     
                                 </div>
