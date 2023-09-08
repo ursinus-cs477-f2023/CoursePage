@@ -19,13 +19,13 @@ Tree Search, Graph Search: Breadth-First Search (BFS), Depth-First Search (DFS)
 
 <ul><li><a href = "Materials/MazeExplorer">Class Exercise: Solving A Maze</a></li><li><a href = "ClassExercises/Week2_BasicSearch">Blind Search Class Notes</a></li></ul>
 LECTURE
-Iterative Deepending and DFS Path Search, Backtracing Solutions, Abstract Search Spaces, Begin 8-Puzzle
+Iterative Deepending and DFS Path Search, Backtracing Solutions, Abstract Search Spaces
+
+<ul><li><a href = "https://github.com/ursinus-cs477-f2023/Week2_pyMaze">Python code for maze search</a></li></ul>
+LECTURE
+8-Puzzle, Uniform Cost Search
 
 <ul><li><a href = "ClassExercises/Week2_8Puzzle">Class Exercise: 8-Puzzle</a></li></ul>
-LECTURE
-Continue 8-Puzzle, Uniform Cost Search
-
-
 LECTURE
 Ethics #1: Overview
 
