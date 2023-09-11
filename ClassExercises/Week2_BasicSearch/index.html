@@ -112,8 +112,7 @@
 <pre>
 <code>
 BFSTree(start, goal):
-	state = start
-	frontier = []  // This is the queue
+	frontier = [start]  // This is the queue
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
 		// Take out element from front of line
@@ -194,8 +193,7 @@ BFSTree(start, goal):
 <pre>
 <code>
 BFSTree(start, goal):
-	state = start
-	frontier = []  // This is the queue
+	frontier = [start]  // This is the queue
 	<b>visited = {} // Store what we have visited</b>
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
