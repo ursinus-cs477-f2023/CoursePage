@@ -285,12 +285,12 @@ AStar(start, goal, <b>heuristic</b>):
 	state = start
 	visited = set([])
 	frontier = []  # This is a priority queue now
-	# Queue holds things with (<b>cumulative cost + heuristic(state)</b>, state, <b>cumulative cost</b>)
-	frontier.add( (<b>heuristic(start)</b>, start, null) ) 
+	# Queue holds things with (<b>cumulative cost + heuristic(state)</b>, state, previous state, <b>cumulative cost</b>)
+	frontier.add( (<b>heuristic(start)</b>, start, null, 0) ) 
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
 		# Take out element from front of line
-		(<b>est</b>, prev, <b>cumucost</b>) = frontier.pop() # <b>est</b> is priority: cumulative cost + heuristic
+		(<b>est</b>, state, prev, <b>cumucost</b>) = frontier.pop() # <b>est</b> is priority: cumulative cost + heuristic
 		if state is goal:
 			reachedGoal = true
 		else:
@@ -301,7 +301,7 @@ AStar(start, goal, <b>heuristic</b>):
 				# took to move to state, plus the cost of moving from state to neighbor,
 			    	# <b>plus the heuristic</b>
 				if not n in frontier and not n in visited:
-					frontier.add( (<b>costn</b>, n, <b>cumucost + d</b>) )
+					frontier.add( (<b>costn</b>, n, state, <b>cumucost + d</b>) )
 				else if n in frontier: // See if we just found a shorter path to n
 					if costn &lt frontier.cost(n):
 						Update cost of n to be costn on frontier
@@ -374,6 +374,7 @@ AStar(start, goal, <b>heuristic</b>):
 	visited = set([])
 	frontier = []  # This is a priority queue now
 	# Queue holds things with (cumulative cost + heuristic(state), state, previous state, cumulative cost)
+	frontier.add( (<b>heuristic(start)</b>, start, null, 0) ) 
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
 		# Take out element from front of line
@@ -416,7 +417,7 @@ AStar(start, goal, <b>heuristic</b>):
 									</script>   
 
 									<p>
-										Note that it's possible to push on tuples of information, so you can store more than just the priority on the queue.  The priority will always be compared at the first element in the tuple.  If there are ties, it will compare the second element, and so on.  
+										Note that it's possible to push on tuples of information, so you can store more than just the priority on the queue.  The priority will always be compared at the first element in the tuple.  If there are ties, it will compare the second element, and so on.  <b>This means that every element on the tuple should be comparable by a &lt;</b>, which, unfortunately, means you can't put a dictionary on the tuple.
 									</p>
 									<p>
 										In the case of A*, you'll want to push on a <b>4-tuple</b> of <code>(heuristic + cumucost, state, prev, cumucost)</code>.  For ties, <code>state</code> should be comparable.  This is why the <code>__lt__</code> method is overloaded in the most recent <a href = "https://github.com/Ursinus-CS477-F2021/HW2_RushHour/blob/a0866bb5e411b59876cae41e7ff0ebe8307f3d18/rush.py#L105">starter code</a>
