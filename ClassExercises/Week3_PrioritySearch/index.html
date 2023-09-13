@@ -167,7 +167,10 @@ UniformCost(start, goal):
 							<a name = "greedybestfirst">Greedy Best-First Search</a>
 						</h2>
 						<p>
-							Let's look at another algorithm that uses a priority queue, but one that falls under the class of <i>informed search algorithms</i>; that is, we actually know something about the problem at hand beyond simply how the neighbors are connected.  In particular, we'll define something called a <b>formal heuristic</b>, which is an estimate of the number of steps left to take to the solution from a particular state.  At the very least, this heuristic should be <b>admissible</b>; it should never over-estimate the true cost left along the shortest path from the state to the distance.  One example of an admissible heuristic for our pixel graphs is the straight line "Euclidean distance" from a state at location (x, y) to the goal at location (g<SUB>x</SUB>, g<SUB>y</SUB>) 
+							Let's look at another algorithm that uses a priority queue, but one that falls under the class of <b>informed search algorithms</b>; that is, we actually know something about the problem at hand beyond simply how the neighbors are connected.  In particular, we'll define something called a <b>formal heuristic</b>, which is an <b>estimate of the distance of shortest path between two states</b>.  We denote this as <b>h(a, b)</b> between states <b>a</b> and <b>b</b>.  Usually, we're the most interested in how long it takes to get to the goal, so we'll abbreviate <b>h(a, g)</b>, where <b>g</b> is the goal, as simply <b>h(a)</b>.  So if you only see one parameter, it's the heuristic's estimated distance to the goal.
+						</p>
+						<p>
+							At the very least, a heuristic should be <b>admissible</b>; it should <b>never over-estimate the true cost</b> left along the shortest path between states.  One example of an admissible heuristic for our pixel graphs is the straight line "Euclidean distance" from a state at location (x, y) to the goal at location (g<SUB>x</SUB>, g<SUB>y</SUB>) 
 
 							<h3>
 								\[ d((x, y), (g_x, g_y)) = \sqrt{ (x-g_x)^2 + (y-g_y)^2 } \]
@@ -262,7 +265,7 @@ while not reachedGoal and length(frontier) > 0:
 								</h2>
 
 								<p>
-									As it turns out, we can get the best of both worlds by doing something called <b>A Star Search</b>, which uses a priority that is the sum of the two costs in uniform cost and greedy best-first.  In other words, A* uses an estimate of the <i>total distance from start to finish</i> as the sum of the cost taken so far and the sum of the heuristic <b>h</b>, and it prioritizes nodes which seem to be on the shortest such estimated paths.  The picture below depicts this.  Two quick notes:
+									As it turns out, we can get the best of both worlds by doing something called <b>A Star Search</b>, which uses a priority that is the sum of the two costs in uniform cost and greedy best-first.  In other words, A* uses an estimate of the <i>total distance from start to finish</i> as the sum of the cost taken so far and the sum of the heuristic <b>h</b>, and it prioritizes nodes which seem to be on the shortest such estimated paths.  Said differently, a nodes priority is: <b>if I force you to go through that node, what's the lowest cost path think I can come up with?</b>  We use the heuristic to estimate the part of the path we don't know yet.  The picture below depicts this.  Two quick notes:
 									<ul>
 										<li>
 											Our estimated cost of the optimal path from start to goal is <b>cumucost + h(state)</b>
@@ -310,7 +313,7 @@ AStar(start, goal, <b>heuristic</b>):
 </div>  
 
 								<p>
-									Below is the same example as before with the obstacles.  As you can see, it still searches in the direction of the solution much more quickly than uniform cost search, but it doesn't get messed up as much by the obstacles, and it correctly returns the shortest path.  In fact, <b>a consistent heuristic will guarantee that we reach the solution with a shortest path first</b>
+									Below is the same example as before with the obstacles.  As you can see, it still searches in the direction of the solution much more quickly than uniform cost search, but it doesn't get messed up as much by the obstacles, and it correctly returns the shortest path.  In fact, <b>an admissible heuristic with the above algorithm will always guarantee that we get a shortest path to the goal</b> (Wikipedia has a nice <a href = "https://en.wikipedia.org/wiki/Admissible_heuristic#Optimality_proof">proof of this</a>).
 								</p>
 
 								<div id="astar1"></div>
@@ -332,12 +335,26 @@ AStar(start, goal, <b>heuristic</b>):
 									</p>
 
 									<h3>
+										\[ h(s, g) \leq h(n, g) + d(s, n) \]
+									</h3>
+
+									<p>
+										Where <b>s, g, n</b> are any three states in general.  If, specifically, <b>g</b> is the goal and <b>s</b> and <b>n</b> are neighboring states, we'll more commonly see it written as
+									</p>
+
+									<h3>
 										\[ h(s) \leq h(n) + d(s, n) \]
 									</h3>
 
 									<p>
-										where <b>n</b> is a neighbor of state <b>s</b> and <b>d(s, n)</b> is the distance between <b>n</b> and <b>s</b>.  In other words, the heuristic should be roughly decreasing as we get closer to the goal.
+										where <b>d(s, n)</b> is the distance between <b>s</b> and <b>n</b>.
 									</p>
+
+									<p>
+										Intuitively, the heuristic should be roughly decreasing as we get closer to the goal, but it shouldn't be dropping by too much.  Below we'll explore some interesting properties about consistent heuristics which make them so useful in practice
+									</p>
+
+									<h3><a name = "consistentisadmissible">Proposition 1: Every Consistent Heuristic Is Admissible</a></h3>
 									<p>
 										We can show by induction that every consistent heuristic is admissible (though admissible heuristics are not necessarily consistent).  Let <b>h*(s)</b> be the minimum cost of any path from the state <b>s</b> to a goal state, and let <b>s, s2, s3, ..., sn</b> be a sequence of states that realizes this cost, with <b>sn</b> being a goal state.  Then, by the consistency condition, we can write
 									</p>
@@ -364,8 +381,9 @@ AStar(start, goal, <b>heuristic</b>):
 										Now we can prove that the straight line heuristic we used on grids is consistent simply by using the <a href = "https://en.wikipedia.org/wiki/Triangle_inequality">triangle inequality</a> for both 4 neighbor and 8 neighbor grids.  This also implies that it's admissible by above reasoning
 									</p>
 
+									<h3><a name = "noupdatesconsistent">Proposition 2: No Need To Update The Priority Queue with Consistent Heuristics for Constant Step Size</a></h3>
 									<p>
-										One really nice thing about consistency is that we can guarantee that, like uniform cost search, the first time a state comes out of the queue, it has the lowest possible A* cost that any path to it every will.  Furthermore, if the costs of all steps are the same (as they are in the 8-puzzle and rush hour), we can also guarantee that the state has the lowest cost <i>the first time it's added to the frontier</i>.   This means we can cut out the check to see if a node is already on the frontier with a higher cost, which is great, because <a href = "https://stackoverflow.com/questions/25318777/python-update-value-of-element-in-heapq">updating priorities on python priority queues is a pain</a>.  This will make your life much easier on <a href = "../../Assignments/HW2_RushHour/">homework 2</a>.  Below is the pseudocode for A* search assuming a consistent heuristic
+										One really nice thing about A* with consistent heuristics is that we can guarantee that, like uniform cost search (but unlike A* with admissible heuristics), the first time a state comes out of the queue, it has the lowest possible A* cost that any path to it every will.  Furthermore, if the costs of all steps are the same (as they are in the 8-puzzle and rush hour), we can also guarantee that the state has the lowest cost <i>the first time it's added to the frontier</i>.   This means we can cut out the check to see if a node is already on the frontier with a higher cost, which is great, because <a href = "https://stackoverflow.com/questions/25318777/python-update-value-of-element-in-heapq">updating priorities on python priority queues is a pain</a>.  This will make your life much easier on <a href = "../../Assignments/HW2_RushHour/">homework 2</a>.  Below is the pseudocode for A* search assuming a consistent heuristic
 									</p>
 
 <div style="font-size: larger;">
@@ -394,12 +412,86 @@ AStar(start, goal, <b>heuristic</b>):
 </pre>
 </div>
 
+					<h3><a name = "triangleineq">Proposition 3: If A Heuristic Satisfies The Triangle Inequality And Is Admissible, Then It Is Consistent</a></h3>
+
+					<p>
+						Here's a really nice tool that we can use to prove that particular heuristics are consistent, or to tweak estimates slightly so that they become consistent heuristics.  By triangle inequality, we mean the following:
+					</p>
+
+					<h3>
+						\[ d(a, c) \leq  d(a, b) + d(b, c) \]
+					</h3>
+
+					<p>
+						This is depicted in the picture below:
+					</p>
+
+					<img src = "TriangleIneq.svg" width="30%">
+
+					<p>
+						As that picture suggests, it's definitely true of the straight line distance in Euclidean space.  It's also true of the <a href = "https://ursinus-cs271-f2023.github.io/CoursePage/ClassExercises/Week7_KendallTau/">kendall tau distance between two permutations</a>, which we'll use in a moment for 8-puzzle.
+					</p>
+						
+					<p>
+						To prove the above assertion, let's apply the definition of the triangle inequality letting <b>a = s</b> some state, <b>c = g</b> be the goal, and <b>b = n</b> be a neighboring state.  Then, if <b>h</b> satisfies the triangle inequality, we have
+					</p>
+
+					<h3>
+						\[ h(s, g) \leq  h(s, n) + h(n, g) \]
+					</h3>
+
+					<p>
+						Since our heuristic is also admissible, <b>h(s, n) \leq d(s, n)</b>.  Therefore, we have the inequality
+					</p>
+
+					<h3>
+						\[ h(s, g) \leq  d(s, n) + h(n, g) \]
+					</h3>
+
+					<p>
+						Or, for short
+					</p>
+
+					<h3>
+						\[ h(s) \leq h(n) + d(s, n) \]
+					</h3>
+
+					<p>
+						Which is the definition of a consistent heuristic!  Q.E.D.
+					</p>
+
+
+					<h3><a name = "unitcosts">Special Case with Unit Cost Steps</a></h3>
+					<p>
+						There's another tool we can use if we know neighboring states are at a distance of 1, just as they are in the rush hour problem and the 8-puzzle problem.  In this case, the definition of consistent simplifies to 
+					</p>
+
+					<h3>
+						\[ h(s) \leq h(n) + 1 \]
+					</h3>
+
+					<p>
+						Since the choice of <b>s</b> and <b>n</b> in this equation is arbitrary, what this implies in general is
+					</p>
+
+					<h3>
+						\[ |h(s) - h(n)| \leq 1 \]
+					</h3>
+
+					<p>
+						In other words, a consistent heuristic should never jump up or down by more than 1 between two neighboring states in problems with unit cost steps between neighbors.  
+					</p>
+
+					<p>
+						With this fact, it's trivial to prove that the <a href = "../../Assignments/HW2_RushHour/index.html#astar">blocking heuristic for the rush hour problem</a> is consistent.  In that heuristic, we have a 1 if there's a car in the way to the goal from our state, or a 0 otherwise.  Since the heuristic is only 0 or 1 anywhere, there's no way it can change by more than 1 between neighbors.
+					</p>
+
 								<HR>
 									<h2>
 										<a name = "heapq">Python Priority Queues</a>
 									</h2>
 									<p>
-										When you implement this in python, you can make use of the <a href = "https://docs.python.org/3/library/heapq.html">heapq</a> library.  Below is an example of how to use this.  (You should try this out in jupyter until you're comfortable!)
+										When you implement prioritized search algorithms in python, you can make use of the <a href = "https://docs.python.org/3/library/heapq.html">heapq</a> library.  Below is an example of how to use this.  (You should try this out in jupyter until you're comfortable!)
 									</p>
 
 
@@ -420,7 +512,7 @@ AStar(start, goal, <b>heuristic</b>):
 										Note that it's possible to push on tuples of information, so you can store more than just the priority on the queue.  The priority will always be compared at the first element in the tuple.  If there are ties, it will compare the second element, and so on.  <b>This means that every element on the tuple should be comparable by a &lt;</b>, which, unfortunately, means you can't put a dictionary on the tuple.
 									</p>
 									<p>
-										In the case of A*, you'll want to push on a <b>4-tuple</b> of <code>(heuristic + cumucost, state, prev, cumucost)</code>.  For ties, <code>state</code> should be comparable.  This is why the <code>__lt__</code> method is overloaded in the most recent <a href = "https://github.com/Ursinus-CS477-F2021/HW2_RushHour/blob/a0866bb5e411b59876cae41e7ff0ebe8307f3d18/rush.py#L105">starter code</a>
+										In the case of A*, you'll want to push on a <b>4-tuple</b> of <code>(heuristic + cumucost, state, prev, cumucost)</code>.  For ties, <code>state</code> should be comparable.  This is why the <code>__lt__</code> method is overloaded in the most recent <a href = "https://github.com/ursinus-cs477-f2023/HW2_RushHour/blob/859bd9dc24885f924a906a587a94fc9e806e7bca/rush.py#L105">starter code</a>
 									</p>
 
 

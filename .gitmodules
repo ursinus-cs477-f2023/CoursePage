@@ -19,3 +19,6 @@
 [submodule "ClassExercises/Week2_pyMaze/Week2_pyMaze"]
 	path = ClassExercises/Week2_pyMaze/Week2_pyMaze
 	url = https://github.com/ursinus-cs477-f2023/Week2_pyMaze.git
+[submodule "ClassExercises/Week3_GameTrees/Week3_GameTrees"]
+	path = ClassExercises/Week3_GameTrees/Week3_GameTrees
+	url = https://github.com/ursinus-cs477-f2023/Week3_GameTrees.git

@@ -29,13 +29,13 @@ LECTURE
 LECTURE
 Greedy Best-First Search, A* Search
 
-<ul><li><a href = "ClassExercises/Week3_PrioritySearch">Notes on Uniform Cost, Greedy Best-First, and A* Search</a></li></ul>
+<ul><li><a href = "ClassExercises/Week3_PrioritySearch">Notes on Uniform Cost, Greedy Best-First, and A* Search</a></li><li><a href = "https://ojs.aaai.org/index.php/SOCS/article/download/18160/17951/21676">Common Misconceptions About A* Search</a> (Optional)</li></ul>
 LECTURE
 Consistent Heuristics, Begin Game Trees
 
 
 LECTURE
-Ethics #1: Bias, Social Media, Current vs Future Harms
+<a href = "Ethics/index.html#ethics1">Ethics #1: Bias, Social Media, Current vs Future Harms</a>
 
 
 LECTURE
