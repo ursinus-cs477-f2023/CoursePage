@@ -377,9 +377,7 @@ AStar(start, goal, <b>heuristic</b>):
 										\[ h(s) \leq d(s, s_2) + d(s_2, s_3) + ... + d(s_{n-1}, s_n) = h^*(s) \]
 									</h3>
 
-									<p>
-										Now we can prove that the straight line heuristic we used on grids is consistent simply by using the <a href = "https://en.wikipedia.org/wiki/Triangle_inequality">triangle inequality</a> for both 4 neighbor and 8 neighbor grids.  This also implies that it's admissible by above reasoning
-									</p>
+									
 
 									<h3><a name = "noupdatesconsistent">Proposition 2: No Need To Update The Priority Queue with Consistent Heuristics for Constant Step Size</a></h3>
 									<p>
@@ -396,7 +394,7 @@ AStar(start, goal, <b>heuristic</b>):
 	reachedGoal = false
 	while not reachedGoal and length(frontier) > 0:
 		# Take out element from front of line
-		(est, state, cumucost) = frontier.pop()
+		(est, state, came_from, cumucost) = frontier.pop()
 		if state is goal:
 			reachedGoal = true
 		else:
@@ -407,12 +405,47 @@ AStar(start, goal, <b>heuristic</b>):
 					costn = cumucost + d + heuristic(n) # Moving to the neighbor costs as much as it 
 					# took to move to state, plus the cost of moving from state to neighbor,
 					# plus the heuristic
-					frontier.add( (costn, n, cumucost + d) )
+					frontier.add( (costn, n, state, cumucost + d) )
 </code>
 </pre>
 </div>
 
-					<h3><a name = "triangleineq">Proposition 3: If A Heuristic Satisfies The Triangle Inequality And Is Admissible, Then It Is Consistent</a></h3>
+
+				<h3><a name = "unitcosts">Proposition 3: Special Case with Unit Cost Steps</a></h3>
+				<p>
+					There's another tool we can use if we know neighboring states are at a distance of 1, just as they are in the rush hour problem and the 8-puzzle problem.  In this case, the definition of consistent simplifies to 
+				</p>
+
+				<h3>
+					\[ h(s) \leq h(n) + 1 \]
+				</h3>
+
+				<p>
+					Since the order of <b>s</b> and <b>n</b> in this equation is arbitrary, what this implies in general is
+				</p>
+
+				<h3>
+					\[ |h(s) - h(n)| \leq 1 \]
+				</h3>
+
+				<p>
+					In other words, <b>a consistent heuristic should never jump up or down by more than 1 between two neighboring states in problems with unit cost steps between neighbors.</b>
+				</p>
+
+
+				<p>
+					With this fact, it's trivial to prove that the <a href = "../../Assignments/HW2_RushHour/index.html#astar">blocking heuristic for the rush hour problem</a> is consistent:
+					<ul>
+						<li>
+							If we're not at the goal and there's a car in the way, we have a heuristic of 2.  If we then move a car out of the way to make a clear path, that takes 1 step, and our heuristic goes down to 1
+						</li>
+						<li>
+							If we have a clear path to the goal but we're not at the goal, we have a heuristic of 1, and we have to take at least 1 step to get to the goal.
+						</li>
+					</ul>
+				</p>
+
+					<h3><a name = "triangleineq">Proposition 4: If A Heuristic Satisfies The Triangle Inequality And Is Admissible, Then It Is Consistent</a></h3>
 
 					<p>
 						Here's a really nice tool that we can use to prove that particular heuristics are consistent, or to tweak estimates slightly so that they become consistent heuristics.  By triangle inequality, we mean the following:
@@ -426,7 +459,7 @@ AStar(start, goal, <b>heuristic</b>):
 						This is depicted in the picture below:
 					</p>
 
-					<img src = "TriangleIneq.svg" width="30%">
+					<img src = "TriangleIneq.svg" width="50%">
 
 					<p>
 						As that picture suggests, it's definitely true of the straight line distance in Euclidean space.  It's also true of the <a href = "https://ursinus-cs271-f2023.github.io/CoursePage/ClassExercises/Week7_KendallTau/">kendall tau distance between two permutations</a>, which we'll use in a moment for 8-puzzle.
@@ -460,31 +493,172 @@ AStar(start, goal, <b>heuristic</b>):
 						Which is the definition of a consistent heuristic!  Q.E.D.
 					</p>
 
-
-					<h3><a name = "unitcosts">Special Case with Unit Cost Steps</a></h3>
+					<h4>Ex) Straight Line Euclidean Distance is Consistent</h4>
 					<p>
-						There's another tool we can use if we know neighboring states are at a distance of 1, just as they are in the rush hour problem and the 8-puzzle problem.  In this case, the definition of consistent simplifies to 
+						As an example, we can apply this theorem to show that the straight line heuristic we used on grids is consistent for both 4 neighbor and 8 neighbor grids.
 					</p>
 
-					<h3>
-						\[ h(s) \leq h(n) + 1 \]
-					</h3>
+					<H4>Ex) 1/2 of The <a href = "https://ursinus-cs271-f2023.github.io/CoursePage/ClassExercises/Week7_KendallTau/">Kendall-Tau Distance</a> Is A Consistent Heuristic for <a href = "../Week2_8Puzzle/index.html">8-Puzzle</a> </H4>
 
 					<p>
-						Since the choice of <b>s</b> and <b>n</b> in this equation is arbitrary, what this implies in general is
+						Let's consider an example of two neighboring puzzle configurations, where we end up moving a tile down to get from the one on the left to the one on the right (I'll leave it open as to what the tiles actually are by making them variables).  Let's then examine what happens to the permutations we get when we read the tile elements in "row-major" order (left to right, top to bottom).
 					</p>
 
-					<h3>
-						\[ |h(s) - h(n)| \leq 1 \]
-					</h3>
+					<table style="width:80%">
+						<tr>
+							<td>
+								<table style="width:100px;">
+									<tr>
+										<td>a</td>
+										<td>b</td>
+										<td>c</td>
+									</tr>
+									<tr>
+										<td>d</td>
+										<td>e</td>
+										<td> </td>
+									</tr>
+									<tr>
+										<td>f</td>
+										<td>g</td>
+										<td>h</td>
+									</tr>
+								</table>
+							</td>
+							<td>
+								<table style="width:100px;">
+									<tr>
+										<td>a</td>
+										<td>b</td>
+										<td> </td>
+									</tr>
+									<tr>
+										<td>d</td>
+										<td>e</td>
+										<td>c</td>
+									</tr>
+									<tr>
+										<td>f</td>
+										<td>g</td>
+										<td>h</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								a b <b>c d e</b> f g h
+							</td>
+							<td>
+								a b <b>d e c</b> f g h
+							</td>
+						</tr>
+					</table>
 
 					<p>
-						In other words, a consistent heuristic should never jump up or down by more than 1 between two neighboring states in problems with unit cost steps between neighbors.  
+						We notice that there are exactly <b>2</b> discordant pairs (pairs that are in different orders in each); (c, e) and (c, d).  Therefore, the Kendall-Tau distance is 2.  By similar reasoning, any up or down move will be at a Kendall-Tau distance of 2.  And, in fact, horizontal moves will be a Kendall-Tau distance of 0, as the example below shows
+					</p>
+
+					<table style="width:80%">
+						<tr>
+							<td>
+								<table style="width:100px;">
+									<tr>
+										<td>a</td>
+										<td>b</td>
+										<td>c</td>
+									</tr>
+									<tr>
+										<td>d</td>
+										<td>e</td>
+										<td> </td>
+									</tr>
+									<tr>
+										<td>f</td>
+										<td>g</td>
+										<td>h</td>
+									</tr>
+								</table>
+							</td>
+							<td>
+								<table style="width:100px;">
+									<tr>
+										<td>a</td>
+										<td>b</td>
+										<td>c</td>
+									</tr>
+									<tr>
+										<td>d</td>
+										<td> </td>
+										<td>e</td>
+									</tr>
+									<tr>
+										<td>f</td>
+										<td>g</td>
+										<td>h</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								a b c d e f g h
+							</td>
+							<td>
+								a b c d e f g h
+							</td>
+						</tr>
+					</table>
+
+					<p>
+						Since the Kendall-Tau distance is at most 2 for a single move of cost 1, we get an admissible heuristic if we take half of it.  
 					</p>
 
 					<p>
-						With this fact, it's trivial to prove that the <a href = "../../Assignments/HW2_RushHour/index.html#astar">blocking heuristic for the rush hour problem</a> is consistent.  In that heuristic, we have a 1 if there's a car in the way to the goal from our state, or a 0 otherwise.  Since the heuristic is only 0 or 1 anywhere, there's no way it can change by more than 1 between neighbors.
+						We can also see that the Kendall-Tau distance satisfies the triangle inequality.  To prove this, note that another interpretation of this distance is the minimum number of pairwise swaps we have to make to get from one permutation to another.  Let 
+						<ul>
+							<li>
+								k(a, b) be the number of swaps to get from permutation a to permutation b
+							</li>
+							<li>
+								k(b, c) be the number of swaps to get from permutation b to permutation c
+							</li>
+							<li>
+								Then if we follow the swaps prescribed by k(a, b), followed by the swaps prescribed by k(b, c), we have a way of turning permutation a into permutation c that uses a total of k(a, b) + k(b, c) swaps.  But this is not necessarily the optimal way to do this, so we can say that k(a, c) is at most k(a, b) + k(b, c).
+							</li>
+						</ul>
 					</p>
+
+					<p>
+						Taking 1/2 of this preserves the triangle inequality, so we're left with admissible heuristic that satisfies the triangle inequality!  As I was showing in class, this heuristic makes a huge difference in practice; on a puzzle with 19 steps in an optimal solution, breadth-first graph search has to expand 29434 states, while A* with this heuristic only has to expand 2067 states!
+					</p>
+
+					<p>
+						Below a solution returned by A* is shown, as well as the heuristic at each step.  Notice that the heuristic is roughly decreasing as we get closer to the goal, and it never changes up or down by more than 1.
+					</p>
+
+					<h4>Step 1 (h=5)</h4><table style="width:100px;"><tr><td>2</td><td>6</td><td>1</td></tr><tr><td>7</td><td> </td><td>3</td></tr><tr><td>5</td><td>8</td><td>4</td></tr></table>
+<h4>Step 2 (h=5)</h4><table style="width:100px;"><tr><td>2</td><td>6</td><td>1</td></tr><tr><td>7</td><td>3</td><td> </td></tr><tr><td>5</td><td>8</td><td>4</td></tr></table>
+<h4>Step 3 (h=6)</h4><table style="width:100px;"><tr><td>2</td><td>6</td><td> </td></tr><tr><td>7</td><td>3</td><td>1</td></tr><tr><td>5</td><td>8</td><td>4</td></tr></table>
+<h4>Step 4 (h=6)</h4><table style="width:100px;"><tr><td>2</td><td> </td><td>6</td></tr><tr><td>7</td><td>3</td><td>1</td></tr><tr><td>5</td><td>8</td><td>4</td></tr></table>
+<h4>Step 5 (h=5)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td>6</td></tr><tr><td>7</td><td> </td><td>1</td></tr><tr><td>5</td><td>8</td><td>4</td></tr></table>
+<h4>Step 6 (h=5)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td>6</td></tr><tr><td>7</td><td>1</td><td> </td></tr><tr><td>5</td><td>8</td><td>4</td></tr></table>
+<h4>Step 7 (h=4)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td>6</td></tr><tr><td>7</td><td>1</td><td>4</td></tr><tr><td>5</td><td>8</td><td> </td></tr></table>
+<h4>Step 8 (h=4)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td>6</td></tr><tr><td>7</td><td>1</td><td>4</td></tr><tr><td>5</td><td> </td><td>8</td></tr></table>
+<h4>Step 9 (h=4)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td>6</td></tr><tr><td>7</td><td>1</td><td>4</td></tr><tr><td> </td><td>5</td><td>8</td></tr></table>
+<h4>Step 10 (h=3)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td>6</td></tr><tr><td> </td><td>1</td><td>4</td></tr><tr><td>7</td><td>5</td><td>8</td></tr></table>
+<h4>Step 11 (h=3)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td>6</td></tr><tr><td>1</td><td> </td><td>4</td></tr><tr><td>7</td><td>5</td><td>8</td></tr></table>
+<h4>Step 12 (h=3)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td>6</td></tr><tr><td>1</td><td>4</td><td> </td></tr><tr><td>7</td><td>5</td><td>8</td></tr></table>
+<h4>Step 13 (h=2)</h4><table style="width:100px;"><tr><td>2</td><td>3</td><td> </td></tr><tr><td>1</td><td>4</td><td>6</td></tr><tr><td>7</td><td>5</td><td>8</td></tr></table>
+<h4>Step 14 (h=2)</h4><table style="width:100px;"><tr><td>2</td><td> </td><td>3</td></tr><tr><td>1</td><td>4</td><td>6</td></tr><tr><td>7</td><td>5</td><td>8</td></tr></table>
+<h4>Step 15 (h=2)</h4><table style="width:100px;"><tr><td> </td><td>2</td><td>3</td></tr><tr><td>1</td><td>4</td><td>6</td></tr><tr><td>7</td><td>5</td><td>8</td></tr></table>
+<h4>Step 16 (h=1)</h4><table style="width:100px;"><tr><td>1</td><td>2</td><td>3</td></tr><tr><td> </td><td>4</td><td>6</td></tr><tr><td>7</td><td>5</td><td>8</td></tr></table>
+<h4>Step 17 (h=1)</h4><table style="width:100px;"><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td> </td><td>6</td></tr><tr><td>7</td><td>5</td><td>8</td></tr></table>
+<h4>Step 18 (h=0)</h4><table style="width:100px;"><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr><tr><td>7</td><td> </td><td>8</td></tr></table>
+<h4>Step 19 (h=0)</h4><table style="width:100px;"><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr><tr><td>7</td><td>8</td><td> </td></tr></table>
+
+					
+
 
 								<HR>
 									<h2>
