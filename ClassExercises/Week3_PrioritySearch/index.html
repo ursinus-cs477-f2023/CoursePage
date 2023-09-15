@@ -615,16 +615,16 @@ AStar(start, goal, <b>heuristic</b>):
 					</p>
 
 					<p>
-						We can also see that the Kendall-Tau distance satisfies the triangle inequality.  To prove this, note that another interpretation of this distance is the minimum number of pairwise swaps we have to make to get from one permutation to another.  Let 
+						We can also see that the Kendall-Tau distance satisfies the triangle inequality.  To prove this, note that another interpretation of this distance is the <b>minimum number of adjacent swaps</b> we have to make to get from one permutation to another.  One can count this, for instance, as the number of adjacent swaps that insertion sort makes, though there are <a href = "https://ursinus-cs271-f2023.github.io/CoursePage/ClassExercises/Week7_KendallTau/index.html#efficient">more efficient ways to compute this</a>.  Let 
 						<ul>
 							<li>
-								k(a, b) be the number of swaps to get from permutation a to permutation b
+								k(a, b) be the minimum number of adjacent swaps to get from permutation a to permutation b
 							</li>
 							<li>
-								k(b, c) be the number of swaps to get from permutation b to permutation c
+								k(b, c) be the minimum number of adjacent swaps to get from permutation b to permutation c
 							</li>
 							<li>
-								Then if we follow the swaps prescribed by k(a, b), followed by the swaps prescribed by k(b, c), we have a way of turning permutation a into permutation c that uses a total of k(a, b) + k(b, c) swaps.  But this is not necessarily the optimal way to do this, so we can say that k(a, c) is at most k(a, b) + k(b, c).
+								Then if we follow the swaps prescribed by k(a, b), followed by the swaps prescribed by k(b, c), we have a way of turning permutation a into permutation c that uses a total of k(a, b) + k(b, c) adjacent swaps.  But this is not necessarily the optimal sequence of adjacent swaps, so we can say that k(a, c) is at most k(a, b) + k(b, c).
 							</li>
 						</ul>
 					</p>
