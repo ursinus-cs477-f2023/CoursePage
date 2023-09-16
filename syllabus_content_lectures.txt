@@ -1,5 +1,5 @@
 SECTION
-Unit 1: Intro To AI / Classical Search
+Unit 1: Intro To AI / Classical Search And Planning
 
 
 LECTURE
@@ -43,17 +43,13 @@ Game Trees: Alpha-Beta Pruning, Expectimax
 
 
 SECTION
-Unit 2: Statistical Modeling
+Unit 2: Probabalistic Knowledge Representation
 
 
 LECTURE
 Markov Chains, Basics of Probability and Conditional Probability
 
-<ul><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
-LECTURE
-Ethics #2: Climate and AI
-
-
+<ul><li><a href = "https://inst.eecs.berkeley.edu/~cs188/sp23/assets/lectures/cs188-sp23-lec15.pdf">Berkeley CS 188: Crash Course on Probability for AI</a></li><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
 LECTURE
 Bayes Rule, Begin Naive Bayes Classification
 
@@ -74,6 +70,10 @@ LECTURE
 The Viterbi Algorithm
 
 <ul><li>Class Exercise: Robot Localization</li></ul>
+LECTURE
+Ethics #2: Climate and AI
+
+
 LECTURE
 Reinforcement Learning: Markov Decision Processes
 

@@ -25,18 +25,15 @@ Assignment 2 Part 1 Due
 Assignment 2 Part 2 Due
 
 2023-09-18
-Markov Chains Mini-Module Due Before Class
+<a href = "../Modules/Module2/Video1">Probability Module</a> Due Before Class
 
 2023-09-20
 <HR><!--<a href = "Assignments/HW3_Markov">Assignment 3: Markov Chains for Text Processing</a> Out!-->Assignment 3: Markov Chains for Text Processing
 
 2023-09-20
-<a href = "../Modules/Module2/Video1">Probability Module</a> Due
-
-2023-09-22
 Bayes Rule Module due before class
 
-2023-09-25
+2023-09-22
 <a href = "../Modules/Module3/Video1">Bayesian Classification Module</a> due before class
 
 2023-09-27
