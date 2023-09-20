@@ -1,0 +1,585 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h2><a name = "markov">Background: Markov Chains for Document Representations</a></h2>
+                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
+										
+										<ul>
+													<li><a href = "#zeroorder">Zero-Order Statistical Modeling</a></li>
+													<li><a href = "#kprefix">K-Prefixes</a></li>
+													<li><a href = "#probability">The Probability of A Sequence</a></li>
+										</ul>
+
+									</header>
+
+									<div id="page-content">
+
+									<p>
+										Human languages, often referred to as ``natural languages,'' are rich and full of meaning.  Compared to computer languages, they are much harder to automatically interpret and process.  However, we can make some progress at representing natural languages using a few simple statistical ideas.
+									</p>
+
+									<p>
+										In this class, our focus will be on creating algorithms to capture the <i>style</i> of some given text from a set of examples.  Then, we will be able to classify documents based on which documents satisfy which model better.
+									</p>
+
+									<p>
+										In the discussion below, we refer to documents that we use to build a statistical model as <b>training data</b>.
+									</p>
+
+									<h3><a name = "zeroorder">Zero-Order Statistical Modeling</a></h3>
+
+									<p>
+										We'll start by discussing how to synthesize text to match a style based on statistics.  We'll then use the same concept to assign a probability of a string being in a particular style.
+									</p>
+									
+									<p>
+										The simplest possible thing we could do to model text statistically is try to match the frequency of occurrence of the characters in a document.  For example, if we use a collection of <a href = "HW3_Markov/text/spongebobquotes.txt">spongebob quotes</a>, we find that we have the following character counts across all quotes:
+									</p>
+
+									<p>
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{' ': 869, '!': 35, ''': 62, ',': 79, '-': 4, '.': 90, '0': 3, 
+										'1': 2, '2': 4, '4': 1, '5': 1, '?': 21, 'A': 8, 'B': 4, 'C': 8, 'D': 8, 
+										'E': 6, 'F': 2, 'G': 5, 'H': 8, 'I': 55, 'K': 3, 'L': 3, 'M': 3, 'N': 7, 
+										'O': 5, 'P': 11, 'R': 5, 'S': 22, 'T': 13, 'U': 2, 'V': 1, 'W': 14, 
+										'Y': 9, 'a': 305, 'b': 91, 'c': 83, 'd': 133, 'e': 453, 'f': 70, 'g': 85, 
+										'h': 163, 'i': 239, 'j': 6, 'k': 50, 'l': 170, 'm': 126, 'n': 241, 
+										'o': 350, 'p': 63, 'q': 7, 'r': 233, 's': 242, 't': 314, 'u': 157, 
+										'v': 36, 'w': 89, 'x': 4, 'y': 139, 'z': 5}</script>   
+
+									</p>
+
+									<p>
+										Then, we can then try drawing characters according to these counts.  For example, we'd be more likely to draw an 'i' than we would to draw a 'z', and we're more likely to get a space ' ' than any other character.  If we draw 100 characters independently with these probabilities, we get text that looks like this:
+										<ul>
+											<li>onc 5donps fwyce  agoti'tm  ne  edoi a e Iueogd ei IralcrltItmo.g mimyheat tgesue  nwierayekra fP he</li>
+											<li>l   rOxttsu Iogrmetucafo ewa khtois!e bttcatnht,r Cyfhr  Pngkswhnwl oiet lyoatrl atumr e lenriadb Ie</li>
+											<li>Gi dyuh   b .di Po mmceooet'd'nne'n gdo dkimeo aanti is0o i 'uttj'Sstopfsasep!.  mosltayaaSso?lraV l</li>
+										</ul>
+									</p>
+									<p>
+										Interestingly, the size of the "words" looks about right since we are more likely to choose a space than any other character, but they are total gibberish. This is because the process has no memory; each character is chosen completely independently from the character preceding it.    
+
+									<h3><a name = "kprefix">K-Prefixes</a></h3>
+									<p>
+										As it turns out, if we have just a very simple memory of a few characters, we can do a much better job at synthesizing sequences.  Surprisingly, we can shoehorn the "memoryless" Markov chain framework from our <a href = "../../ClassExercises/Week4_Markov/">class exercise</a> into having a small memory if we change our notion of what a "state" is.  In particular, a "state" will now be a small sequence of characters of length <b>k</b> instead of just a single character.  This is referred to as a <b>k-prefix</b>.
+									</p>
+
+									<p>
+										As an example, let's consider that we had the string <b>aaabaaacaabbcabcc</b>.  If we took all of the 2-prefixes of this string, we would have the following counts
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{'aa': 5, 'ab': 3, 'ba': 1, 'ac': 1, 'ca': 2, 'bb': 1, 'bc': 2}</script>   
+
+									<p>
+										In the Markov framework, we also have transitions that occur every time a new character is seen.  On the above example, they would look like this:
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{
+											'aa': {'a': 2, 'b': 2, 'c': 1}, 
+											'ab': {'a': 1, 'b': 1, 'c': 1}, 
+											'ba': {'a': 1}, 
+											'ac': {'a': 1}, 
+											'ca': {'a': 1, 'b': 1}, 
+											'bb': {'c': 1}, 
+											'bc': {'a': 1, 'c': 1}
+										}</script>   
+
+									<p>
+										Let's think about what these mean as transitions in the Markov chain.  If we're at <b>aa</b> and we get an <b>a</b>, then we stay at <b>aa</b>.  If we get a <b>b</b>, then we chop the <b>a</b> off of the left and move to <b>ab</b>.  If we're at <b>ca</b> and we see a <b>b</b>, we chop the <b>c</b> off of the left and move to <b>ab</b>.  And so on.  Drawn as a state diagram, all such transitions look like this:
+									</p>
+
+									<img src = "Example1.png">
+
+									<p>
+										One issue with this is that it runs into a dead end at <b>cc</b>.  This is fine if we're analyzing <a href = "#probability">probabilities</a>, but if we're doing a random walk through our model to synthesize text, we'll run into a dead end there.  To make it so we can keep going, we'll loop the text around by padding the end of the string with the first <b>k</b> characters.  In this example, this means padding the original string with the first two characters, so we create the prefixes of the string <b>aaabaaacaabbcabcc<span style="color: red">aa</span></b>.  That leads to the following counts for the prefixes and transitions
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{'aa': 5, 'ab': 3, 'ba': 1, 'ac': 1, 'ca': 3, 'bb': 1, 'bc': 2, 'cc': 1}
+									</script>   
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{
+											'aa': {'a': 2, 'b': 2, 'c': 1}, 
+											'ab': {'a': 1, 'b': 1, 'c': 1}, 
+											'ba': {'a': 1}, 
+											'ac': {'a': 1}, 
+											'ca': {'a': 2, 'b': 1}, 
+											'bb': {'c': 1}, 
+											'bc': {'a': 1, 'c': 1}, 
+											'cc': {'a': 1}
+										}</script>   
+									<p>
+										Notice how the count of <code>ca->a</code> has gone up by 1, and now there is a transition from <code>cc->a</code>.  Now there are no dead ends in the state transitions, and we can walk through this model randomly forever to generate random strings.
+									</p>
+
+									<img src = "Example1_Loop.png">
+
+										
+
+
+									
+
+									<p>Below is a more in-depth example with some real text from the <a href = "../../Assignments/HW3_Markov/HW3_Markov/text/spongebobquotes.txt">spongebob quotes text file</a> provided with <a href = "../../Assignment/HW3_Markov">homework 3</a></p>
+									<p></p><p></p>
+
+									<button type="button" onclick="showSpongebob()">Show Spongebob Example</button> 
+									<button type="button" onclick="hideSpongebob()">Hide Spongebob Example</button> 
+									<div id="spongebobtext" style="background-color: blanchedalmond; padding: 20px;">
+
+										<h4><a name = "spongebobexample">Spongebob Example</a></h4>
+										<p>
+											As an example here are all of the counts of the 4-prefix <b>'you '</b> in the Spongebob text:
+										</p>
+
+										<table>
+											<tr><td>New Sentence</td><td>Character Counts for 'you ' After Sentence</td></tr>
+											<tr><td>Gary, go away, can't <u>you </u><b>s</b>ee I'm trying to forget you?</td><td>{"s":1}</td></tr>
+											<tr><td>Why are <u>you </u><b>m</b>ad? Because I can't see my forehead!</td><td>{"s":1, "m":1}</td></tr>
+											<tr><td>Can <u>you </u><b>t</b>ake the crust off my Krabby Patty?</td><td>{"s":1, "t":1, "m":1}</td></tr>
+											<tr><td>Did <u>you </u><b>s</b>ee my underwear?</td><td>{"s":2, "t":1, "m":1}</td></tr>
+											<tr><td>Well, it makes <u>you </u><b>l</b>ook like a girl!</td><td>{"s":2, "t":1, "l":1, "m":1}</td></tr>
+											<tr><td>East, oh I thought <u>you </u><b>s</b>aid Weest!</td><td>{"s":3, "t":1, "l":1, "m":1}</td></tr>
+											<tr><td>That's it, mister, <u>you </u><b>j</b>ust lost your brain priveleges!</td><td>{"s":3, "t":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>I wumbo, <u>you </u><b>w</b>umbo, he she we, wumbo, wumboing, wumbology, the study of wumbo? </td><td>{"s":3, "t":1, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>It's not <u>you </u><b>t</b>hat's got me... it's me that's got me!</td><td>{"s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Why don't <u>you </u><b>a</b>sk CowBob RanchPants and his friend Sir Eats-a-lot?</td><td>{"a":1, "s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Krusty Krab Pizza, it's the pizza for <u>you </u><b>a</b>nd meeeee!</td><td>{"a":2, "s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>If <u>you </u><b>b</b>elieve in yourself, with a tiny pinch of magic all your dreams can come true!</td><td>{"a":2, "b":1, "s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Goodbye everyone, I'll remember <u>you </u><b>a</b>ll in therapy.</td><td>{"a":3, "b":1, "s":3, "t":2, "w":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Don't <u>you </u><b>h</b>ave to be stupid somewhere else?</td><td>{"a":3, "b":1, "s":3, "t":2, "w":1, "h":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>Squidward, <u>you </u><b>c</b>an't eat all those patties at one time!</td><td>{"a":3, "b":1, "s":3, "c":1, "t":2, "w":1, "h":1, "j":1, "l":1, "m":1}</td></tr>
+											<tr><td>I'll have <u>you </u><b>k</b>now, I stubbed my toe last week, while watering my spice garden, and I only cried for 20 minutes.</td><td>{"a":3, "b":1, "s":3, "c":1, "t":2, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Squidward, <u>you </u><b>a</b>nd your nose will definitely not fit in.</td><td>{"a":4, "b":1, "s":3, "c":1, "t":2, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Who <u>you </u><b>c</b>allin' pinhead?</td><td>{"a":4, "b":1, "s":3, "c":2, "t":2, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Gee Patrick, I didn't know <u>you </u><b>c</b>ould speak bird.</td><td>{"a":4, "b":1, "s":3, "c":3, "t":2, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Any particular reason <u>you </u><b>t</b>ook your pants off.</td><td>{"a":4, "b":1, "s":3, "c":3, "t":3, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Let me get this straight, <u>you </u><b>t</b>wo ordered a giant screen television just so you could play in the box?</td><td>{"a":4, "b":1, "s":3, "c":4, "t":4, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>I'd hate <u>you </u><b>e</b>ven if I didn't hate you.</td><td>{"a":4, "b":1, "s":3, "c":4, "t":4, "e":1, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>You're a man now, Spongebob, and it's time <u>you </u><b>s</b>tarted acting like one.</td><td>{"a":4, "b":1, "s":4, "c":4, "t":4, "e":1, "w":1, "h":1, "j":1, "k":1, "l":1, "m":1}</td></tr>
+											<tr><td>Can <u>you </u><b>g</b>ive Spongebob his brain back, I had to borrow it for a week.</td><td>{"a":4, "b":1, "c":4, "e":1, "g":1, "h":1, "j":1, "k":1, "l":1, "m":1, "s":4, "t":4, "w":1}</td></tr>
+											
+										</table>
+
+										<h4>Synthesizing Text</h4>Now, let's say we do the following steps, starting with the prefix <b>'you '</b>:
+										<ol>
+											<li>We randomly choose one of the characters that's to follow, and we choose a <b>'c'</b></li>
+											<li>We then slide over by one character move onto the next prefix, which is <b>'ou c'</b>.  We then see the character counts {"a":2, "o":2} for that prefix.</li>
+											<li>We make another random choice at this point, and we draw the character <b>'a'</b>. So then we slide onto the prefix <b>'u ca'</b>, and we see the counts {"l":1, "n":1} for that prefix.</li>
+											<li>We now make a random choice and draw the character <b>'n'</b>.  We then slide over to the prefix <b>' can'</b>, and we see the counts {" ":3, "'":4}</li>
+											<li>We now make a random choice and draw a space, so we slide over to the prefix <b>'can '</b>, and we see the counts {"c":1, "h":1, "I":1}</li>
+											<li>
+												We now make a random choice of an <b>h</b>, moving us to the prefix <b>'an h'</b>, and so on and so forth
+											</li>
+										</ol>
+
+
+										So far in this example, we have synthesized the text <b>"you can h"</b>, and we could keep going.  Here are a few different outcomes if we keep following this process:
+										<ul>
+											<li>you can have facial hair!Now than 24, 25.You don't need a new I stupid</li>
+											<li>you can have to die right.You know the true!If your secrets is hot burns down</li>
+											<li>you can have feet?Since who can't you.I'd hate you and I'm absorbing</li>
+											<li>you can have to be alright.If I wish is nothere ther.No, Patty?</li>
+										</ul>
+
+										<p>
+											As you can see, this text is starting to make a lot more sense than choosing each character independently, even with a very short memory.
+										</p>
+
+									</div>
+
+									<script>
+										let spongebob = document.getElementById("spongebobtext");
+										function showSpongebob() {
+											spongebob.style.display="block";
+										}
+										function hideSpongebob() {
+											spongebob.style.display = "none";
+										}
+										hideSpongebob();
+									</script>
+
+
+									<p></p><p></p>
+
+									<h3><a name = "probability">The Probability of A Sequence</a></h3>
+									<p>
+										In addition to synthesizing text in a model trained on k-prefixes from a particular set of documents, we can assess how likely a different document is to be in the style that we've modeled with our Markov chains.  To do this, we will compute the probability of a particular sequence given a model.  Markov chains have a simplifying assumption of <a href = "https://en.wikipedia.org/wiki/Independence_(probability_theory)">independence</a> that will help make this easier to compute.  In particular, the next character is chosen only based on the current prefix, and none of the previous prefixes influence this decision.
+									<p>
+										Independent events are nice to work with because the probability of independent events occurring is a simple multiplication.  For example, it's reasonable to assume that the type of weather in Beijing on a particular day is independent of the weather in Collegeville.  So if the probability it rains in Collegeville is 0.4 and the probability it rains in Beijing is 0.6, then the joint probability of both occurring is <code>0.4 x 0.6 = 0.24</code>
+									</p>
+
+									<p>
+										To compute the probability of a particular sequence of characters, we must first compute the probability that each character was drawn under our model, and then we may compute the joint probability of the entire sequence by multiplying them together.  The probability of a particular character <code>c</code> preceded by the prefix <code>p</code> is given as 
+
+										\[ p(c) = \frac{N(p.c) + 1}{N(p)+S} \]
+
+										where 
+										
+										<ul>
+											<li>
+												<code>N(p)</code> is the number of times the prefix occurs in the model (which can be 0)
+											</li>
+											<li>
+												<code>N(p.c)</code> is the number of times the character <code>c</code> follows prefix <code>p</code> (which can be 0, and which is automatically 0 if the prefix doesn't exist in the model)
+											</li>
+											<li>
+												<code>S</code> is the size of the alphabet in the model (i.e. the number of unique characters across all prefixes)
+											</li>
+										</ul>
+										So the joint probability of all characters is obtained by multiplying a bunch of these together.  Note that this gracefully handles the case where we never saw a particular substring in any of the training data; in this case <code>N(p.c)</code> and <code>N(p)</code> are 0, and the probability is <code>1/S</code>
+									</p>
+
+									<p>
+										There is a slight numerical issue with the above scheme, however.  Since there are many characters in most sequences of interest, and since the probabilities of each character are small, we can run into <a href = "https://en.wikipedia.org/wiki/Arithmetic_underflow">arithmetic underflow</a> where the multiplication of many small numbers ends up just bottoming out at zero numerically.  To get around this, we can instead compute the ``log probability''.  Since 
+										
+										\[ \log(AB) = \log(A) + \log(B) \]
+
+										We can compute the log of the product probabilities as the sum of the log of each probability.  So simply modify the formula as 
+
+										\[ \log \left( p(c) \right) = \log \left( \frac{N(p.c) + 1}{N(p)+S} \right) \]
+
+										and then sum all of these up for each character to get the final log probability.
+									</p>
+
+									<h4><a name = "probexample">Simple Example</a></h4>
+									<p>
+										Let's consider a fully fledge simple example.  Let's suppose that we added the string <b>aaacbaaaacabacbbcabcccbccaaac</b> to the model and we considered all 3-prefixes, so that we have these counts in the model (considering the wrap-around)
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										{'aaa': 4, 'aac': 3, 'acb': 2, 'cba': 1, 'baa': 1,
+										 'aca': 2, 'cab': 2, 'aba': 1, 'bac': 1, 'cbb': 1, 
+										 'bbc': 1, 'bca': 1, 'abc': 1, 'bcc': 2, 'ccc': 1, 
+										 'ccb': 1, 'cbc': 1, 'cca': 1, 'caa': 2}
+									
+										{
+											aaa : {'c': 3, 'a': 1}
+											aac : {'b': 1, 'a': 2}
+											acb : {'a': 1, 'b': 1}
+											cba : {'a': 1}
+											baa : {'a': 1}
+											aca : {'b': 1, 'a': 1}
+											cab : {'a': 1, 'c': 1}
+											aba : {'c': 1}
+											bac : {'b': 1}
+											cbb : {'c': 1}
+											bbc : {'a': 1}
+											bca : {'b': 1}
+											abc : {'c': 1}
+											bcc : {'c': 1, 'a': 1}
+											ccc : {'b': 1}
+											ccb : {'c': 1}
+											cbc : {'c': 1}
+											cca : {'a': 1}
+											caa : {'a': 2}
+										}
+											
+											
+									</script>  
+
+									<p>
+										Now let's say we wanted to compute the probability of the string <b>aacabaa</b> given the the model.  There are three unique characters in the alphabet here: a, b, and c, so <b>S = <span style="color:darkgreen">3</span></b>.  Then, we compute the probability of each chunk <b>aac, aca, cab, aba</b> (all substrings of length 3 with at least one character following them)
+									</p>
+
+									<table>
+										<tr>
+											<td>p</td><td>N(p)</td><td>c</td><td>N(p.c)</td><td> \[  \log \left( \frac{N(p.c) + 1}{N(p)+S} \right) \]</td>
+										</tr>
+										<tr>
+											<td>
+												aac
+											</td>
+											<td>
+												<span style="color:crimson">3</span>
+											</td>
+											<td>
+												a
+											</td>
+											<td>
+												<span style="color:darkblue">2</span>
+											</td>
+											<td>
+												 = log(<span style="color:darkblue">2</span> + 1) / (<span style="color:crimson">3</span> + <span style="color:darkgreen">3</span>) = -0.6931
+											</td>
+										</tr>
+										<tr>
+											<td>
+												aca
+											</td>
+											<td>
+												<span style="color:crimson">2</span>
+											</td>
+											<td>
+												b
+											</td>
+											<td>
+												<span style="color:darkblue">1</span>
+											</td>
+											<td>
+												 = log(<span style="color:darkblue">1</span> + 1) / (<span style="color:crimson">2</span> + <span style="color:darkgreen">3</span>) = -0.9163
+											</td>
+										</tr>
+										<tr>
+											<td>
+												cab
+											</td>
+											<td>
+												<span style="color:crimson">2</span>
+											</td>
+											<td>
+												a
+											</td>
+											<td>
+												<span style="color:darkblue">1</span>
+											</td>
+											<td>
+												 = log(<span style="color:darkblue">1</span> + 1) / (<span style="color:crimson">2</span> + <span style="color:darkgreen">3</span>) = -0.9163
+											</td>
+										</tr>
+										<tr>
+											<td>
+												aba
+											</td>
+											<td>
+												<span style="color:crimson">1</span>
+											</td>
+											<td>
+												a
+											</td>
+											<td>
+												<span style="color:darkblue">0</span>
+											</td>
+											<td>
+												 = log(<span style="color:darkblue">0</span> + 1) / (<span style="color:crimson">1</span> + <span style="color:darkgreen">3</span>) = -1.386
+											</td>
+										</tr>
+									</table>
+
+									<p>
+										Summing all of these up, we get <b>-3.91</b>
+									</p>
+
+
+
+
+
+
+                                    
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#debugging">Debugging Principles</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading / Deadlines Policy</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "../../../Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<!--
+												<li>
+													<a href = "../../Assignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5a_3DShapeCluster">HW5a: 3D Shape Clustering</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5b_Unsupervised">HW5b: NMF for Music Component Separation</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW6_LogisticRegression">HW6: Logistic Regression on Movie Reviews</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW7_DeepLearning">HW7: (Deep) Neural Networks on Images</a>
+												</li>
+												!-->
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_Bandit/index.html">Week 1: Introduction To Reinforcement Learning</a>
+													<ul>
+														<li>
+															<a href = "../../ClassExercises/Week1_Bandit/jsbandit/index.html">The Multi-Armed Bandit Game</a>
+														</li>
+													</ul>
+												</li>
+
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Materials/MazeExplorer">Week 2: Maze Searching Game</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "https://ursinus.instructure.com/courses/16260/assignments/186957">Week 3: An Admissible But Not Consistent Heuristic</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/Module2/Video1">Week 4: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_MarkovText">Week 4: Markov Chains for Document Representations</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Exercise / Theory of Bayesian Classifiers</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#exercise">Text Classification Exercise</a></li>
+														<li><a href = "../../ClassExercises/Week5_BagOfWords#theory">Naive Bayes Theory</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../../Modules/Module3/Exercise0">Week 5: Bayes Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/MatrixModule/Video1">Week 8: Matrix Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_LogisticRegression/index.html">Week 10/11: Logistic Regression And Gradient Descent</a>
+												</li>
+												
+											</ul>
+										</li>
+										<li><a href = "../../Ethics/index.html">Ethics Reading / Discussions</a></li>
+										<li><a href = "../../FinalProject/index.html">Final Ethics Project</a></li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->
+	</body>
