@@ -49,7 +49,7 @@ Unit 2: Probabalistic Knowledge Representation
 LECTURE
 Markov Chains, Basics of Probability and Conditional Probability
 
-<ul><li><a href = "https://inst.eecs.berkeley.edu/~cs188/sp23/assets/lectures/cs188-sp23-lec15.pdf">Berkeley CS 188: Crash Course on Probability for AI</a></li><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li></ul>
+<ul><li><a href = "https://inst.eecs.berkeley.edu/~cs188/sp23/assets/lectures/cs188-sp23-lec15.pdf">Berkeley CS 188: Crash Course on Probability for AI</a></li><li><a href = "ClassExercises/Week4_Markov">Class Exercise: Markov Chains of Characters</a></li><li><a href = "ClassExercises/Week4_MarkovText">Class notes on markov chains for text documents</a></li></ul>
 LECTURE
 Bayes Rule, Begin Naive Bayes Classification
 

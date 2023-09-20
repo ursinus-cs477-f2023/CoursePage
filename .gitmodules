@@ -22,3 +22,6 @@
 [submodule "ClassExercises/Week3_GameTrees/Week3_GameTrees"]
 	path = ClassExercises/Week3_GameTrees/Week3_GameTrees
 	url = https://github.com/ursinus-cs477-f2023/Week3_GameTrees.git
+[submodule "Assignments/HW3_Markov/HW3_Markov"]
+	path = Assignments/HW3_Markov/HW3_Markov
+	url = https://github.com/ursinus-cs477-f2023/HW3_Markov.git
