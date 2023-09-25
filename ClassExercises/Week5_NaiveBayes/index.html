@@ -297,7 +297,7 @@
 										</h3>
 
 										<h3>
-											\[ p(\text{os}=\text{linux} | \text{broken}=\text{true}) = \frac{ (0.4)(0.2) }{ (0.1)(0.7) + (0.4)(0.2) + (0.2)(0.1) } \approx 0.118\]
+											\[ p(\text{os}=\text{linux} | \text{broken}=\text{true}) = \frac{ (0.2)(0.1) }{ (0.1)(0.7) + (0.4)(0.2) + (0.2)(0.1) } \approx 0.118\]
 										</h3>
 
 										<p>
@@ -416,7 +416,7 @@
 											</p>
 
 											<p>
-												The picture below shows this scenario.  Note how the 4 events break down visually due to overlap, and that we'd be interested in the 
+												The picture below shows this scenario.  Note how the 4 events break down visually due to overlap:
 											</p>
 
 											<img src = "BrokenEventSpace2Events.svg" width="80%">
@@ -430,7 +430,7 @@
 											</h3>
 
 											<p>
-												This is what's referred to as the <b>Naive bayes assumption</b>.  Let's define this formally in general now:
+												This is what's referred to as the <b>Naive bayes assumption</b>.  In other words, as someone pointed out on class, even if minesweeper was the thing that caused the computer to break, we assume the two events have nothing to do with each other (so it's an approximation).  Let's define this formally in general now:
 											</p>
 
 											<div style="background-color: rgb(251, 245, 234); padding: 10px;">
