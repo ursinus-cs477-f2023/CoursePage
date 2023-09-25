@@ -31,7 +31,7 @@ Assignment 2 Part 2 Due
 <HR><a href = "Assignments/HW3_Markov">Assignment 3: Markov Chains for Text Processing</a> Out
 
 2023-09-20
-Bayes Rule Module due before class
+<a href = "https://ursinus.instructure.com/courses/16260/quizzes/24127">Bayes Rule Module</a> due before class
 
 2023-09-22
 <a href = "../Modules/Module3/Video1">Bayesian Classification Module</a> due before class

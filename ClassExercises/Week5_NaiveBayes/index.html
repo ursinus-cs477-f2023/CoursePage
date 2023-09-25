@@ -1,0 +1,699 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+                                        <h2>Bayes Rule And Naive Bayes Classifiers</h2>
+                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
+									</header>
+
+									<div id="page-content">
+                                        
+
+										<!--<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										</script> !-->
+
+										<p>
+											First, <a href = "https://www.3blue1brown.com/lessons/bayes-theorem">click here</a> to view notes by Grant Sanderson (aka 3Blue1Brown) on Bayes theorem.  This is an inherently non-intuitive thing, but I think he does a really nice job of breaking the event space down visually.
+										</p>
+
+										<h3>Table of Contents</h3>
+										<ul>
+											<li><a href = "#covid">Example 1: COVID Tests</a></li>
+											<li><a href = "#broken">Example 2: Broken Computers</a></li>
+											<li><a href = "#bayesianclassification">General Bayesian Classification Framework</a></li>
+											<li>
+												<a href = "#naivebayes">Naive Bayes</a>
+												<ul>
+													<li>
+														<a href = "#log">Log Probabilities</a>
+													</li>
+												</ul>
+											</li>
+											
+										</ul>
+
+										<h2><a name = "covid">Example 1: COVID Tests</a></h2>
+										<p>
+											Let's suppose there is a rapid test for COVID gives true positives 80% of the time; that is, if someone has COVID, it will register as positive 80% of the time and negative 20% of the time. 
+										</p>
+										<p>
+											Conversely, the test gives "false positives" 1% of the time; that is, 99% of people who don't have COVID will test negative, but 1% of them will test positive.
+										</p>
+ 
+										<p>
+											Given that 1 out of every 1000 people has COVID and you test positive for COVID with the above test, what is the probability that you actually have COVID?  It's fine to round your answer to two decimal places.
+										</p>
+
+										<h4>
+											Solution
+										</h4>
+										<p>
+											First, let's define our events:
+										</p>
+										<Ul>
+											<li>
+												Let <b>covid</b> be the event that someone has covid, and <b>&not;covid</b> be the event that someone is healthy
+											</li>
+											<li>
+												Let <b>pos</b> be the event that someone tests positive, and <b>&not;pos</b> be the event that someone tests negative
+											</li>
+										</Ul>
+
+										<p>
+											Based on what we're given, we can define a few probabilities as follows:
+										</p>
+										
+										<p>
+											<b>Prior Probabilities:</b> Knowing nothing else, we can define the probabilities that a person picked at random will have covid or not
+										</p>
+										<ul>
+											<Li>p(covid) = 0.001</Li>
+											<li>p(&not;covid) = 0.999</li>
+										</ul>
+
+										<p>
+											<b>Likelihood / Observation Probabilities:</b> We can define the <i>conditional probability</i> of a positive event given that a person has covid or not
+										</p>
+										<ul>
+											<li>
+												p(pos | covid) = 0.8; <b>"true positive"</b> rate
+											</li>
+											<li>
+												p(pos | &not;covid) = 0.01; <b>"false positive"</b> rate
+											</li>
+										</ul>
+
+										<p>
+											We actually want the events flipped around in the condition; that is, we want <b>p(covid | pos)</b>.  For this, we're going to use Bayes rule.  Let's follow <a href = "https://www.3blue1brown.com/lessons/bayes-theorem">the procedure that</a> 3Blue1Brown outlined to find the region of the Venn diagram that includes the event that we tested positive.  We'll label all of probabilities we've defined so far (not necessarily to scale):
+										</p>
+
+										<img src = "CovidEventSpace.svg" width="80%">
+
+										<p>
+											The event that we test positive is the L-shaped region of the diagram highlighted in blue.  To find the conditional probability <b>p(covid | pos)</b>, we need to find the ratio of <b>p(pos | covid)</b> to this full area.  The picture below shows this equation visually, with the important terms labeled.  <b>Note that the area of the dark rectangles is base times height</b>, which is <b>prior probability times likelihood</b>, respectively, in each case
+										</p>
+
+										<img src = "CovidBayes.svg" width="80%">
+
+										<p>
+											If we plug in the terms we have, we end up with 
+										</p>
+
+										<h3>
+											\[ p(\text{covid} | \text{pos}) = \frac{(0.001)(0.8)}{(0.001)(0.8) + (0.999)(0.01)} \approx 0.0741 \]
+										</h3>
+
+										<p>
+											This is surprisingly small!  But that's because even with a small false positive rate, there are so many more people who don't have covid that the dark green term dominates the L.
+										</p>
+
+										<p>
+											Play around with the interactive sliders to adjust the probabilities.  Do the results make sense given what we know above?
+										</p>
+
+										<div style="display: inline-block;width:30%;">
+											<h4><p id="pcovid"></p></h4>
+											<input type="range" min="1" max="1000" value="10" class="slider" id="pcovidRange">
+										</div>
+
+										<div style="display: inline-block;width:30%;">
+											<h4><p id="pposcovid"></p></h4>
+											<input type="range" min="1" max="1000" value="800" class="slider" id="pposcovidRange">
+										</div>
+
+										<div style="display: inline-block;width:30%;">
+											<h4><p id="pposnotcovid"></p></h4>
+											<input type="range" min="1" max="1000" value="10" class="slider" id="pposnotcovidRange">
+										</div>
+
+										<p id="pcovidpos"></p>
+
+										<script>
+											let pcovidTxt = document.getElementById("pcovid");
+											let pcovidRange = document.getElementById("pcovidRange");
+											let pcovid = 0;
+
+											let pposcovidTxt = document.getElementById("pposcovid");
+											let pposcovidRange = document.getElementById("pposcovidRange");
+											let pposcovid = 0;
+
+											let pposnotcovidTxt = document.getElementById("pposnotcovid");
+											let pposnotcovidRange = document.getElementById("pposnotcovidRange");
+											let pposnotcovid = 0;
+
+											let pcovidposTxt = document.getElementById("pcovidpos");
+
+											function updateProbabilities() {
+												pcovid = parseFloat(pcovidRange.value)/10000;
+												pcovidTxt.innerHTML = "<h4>p(covid) = " + pcovid + "</h4>";
+
+												pposcovid = parseFloat(pposcovidRange.value)/1000;
+												pposcovidTxt.innerHTML = "<h4>p(pos|covid) = " + pposcovid + "</h4>";
+
+												pposnotcovid = parseFloat(pposnotcovidRange.value)/1000;
+												pposnotcovidTxt.innerHTML = "<h4>p(pos|&not;covid) = " + pposnotcovid + "</h4>";
+
+												let result = pcovid*pposcovid/(pcovid*pposcovid + (1-pcovid)*pposnotcovid);
+
+												result = Math.round(10000*result)/10000;
+
+												pcovidposTxt.innerHTML = "<h3>p(covid|pos) = " + result + "</h3>";
+											}
+
+											pcovidRange.oninput = updateProbabilities;
+											pposcovidRange.oninput = updateProbabilities;
+											pposnotcovidRange.oninput = updateProbabilities;
+
+											updateProbabilities();
+										</script>
+
+										<HR>
+										<h2><a name = "broken">Example 2: Broken Computers</a></h2>
+
+										<p>
+											Let's see how we would generalize this kind of logic to more than two classes.
+										</p>
+										<p>
+											Suppose I have a student post an anonymous message on discord saying that their computer is broken.  I know that 70% of the class has macs, 20% of the class has windows, and 10% of the class has linux.  I also know that macs are more reliable than linux, which is more reliable than windows; that is:
+											<Ul>
+												<li>
+													Macs are broken 10% of the time
+												</li>
+												<li>
+													Linux is broken 20% of the time
+												</li>
+												<li>
+													Windows is broken 40% of the time
+												</li>
+											</Ul>
+										</p>
+
+										<p>
+											I'm pretty familiar with windows and linux, but I might need to brush up on my mac skills to fix the computer if it's a mac.  What is the probability that the computer is a mac?
+										</p>
+
+										<h4>
+											Solution
+										</h4>
+
+										<p>
+											Let's now be more formal about something called a <b>random variable</b>, which is a variable that takes on values that we can map to events in the event space.  In this case, we'll let our random variable for the unknown state be called <b>os</b>, and we'll have the following <b>prior probabilities:</b> 
+										</p>
+										<ul>
+											<li><b>p(os = mac) = 0.7</b></li>
+											<li><b>p(os = windows) = 0.2</b></li>
+											<li><b>p(os = linux) = 0.1</b></li>
+										</ul>
+
+										<p>
+											We'll now let the random variable for our evidence be <b>broken</b>.  We then have the following conditional probabilities for the likelihood/observation probabilities:
+										</p>
+										<ul>
+											<li>
+												<b>p(broken=True | os = mac) = 0.1</b>
+											</li>
+											<li>
+												<b>p(broken=True | os = linux) = 0.2</b>
+											</li>
+											<li>
+												<b>p(broken=True | os = windows) = 0.4</b>
+											</li>
+										</ul>
+
+										<p>
+											We can draw these events in a Venn diagram as we did before
+										</p>
+
+										<img src = "BrokenEventSpace.svg" width="80%">
+
+										<p>
+											The orange dotted line shows the region of the venn diagram corresponding to the evidence: <b>broken = true</b>.  For the posterior probability we're interested in, we'll need the ratio of the dark red box to this region of the Venn diagram, which is composed of the sum of the dark red, dark blue, and dark green areas:
+										</p>
+
+										<img src = "BrokenBayes.svg" width="80%">
+
+
+										<p>
+											Or, written out as just an equation:
+										</p>
+
+										<h3>
+											\[ p(\text{os}=\text{mac} | \text{broken}=\text{true}) = \frac{ p(\text{broken}=\text{true} | \text{os} = \text{mac})p(\text{os}=\text{mac}) }{ p(\text{broken}=\text{true} | \text{os} = \text{mac})p(\text{os}=\text{mac}) + p(\text{broken}=\text{true} | \text{os} = \text{windows})p(\text{os}=\text{windows}) + p(\text{broken}=\text{true} | \text{os} = \text{linux})p(\text{os}=\text{linux}) }\]
+										</h3>
+
+										<p>
+											Plugging in terms from above, we have 
+										</p>
+
+										<h3>
+											\[ p(\text{os}=\text{mac} | \text{broken}=\text{true}) = \frac{ (0.1)(0.7) }{ (0.1)(0.7) + (0.4)(0.2) + (0.2)(0.1) } \approx 0.412\]
+										</h3>
+
+										<p>
+											If we were to switch which posterior event we were looking at, we'd have the following for windows and linux:
+										</p>
+
+										<h3>
+											\[ p(\text{os}=\text{windows} | \text{broken}=\text{true}) = \frac{ (0.4)(0.2) }{ (0.1)(0.7) + (0.4)(0.2) + (0.2)(0.1) } \approx 0.47\]
+										</h3>
+
+										<h3>
+											\[ p(\text{os}=\text{linux} | \text{broken}=\text{true}) = \frac{ (0.4)(0.2) }{ (0.1)(0.7) + (0.4)(0.2) + (0.2)(0.1) } \approx 0.118\]
+										</h3>
+
+										<p>
+											Notice that these three numbers sum to 1, as they should since there are only three different types of computers that can be broken in this case (no students have brought me a <a href = "https://ursinus-cs373-f2023.github.io/CoursePage/ClassExercises/Week7_Turing/">turing machine</a> yet...)
+										</p>
+										
+										<HR>
+											<h2><a name = "bayesianclassification">General Bayesian Classification Framework</a></h2>
+
+										<p>
+											In general, we have our <u>hidden variable</u>, which we'll call <b>class</b>, and our <u>evidence variable</u>, which we'll call <b>obs</b> (short for "observation").  Given that our <b>class</b> variable can take on <b>N</b> values <b>c<SUB>1</SUB>, c<SUB>2</SUB>, ..., c<SUB>N</SUB></b>, we have the following expression for the posterior probability for each class given 
+											<ul>
+												<li>
+													The prior probabilities <b>p(class=c<SUB>i</SUB>)</b>
+												</li>
+												<li>
+													The likelihoods <b>p(obs=y | class=c<SUB>i</SUB>)</b>
+												</li>
+											</ul>
+										</p>
+
+										<div style="background-color: rgb(251, 245, 234); padding: 10px;">
+											<h4>Def. Posterior Probability</h4>
+											<h3>
+												\[ p(\text{class}=c_i | \text{obs}=y) = \frac{\text{likelihood} \times \text{prior probability}}{\text{probability of evidence}} \frac{p(\text{obs=y} | \text{class}=c_i) p(\text{class}=c_i)}{ \sum_{j=1}^N p(\text{obs=y} | \text{class}=c_j) p(\text{class}=c_j) }\]
+											</h3>
+										</div>
+
+										
+
+										<p>
+											In a <b>Bayesian classification problem</b>, we want to guess the class that <b>maximizes</b> the <b>posterior probability</b> given the <b>prior probabilities</b> and <b>likelihoods</b>, as shown above.  In other words:
+										</p>
+
+										<div style="background-color: rgb(251, 245, 234); padding: 10px;">
+											<h4>Def. Maximum A-Posteriori Class Estimate</h4>
+											<h2>
+												\[ \text{class} = \text{argmax}_{c_i} \text{  } p(\text{class}=c_i | \text{obs}=y) \]
+											</h2>
+										</div>
+
+										
+
+										<p>
+											In our example with the broken computers above, windows is the most likely option.  Interestingly, this is different from the class that maximizes the prior probability; knowing nothing else, we'd guess that a student has a mac.  But knowing in addition that the computer is broken, it is more likely to be windows than mac.
+										</p>
+
+										<h4>Saving Computation</h4>
+										<p>
+											Note that if we're trying to maximize the posterior proability, the <b>probability of evidence is a constant over all terms</b>.  Therefore, we only need to pick the class that maximizes the expression <b>in the numerator</b>
+										</p>
+
+										<div style="background-color: rgb(251, 245, 234); padding: 10px;">
+											<h4>Def. Maximum A-Posteriori Likelihood Class Estimate</h4>
+											<h2>
+												\[ \text{class} = \text{argmax}_{c_i} \text{  } p(\text{obs=y} | \text{class}=c_i) p(\text{class}=c_i) \]
+											</h2>
+										</div>
+										<p>
+											The result will be the same as the maximum a-posteriori class estimate.
+										</p>
+
+										<p>
+											Finally, if all prior probabilities are the same (i.e. being in any class is equally likely), then we have what's known as the <b>maximum likelihood estimate</b>
+										</p>
+
+										<div style="background-color: rgb(251, 245, 234); padding: 10px;">
+											<h4>Def. Maximum Likelihood Class Estimate</h4>
+											<h2>
+												\[ \text{class} = \text{argmax}_{c_i} \text{  } p(\text{obs=y} | \text{class}=c_i)  \]
+											</h2>
+										</div>
+
+										<HR>
+											<h2><a name = "naivebayes">Naive Bayes</a></h2>
+											<p>
+												Suppose that we actually have multiple observations/pieces of evidence to go on.  For instance, in the operating system example, suppose I knew both that the computer was broken <b>and</b> someone had just played minesweeper on that computer before it broke (perhaps the student sent me a picture of their frozen screen, and I noticed minesweeper on it).  Let's add some additional likelihoods now about a different evidence variable <b>program</b>
+											</p>
+
+											<ul>
+												<li>
+													p(program = minesweeper | windows) = 0.5
+												</li>
+												<li>
+													p(program = minesweeper | linux) = 0.02
+												</li>
+												<li>
+													p(program = minesweeper | mac) = 0.01
+												</li>
+											</ul>
+
+											<p>
+												Now the probabilities we're after are 
+											</p>
+
+											<h3>
+												p(os = c | broken = true, program = minesweeper)
+											</h3>
+
+											<p>
+												If we were going to apply the above framework, there are really 4 disjoint events we'd have to consider for each class:
+												<ul>
+													<li>
+														broken=false, program &ne; minesweeper
+													</li>
+													<li>
+														broken=false, program = minesweeper
+													</li>
+													<li>
+														<b>broken=true, program = minesweeper</b>
+													</li>
+													<li>
+														broken=true, program &ne; minesweeper
+													</li>
+												</ul>
+											</p>
+
+											<p>
+												The picture below shows this scenario.  Note how the 4 events break down visually due to overlap, and that we'd be interested in the 
+											</p>
+
+											<img src = "BrokenEventSpace2Events.svg" width="80%">
+
+											<p>
+												So we'd need more information than we're being given; we'd actually need the likelihoods for each class given these 4 events.  However, if we're a bit lazy, we can make a key assumption: <b>the different events are independent</b>.  What this means is that the joint probability of the two evidence variables is simply the product of the two evidence variables on their own:
+											</p>
+
+											<h3>
+												\[ p(\text{broken} = y_1, \text{program}=y_2 | \text{class}=c) = p(\text{broken}=y_1 | \text{class}=c) \times p(\text{program}=y_2 | \text{class}=c)\]
+											</h3>
+
+											<p>
+												This is what's referred to as the <b>Naive bayes assumption</b>.  Let's define this formally in general now:
+											</p>
+
+											<div style="background-color: rgb(251, 245, 234); padding: 10px;">
+												<h4>Def. Naive Bayes Maximum A Posteriori Estimate</h4>
+												<p>
+													Given <b>k</b> observation variables <b>obs<SUB>j</SUB></b> and their associated values <b>y<SUB>j</SUB></b>, then pick the class that maximizes the following probability:
+												</p>
+
+												<h3>
+													\[ \text{class} = \text{argmax}_{c_i} \text{  } p(\text{obs}_1=y_1, \text{obs}_2=y_2, ..., \text{obs}_k=y_k | \text{class}=c_i) p(\text{class}=c_i) \]
+												</h3>
+
+												<p>
+													which, under the naive bayes assumption, can be simplified to
+												</p>
+
+												<h3>
+													\[ \text{class} = \text{argmax}_{c_i} \text{  } \left( p(\text{obs}_1=y_1 | \text{class}=c_i) p(\text{obs}_2=y_2 | \text{class}=c_i) ... p(\text{obs}_k=y_k | \text{class}=c_i) \right) p(\text{class}=c_i) \]
+												</h3>
+
+												<p>
+													This is often written in a more compact way using <a href = "https://mathmaine.com/2018/03/04/pi-notation/#:~:text=%2C%20is%20a%20capital%20letter%20in,of%20a%20bunch%20of%20factors.">Pi notation</a>
+												</p>
+
+												<h3>
+													\[ \text{class} = \text{argmax}_{c_i} \text{  } \left( \Pi_{j=1}^k p(\text{obs}_j=y_j | \text{class}=c_i) \right) p(\text{class}=c_i) \]
+												</h3>
+											</div>
+
+											<p>
+												Notice how we've used the version that avoids the evidence in the denominator, as it's constant and wouldn't affect the result (and it would be a huge mess in this case).
+											</p>
+
+											<p>
+												In the above example, given the Naive bayes independence assumption, we have 
+											</p>
+
+											<h3>
+												p(broken = true, program = minesweeper | os = windows)p(os=windows)
+											</h3>
+
+											<p>
+												Is equivalent to 
+											</p>
+
+											<h3>
+												p(broken = true | os=windows)p(program = minesweeper | os=windows)p(os=windows) = (0.4)(0.5)(0.2) = 0.04
+											</h3>
+											
+											<p>
+												For the other operating systems, we have:
+											</p>
+
+											<h3>
+												p(broken = true | os=linux)p(program = minesweeper | os=linux)p(os=linux) = (0.2)(0.02)(0.1) = 0.0004
+											</h3>
+
+											<h3>
+												p(broken = true | os=mac)p(program = minesweeper | os=mac)p(os=mac) = (0.1)(0.01)(0.7) = 0.0007
+											</h3>
+
+											<p>
+												Windows is clearly the one that maximizes this expression, with an even larger gap than before!  So seeing minesweeper on the screen makes us even more certain that the broken machine was windows
+											</p>
+
+											<h3><a name = "log">Log Probabilities</a></h3>
+											<p>
+												One issue that we have as the number of evidence variables gets larger is that the probabilities get tiny, which could easily lead to numerical underflow.  To combat this, we simply take the log of the probability, which doesn't change the relative rankings of the classes since the log is monotonic
+											</p>
+
+											<h3>
+												\[ \text{class} = \text{argmax}_{c_i} \log( \text{  } \left( \Pi_{j=1}^k p(\text{obs}_j=y_j | \text{class}=c_i) \right) p(\text{class}=c_i) ) \]
+											</h3>
+
+											<p>
+												Since log(AB) = log(A) + log(B), this turns into
+											</p>
+
+											<h3>
+												\[ \text{class} = \text{argmax}_{c_i}  \text{  } \left( \sum_{j=1}^k \log(p(\text{obs}_j=y_j | \text{class}=c_i)) \right) + \log( p(\text{class}=c_i) ) \]
+											</h3>
+
+											<p>
+												In the above examples, we'd have:
+											</p>
+											<ul>
+												<li>Windows: -3.22</li>
+												<li>Linux: -7.82</li>
+												<li>Mac: -7.26</li>
+											</ul>
+											<p>
+												As promised, Windows is still the maximum option
+											</p>
+
+                                    
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#debugging">Debugging Principles</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading / Deadlines Policy</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "../../../Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<!--
+												<li>
+													<a href = "../../Assignments/HW4_RobotLocalization">HW4: Bayesian Robot Localization</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5a_3DShapeCluster">HW5a: 3D Shape Clustering</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5b_Unsupervised">HW5b: NMF for Music Component Separation</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW6_LogisticRegression">HW6: Logistic Regression on Movie Reviews</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW7_DeepLearning">HW7: (Deep) Neural Networks on Images</a>
+												</li>
+												!-->
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_Bandit/index.html">Week 1: Introduction To Reinforcement Learning</a>
+													<ul>
+														<li>
+															<a href = "../../ClassExercises/Week1_Bandit/jsbandit/index.html">The Multi-Armed Bandit Game</a>
+														</li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Materials/MazeExplorer">Week 2: Maze Searching Game</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "https://ursinus.instructure.com/courses/16260/assignments/186957">Week 3: An Admissible But Not Consistent Heuristic</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/Module2/Video1">Week 4: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_MarkovText">Week 4: Markov Chains for Document Representations</a>
+												</li>
+												<li>
+													<a href = "https://ursinus.instructure.com/courses/16260/quizzes/24127">Week 4: Bayes Rule Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_NaiveBayes">Week 5: Bayes Rule And Naive Bayes Classifiers</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Naive Bayes Exercise</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 5/6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/MatrixModule/Video1">Week 8: Matrix Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_LogisticRegression/index.html">Week 10/11: Logistic Regression And Gradient Descent</a>
+												</li>
+												
+											</ul>
+										</li>
+										<li><a href = "../../Ethics/index.html">Ethics Reading / Discussions</a></li>
+										<li><a href = "../../FinalProject/index.html">Final Ethics Project</a></li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->

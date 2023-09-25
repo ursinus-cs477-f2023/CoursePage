@@ -53,11 +53,11 @@ Markov Chains, Basics of Probability and Conditional Probability
 LECTURE
 Bayes Rule, Begin Naive Bayes Classification
 
-<ul><li><a href = "https://www.youtube.com/watch?v=HZGCoVF3YvM">Three Blue One Brown Video on Bayes Rule</a></li><li><a href = "https://www.greenteapress.com/thinkbayes/html/thinkbayes002.html">Think Bayes Notes</a></li></ul>
+<ul><li><a href = "https://www.youtube.com/watch?v=HZGCoVF3YvM">Three Blue One Brown Video on Bayes Rule</a></li><li><a href = "ClassExercises/Week5_NaiveBayes/index.html">Class Notes on Bayes Rule And Bayesian Classifiers</a></li><li><a href = "https://www.greenteapress.com/thinkbayes/html/thinkbayes002.html">Think Bayes Notes</a></li></ul>
 LECTURE
 Naive Bayes Classification And Bag of Words
 
-<ul><li>Class Exercise: <a href = "ClassExercises/Week5_BagOfWords">2016 Presidental Debates Bag of Words</a></li><li><a href = "ClassExercises/Week5_BagOfWords/index.html#theory">Naive Bayes Theory Notes</a></li><li><a href = "https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.374.7966&rep=rep1&type=pdf">Naive bayes for detecting computer viruses</a></li></ul>
+<ul></li><li><a href = "ClassExercises/Week5_NaiveBayes/index.html#naivebayes">Naive Bayes Class Notes</a></li><li>Class Exercise: <a href = "ClassExercises/Week5_BagOfWords">2016 Presidental Debates Bag of Words</a><li><a href = "https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.374.7966&rep=rep1&type=pdf">Naive bayes for detecting computer viruses</a></li></ul>
 LECTURE
 Hidden Markov Models
 

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="330.31909mm"
+   height="147.42502mm"
+   viewBox="0 0 330.3191 147.42502"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="CovidEventSpace.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.45291836"
+     inkscape:cx="478.01109"
+     inkscape:cy="384.1752"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid6573"
+       originx="78.407555"
+       originy="1.1294331" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path6660" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path6657" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(132.43018,-82.18518)">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.03824;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846"
+       width="167.03021"
+       height="97.032753"
+       x="-53.967178"
+       y="82.7043" />
+    <rect
+       style="fill:#419200;fill-opacity:0.18041;stroke:#000000;stroke-width:0.983228;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846-6"
+       width="152.2914"
+       height="97.352402"
+       x="-39.860703"
+       y="83.156403" />
+    <rect
+       style="fill:#ff604d;fill-opacity:0.18041;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846-3"
+       width="14.143258"
+       height="97.767731"
+       x="-53.967178"
+       y="82.7043" />
+    <rect
+       style="fill:#ff604d;fill-opacity:1;stroke:#000000;stroke-width:0.901264;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846-3-7"
+       width="14.143258"
+       height="79.414536"
+       x="-54.003963"
+       y="101.09427" />
+    <rect
+       style="fill:#419200;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846-6-5"
+       width="152.2914"
+       height="7.6286736"
+       x="-39.228348"
+       y="172.1084" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="123.24254"
+       y="179.18478"
+       id="text6702-9-2"><tspan
+         sodipodi:role="line"
+         id="tspan6700-1-9"
+         style="stroke-width:0.264583"
+         x="123.24254"
+         y="179.18478">p(pos |  covid)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 160.23499,174.87275 5.481,-0.0834 v 0 l -0.0549,4.24563"
+       id="path2069-3-1" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow1Lstart);marker-end:url(#Arrow1Lend)"
+       d="M -39.336092,184.04977 H 112.79932"
+       id="path6575" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="9.2379265"
+       y="193.26387"
+       id="text6702-3"><tspan
+         sodipodi:role="line"
+         id="tspan6700-5"
+         style="stroke-width:0.264583"
+         x="9.2379265"
+         y="193.26387">p(  covid)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 20.060705,189.14795 5.48102,-0.0834 v 0 l -0.0549,4.24563"
+       id="path2069-6" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow1Lstart);marker-end:url(#Arrow1Lend)"
+       d="m 118.09099,172.14352 v 9.26041"
+       id="path7175" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow1Lstart);marker-end:url(#Arrow1Lend)"
+       d="m -39.336092,184.04977 h -15.875"
+       id="path7370" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-230.57138"
+       y="-46.227673"
+       id="text9184-2"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan9182-7"
+         style="stroke-width:0.264583"
+         x="-230.57138"
+         y="-46.227673">p(covid)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow1Lstart);marker-end:url(#Arrow1Lend)"
+       d="m -57.856926,180.08102 v -79.375"
+       id="path7678" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-133.39136"
+       y="147.68297"
+       id="text11622-0"><tspan
+         sodipodi:role="line"
+         id="tspan11620-9"
+         style="stroke-width:0.264583"
+         x="-133.39136"
+         y="147.68297">p(pos | covid)</tspan></text>
+    <path
+       style="fill:none;stroke:#3309f8;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -53.888176,100.70602 h 13.229167 v 71.4375 0 H 112.79932 v 0 7.9375 0 H -53.888176 v 0 z"
+       id="path8966" />
+  </g>
+</svg>

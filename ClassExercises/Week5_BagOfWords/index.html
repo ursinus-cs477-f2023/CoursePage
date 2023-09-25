@@ -41,13 +41,11 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h1>Week 5: Bag of Words Exercise / Theory of Bayesian Classifiers</h1>
+                                        <h2>Week 5: Bag of Words Naive Bayes Exercise</h2>
                                         <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
-                                        <HR>
-										<h1><a name = "exercise">Bag of Words Exercise</a></h1>
 										<p>
 											In <a href = "../../Assignments/HW3_Markov/">homework 3</a>, you've been modeling text as a sequence using Markov chains.  We're going to do something seemingly much dumber and completely forget the sequence of words and focus just on how often words occur across entire documents.  For example, from the first 2016 debate transcript on the homework, you get the following "bag of words" for Clinton (courtesy of <a href = "https://www.wordclouds.com/">wordclouds.com</a>)
 										</p>
@@ -74,12 +72,12 @@
 										
 
 										<p>
-											Your task will be to estimate the probabilities for all words from data and assume complete independence (the "naive bayes" assumption), and multiply them together to get a total probability for both Trump and Clinton of each phrase, for each model.  For example, if you got the text "Donald job job Donald Donald", and given that Trump said "job" 6/8367 words, we'd compute the likelihood of the Trump model as 
+											Your task will be to estimate the probabilities for all words from data and assume complete independence, as per the <a href = "../Week5_NaiveBayes/index.html#naivebayes">naive bayes</a> assumption, and multiply them together to get a total probability for both Trump and Clinton of each phrase, for each model.  For example, if you got the text "Donald job job Donald Donald", and given that Trump said "job" 6/8367 words, we'd compute the likelihood of the Trump model as 
 
 										</p>
 
 										<h3>
-											\[ (1/8367) \times (6/8367) \times (6/8367) \times (1/8367) \times (1/8367) = (1/8367)^3 \times (6/8367)^2 \]
+											\[ (1/8367) \times (6/8367) \times (6/8367) \times (1/8367) \times (1/8367) \]
 										</h3>
 
 										<p>
@@ -177,181 +175,6 @@
 										</iframe>
 										-->
 
-
-										
-
-										<HR>
-											<h1><a name = "theory">Theory of Bayesian Classifiers</a></h1>
-											
-											
-											<p>
-												Below is some theory on why the above actually works.  
-											</p>
-
-											<h2><a name = "bayesclassifier">The Bayesian Classifier Framework</a></h2>
-
-											<p>
-												First, let's define a Bayesian framework for classifying data based on models:
-											</p>
-
-											<img src = "BayesBreakdown.svg" width=600>
-
-											<p>
-												In other words, we want to know how likely a class is given a particular observation, but we're usually only able to model things the other way around, as how likely we are to have made an observation given that we're in a class.  In this context, a "class" is a different type of event.  In the above example, it would either be that Trump is speaking or that Clinton is speaking.
-											</p>
-
-											<p>
-												Let's look at the above formula applied to two different classes <b>C<SUB>1</SUB></b> and <b>C<SUB>2</SUB></b>
-											</p>
-											<div style="width:400px;">
-												<h3>
-													\[ p(C_1 | X) = P(X | C_1) P(C_1) / P(X) \]
-												</h3>
-
-												<h3>
-													\[ p(C_2 | X) = P(X | C_2) P(C_2) / P(X) \]
-												</h3>
-											</div>
-
-											<p>
-												We notice that while the likelihoods and prior probabilities are different, they have a common factor of "evidence."  The expression for evidence is often nasty, as it involves sums of probabilities over many disjoint events.  Since it's a common factor, though, it won't change the relative order of the probabilities of different classes, so we can omit it and define something instead called a "posterior likelihood," which is proportional to the probability
-											</p>
-
-											<div style="width:400px;">
-												<h3>
-													Def. Posterior Likelihood
-												</h3>
-
-												<h3>
-													\[ \ell(C | X) = P(X | C) P(C) \propto P(C | X) \]
-												</h3>
-											</div>
-
-											<p>
-												Another neat thing we can do is take the log of this to separate out the likelihood and prior terms into a sum instead of a product.  We also saw in the above exercise that taking the log prevents the numerical problem of <a href = "https://en.wikipedia.org/wiki/Arithmetic_underflow">underflow</a>
-											</p>
-
-											<div style="width:400px;">
-												<h3>
-													Def. Log Posterior Likelihood
-												</h3>
-
-												<h3>
-													\[ \log \ell(C | X) = \log (P(X | C)) + \log(P(C)) \]
-												</h3>
-											</div>
-
-
-											<h3>Def. Classify</h3>
-											<p>
-												When we say we want to "classify" something in the Bayesian framework, it means we want to find the class that maximizes the (log) posterior likelihood.  In computer science terms, it's the "argmax" of the (log) likelihood over all classes.  Whichever class maximizes this value is referred to as the <b>maximum a posteriori estimate</b>, and it's the label we will guess that our data is.
-											</p>
-
-											<p></p><p></p><p></p>
-
-											<h2><a name = "bowtheory">Bag of Words / Naive Bayes</a></h2>
-
-											<p>
-												We can be a little more specific about if we link it to the bag of words example.  Bag of words is an example of something called "Naive Bayes."  The assumption behind Naive Bayes is that all of the components of our observation are independent.  In the context of bag of words, this means that we draw words completely at random out of our bag of words in our model, and the probability of the next word we draw is the same regardless of all of the other words we've drawn.
-											</p>
-
-											<p>
-												Let's suppose we have the following setup with a set of different classifier.
-												<ol>
-													<li>
-														A bag of words model with <b>M</b> words in it, with <b>p<SUB>ij</SUB></b> being the probability of the <b>j<SUP>th</SUP></b> word under class <b>i</b>
-													</li>
-													<li>
-														A new string <b>s</b> that we want to classify, which has <b>N</b> words in it.  Let <b>k<SUB>j</SUB></b> be the number of times the <b>j<SUP>th</SUP></b> word in the dictionary occurs.  Since we have <b>N</b> words total, then 
-														<div style="width:100px;">
-															\[  k_1 + k_2 + ... + k_M = N \]
-														</div>
-														
-													</li>
-												</ol>
-											</p>
-
-											<p>
-												If <b>x_j</b> are the counts we actually witness in a string, we seek the following posterior likelihoods
-											</p>
-
-											<div>
-												<h3>
-													 \[ \ell(C_i | X) = p(x_1 = k_1, x_2 = k_2, ..., x_M = k_M | C_i) P(C_i)\]
-												</h3>
-											</div>
-
-
-											<p>
-												As an example, suppose we had a bag of words model with only two words: {Computer, Science}.  Let's suppose we make an observation that has 5 words, with 2 counts of "computer" and 3 counts of "science."  For example, the following sentence would match the above counts
-											</p>
-
-											<h4>s = "Science Computer Science Computer Computer"</h4>
-
-											<p>
-												Let <b>p<SUB>c</SUB></b> be the probability of drawing a "computer" and <b>p<SUB>s</SUB></b> be the probability of drawing a "science."  Since the events are assumed to be independent in Naive Bayes, we can simply multiply the probabilities together, yielding the following probability 
-											</p>
-
-											<div>
-												<h3>
-													\[ P(s | C) = ps \times pc \times ps \times pc \times pc =  p_c^3 ps^2 \]
-												</h3>
-											</div>
-
-											<p>
-												Notice, though, that there are many strings that would satisfy these probabilities; for instance,
-											</p>
-
-											<h4>s = "Science Science Computer Computer Computer"</h4>
-
-											<p>
-												Each one of these strings is a <b>disjoint event</b>, so we can <b>add up their probabilities</b>.  In fact, there are 10 possible 5-word sentences that have 3 "computer" strings and 2 "science" strings, so, letting <b>k1</b> count the "computer" strings and <b>k2</b> count the "science" string
-											</p>
-
-
-											<div>
-												<h3>
-													\[ P(k_1=3, k_2=2 | C) = 10 p_c^3 p_s^2  \]
-												</h3>
-											</div>
-											
-											<p>
-												In general, the counts can be obtained from <a href = "https://en.wikipedia.org/wiki/Multinomial_theorem#Multinomial_coefficients">multinomial coefficients</a>.  The formula turns out like this
-											</p>
-
-											<h3>
-												\[  \ell (x_1 = k_1, x_2 = k_2, ... , x_M = k_M | C_i) = \left( \left( \frac{N!}{k_1! k_2! ... k_M!}  \right) p_{i1}^{k_1} p_{i2}^{k2} ... p_{iM}^{kM} \right)  p(C_i) \]
-											</h3>
-
-											<p>
-												Here's an example where taking the log posterior likelihood really helps us, because we have a ton of things multiplied together which we can split into sums
-											</p>
-
-											<h3>
-												\[  \log \ell (X | C_i) = \log \left( \frac{N!}{k_1! k_2! ... k_M!}  \right) + \log \left(p_{i1}^{k_1} p_{i2}^{k2} ... p_{iM}^{kM} \right)  + \log( p(C_i))  \]
-											</h3>
-
-											<p>
-												In fact, we can break this apart even further by remembering the rules lob(a+b) = log(a) + log(b) and log(a<SUP>b</SUP>) = b log(a)
-											</p>
-
-											<h3>
-												\[ \log \ell (X | C_i) = \log \left( \frac{N!}{k_1! k_2! ... k_M!}  \right) + k_1 \log(p_{i_1}) + k_2 \log(p_{i_2}) + ... + k_M \log(p_{iM}) + \log( p(C_i)) \]
-											</h3>
-
-											<p>
-												If we're simply trying to find the max of the log posterior likelihood, then the ugly first term doesn't actually affect us at all, and we can ignore it!  So we can define a new quantity
-											</p>
-
-											<h3>
-												\[ h_i(X) = k_1 \log(p_{i_1}) + k_2 \log(p_{i_2}) + ... + k_M \log(p_{iM}) + \log( p(C_i)) \]
-											</h3>
-
-											<p>
-												This is nearly exactly what we actually did in our code in the bag of words exercise.  The only extra term is <b>log(p(C<SUB>i</SUB>))</b>.  If a class has a small prior, it is inherently less likely, so we can see this as a penalty or promoter for how likely the class is in the absence of any other evidence (for instance, knowing nothing else, your guess that my CS 477 lectures will be awesome is more likely than not 
-												😉).  Since we ignored this in the <a href = "#solution">code above</a>, we were assuming that Trump and Clinton were equally likely options.
-											</p>
-
 											
 
 
@@ -447,7 +270,6 @@
 														</li>
 													</ul>
 												</li>
-
 												<li>
 													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
 													<ul>
@@ -479,17 +301,16 @@
 													<a href = "../../ClassExercises/Week4_MarkovText">Week 4: Markov Chains for Document Representations</a>
 												</li>
 												<li>
-													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Exercise / Theory of Bayesian Classifiers</a>
-													<ul>
-														<li><a href = "../../ClassExercises/Week5_BagOfWords#exercise">Text Classification Exercise</a></li>
-														<li><a href = "../../ClassExercises/Week5_BagOfWords#theory">Naive Bayes Theory</a></li>
-													</ul>
+													<a href = "https://ursinus.instructure.com/courses/16260/quizzes/24127">Week 4: Bayes Rule Module</a>
 												</li>
 												<li>
-													<a href = "../../../Modules/Module3/Exercise0">Week 5: Bayes Module</a>
+													<a href = "../../ClassExercises/Week5_NaiveBayes">Week 5: Bayes Rule And Naive Bayes Classifiers</a>
 												</li>
 												<li>
-													<a href = "../../ClassExercises/Week6_HMM">Week 6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Naive Bayes Exercise</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 5/6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
 												</li>
 												<li>
 													<a href = "../../../Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="480.43155mm"
+   height="145.05348mm"
+   viewBox="0 0 480.43155 145.05348"
+   version="1.1"
+   id="svg13870"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="CovidBayes.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview13872"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.64052329"
+     inkscape:cx="1062.4126"
+     inkscape:cy="453.53542"
+     inkscape:window-width="1850"
+     inkscape:window-height="1136"
+     inkscape:window-x="70"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs13867">
+    <marker
+       style="overflow:visible"
+       id="marker20950"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path20948" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path6660" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(112.19729,-69.895505)">
+    <rect
+       style="fill:#419200;fill-opacity:1;stroke:#000000;stroke-width:0.25;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846-6-5-5"
+       width="38.072849"
+       height="1.9071684"
+       x="148.63786"
+       y="158.0421" />
+    <rect
+       style="fill:#ff604d;fill-opacity:1;stroke:#000000;stroke-width:0.225316;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846-3-7-2"
+       width="3.5358145"
+       height="19.853634"
+       x="223.52942"
+       y="107.71015" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="100.91905"
+       y="120.65292"
+       id="text11622"><tspan
+         sodipodi:role="line"
+         id="tspan11620"
+         style="stroke-width:0.264583"
+         x="100.91905"
+         y="120.65292">p(covid) p(pos | covid)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="238.90088"
+       y="153.4379"
+       id="text6702-9"><tspan
+         sodipodi:role="line"
+         id="tspan6700-1"
+         style="stroke-width:0.264583"
+         x="238.90088"
+         y="153.4379">p(pos |  covid)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 275.89333,149.12579 5.481,-0.0834 v 0 l -0.0549,4.24563"
+       id="path2069-3" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="188.40862"
+       y="153.59039"
+       id="text6702-6"><tspan
+         sodipodi:role="line"
+         id="tspan6700-7"
+         style="stroke-width:0.264583"
+         x="188.40862"
+         y="153.59039">p(  covid)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 199.23125,149.47441 5.48099,-0.0834 v 0 l -0.0549,4.24563"
+       id="path2069-5" />
+    <rect
+       style="fill:#ff604d;fill-opacity:1;stroke:#000000;stroke-width:0.225316;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846-3-7-2-3"
+       width="3.5358145"
+       height="19.853634"
+       x="144.66911"
+       y="140.10551" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="24.405806"
+       y="154.50742"
+       id="text11622-6"><tspan
+         sodipodi:role="line"
+         id="tspan11620-0"
+         style="stroke-width:0.264583"
+         x="24.405806"
+         y="154.50742">p(covid)p(pos | covid)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 17.669106,132.16801 H 314.00244"
+       id="path11876" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-95.208405"
+       y="135.86308"
+       id="text12906"><tspan
+         sodipodi:role="line"
+         id="tspan12904"
+         style="stroke-width:0.264583"
+         x="-95.208405"
+         y="135.86308">p(covid | pos) = </tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15291"
+       width="44.232967"
+       height="17.940922"
+       x="100.11169"
+       y="107.79755" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m -54.994262,86.174984 0.07673,34.693006"
+       id="path15486" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-113.21532"
+       y="78.227814"
+       id="text15944"><tspan
+         sodipodi:role="line"
+         id="tspan15942"
+         style="stroke-width:0.264583"
+         x="-113.21532"
+         y="78.227814">&quot;Posterior Probability&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15291-6"
+       width="74.002052"
+       height="17.783955"
+       x="147.46014"
+       y="107.87602" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15291-2"
+       width="79.083748"
+       height="19.765245"
+       x="-99.033539"
+       y="122.83983" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="27.901459"
+       y="77.936333"
+       id="text19156"><tspan
+         sodipodi:role="line"
+         id="tspan19154"
+         style="stroke-width:0.264583"
+         x="27.901459"
+         y="77.936333">&quot;Prior Probability&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="162.37669"
+       y="78.364609"
+       id="text19156-6"><tspan
+         sodipodi:role="line"
+         id="tspan19154-1"
+         style="stroke-width:0.264583"
+         x="162.37669"
+         y="78.364609">&quot;Likelihood&quot; / &quot;Observation Probability&quot;</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker20950)"
+       d="M 82.814715,78.901913 117.82867,105.62797"
+       id="path20866" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker20950)"
+       d="m 186.48799,82.146964 0.002,23.603656"
+       id="path21104" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15291-2-8"
+       width="312.5499"
+       height="25.27066"
+       x="6.4881692"
+       y="137.59149" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker20950)"
+       d="m 142.71656,201.9121 -0.23562,-34.16801"
+       id="path22088" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="117.17832"
+       y="214.79913"
+       id="text22802"><tspan
+         sodipodi:role="line"
+         id="tspan22800"
+         style="stroke-width:0.264583"
+         x="117.17832"
+         y="214.79913">&quot;Evidence&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="177.53575"
+       y="153.80351"
+       id="text3173"><tspan
+         sodipodi:role="line"
+         id="tspan3171"
+         style="stroke-width:0.264583"
+         x="177.53575"
+         y="153.80351">+</tspan></text>
+  </g>
+</svg>
