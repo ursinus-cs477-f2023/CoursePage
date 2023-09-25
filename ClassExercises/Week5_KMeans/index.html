@@ -41,14 +41,14 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 9: K-Means Clustering And Some Applications</h2>
+                                        <h2>K-Means Clustering And Some Applications</h2>
                                         <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
 
 										<p>
-											We're now going to consider another unsupervised algorithm that has a model of geometric structure in our data, namely a "cluster."  To get at it, let's generate and plot the following 2D dataset in matplotlib:
+											We're now going to consider an unsupervised algorithm that has a model of geometric structure in our data, namely a "cluster."  To get at it, let's generate and plot the following 2D dataset in matplotlib:
 										</p>
 
 
@@ -226,14 +226,6 @@
 											<p>
 												See the notes on <a href = "../Week10_NumpyTricks/NumpyTricks.html">numpy tricks</a> from week 10 on a slick way to do this.
 											</p>
-
-
-										<HR>
-											<h3><a name = "shapes3d">Application: 3D Shape Clustering</a></h3>
-
-											<p>
-												We can apply the KMeans algorithm to find clusters of like objects in a dataset, even if we don't have labels on the data.  You will apply this to clustering 3D shape in <a href = "../../Assignments/HW5a_3DShapeCluster/">homework 5a</a>.
-											</p>
 										
 
 										<HR>
@@ -243,8 +235,12 @@
 											There are some cool applications in image processing, which I wrote a <a href = "https://writings.stephenwolfram.com/2017/11/what-is-a-computational-essay/">computational essay</a> about below (<a href = "QuantizationCartoons.ipynb">Click here</a> to download the jupyter file and <a href = "theo.jpg">here</a> to download the image I was using)
 										</p>
 
-										<iframe src = "QuantizationCartoons.html" width=900 height=7000></iframe>
+										<iframe src = "QuantizationCartoons.html" width=100% height=7000></iframe>
 
+
+										<HR>
+											<h3><a name = "visualbow">Application: Visual Bag of Words</a></h3>
+											<iframe src = "VisualBOW.html" width=100% height=5200></iframe>
 										
 
 
@@ -376,6 +372,9 @@
 												</li>
 												<li>
 													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Naive Bayes Exercise</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_KMeans">Week 5: KMeans Clustering And Visual Bag of Words</a>
 												</li>
 												<li>
 													<a href = "../../ClassExercises/Week6_HMM">Week 5/6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
