@@ -41,33 +41,29 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Assignment 4: Bayesian Robot Localization (40 Points)</h2>
+                                        <h2>Bayesian Robot Localization</h2>
                                         <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
 									</header>
 
 									<div id="page-content">
 										<ul>
-											<li>
-												<a href = "#programming">Programming Tasks</a>
-												<ul>
-													<li><a href = "#gettingstarted">Getting Started</a></li>
-													<li><a href = "#sensormodel">Task 1: Sensor Model</a> (5 Points)</li>
-													<li><a href = "#filtering">Task 2: Online Position Tracking</a> (15 Points)</li>
-													<li><a href = "#viterbi">Task 3: The Viterbi Algorithm</a> (15 Points)</li>
-													<li><a href = "#yourown">Task 4: Make Your Own Map</a> (5 Points)</li>
-												</ul>
-											
-											</li>
+											<li><a href = "#noisemodel">Noise Model</a></li>
+											<li><a href = "#sensormodel">Observation Probabilities</a></li>
+										</ul>
+										<a href = "#programming">Programming Tasks</a>
+										<ul>
+											<li><a href = "#filtering">Task 1: Online Position Tracking with Bayes Filtering</a></li>
+											<li><a href = "#viterbi">Task 2: Offline Position Tracking with Viterbi</a></li>
 										</ul>
 
                                         <p>
-											The purpose of this assignment is to track a robot through an environment from noisy measurements using Bayesian algorithms from "<a href = "../../ClassExercises/Week6_HMM/">Hidden Markov Models (HMMs)</a>."  In this case, the hidden states are the <b>position of a robot in 2D</b>, and the observations are <b>omnidirectional range scans</b>.  This is an idealized model of a real "LIDAR scanner" such as the <a href = "https://hokuyo-usa.com/products/lidar-obstacle-detection/urg-04lx">Hokuyo URG-04LX laser range scanner</a>, which is able to sweep a laser in a 270 degree field of view in front of it
+											The purpose of this exercise is to track a robot through an environment from noisy measurements using Bayesian algorithms from "<a href = "../Week6_HMM/">Hidden Markov Models (HMMs)</a>."  In this case, the hidden states are the <b>position of a robot in 2D</b>, and the observations are <b>omnidirectional range scans</b>.  This is an idealized model of a real "LIDAR scanner" such as the <a href = "https://hokuyo-usa.com/products/lidar-obstacle-detection/urg-04lx">Hokuyo URG-04LX laser range scanner</a>, which is able to sweep a laser in a 270 degree field of view in front of it
 										</p>
 
 										<img src = "URG-04LX.jpg" width=250>
 
 										<p>
-											For this assignment, I've created a synthetic robot that can move right/left/up/down on a 2D grid, and which is always oriented the same way.  Below is an image of this robot moving around.  The ground truth position of the robot (the hidden state) is shown on the left on a map of the environment, while the laser scan (observation) is shown in the middle.  The right shows the scan as stored in an array, which is what you'll be manipulating in code. There is an index in the array for each angle of the scan, and the value at the index corresponds to the range at that angle.  0 degrees is the first element, and 360 degrees is the last element, so you'll notice how the ranges loop around at the boundaries
+											For this exercise, I've created a synthetic robot that can move right/left/up/down on a 2D grid, and which is always oriented the same way.  Below is an image of this robot moving around.  The ground truth position of the robot (the hidden state) is shown on the left on a map of the environment, while the laser scan (observation) is shown in the middle.  The right shows the scan as stored in an array, which is what you'll be manipulating in code. There is an index in the array for each angle of the scan, and the value at the index corresponds to the range at that angle.  0 degrees is the first element, and 360 degrees is the last element, so you'll notice how the ranges loop around at the boundaries
 										</p>
 
 										<img src = "clean_scan.gif">
@@ -119,90 +115,11 @@
 											The estimated trajectory is perfect in this example!  This is the power of <b>sequence modeling</b>; even if our measurements are total crap at a particular instant in time, if they have even a little bit of signal, then we can "boost" the signal strength by looking at many states in sequence.
 										</p>
 
-										<HR>
-											<h2><a name = "programming">Programming Tasks</a></h2>
 
-											<h3><a name = "gettingstarted">Getting Started</a></h3>
-											<p>
-												<a href = "https://github.com/Ursinus-CS477-F2021/HW4_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for the assignment.  When you are finished, <b>submit any notebook files or code files with a clear description about what is implemented where.</b>
-											</p>
-											<p>
-												
-												Before you run any code, make sure that you have <a href = "https://scikit-image.org/">scikit-image</a> installed in your python environment by typing the following at the top of a Jupyter notebook
-											</p>
-
-											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											import sys
-											!{sys.executable} -m pip install scikit-image
-											</script>  
-
-											<p>
-												Then, setup a Jupyter notebook that imports the simulation engine, which you can start off like this:
-											</p>
-
-
-
-											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-												%load_ext autoreload
-												%autoreload 2
-												import numpy as np
-												import matplotlib.pyplot as plt
-												import matplotlib.cm as cm
-												import matplotlib.animation as animation
-												import IPython.display as ipd
-												from environment import *
-											</script>  
-
-											<p>
-												Below is some code you can use to initialize a world and to simulate the scans of a trajectory through that world
-											</p>
-
-											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-												## Step 1: Create the world and devise robot motion
-												# Load in a particular environment
-												env = Environment("Maze1.png")
-												# Devise a path through that environment that passes through 3 locations
-												X = env.simulate_trajectory([[0, 15], [27, 40], [26, 12]])
-												# Plot the environment with the path superimposed
-												plt.figure()
-												env.plot()
-												plt.plot(X[:, 0], X[:, 1])
-
-												## Step 2: Simulate scans at each position
-												# How many angles to sample in the range scanner
-												res = 50
-												# The noise of the scanner (start with low noise to make the problem easier)
-												alpha = 0.1
-												# Make this repeatably pseudorandom by seeding so that the numbers you get match up with mine
-												np.random.seed(0) 
-												# Create a list of scans.  Each scan holds a list of "res" laser ranges across all angles
-												observed_scans = []
-												for i in range(X.shape[0]):
-													observed_scans.append(env.get_range_scan(X[i, :], res, alpha))
-												# NOTE: observed_scans[i][j] would be angle j at time i
-												
-
-											</script>  
-
-											<p>
-												Next, you'll need to figure out what perfect observations look like at each grid cell in the world so you can figure out the probability that you observed a scan given that you were at a particular cell.  There are <b>N</b> open grid cells in the world indexed from <b>0</b> to <b>N-1</b>, and the robot can be at any one of them at any time.  The method <code>get_state_scans(res)</code> of the <code>Environment</code> class returns an array perfect scans from each of these locations.
-											</p>
-
-
-
-											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-												state_scans = env.get_state_scans(res)
-											</script> 
-											
-											<p>
-												Finally, there's a list member variable <code>env.neighbors</code>, where <code>env.neighbors[i]</code> lists the indices of the neighbors of state <code>i</code>. 
-											</p>
-											
-
-										<h3><a name = "sensormodel">Task 1: Sensor Model (5 Points)</a></h3>
+										<h3><a name = "sensormodel">Observation Probabilities</a></h3>
 
 										<p>
-											The first step in gathering all of the components that are needed for an HMM is to come up with probabilities in a measurement model.  Let's let <b>r<SUB>i</SUB></b> be the perfect range measurement of the i<SUP>th</SUP> angle at a particular location, and let <b>x<SUB>i</SUB></b> be the corresponding measurement at that angle, sampled according to the <a href = "#noisemodel">model above</a>. Then the probability density of the measured range <b>x<SUB>i</SUB></b> in terms of <b>r<SUB>i</SUB></b> is 
+											The first step in gathering all of the components that are needed for an HMM is to come up with probabilities in an observation/measurement model.  Let's let <b>r<SUB>i</SUB></b> be the perfect range measurement of the i<SUP>th</SUP> angle at a particular location, and let <b>x<SUB>i</SUB></b> be the corresponding measurement at that angle, sampled according to the <a href = "#noisemodel">model above</a>. Then the probability density of the measured range <b>x<SUB>i</SUB></b> in terms of <b>r<SUB>i</SUB></b> is 
 										</p>
 
 										<h2>
@@ -228,7 +145,7 @@
 
 
 										<p>
-											<b>Your Task:</b> Create a method that takes in a ground truth scan array, a measured scan array, and the noise value &alpha;, and which returns the probability density that a set of measured angles jointly occurred at a particular location.  For example, let's say you called this method <code>get_measurement_prob</code> and you ran the <a href = "#gettingstarted">initialization sequence above</a> with <b>&alpha;=0.1</b>.  Then running the following cell
+											I provided a method called <code>get_measurement_prob</code> that takes in a ground truth scan array, a measured scan array, and the noise value &alpha;, and which returns the probability density that a set of measured angles jointly occurred at a particular location.  For example, let's suppose we had some measurements with <b>&alpha;=0.1</b>.  Then running the following cell
 										</p>
 
 										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
@@ -246,7 +163,7 @@
 										</script> 
 
 										<p>
-											should generate the following plot
+											would generate the following plot
 										</p>
 
 										<img src = "MeasurementProbs.svg">
@@ -255,47 +172,32 @@
 											The brighter the cell, the higher the probability is relative to cells at other locations.  You'll notice here that for this particular location (shown in green), it has a high probability around the true location, but it also has a high probability towards the right side of similarly shaped narrow horizontal hallways.  As you will see in the tasks below, this kind of confusion can get resolved by tracking measurements over time.
 										</p>
 
+										<HR>
+											<h2><a name = "programming">Programming Tasks</a></h2>
+
+											<h3><a name = "gettingstarted">Getting Started</a></h3>
+											<p>
+												<a href = "https://github.com/ursinus-cs477-f2023/Week5_RobotLocalization/archive/refs/heads/main.zip">Click here</a> to download the starter code for this exercise.  
+											</p>
+											
+										<p></p>
 
 
-										<h3><a name = "filtering">Task 2: Online Position Tracking (15 Points)</a></h3>
+
+										<h3><a name = "filtering">Task 1: Online Position Tracking</a></h3>
 										<p>
 											You now have all of the ingredients you need to do an online tracking of the robot positions as new measurements come in!  You can assume the following two things:
 											<ul>
-												<li>The robot is equally likely to transition to any of its neighbors (which, as you recall, you can look up in <code>env.neighbors</code>)</li>
+												<li>The robot is equally likely to transition to any of its neighbors.  You can look up the neighbors of position <code>i</code> with <code>env.neighbors[i]</code></li>
 												<li>The robot is equally likely to start at any position on the grid.  This implies that the initial probabilities for each state are <b>1/K</b>, where <b>K</b> is the number of states.</li>
 											</ul>
-											<b>Your Task: </b>Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayespseudocode">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Also, when summing up the transition probabilities from previous states, <b>only consider states which are neighbors of the state you're transitioning to</b>.  Otherwise, the program will have <b>O(TK<SUP>2</SUP>)</b> complexity instead of <b>O(TK)</b> complexity, and your code will go <b>very slowly</b>.  
+											<h4>Your Task</h4>
+											Given all of this information and the measurement model from before, implement <a href = "../../ClassExercises/Week6_HMM/index.html#bayespseudocode">Bayes filtering</a>  to track the position over time.  <b>Be sure to normalize the probabilities at each step so that they all sum to 1!</b>  Also, when summing up the transition probabilities from previous states, <b>only consider states which are neighbors of the state you're transitioning to</b>.  Otherwise, the program will have <b>O(TK<SUP>2</SUP>)</b> complexity instead of <b>O(TK)</b> complexity, and your code will go <b>very slowly</b>.  
 										</p>
+										
+										
 										<p>
-											To look at the results, it's helpful to plot the probabilities as you're filtering over time.  Matplotlib has some good <a href = "https://matplotlib.org/stable/api/_as_gen/matplotlib.animation.ArtistAnimation.html">built in tools to help with this</a>.  Assuming that you have a list or numpy array called <code>f</code> that holds the filtered probabilities of each cell at time <code>n</code>, here's how you would make a video of your filtering results
-										</p>
-
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											frames = [] # for storing the generated images
-											fig = plt.figure(figsize=(6, 6))
-											K = len(state_scans) # Number of states
-											T = X.shape[0] # Number of timesteps
-											f = np.zeros(K) # The probabilities across all states at each time
-											## TODO: Setup initial probabilities, etc
-											for i in range(T): # Filter every measurement that comes in
-												## TODO: Bayes filtering for this frame index
-												plot = env.plot_probabilities(f, p=1e-2)
-												plot.append(plt.scatter([X[i, 0]], [X[i, 1]], c='C0'))
-												frames.append(plot)
-											ani = animation.ArtistAnimation(fig, frames, interval=200, blit=True, repeat_delay=1000)
-											ipd.HTML(ani.to_html5_video())
-										</script> 
-
-										<p>
-											<b><a name = "gifsave">NOTE: </a></b> You may get an error about ffmpeg if you try to run the last line in the above code.  If this is the case, you can instead save the animation to a gif in the same file that you're notebook is being run using the line 
-
-											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											ani.save("result.gif")
-											</script> 
-										</p>
-
-										<p>
-											Regardless of how you generate the animation, if you've implemented filtering properly, here's what you should see on the trajectory example we've been looking at with <b>&alpha;=4</b> (the actual position is shown as a blue dot, while the maximum probability is shown as a <span style="color:green">X</span>)
+											If you've implemented filtering properly, here's what you should see on the trajectory example we've been looking at with <b>&alpha;=4</b> (the actual position is shown as a blue dot, while the maximum probability is shown as a <span style="color:green">X</span>)
 										</p>
 
 										<img src = "Maze1_Tracking.gif">
@@ -325,14 +227,20 @@
 
 										<img src = "Maze2_Tracking.gif">
 
+										<p>
+											Here is an example that Marcos Maciel created in Fall 2021:
+										</p>
+										<img src = "marcos.gif">
 
-										<h3><a name = "viterbi">Task 3: The Viterbi Algorithm (15 Points)</a></h3>
+
+										<h3><a name = "viterbi">Task 2: Offline Position Tracking</a></h3>
 
 										<p>
 											As you can see, filtering can get confused at individual steps, and we know if we can do things <i>offline</i> (i.e. we have access to <i>all measurements</i> over time), we can maximize the <i>joint probability</i> over the whole trajectory using the <a href = "../../ClassExercises/Week6_HMM/index.html#viterbipseudocode">Viterbi algorithm</a>.  This will fix things up so the trajectory doesn't jitter around as much locally, since it enforces consistency of the whole trajectory.  
 										</p>
 										<p>
-											<b>Your task: </b> Implement the Viterbi algorithm to compute an optimal sequence of state indices given an array of measurements.  <b>Make a separate notebook to show this to keep organized</b>.  Since you'll be accumulating over many states, be sure to add <b>log likelihoods</b>, as <a href = "../../ClassExercises/Week6_HMM/#viterbi">explained in the notes</a> rather than multiplying probabilities.
+											<h4>Your Task</h4> 
+											Implement the Viterbi algorithm to compute an optimal sequence of state indices given an array of measurements.  Since you'll be accumulating over many states, be sure to add <b>log likelihoods</b>, as <a href = "../../ClassExercises/Week6_HMM/#viterbi">explained in the notes</a> rather than multiplying probabilities.
 										</p>
 
 										<p>
@@ -362,23 +270,10 @@
 										</div>
 										
 
-										<p>
-											Let's say your Viterbi code outputs a list of state indices called <code>states</code>.  Then the following code will extract and plot the coordinates of the trajectory you estimated on top of the "ground truth" (correct) trajectory
-										</p>
-
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											states = np.array(states, dtype=int)
-											Y = env.X[states, :]
-											plt.figure()
-											plt.plot(X[:, 0], X[:, 1], 'k', linewidth=4)
-											plt.plot(Y[:, 0], Y[:, 1], 'C1', linestyle='--')
-											plt.legend(["Ground Truth", "Estimated"])
-											plt.axis("equal")
-											plt.title("Estimated Trajectory, $\\alpha={:.3f}$".format(alpha))
-										</script> 
+										
 
 										<p>
-											First try to make sure you can handle the case where &alpha; = 0.1, then crank up the noise and see how much noise the algorithm can take and still give a good result.  If your code works properly, you should get perfect results with &alpha;=4 on Maze1.png
+											If your code works properly, you should get perfect results with &alpha;=4 on Maze1.png
 										</p>
 
 										<img src = "Est_Maze1_VeryNoisy.svg">
@@ -389,27 +284,22 @@
 
 										<img src = "Est_Maze2_VeryNoisy.svg">
 
-										<h3><a name = "yourown">Task 4: Make Your Own Map</a> (5 Points)</h3>
+
+										<h3>For The Bored...</h3>
 										<p>
-											Make your own map and trajectory on it and show the results of filtering!  You can use a program like MS paint, <a href = "https://www.gimp.org/">gimp</a>, or photoshop.  The map should be all black except for where, such as <a href = "HW4_RobotLocalization/Maze1.png">the example maze that was given</a>.   We'll make a class gallery
+											If you finish this early, here are a few things you can try
 										</p>
-
-
-											<h3>For The Bored...</h3>
-											<p>
-												If you finish this early, here are a few things you can try
-											</p>
-											<ul>
-												<li>
-													In addition to modeling the position, allow the robot to rotate.  How would you change your state space?  How would you update your observations to handle a rotation?
-												</li>
-												<li>
-													The above is going to blow up the state space in memory.  Think of how you could use a <a href = "https://web.mit.edu/16.412j/www/html/Advanced%20lectures/Slides/Hsaio_plinval_miller_ParticleFiltersPrint.pdf">particle filter</a> to address this.
-												</li>
-												<li>
-													Think about how you might store some "second order" information about where the robot has been like velocity.  If we assume the law of inertia, the robot is more likely to continue moving in the direction of its velocity than it is to make a sudden turn, so you can use non-uniform transition probabilities to neighbors.
-												</li>
-											</ul>
+										<ul>
+											<li>
+												In addition to modeling the position, allow the robot to rotate.  How would you change your state space?  How would you update your observations to handle a rotation?
+											</li>
+											<li>
+												The above is going to blow up the state space in memory.  Think of how you could use a <a href = "https://web.mit.edu/16.412j/www/html/Advanced%20lectures/Slides/Hsaio_plinval_miller_ParticleFiltersPrint.pdf">particle filter</a> to address this.
+											</li>
+											<li>
+												Think about how you might store some "second order" information about where the robot has been like velocity.  If we assume the law of inertia, the robot is more likely to continue moving in the direction of its velocity than it is to make a sudden turn, so you can use non-uniform transition probabilities to neighbors.
+											</li>
+										</ul>
 
 
                                     
@@ -544,6 +434,9 @@
 												</li>
 												<li>
 													<a href = "../../ClassExercises/Week6_HMM">Week 5/6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_RobotLocalization">Week 5/6: Robot Localization</a>
 												</li>
 												<li>
 													<a href = "../../../Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>

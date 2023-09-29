@@ -79,7 +79,7 @@ Reinforcement Learning: Markov Decision Processes
 
 
 SECTION
-Unit 3: Data Vectorization, Deep Learning
+Unit 3: Data Vectorization, Neural Networks
 
 
 LECTURE
@@ -107,19 +107,15 @@ Softmax, Logistic Regression And Gradient Descent
 
 <ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li><li>Class Exercise: Logistic Regression on MNIST</li></ul>
 LECTURE
-Stochastic Gradient Descent
-
-
-LECTURE
 Intro To Neural Networks
 
 <ul><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li></ul>
 LECTURE
-Backpropagation
+Backpropagation, Stochastic Gradient Descent
 
 <ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 SECTION
-Unit 4: Convolutional Neural Networks, Generative Models
+Unit 4: Deep Learning
 
 
 LECTURE
@@ -131,11 +127,15 @@ Continue CNNs, Quantifying Overfitting
 
 
 LECTURE
-Data Augmentation
+Overfitting Strategies: Dropout, Data Augmentation
+
+<ul><li><a href = "https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Original Paper on Dropout</a></li></ul>
+LECTURE
+Adversarial Attacks Against on Images
 
 
 LECTURE
-Unsupervised Learning, Autoencoders
+Unsupervised Learning with Autoencoders
 
 <ul><li>Class Exercise: Digits Autoencoder</li></ul>
 LECTURE
@@ -150,8 +150,12 @@ LECTURE
 Generative Adversarial Networks (GANs)
 
 <ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
+LECTURE
+Deep Reinforcment Learning, Policy Gradients
+
+<ul><li><a href = "http://karpathy.github.io/2016/05/31/rl/">Andrej Karpathy deep RL pong tutorial</a></li></ul>
 SECTION
-Unit 5: Recurrent Neural Networks, Reinforcement Learning
+Unit 5: Deep Learning Through Time
 
 
 LECTURE
@@ -174,10 +178,6 @@ LECTURE
 The Transformer Architecture
 
 
-LECTURE
-Deep Reinforcment Learning, Policy Gradients
-
-<ul><li><a href = "http://karpathy.github.io/2016/05/31/rl/">Andrej Karpathy deep RL pong tutorial</a></li></ul>
 LECTURE
 Reinforcement Learning with Human Feedback
 

@@ -25,3 +25,9 @@
 [submodule "Assignments/HW3_Markov/HW3_Markov"]
 	path = Assignments/HW3_Markov/HW3_Markov
 	url = https://github.com/ursinus-cs477-f2023/HW3_Markov.git
+[submodule "ClassExercises/Week6_HMM/CaptainHMarkov"]
+	path = ClassExercises/Week6_HMM/CaptainHMarkov
+	url = https://github.com/ursinus-cs477-f2023/CaptainHMarkov.git
+[submodule "ClassExercises/Week5_RobotLocalization/Week5_RobotLocalization"]
+	path = ClassExercises/Week5_RobotLocalization/Week5_RobotLocalization
+	url = https://github.com/ursinus-cs477-f2023/Week5_RobotLocalization.git
