@@ -69,15 +69,15 @@ Bayes Filtering, Robot Localization
 LECTURE
 The Viterbi Algorithm
 
-<ul><li>Class Exercise: Robot Localization</li></ul>
+<ul><li><a href = "ClassExercises/Week5_RobotLocalization/index.html">Class Exercise: Robot Localization</a></li></ul>
 LECTURE
-Ethics #2: Climate and AI
+Ethics #2: Corporate Capture And Colonial Practices
 
 
 LECTURE
 Reinforcement Learning: Markov Decision Processes
 
-
+<ul><li><a href = "https://www.it.uu.se/edu/course/homepage/aism/st11/MDPApplications1.pdf">White 1985: Applications of MDPs</a></li></ul>
 SECTION
 Unit 3: Data Vectorization, Neural Networks
 
@@ -99,7 +99,7 @@ Logistic Regression, Introduction To pytorch and data loaders
 
 <ul><li><a href = "https://pytorch.org/tutorials/beginner/basics/data_tutorial.html">PyTorch Datasets & DataLoaders Documentation</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
 LECTURE
-Ethics #3: Colonialism in AI / The Cost of Data Labeling
+Ethics #3: Climate and AI
 
 
 LECTURE
@@ -121,7 +121,7 @@ Unit 4: Deep Learning
 LECTURE
 Convolutional Neural Networks (CNNs)
 
-<ul><li><a href = "https://setosa.io/ev/image-kernels/">Live 2D convolution demo</a></li><li><a href = "https://cs231n.github.io/convolutional-networks/">Stanford CS 231n Notes on Convolutional Neural Networks</a></li></ul>
+<ul><li><a href = "https://setosa.io/ev/image-kernels/">Live 2D convolution demo</a></li><li><a href = "https://cs231n.github.io/convolutional-networks/">Stanford CS 231n Notes on Convolutional Neural Networks</a></li><li><a href = "https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md">Convolution Arithmetic Animations</a></li></ul>
 LECTURE
 Continue CNNs, Quantifying Overfitting
 
