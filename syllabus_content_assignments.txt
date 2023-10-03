@@ -40,18 +40,15 @@ Assignment 2 Part 2 Due
 Assignment 3 Due
 
 2023-10-02
-<HR>Assignment 4: Kalman Filtering Out
+Assignment 4: I Am TPain Out
 
-2023-10-02
+2023-10-04
 <a href = "../Modules/VectorModule/Video1">Euclidean Vectors / Data Vectorization Module</a> Due Before Class
 
 2023-10-09
 <a href = "../Modules/VectorModule/Video1">Dot Products / Projection Module</a> Due Before Class
 
 2023-10-11
-Assignment 4 Part 1 Due
-
-2023-10-06
 Assignment 4 Due
 
 2023-10-13
