@@ -289,11 +289,11 @@
 									</p>
 									
 									<p>
-									Let's begin to get at the math by looking at the <b>posterior likelihood</b> of the hidden states given all observations
+									Let's begin by looking at the <b>posterior likelihood</b> of the hidden states given all observations, supposing that we have <b>T</b> observations total that are zero-indexed
 									</p>
 
 									<h3>
-										\[ \ell(x_1, x_2, ... x_n | y_1, y_2, ..., y_n) = p(y_1, y_2, ..., y_n | x_1, x_2, ..., x_n) p(x_1, x_2, ..., x_n) \]
+										\[ \ell(x_0, x_1, ... x_{T-1} | y_0, y_1, ..., y_{T-1}) = p(y_0, y_1, ..., y_{T-1} | x_0, x_1, ..., x_{T-1}) p(x_0, x_1, ..., x_{T-1}) \]
 									</h3>
 
 									<p>
@@ -301,7 +301,7 @@
 									</p>
 
 									<h3>
-										\[ p(x_1, x_2, ..., x_n) = p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_2) \times ... \times p(x_n | x_{n-1})\]
+										\[ p(x_0, x_1, ... x_{T-1} ) = p(x_0) \times p(x_1 | x_0) \times p(x_2 | x_1) \times ... \times p(x_{T-1} | x_{T-2})\]
 									</h3>
 
 									<p>
@@ -309,7 +309,7 @@
 									</p>
 
 									<h3>
-										\[ p(y_1, y_2, ..., y_n) = p(y_1 | x_1) \times p(y_2 | x_2) \times ... \times ... \times p(y_n | x_n)\]
+										\[ p(y_0, y_1, ..., y_{T-1}) = p(y_0 | x_0) \times p(y_1 | x_1) \times ... \times ... \times p(y_{T-1} | x_{T-1})\]
 									</h3>
 
 									<p>
@@ -317,23 +317,23 @@
 									</p>
 
 									<h3>
-										\[ \ell(x_1, x_2, ... x_n | y_1, y_2, ..., y_n) = \left( p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_2) \times ... \times p(x_n | x_{n-1}) \right) \left( p(y_1 | x_1) \times p(y_2 | x_2) \times ... \times ... \times p(y_n | x_n) \right) \]
+										\[ \ell(x_0, x_1, ... x_{T-1} | y_0, y_1, ..., y_{T-1}) = \left( p(x_0) \times p(x_1 | x_0) \times p(x_2 | x_1) \times ... \times p(x_{T-1} | x_{T-2}) \right) \left( p(y_0 | x_0) \times p(y_1 | x_0) \times ... \times ... \times p(y_{T-1} | x_{T-1}) \right) \]
 									</h3>
 
 									<p>
-										We can also write this in log form as a sum.  This important, <i>the probability of an individual sequence will be very small, and we want to avoid numerical underflow</i>.  Abbreviating the full state sequences as <b>x<SUB>1:n</SUB></b> and the full observation sequence as <b>y<SUB>1:n</SUB></b>, we have
+										We can also write this in log form as a sum.  This important, <i>the probability of an individual sequence will be very small, and we want to avoid numerical underflow</i>.  Abbreviating the full state sequences as <b>x<SUB>0:T</SUB></b> and the full observation sequence as <b>y<SUB>0:T</SUB></b>, we have
 									</p>
 
 									<h3>
-										\[ \log \ell(x_{1:n} | y_{1:n}) = \log(p(x_1)) + \sum_{i = 2}^n \log(p(x_i | x_{i-1})) + \sum_{i=1}^n \log(p(y_i | x_i)) \]
+										\[ \log \ell(x_{0:T} | y_{0:T}) = \log(p(x_0)) + \sum_{i = 1}^{T-1} \log(p(x_i | x_{i-1})) + \sum_{i=0}^{T-1} \log(p(y_i | x_i)) \]
 									</h3>
 
 									<p>
-										Finding the most likely sequence of hidden states is akin to finding the <b>x<SUB>1:n</SUB></b> that maximizes the above expression.  This is also referred to as the <b>maximum a posteriori estimate</b>.  Formally, it is written as 
+										Finding the most likely sequence of hidden states is akin to finding the <b>x<SUB>0:T</SUB></b> that maximizes the above expression.  This is also referred to as the <b>maximum a posteriori estimate</b>.  Formally, it is written as 
 									</p>
 
 									<h3>
-										\[ \text{argmax}_{x_{1:n}} \log \ell(x_{1:n} | y_{1:n}) \]
+										\[ \text{argmax}_{x_{0:T}} \log \ell(x_{0:T} | y_{0:T}) \]
 									</h3>
 
 									<p>
@@ -347,19 +347,19 @@
 									</p>
 
 									<p>
-										Actually, we can do something kind of similar to Bayes filtering, except we're going to need to store a bit more information.  Let's let <b>L<SUB>n, k</SUB></b> be the maximum <b>log likelihood</b> of the joint distribution over the first <b>n</b> states that end at state <b>x<sub>n</sub> = k</b>.  We can think of <b>L</b> as holding optimal cumulative probabilities of traveling up to a certain point in time.  As with Bayes filtering, we can write <b>L<SUB>n, k</SUB></b> in terms of maximum likelihoods one step prior in time, since every step before that is independent, as well as the measurement at time <b>n</b>.  In particular, we have the following recurrence:
+										Actually, we can do something kind of similar to Bayes filtering, except we're going to need to store a bit more information.  Let's let <b>L<SUB>j, t</SUB></b> be the maximum <b>log likelihood</b> of the joint distribution over the first <b>t</b> states that end at state <b>x<sub>t</sub> = j</b>.  We can think of <b>L</b> as holding optimal cumulative probabilities of traveling up to a certain point in time.  As with Bayes filtering, we can write <b>L<SUB>j, t</SUB></b> in terms of maximum likelihoods one step prior in time, since every step before that is independent, as well as the measurement at time <b>t</b>.  In particular, we have the following recurrence:
 									</p>
 
 									<h3>
-										\[ L_{n, k} = \log(p(y_n | x_n = k) + \max_{j} \left( L_{n-1, j} + \log(p(x_n = k | x_{n-1} = j)) \right) \]
+										\[ L_{k, t} = \log(p(y_t | x_t = j) + \max_{k} \left( L_{k, t-1} + \log(p(x_t = j | x_{t-1} = k)) \right) \]
 									</h3>
 
 									<p>
-										Or, in other words, accumulating the next step in the joint probability adds on a term for the measurement probability <b>log(p(y<SUB>n</SUB> | x<SUB>n</SUB> = k))</b>, as well as the transition probability <b>log(p(x<SUB>n</SUB> | x<SUB>n-1</SUB> = j))</b>.  So we pay a cost for how good or bad the transition is and how well the new state matches the next measurement we got.  Such a recursive specification lends itself well to a bottom up <b><a href = "https://ursinus-cs371-s2021.github.io/Modules/Module10/Video4">dynamic programming</a> solution</b>, where we fill in the first row of <b>L</b> and then fill in each row one at a time successively.  We'll also store a matrix <b>B</b> which remembers which state <b>j</b> maximized <b>L<SUB>n, k</SUB></b>
+										Or, in other words, accumulating the next step in the joint probability adds on a term for the measurement probability <b>log(p(y<SUB>n</SUB> | x<SUB>n</SUB> = k))</b>, as well as the transition probability <b>log(p(x<SUB>n</SUB> | x<SUB>n-1</SUB> = j))</b>.  So we pay a cost for how good or bad the transition is and how well the new state matches the next measurement we got.  Such a recursive specification lends itself well to a bottom up <b><a href = "https://www.youtube.com/watch?v=2k5v_nQTkhc">dynamic programming</a> solution</b>, where we fill in the first column of <b>L</b> and then fill in each column one at a time successively.  We'll also store a matrix <b>B</b> which remembers which state <b>j</b> maximized <b>L<SUB>k, t</SUB></b>
 									</p>
 
 									<p>
-										We start with the first row of <b>L</b> holding the prior probabilities and measurement probabilities only (since no measurements have happened yet).
+										We start with the first column of <b>L</b> holding the prior probabilities and measurement probabilities only (since no measurements have happened yet).
 									</p>
 
 
@@ -368,21 +368,21 @@
 									Given <b>K</b> states and <b>T</b> measurements, do the following steps
 									<ol>
 										<li>
-											Initialize a <b>T x K</b> 2D array <b>L</b> and a <b>T x K</b> 2D array <b>B</b>
+											Initialize a <b>K x T</b> 2D array <b>L</b> and a <b>K x T</b> 2D array <b>B</b>
 										</li>
 										<li>
-											For each state <b>k = 1</b> to <b>K</b>
+											For each state <b>j = 0</b> to <b>K-1</b>
 											<ul>
 										<li>											Let 
 												<div style="width:200px;">
-												\[ L_{1, k} = \log(p(x_1 = k)) + \log(p(y_1 | x_1 = k)) \]
+												\[ L_{j, 0} = \log(p(x_0 = j)) + \log(p(y_0 | x_0 = j)) \]
 												</div>
 												That is, we start off with the prior probabilities in each state, also integrating in the measurement probabilities at the first timestep.
 										</li>
 										<li>
 											Let
 											<div style="width:70px;">
-												\[ B_{1, k} = -1 \]
+												\[ B_{j, -1} = -1 \]
 											</div>
 											We'll use this array <b>B</b> to remember transitions from state to state
 											<p></p>
@@ -393,9 +393,9 @@
 
 										</li>
 										<li>
-											for each <b>n = 2</b> to <b>T</b>
+											for each <b>t = 1</b> to <b>T-1</b>
 											<ul>
-												<li>For each state <b>k = 1</b> to <b>K</b>
+												<li>For each state <b>j = 0</b> to <b>K-1</b>
 													<ul>
 														<li>
 															Let <b>maxj = -1</b>.  This will store the index of previous state which maximizes the cumulative probability plus the next transition probability
@@ -405,10 +405,10 @@
 															Let <b>maxval = -infinity</b>.  This will store the maximum cumulative probability plus the next transition probability
 														</li>
 														<li>
-															For each <b>j = 1 to K</b>						<ul>
+															For each state <b>k = 0</b> to <b>K-1</b>						<ul>
 																<li>
 																	<div style="width:100px;">
-																		\[ val = L_{n-1, j} + \log(p(x_n = k | x_{n-1} = j))  \]
+																		\[ val = L_{k, t-1} + \log(p(x_n = j | x_{n-1} = k))  \]
 
 								
 																	</div>										<p>
@@ -433,13 +433,13 @@
 														</li>
 														<li>
 															<div style="width:100px;">
-																\[ L_{n, k} =  \log(p(y_n | x_n = k)) + \text{maxval} \]
+																\[ L_{j, t} =  \log(p(y_n | x_n = k)) + \text{maxval} \]
 															</div>
 															In other words, once we have looked over all possible transitions, we pick the one with the highest probability, and we also integrate the new measurement at this step
 														</li>
 														<li>
 															<div style="width:100px;">
-																\[ B_{n, k} =  \text{maxj} \]
+																\[ B_{j, t} =  \text{maxj} \]
 															</div>
 															In other words, we remember which <b>j</b> gave us the highest probability.  We'll use this later when backtracing to reconstruct a full path from start to finish.
 														</li>
@@ -448,17 +448,17 @@
 											</ul>
 										</li>
 										<li>
-											Now find index of the maximum element in the last row and backtrace through <b>B</b> to extract the optimal path in  (Note that this is similar to the backtracing that we used in our <a href = "../Week2_BasicSearch/">search algorithms</a> from before).
+											Now find index of the maximum element in the last column of <b>L</b> and backtrace through <b>B</b> to extract the optimal path in  (Note that this is similar to the backtracing that we used in our <a href = "../Week2_BasicSearch/">search algorithms</a> from before).
 
 											<ul>
-												<li>Let <b>state</b> = argmax<SUB>k</SUB> <b>L<SUB>T, k</SUB></b>.  In other words, find the state that ends up with the maximum probability at the end.  We will backtrace this now to the beginning of time.</li>
+												<li>Let <b>state</b> = argmax<SUB>j</SUB> <b>L<SUB>j, T-1</SUB></b>.  In other words, find the state that ends up with the maximum probability at the end.  We will backtrace this now to the beginning of time.</li>
 												<li>Let <b>states</b> = []</li>
-												<li>Let <b>n = T</b></li>
-												<li>while <b>n > 1</b>
+												<li>Let <b>t = T-1</b></li>
+												<li>while <b>t > 0</b>
 													<ul>
 														<li><b>states</b>.push(<b>state</b>)</li>
-														<li>state = <b>B<SUB>n, state</SUB></b></li>
-														<li><b>n = n - 1</b></li>
+														<li>state = <b>B<SUB>[state, t]</SUB></b></li>
+														<li><b>t = t - 1</b></li>
 													</ul>
 												</li>
 												<li>
@@ -472,7 +472,7 @@
 								<p></p>
 								<h4><a name = "viterbicomplexity">A Note on Complexity</a></h4>
 								<p>
-									Like the <a href = "#bayesfiltercomplexity">bayes filter</a>, this algorithm takes <b>O(TK<SUP>2</SUP>)</b> computation time in the worst case, but this can be limited to <b>O(KT)</b> complexity if there are a small number of possible states that can be reached from any given state.  However, the memory requirements are worse at <b>O(KT)</b>, and there's no way around this, because we need to remember enough information to backtrace a full optimal trajectory at the end.  In practice, we could just store the <b>B</b> array and the most recently filled in row of <b>L</b>m but it's still <b>O(KT)</b> to store the entire <b>B</b> array.
+									Like the <a href = "#bayesfiltercomplexity">bayes filter</a>, this algorithm takes <b>O(TK<SUP>2</SUP>)</b> computation time in the worst case, but this can be limited to <b>O(KT)</b> complexity if there are a small number of possible states that can be reached from any given state.  However, the memory requirements are worse at <b>O(KT)</b>, and there's no way around this, because we need to remember enough information to backtrace a full optimal trajectory at the end.  In practice, we could just store the <b>B</b> array and the most recently filled in column of <b>L</b>m but it's still <b>O(KT)</b> to store the entire <b>B</b> array.
 								</p>
 								
 								
