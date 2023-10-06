@@ -75,9 +75,9 @@ Ethics #2: Corporate Capture And Colonial Practices
 
 
 LECTURE
-Reinforcement Learning: Markov Decision Processes
+Reinforcement Learning: Markov Decision Processes, Policy Iteration
 
-<ul><li><a href = "https://www.it.uu.se/edu/course/homepage/aism/st11/MDPApplications1.pdf">White 1985: Applications of MDPs</a></li></ul>
+<ul><li><a href = "https://github.com/ursinus-cs477-f2023/Week6_MDP">Class Exercise: Pong AI</a></li><li><a href = "http://incompleteideas.net/book/RLbook2020.pdf">Sutton/Barto Ch. 3</a></li><li><a href = "https://gibberblot.github.io/rl-notes/single-agent/policy-iteration.html">Tim Miller notes on policy iteration</a></li><li><a href = "https://www.it.uu.se/edu/course/homepage/aism/st11/MDPApplications1.pdf">White 1985: Applications of MDPs</a></li></ul>
 SECTION
 Unit 3: Data Vectorization, Neural Networks
 
