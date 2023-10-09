@@ -34,3 +34,6 @@
 [submodule "ClassExercises/Week6_MDP/Week6_MDP"]
 	path = ClassExercises/Week6_MDP/Week6_MDP
 	url = https://github.com/ursinus-cs477-f2023/Week6_MDP.git
+[submodule "ClassExercises/Week7_DigitsNN/Week7_DigitsNN"]
+	path = ClassExercises/Week7_DigitsNN/Week7_DigitsNN
+	url = https://github.com/ursinus-cs477-f2023/Week7_DigitsNN.git
