@@ -57,7 +57,7 @@ Bayes Rule, Begin Naive Bayes Classification
 LECTURE
 Naive Bayes Classification And Bag of Words
 
-<ul></li><li><a href = "ClassExercises/Week5_NaiveBayes/index.html#naivebayes">Naive Bayes Class Notes</a></li><li>Class Exercise: <a href = "ClassExercises/Week5_BagOfWords">2016 Presidental Debates Bag of Words</a><li><a href = "https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.374.7966&rep=rep1&type=pdf">Naive bayes for detecting computer viruses</a></li><li><a href = "ClassExercises/Week5_KMeans/index.html">Class Notes on KMeans Clustering And Visual Bag of Words</a></li></ul>
+<ul></li><li><a href = "ClassExercises/Week5_NaiveBayes/index.html#naivebayes">Naive Bayes Class Notes</a></li><li>Class Exercise: <a href = "ClassExercises/Week5_BagOfWords">2016 Presidental Debates Bag of Words</a><li><a href = "https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.374.7966&rep=rep1&type=pdf">Naive bayes for detecting computer viruses</a></li></ul>
 LECTURE
 Hidden Markov Models
 
@@ -87,13 +87,13 @@ Data Vectorization, K-Nearest Neighbor Classification
 
 <ul><li><a href = "ClassExercises/Week7_DigitsNN.html">Class Exercise: Digit Classification, K-Nearest Neighbor Notes</a></li></ul>
 LECTURE
-Dot Products, Projections, Projected Variance
+Unsupervised Learning: KMeans Clustering
 
-<ul><li>Class Exercise: Eigen Digits</li></ul>
+<ul><li><a href = "ClassExercises/Week5_KMeans/index.html">Class Notes on KMeans Clustering And Visual Bag of Words</a></li></ul>
 LECTURE
-Principal Component Analysis
+Unsupervised Learning: Projected Variance, Principal Component Analysis
 
-<ul><li><a href = "https://setosa.io/ev/principal-component-analysis/">PCA Explained Visually</a></li><li><a href = "http://www.covers1000.net/LoopDitty/">Loop Ditty</a></li><li><a href = "https://www.cs.jhu.edu/~hager/Public/teaching/cs461/mturk-CVPR91.pdf">Original Paper on Eigenfaces</a></li></ul>
+<ul><li>Class Exercise: Eigen Digits</li><li><a href = "https://setosa.io/ev/principal-component-analysis/">PCA Explained Visually</a></li><li><a href = "http://www.covers1000.net/LoopDitty/">Loop Ditty</a></li><li><a href = "https://www.cs.jhu.edu/~hager/Public/teaching/cs461/mturk-CVPR91.pdf">Original Paper on Eigenfaces</a></li></ul>
 LECTURE
 Logistic Regression, Introduction To pytorch and data loaders
 

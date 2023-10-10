@@ -52,6 +52,9 @@ Assignment 3 Due
 <a href = "../Modules/VectorModule/Video4">Dot Products / Projection Module</a> Due Before Class
 
 2023-10-11
+<a href = "../Modules/MatrixModule/Video1">Matrix Module</a> Due Before Class
+
+2023-10-13
 Assignment 4 Due
 
 2023-10-20
