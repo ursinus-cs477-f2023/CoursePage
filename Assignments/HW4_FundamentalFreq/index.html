@@ -1,0 +1,769 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+                                        <h2>Homework 4: Fundamental Frequency Tracking And Pitch-Based Audio Effects</h2>
+										<h3>Chris Tralie</h3>
+									</header>
+									
+									<h3>Table of Contents</h3>
+									<ul>
+										<li><a href = "#objectives">Learning Objectives</a></li>
+										<li><a href = "#overview">Background</a></li>
+										<ul>
+											<li><a href = "#digitalaudio">Digital Audio Fundamentals</a></li>
+											<li><a href = "#yin">The YIN Algorithm</a></li>
+											<li><a href = "#pyin">The Probabilistic YIN (pYIN) Algorithm</a>
+											<ul>
+												<li><a href = "#states">States</a></li>
+												<li><a href = "#observations">Observation Probabilities</a></li>
+												<li><a href = "#transition">Transition Probabilities</a></li>
+											</ul>
+										</li>
+										</ul>
+										<li><a href = "#programming">Programming Tasks</a>
+										<ul>
+											<li>
+												<a href = "#naive_freqs">Task 1: Naive Greedy Frequency Choices (5 Points)</a>
+											</li>
+											<li>
+												<a href = "#naive_freqs">Task 2: PYin HMM-Based Frequency Estimation (25 Points)</a>
+											</li>
+											<li>
+												<a href = "#statement">Task 3: Mandatory Musical Statement (5 Points)</a>
+											</li>
+										</ul></li>
+									</ul>
+
+									<p>
+										The purpose of this assignment is to get you practice with <a href = "../../../Modules/HMM/Video1">Hidden Markov Models (HMMs)</a> and the <a href = "../../../Modules/HMM/Video4">Viterbi Algorithm</a> with a fun application involving digital music audio.  Students will create a system that uses a Bayesian framework to give a stable estimate of the "pitch," or notes, that a singer is making over time.  Implementing such a system unlocks a slew of fun applications, such as <a href = "#fmsynth">singing instruments</a> and <a href = "#autotune">autotuning effects</a>.
+									</p>
+
+
+									<div id="page-content">
+
+                                        <p>
+                                            <h2><a name = "objectives">Learning Objectives</a></h2>
+                                            <ul>
+												<li>
+													Implement observation probabilities and transition probabilites for a hidden markov model
+												</li>
+												<li>
+													Use the viterbi algorithm to estimate a clean sequence of states given outlier observations
+												</li>
+												<li>
+													Have fun with some cool audio effects
+												</li>
+                                            </ul>
+										</p>
+
+										<h2><a name = "overview">Background</a></h2>
+
+										<h3><a name = "digitalaudio">Digital Audio Fundamentals</a></h3>
+
+										<p>
+											Sound is carried by a <a href = "https://www.youtube.com/watch?v=Bcqp6t4ybxU">modulated pressure wave</a> through the air.  When it reaches a microphone, the microphone <b>samples</b> the audio by taking measurements of the pressure in regular intervals, and putting them all into one big array of <b>audio samples</b>.  A typical <b>sample rate</b>, which we'll use in this assignment, is <b>44100</b> samples per second.  As an example, let's suppose we have the following clip of Marvin Gaye singing "<a href = "https://www.udiscovermusic.com/stories/marvin-gaye-i-heard-it-through-the-grapevine-song/">I Heard It Through The Grapevine</a>" (<a href = "HW4_FundamentalFreq/marvin.wav">marvin.wav</a>)
+										</p>
+
+										<audio controls>
+											<source src="Examples/marvin.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<p>
+											Here's some code we can use to look at a 4410 sample chunk of the above clip, which corresponds to 100 milliseconds of audio
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											x_audio, sr = load_audio("marvin.wav")
+											t = np.arange(x_audio.size) / sr # Time in seconds
+											plt.plot(t[sr:sr+sr//10], x_audio[sr:sr+sr//10])
+											plt.xlabel("Time (Sec)")
+											plt.ylabel("Normalized Pressure")
+										</script>
+
+										<p>
+											The resulting plot looks like this
+										</p>
+
+										<img src = "Examples/Marvin100ms.svg" width="50%">
+
+										<p>
+											In general, the pressure is normalized to the range <b>[-1, 1]</b>.  Pressures closer to these limits are perceived as louder to us, so we see the above audio is not as loud as it could be.
+										</p>
+										<p>
+											Another thing you might notice is that the audio <b>oscillates</b> back and forth in a regular pattern, which is a common occurrence in vibrational systems in nature like Marvin Gaye's vocal tract.  As it turns out, humans perceive such <b>periodic</b> signals as a <b>pitch</b>, or a note.  The higher the <b>frequency</b> (number of repetitions per second) of the vibration, the higher the note we perceive.
+										</p>
+
+										<p>
+											An ideal model of a periodic sound is a <b>pure tune</b>, which can be modeled with a cosine as follows:
+										</p>
+
+										<h3>
+											\[ y(t) = \cos(2 \pi f t) \]
+										</h3>
+										<p>
+											where <b>f</b> is the frequency in <b>cycles/second (hz)</b>, and <b>t</b> is the time in seconds.  We can synthesize such a pure tone at 440hz in numpy as follows:
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											freq = 440 # Frequency, in units of samples/second (hz)
+											sr = 44100 # Audio sample rate, in units of samples/second (hz)
+											t = np.arange(sr*2)/sr # Samples for 2 seconds of audio, in units of seconds
+											y = np.cos(2*np.pi*freq*t) # Pure tone cosine at this frequency
+											save_audio(y, sr, "puretone{}.wav".format(freq))
+										</script>
+
+										<p>
+											This is "concert A," or the note that orchestras tune to.  The resulting audio sounds like this
+										</p>
+										<audio controls>
+											<source src="Examples/puretone440.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+										
+										<p>
+											If we change the frequency to 660hz instead of 440hz, we get the following
+										</p>
+
+										<audio controls>
+											<source src="Examples/puretone660.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<p>
+											As you can hear, since the frequency went up, the note that we perceive also went up in pitch.
+										</p>
+
+										<p>
+											In the above, we knew exactly what frequency we were making, but when we're analyzing data, we don't necessarily know this.  The problem of <b>fundamental frequency tracking</b> is to estimate the frequency <i>over time</i> in existing audio data.  In other words, we're teaching a computer how to listen for notes.  In what follows, I will explain some excellent models for doing this in practice.
+										</p>
+
+
+										<h3><a name = "yin">The YIN Algorithm</a></h3>
+
+										<p>
+											The "YIN" algorithm was a breakthrough in fundamental frequency estimation.  <a href = "http://audition.ens.fr/adc/pdf/2002_JASA_YIN.pdf">Click here</a> to see the original 2002 paper on this technique by Alan de Cheveigne´ and Hideki Kawahara.  I will give a brief overview of the main idea so you know enough to use the output from this algorithm in the next stage of the assignment.
+										</p>
+
+										<p>
+											YIN is like an improved version of <a href = "https://ursinus-cs372-s2023.github.io/Modules/Module16/Video2">autocorrelation</a> for period estimation (for those who may have seen autocorrelation in my <a href = "https://ursinus-cs372-s2023.github.io/CoursePage">music class</a>).  The idea is to take a chunk of the signal, called a <b>frame</b>, and to slide the first half of that signal, called the <b>window</b>, past itself in the frame.  Then, we compute the sum of the squared differences where the window overlaps with the corresponding chunk in the frame.  YIN then does one more step after this, which is to <b>normalize</b> the values so that they are generally in the scale from 0 to 1, and to de-emphasize very small shifts.  The animation below shows the process:
+										</p>
+
+										<img src = "YINExample.gif" width="90%">
+
+										<p>
+											What you'll notice is that YIN dips down close to zero every time the signal overlaps well with itself, which happens once every cycle (I've marked these as dots in the bottom plot).  We refer to the shifts that happen as the <b>period</b>, which is the length of a cycle, and which is inversely proportional to the frequency.  In the above example, the period is 108, which corresponds to a frequency of 44100/108 &approx; 408hz, which is a slightly flat A flat.
+										</p>
+
+										<p>
+											Since we're interested in the fundamental frequency <b>over time</b>, YIN keeps moving the frame along in time and redoing this process, returning all of the "troughs" where a min occurs, along with the normalized distance of that trough, referred to as that trough's <b>threshold</b>.  Below is code showing how to obtain these troughs in the Marvin Gaye clip using the provided <code><a href = "https://github.com/ursinus-cs477-f2023/HW4_FundamentalFreq/blob/7d7df7202275991042bd40a16c843c3ee34ad9dd/audiotools.py#L74">get_yin_freqs</a></code> method, which returns a list of lists of <code>[frequency, threshold]</code> values over time:
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											filename = "marvin.wav"
+											x_audio, sr = load_audio(filename)
+											
+											fmin = 100
+											fmax = 2000
+											
+											frame_length = 4096
+											win_length = frame_length//2
+											hop_length = frame_length//4
+											all_freqs = get_yin_freqs(x_audio, frame_length, sr)
+											
+											
+											X = []
+											for t, freqs_t in enumerate(all_freqs):
+												for (f, thresh) in freqs_t:
+													X.append([t, f, thresh])
+											X = np.array(X)
+											plt.figure(figsize=(15, 6))
+											plt.scatter(X[:, 0]*hop_length/sr, X[:, 1], s=10, c=X[:, 2], cmap='magma')
+											plt.colorbar()
+											plt.xlabel("Time (Seconds)")
+											plt.ylabel("Frequency (hz)")
+											plt.title(filename)
+											
+											plt.savefig("{}.png".format(filename[0:-4]), bbox_inches='tight')
+										</script>
+
+										<p>
+											The plot of all of the mins over time looks like this, colored by their threshold value:
+										</p>
+
+										<img src = "Examples/marvin.png" width="90%">
+										<p>
+											Overall, the estimates seem pretty stable.  One issue, though, is that YIN returns the fundamental period, but also all integer multiples of the period.  In frequency terms, this means we'll see a track of frequencies that seems relatively stable, but we'll see a copy at half the frequency, a copy at 1/3 of the frequency, a copy at 1/4 of the frequency, etc.  So it's possible to get confused as to which one is the right one.  Also, there are clearly moments where there are a lot of noise in the estimate.
+										</p>
+
+										<p>
+											We could be greedy and simply take the frequency with the minimum trough threshold at each time.  This is what you'll do in the <a href = "#naive_freqs">first task</a>, implementing the <code>naive_freqs</code> method.  The code below shows how to get the results and to modulate a cosine to match the estimated frequencies using the method <code><a href = "https://github.com/ursinus-cs477-f2023/HW4_FundamentalFreq/blob/7d7df7202275991042bd40a16c843c3ee34ad9dd/effects.py#L23">sonify_pure_tone</a></code> (if you're curious, <a href = "https://ursinus-cs372-s2023.github.io/Modules/Module4/Video1">click here</a> to learn more about how to turn instantaneous frequency estimates into pure tone pitches)
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											freqs = naive_freqs(all_freqs)
+											plt.figure(figsize=(12, 4))
+											plt.scatter(np.arange(freqs.size)*hop_length/sr, freqs, s=10)
+											y = sonify_pure_tone(x_audio, freqs, frame_length//4, sr)
+											plt.xlabel("Time (Sec)")
+											plt.ylabel("Frequency (hz)")
+											save_audio(y, sr, "marvin_greedy.wav")
+										</script>
+
+										<p>
+											which are as follows:
+										</p>
+
+										<audio controls>
+											<source src="Examples/marvin_greedy.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<img src = "Examples/marvin_greedy.png" width="90%">
+
+										<p>
+											This is fairly decent, though we see a few outliers.  
+										</p>
+
+										<p>
+											If, on the other hand, we do the same for vocals from Cher's <a href = "https://www.thrillist.com/entertainment/nation/chers-believe-auto-tune">Believe</a> (<a href = "HW4_FundamentalFreq/cher.wav">cher.wav</a>)
+										</p>
+										<audio controls>
+											<source src="Examples/cher.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio>
+
+										<p>
+											then the YIN estimates are much messier:
+										</p>
+
+
+										<img src = "Examples/cher.png" width="90%">
+
+										<p>
+											And the greedy method has much more noticeable outliers:
+										</p>
+
+										<audio controls>
+											<source src="Examples/cher_greedy.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<img src = "Examples/cher_greedy.png">
+
+										<p>
+											The primary goal in this assignment will be to fix this problem and to create much more stable fundamental frequency estimates
+										</p>
+
+
+										<h3><a name = "pyin">The Probabilistic YIN (pYIN) Algorithm</a></h3>
+										<p>
+											There was an awesome followup paper in 2014 by Matthias Mauch and Simon Dixon called <a href = "https://qmro.qmul.ac.uk/xmlui/bitstream/handle/123456789/6040/MAUCHpYINFundamental2014Accepted.pdf">pYIN: A fundamental frequency estimator using probabalistic threshold distributions</a> (<a href = "https://qmro.qmul.ac.uk/xmlui/bitstream/handle/123456789/6040/MAUCHpYINFundamental2014Accepted.pdf">click here</a> to read the paper).  In a nutshell, the authors add a Hidden Markov Model on top of YIN and use the <a href = "../../../Modules/HMM/Video4">Viterbi Algorithm</a> to find the best sequence of pitches.  The effect is to match the estimates from YIN as well as possible (the observation probabilities), but not to let the frequencies jump around too much (the transition probabilities).
+										</p>
+										<p>
+											I'll now present a slightly simplified<SUP><a href = "#embellishments">*</a></SUP> version of pYIN suitable for this assignment:
+										</p>
+
+										<h4><a name = "states">States</a></h4>
+										<p>
+											The Viterbi algorithm is specialized to a discrete state space, but the estimated frequencies are real numbers (floats).  To deal with this, we'll come up with a discrete set of possible frequencies from some lower limit <code>fmin</code> to some upper limit <code>fmax</code>.  Adjacent frequencies are related by a <b>multiplicative ratio</b> known as the  <code>spacing</code> (the frequencies get spaced further apart as they increase, because humans perceive pitch logarithmically in frequency).  For example, with <code>fmin=100, fmax=2000, spacing=2**(1/120)</code>, then the first 10 frequencies would be:
+										</p>
+
+										<code>100.0,  100.6,  101.2,  101.7,  102.3,  102.9,  103.5,  104.1,  104.7,  105.3,  105.9,  106.6,  107.2,  107.8,  108.4,  109.1,  109.7,  110.3,  111.0,  111.6,   ...</code>
+
+										<p>
+											In this example, there would be <code>520</code> discrete frequencies total, and each one is considered a state (each possible note is divided into 10 intervals in this example).  In practice, we round the observations to the nearest state, so, for instance, a frequency of 101 would be state index 2.
+										</p>
+
+										<p>
+											In addition to the <b>K</b> frequency states, there is one more "dummy state" used to refer to <b>unvoiced</b> segments, and we allow ourselves to transition to this state when we're not confident enough about our frequency estimates and/or we think the person might not be singing.  So, in total, with the <b>K</b> frequencies and the unvoiced state, there are <b>K+1</b> states total.
+										</p>
+
+										<h4><a name = "observations">Observation Probabilities</a></h4>
+										<p>
+											The observation probabilities at each frame are related to the frequency estimates and the thresholds returned from YIN in that frame, as obtained from <code>get_yin_freqs</code>.  Intuitively, a lower threshold means we're more confident about that frequency.  More specifically, let's suppose there are <b>N</b> estimates total, indexed as <b>(f<SUB>i</SUB>, t<SUB>i</SUB>)</b>, where <b>f<SUB>i</SUB></b> is a frequency and <b>t<SUB>i</SUB></b> is its corresponding threshold.  The the observation probability for this frequency is 
+										</p>
+
+										<h3>
+											\[ p_o(f_i) = 2^{-t_i/\mu} / N \]
+										</h3>
+
+										<p>
+											where <b>&mu;</b> is some hyperparameter specified ahead of time; smaller <b>mu;</b> values are more strict at requiring lower thresholds.
+										</p>
+
+										<p>
+											We also need an observation probability for the unvoiced state.  This is simply what's leftover, assuming all possible disjoint observations sum to a probability of 1:
+										</p>
+
+										<h3>
+											\[ p_o(\text{unvoiced}) = 1 - \sum_{i=1}^N 2^{-t_i/\mu} / N \]
+										</h3>
+
+										<h4><a name = "transition">Transition Probabilities</a></h4>
+										<p>
+											Finally, we need to specify the probability of transitioning from one frequency state to the next.  We don't want to allow the frequency estimates to jump around very much, so we will use lower transition probabilities for two adjacent states that are further in frequency.  Let the states be in ascending order of frequency.  Then, supposing we're at frequency state <b>i</b>, the probability of transitioning to frequency state <b>j</b> is 
+										</p>
+
+										<h3>
+											\[ pt(x_t = j | x_{t-1} = k) = \left\{ \begin{array}{cc} \frac{p_s}{df} - \frac{p_s|j-k|}{df^2} & k > j-df, k < j+df \\ 0 & \text{otherwise} \end{array} \right\} \]
+										</h3>
+
+										<p>
+											where <b>p<SUB>s</SUB></b> is the probability of remaining in a frequency state or remaining unvoiced (we take <b>p<SUB>s</SUB>=0.9999</b> in our examples).  We also have to consider the frequency of transitioning from the unvoiced state to the frequency state <b>j</b>
+										</p>
+
+										<h3>
+											\[ pt(x_t = j | x_{t-1} = \text{unvoiced}) = (1-p_s)/K\]
+										</h3>
+
+										<p>
+											where <b>K</b> is the total number of frequency states.  Finally, we consider the probability of staying unvoiced given that we're unvoiced:
+										</p>
+
+										<h3>
+											\[ pt(x_t = \text{unvoiced} | x_{t-1} = \text{unvoiced}) = p_s\]
+										</h3>
+
+										<p>
+											and the probability of jumping from a frequency state to the unvoiced state, for all possible frequency states <b>k</b>
+										</p>
+
+										<h3>
+											\[ pt(x_t = \text{unvoiced} | x_{t-1} = k) = 1-p_s\]
+										</h3>
+
+										<p>
+											Notice that, given a state <b>j</b>, summing over all states <b>k</b> (including the unvoiced state), we have
+										</p>
+
+										<h3>\[ \sum_{k} pt(x_t = j | x_{t-1} = k) = 1 \]</h3>
+
+
+
+										
+
+										<h4>Putting it all together</h4>
+										<p>
+											Using YIN and the above observation and transition probabilities, the Viterbi algorithm does quite well at recovering a stable pitch trajectory!  Here's the greedy estimate again for Cher:
+										</p>
+
+										<audio controls>
+											<source src="Examples/cher_greedy.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<p>
+											And here's the result of pYIN:
+										</p>
+
+										<audio controls>
+											<source src="Examples/cher_pyin.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<p>
+											Your goal in <a href = "#naive_freqs">task 2</a> is to implement this pYIN to replicate these results.
+										</p>
+
+										<HR>
+										<h2><a name = "programming">Programming Tasks</a></h2>
+
+										<p>
+											<a href = "https://github.com/ursinus-cs477-f2023/HW4_FundamentalFreq/archive/refs/heads/main.zip">Click here</a> to download the starter code for this assignment.  You will be editing <code>freqs.py</code>, which currently just holds skeleton definitions of the two methods <code>naive_freqs</code> and <code>pyin_freqs</code> that you'll be filling in.
+										</p>
+
+										<p>
+											Feel free to use the notebook <code>freqs_tester.ipynb</code> to test things, or, if you don't like jupyter notebooks, you can save audio files with the <code>save_audio</code> method in <code>audiotools.py</code>
+										</p>
+
+										<h3><a name = "naive_freqs">Task 1: Naive Greedy Frequency Choices (5 Points)</a></h3>
+
+										<p>
+											Fill in the method <code>naive_freqs</code> to implement the method that choices the frequency with the minimum YIN threshold at each time.
+										</p>
+
+										<p>
+											You can test this in the notebook, or by running the following code snippet:
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											x_audio, sr = load_audio("cher.wav")
+											frame_length = 4096
+											win_length = frame_length//2
+											hop_length = frame_length//4
+											all_freqs = get_yin_freqs(x_audio, frame_length, sr)
+											freqs = naive_freqs(all_freqs)
+											y = sonify_pure_tone(x_audio, freqs, frame_length//4, sr)
+											save_audio(y, sr, "cher_naive.wav")
+										</script>
+										<p></p>
+
+										<h3><a name = "naive_freqs">Task 2: PYin HMM-Based Frequency Estimation (25 Points)</a></h3>
+
+										<p>
+											Fill in the method <code>get_yin_freqs</code> to implement the HMM-based method for frequency tracking.  You should review the notes <a href = "../../../Modules/HMM/Video4">at this link</a> on how we applied the Viterbi algorithm to robot localization.  The code in this section will be quite similar in structure to the robot localization code; the only thing that's changed is what exactly the states are, what the observation probabilities are, and what the transition probabilities are.  Refer to the <a href = "#pyin">notes above</a> for the specifics.
+										</p>
+
+										<p>
+											You can test this in the notebook, or by running the following code snippet:
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											x_audio, sr = load_audio("cher.wav")
+											frame_length = 4096
+											win_length = frame_length//2
+											hop_length = frame_length//4
+											all_freqs = get_yin_freqs(x_audio, frame_length, sr)
+											freqs = pyin_freqs(all_freqs)
+											y = sonify_pure_tone(x_audio, freqs, frame_length//4, sr)
+											save_audio(y, sr, "cher_pyin.wav")
+										</script>
+
+										<p>
+											In which case you should get the following audio clip:
+										</p>
+										
+										<audio controls>
+											<source src="Examples/cher_pyin.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										  </audio> 
+
+
+										<p></p>
+										<h3><a name = "statement">Task 3: Mandatory Musical Statement (5 Points)</a></h3>
+										<p>
+											You just implemented a pretty powerful digital music processing tool, so put it to use and do something cool!  Below are a few examples of capabilities built into the assignment that you can play with once pyin is working
+										</p>
+
+										<p>
+											<b>NOTE: </b> The codebase here is only setup to process .wav files.  If you have a file in another format, you can convert it to wav using <a href = "https://www.audacityteam.org/download/">Audacity</a>.  I'm also happy to do the conversion for you if you're having trouble.  I want to help you with your crazy ideas!
+										</p>
+
+										<h4><a name = "fmsynth">FM Synthesis</a></h4>
+										<p>
+											Pure cosine tones are pretty boring, but there's a surprisingly simple way to spice them up by putting a sine wave inside of them in a process known as <a href = "https://ursinus-cs372-s2023.github.io/Modules/Module6/Video1">FM Synthesis</a>.  I've implemented a simple version of this for you in <code>effects.py</code>.  For example, if you call
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											
+											y_fm = fm_synth(x_audio, freqs, frame_length//4, sr, ratio=1.4, I=8)
+											
+										</script>
+
+										<p>
+											you'll get an "electronic trumpet" sound
+										</p>
+
+										<audio controls>
+											<source src="Examples/cher_trumpet.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<p>
+											and if you call
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+
+											y_fm = fm_synth(x_audio, freqs, frame_length//4, sr, ratio=1.4, I=8)
+											#
+										</script>
+
+										<p>
+											you'll get an "electronic bell" sound
+										</p>
+
+										<audio controls>
+											<source src="Examples/cher_bell.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+										<p>
+											In general, the higher the <b>I</b> parameter is, the "scratchier" the sound is.  If you're going for ordinary "<a href = "https://ursinus-cs372-s2023.github.io/Modules/Module6/Video0">harmonic</a>" instruments, the ratio should be an integer, but for inharmonic instruments like bells, it's not.
+										</p>
+
+										<h4><a name = "autotune">Autotuning</a></h4>
+										<p>
+											Another thing we can do once we have the fundamental frequency is to pitch shift things slightly and round to the nearest "allowed note."  If we do this with <code>cher.wav</code> and the frequency estimates we have, nothing really significant changes (the original purpose of autotune was actually not to be noticed, and Cher is singing pretty on key anyway)
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											allowed_notes = get_scale("G Flat", major=True)
+											notes, yauto = autotune(x_audio, freqs, hop_length, allowed_notes)
+											save_audio(yauto, sr, "cher_autotune_gflat.wav")
+										</script>
+
+										<audio controls>
+											<source src="Examples/cher_autotune_gflat.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+										<p></p>
+										<p>
+											However, if we "wiggle" the target notes around a little bit around each note transition, we get the effect that Cher pioneered which is now quite common in hip hop 
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											allowed_notes = get_scale("G Flat", major=True)
+											notes, yauto = autotune(x_audio, freqs, hop_length, allowed_notes, wiggle_amt=1)
+											save_audio(yauto, sr, "cher_autotune_gflat_wiggle.wav")
+										</script>
+
+										<audio controls>
+											<source src="Examples/cher_autotune_gflat_wiggle.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+										<p></p>
+
+										<p>
+											We can do even weirder stuff, like only letting cher sing a single note the whole time
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											allowed_notes = [440*2**(-3/12)] # Only allowed to sing a G Flat
+											notes, yauto = autotune(x_audio, freqs, hop_length, allowed_notes, wiggle_amt=0)
+											save_audio(yauto, sr, "cher_autotune_constant_note.wav")
+										</script>
+
+										<audio controls>
+											<source src="Examples/cher_autotune_constant_note.mp3" type="audio/mpeg">
+										  Your browser does not support the audio element.
+										</audio> 
+
+
+                                    
+										<HR>
+											<h4><a name = "embellishments">*My Embellishments (for those curious)</a></h4>
+										<p>
+											The two main things I did to simplify pYIN for this assignment are:
+											<ul>
+												<li>
+													<p>
+														I used a simpler observation probability.  The pYIN paper used the <a href = "https://towardsdatascience.com/beta-distribution-intuition-examples-and-derivation-cf00f4db57af">beta distribution</a> instead of my simpler exponential distribution, though I didn't find this to make much of a difference in the examples I looked at, and the simple exponential is much easier to code
+													</p>
+												</li>
+												<li>
+													<p>
+														I used a simplified state space.  The original pYIN paper actually has an unvoiced state for every single note, for <b>2K</b> states total.  With my version only using a single unvoiced state, we do take a hit on the ability to determine when things are unvoiced, but it makes it much easier to code up, and it still does a very good job tracking the pitches.  I did find that this one voiced state is absolutely crucial, though, to get the estimate through low confidence regions or regions without singing.
+													</p>
+												</li>
+											</ul>
+										</p>
+
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#debugging">Debugging Principles</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading / Deadlines Policy</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "../../../Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW4_FundamentalFreq">HW4: Fundamental Frequency Tracking And Pitch-Based Audio Effects</a>
+												</li>
+												<!--
+												<li>
+													<a href = "../../Assignments/HW6_LogisticRegression">HW6: Logistic Regression on Movie Reviews</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW7_DeepLearning">HW7: (Deep) Neural Networks on Images</a>
+												</li>
+												!-->
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_Bandit/index.html">Week 1: Introduction To Reinforcement Learning</a>
+													<ul>
+														<li>
+															<a href = "../../ClassExercises/Week1_Bandit/jsbandit/index.html">The Multi-Armed Bandit Game</a>
+														</li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Materials/MazeExplorer">Week 2: Maze Searching Game</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "https://ursinus.instructure.com/courses/16260/assignments/186957">Week 3: An Admissible But Not Consistent Heuristic</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/Module2/Video1">Week 4: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_MarkovText">Week 4: Markov Chains for Document Representations</a>
+												</li>
+												<li>
+													<a href = "https://ursinus.instructure.com/courses/16260/quizzes/24127">Week 4: Bayes Rule Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_NaiveBayes">Week 5: Bayes Rule And Naive Bayes Classifiers</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Naive Bayes Exercise</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 5/6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_RobotLocalization">Week 5/6: Robot Localization</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2023.github.io/Modules/HMM/Video1">Week 6: HMM Module</a>
+												</li>
+												<li>
+													<a href = "https://github.com/ursinus-cs477-f2023/Week6_MDP">Week 6: Markov Decision Processes And Pong AI</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN/index.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_KMeans">Week 7: KMeans Clustering And Visual Bag of Words</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/MatrixModule/Video1">Week 7: Matrix Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_LogisticRegression/index.html">Week 10/11: Logistic Regression And Gradient Descent</a>
+												</li>
+												
+											</ul>
+										</li>
+										<li><a href = "../../Ethics/index.html">Ethics Reading / Discussions</a></li>
+										<li><a href = "../../FinalProject/index.html">Final Ethics Project</a></li>
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->
