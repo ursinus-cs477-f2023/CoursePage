@@ -41,7 +41,7 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Homework 4: Fundamental Frequency Tracking And Pitch-Based Audio Effects</h2>
+                                        <h2>Homework 4: Fundamental Frequency Tracking And Pitch-Based Audio Effects (35 Points)</h2>
 										<h3>Chris Tralie</h3>
 									</header>
 									
@@ -131,7 +131,7 @@
 											In general, the pressure is normalized to the range <b>[-1, 1]</b>.  Pressures closer to these limits are perceived as louder to us, so we see the above audio is not as loud as it could be.
 										</p>
 										<p>
-											Another thing you might notice is that the audio <b>oscillates</b> back and forth in a regular pattern, which is a common occurrence in vibrational systems in nature like Marvin Gaye's vocal tract.  As it turns out, humans perceive such <b>periodic</b> signals as a <b>pitch</b>, or a note.  The higher the <b>frequency</b> (number of repetitions per second) of the vibration, the higher the note we perceive.
+											Another thing you might notice is that the audio <b>oscillates</b> back and forth in a regular pattern, which is a common occurrence in vibrational systems in nature like Marvin Gaye's vocal tract.  As it turns out, humans perceive such <b>periodic</b> signals as a <b><a href = "https://ursinus-cs372-s2023.github.io/CoursePage/ClassExercises/Week2/Week2_Harmonicity/index.html">pitch</a></b>, or a note.  The higher the <b>frequency</b> (number of repetitions per second) of the vibration, the higher the note we perceive.
 										</p>
 
 										<p>
@@ -312,7 +312,7 @@
 										<code>100.0,  100.6,  101.2,  101.7,  102.3,  102.9,  103.5,  104.1,  104.7,  105.3,  105.9,  106.6,  107.2,  107.8,  108.4,  109.1,  109.7,  110.3,  111.0,  111.6,   ...</code>
 
 										<p>
-											In this example, there would be <code>520</code> discrete frequencies total, and each one is considered a state (each possible note is divided into 10 intervals in this example).  In practice, we round the observations to the nearest state, so, for instance, a frequency of 101 would be state index 2.
+											In this example, there would be <code>520</code> discrete frequencies states total (each possible note is divided into 10 intervals in this example).  In practice, we round the observations to the nearest state, so, for instance, a frequency of 101 would be state index 2 in the above example.
 										</p>
 
 										<p>
@@ -321,7 +321,7 @@
 
 										<h4><a name = "observations">Observation Probabilities</a></h4>
 										<p>
-											The observation probabilities at each frame are related to the frequency estimates and the thresholds returned from YIN in that frame, as obtained from <code>get_yin_freqs</code>.  Intuitively, a lower threshold means we're more confident about that frequency.  More specifically, let's suppose there are <b>N</b> estimates total, indexed as <b>(f<SUB>i</SUB>, t<SUB>i</SUB>)</b>, where <b>f<SUB>i</SUB></b> is a frequency and <b>t<SUB>i</SUB></b> is its corresponding threshold.  The the observation probability for this frequency is 
+											The observation probabilities at each frame are related to the frequency estimates and the thresholds returned from YIN in that frame, as obtained from <code>get_yin_freqs</code>.  Intuitively, a lower threshold closer to 0 means we're more confident about that frequency.  More specifically, let's suppose there are <b>N</b> estimates total, indexed as <b>(f<SUB>i</SUB>, t<SUB>i</SUB>)</b>, where <b>f<SUB>i</SUB></b> is a frequency and <b>t<SUB>i</SUB></b> is its corresponding threshold.  The the observation probability for this frequency is 
 										</p>
 
 										<h3>
@@ -401,6 +401,10 @@
 											<source src="Examples/cher_pyin.mp3" type="audio/mpeg">
 										  Your browser does not support the audio element.
 										</audio> 
+
+										<p>
+											<img src = "Examples/cher_greedy_vs_pyin.svg" width="90%">
+										</p>
 
 										<p>
 											Your goal in <a href = "#naive_freqs">task 2</a> is to implement this pYIN to replicate these results.
