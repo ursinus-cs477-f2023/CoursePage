@@ -40,3 +40,6 @@
 [submodule "Assignments/HW4_FundamentalFreq/HW4_FundamentalFreq"]
 	path = Assignments/HW4_FundamentalFreq/HW4_FundamentalFreq
 	url = https://github.com/ursinus-cs477-f2023/HW4_FundamentalFreq.git
+[submodule "ClassExercises/Week7_PCA/Week7_PCA"]
+	path = ClassExercises/Week7_PCA/Week7_PCA
+	url = https://github.com/ursinus-cs477-f2023/Week7_PCA.git

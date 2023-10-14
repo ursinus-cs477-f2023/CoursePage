@@ -99,10 +99,6 @@ Logistic Regression, Introduction To pytorch and data loaders
 
 <ul><li><a href = "https://pytorch.org/tutorials/beginner/basics/data_tutorial.html">PyTorch Datasets & DataLoaders Documentation</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
 LECTURE
-Ethics #3: Climate and AI
-
-
-LECTURE
 Softmax, Logistic Regression And Gradient Descent
 
 <ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li><li>Class Exercise: Logistic Regression on MNIST</li></ul>
@@ -114,6 +110,10 @@ LECTURE
 Backpropagation, Stochastic Gradient Descent
 
 <ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
+LECTURE
+Ethics #3: Climate and AI
+
+
 SECTION
 Unit 4: Deep Learning
 
