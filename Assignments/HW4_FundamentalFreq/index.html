@@ -209,7 +209,7 @@
 											frame_length = 4096
 											win_length = frame_length//2
 											hop_length = frame_length//4
-											all_freqs = get_yin_freqs(x_audio, frame_length, sr)
+											all_freqs = get_yin_freqs(x_audio, frame_length, sr) # List of list of [frequency, threshold]
 											
 											
 											X = []
@@ -304,7 +304,7 @@
 											I'll now present a slightly simplified<SUP><a href = "#embellishments">*</a></SUP> version of pYIN suitable for this assignment:
 										</p>
 
-										<h4><a name = "states">States</a></h4>
+										<h3><a name = "states">States</a></h3>
 										<p>
 											The Viterbi algorithm is specialized to a discrete state space, but the estimated frequencies are real numbers (floats).  To deal with this, we'll come up with a discrete set of possible frequencies from some lower limit <code>fmin</code> to some upper limit <code>fmax</code>.  Adjacent frequencies are related by a <b>multiplicative ratio</b> known as the  <code>spacing</code> (the frequencies get spaced further apart as they increase, because humans perceive pitch logarithmically in frequency).  For example, with <code>fmin=100, fmax=2000, spacing=2**(1/120)</code>, then the first 10 frequencies would be:
 										</p>
@@ -319,17 +319,39 @@
 											In addition to the <b>K</b> frequency states, there is one more "dummy state" used to refer to <b>unvoiced</b> segments, and we allow ourselves to transition to this state when we're not confident enough about our frequency estimates and/or we think the person might not be singing.  So, in total, with the <b>K</b> frequencies and the unvoiced state, there are <b>K+1</b> states total.
 										</p>
 
-										<h4><a name = "observations">Observation Probabilities</a></h4>
+										<h3><a name = "observations">Observation Probabilities</a></h3>
 										<p>
-											The observation probabilities at each frame are related to the frequency estimates and the thresholds returned from YIN in that frame, as obtained from <code>get_yin_freqs</code>.  Intuitively, a lower threshold closer to 0 means we're more confident about that frequency.  More specifically, let's suppose there are <b>N</b> estimates total, indexed as <b>(f<SUB>i</SUB>, t<SUB>i</SUB>)</b>, where <b>f<SUB>i</SUB></b> is a frequency and <b>t<SUB>i</SUB></b> is its corresponding threshold.  The the observation probability for this frequency is 
+											The observation probabilities at each frame are related to the frequency estimates and the thresholds returned from YIN in that frame, as obtained from <code>get_yin_freqs</code>.  For example, let's say we ran the following code:
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											x_audio, sr = load_audio("marvin.wav")
+											frame_length = 2048
+											all_freqs = get_yin_freqs(x_audio, frame_length, sr)
+											t = 0
+											print(all_freqs[t])
+										</script>
+
+										<p>
+											then we would get 
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											[(364.576912533348, 0.0320662716995428), 
+											(182.76438405329742, 0.10031922414709707), 
+											(122.25050168933892, 0.19591546020561615)]
+										</script>
+
+										<p>
+											In other words, at time 0, there were 3 possible frequency estimate, each with different thresholds.  Intuitively, a lower threshold closer to 0 means we're more confident about that frequency.  To make turn this idea into a precise observation model, let's suppose there are <b>N</b> estimates total, indexed as <b>(f<SUB>i</SUB>, t<SUB>i</SUB>)</b>, where <b>f<SUB>i</SUB></b> is a frequency and <b>t<SUB>i</SUB></b> is its corresponding threshold. Let's suppose that <b>j</b> is the state with the nearest frequency to <b>f<SUB>i</SUB></b></u>.  The we let the observation probability for state <b>j</b> be 
 										</p>
 
 										<h3>
-											\[ p_o(f_i) = 2^{-t_i/\mu} / N \]
+											\[ p_o(j) = 2^{-t_i/\mu} / N \]
 										</h3>
 
 										<p>
-											where <b>&mu;</b> is some hyperparameter specified ahead of time; smaller <b>mu;</b> values are more strict at requiring lower thresholds.
+											where <b>&mu;</b> is some hyperparameter specified ahead of time; smaller <b>&mu;</b> values are more strict at requiring lower thresholds.
 										</p>
 
 										<p>
@@ -340,9 +362,19 @@
 											\[ p_o(\text{unvoiced}) = 1 - \sum_{i=1}^N 2^{-t_i/\mu} / N \]
 										</h3>
 
-										<h4><a name = "transition">Transition Probabilities</a></h4>
 										<p>
-											Finally, we need to specify the probability of transitioning from one frequency state to the next.  We don't want to allow the frequency estimates to jump around very much, so we will use lower transition probabilities for two adjacent states that are further in frequency.  Let the states be in ascending order of frequency.  Then, supposing we're at frequency state <b>i</b>, the probability of transitioning to frequency state <b>j</b> is 
+											<b>NOTE: </b> When you run the Viterbi algorithm to update accumulated probabilities at time <code>t</code>, <b>you only need to worry about making updates for states corresponding to the <code>N</code> frequencies in <code>all_freqs[t]</code> and the unvoiced state</b>.  You can assume that all other frequencies have a probability of 0.  This is part of what makes the algorithm efficient in practice.
+										</p>
+										
+
+										<h3><a name = "transition">Transition Probabilities</a></h3>
+										<p>
+											Finally, we need to specify the probability of transitioning from one frequency state to the next.  In all specifications below, <b>p<SUB>s</SUB></b> is the probability of remaining in a frequency state or remaining unvoiced (we take <b>p<SUB>s</SUB>=0.9999</b> in our examples) 
+										</p>
+
+										<h4><a name = "fre2freq">Case 1: Frequency To Frequency Transitions</a></h4>
+										<p>	
+											We don't want to allow the frequency estimates to jump around very much, so we will use lower transition probabilities for two adjacent states that are further in frequency.  Let the states be in ascending order of frequency.  Then, supposing we're at frequency state <b>j</b>, the probability of having transitioned from state <b>k</b> is 
 										</p>
 
 										<h3>
@@ -350,7 +382,20 @@
 										</h3>
 
 										<p>
-											where <b>p<SUB>s</SUB></b> is the probability of remaining in a frequency state or remaining unvoiced (we take <b>p<SUB>s</SUB>=0.9999</b> in our examples).  We also have to consider the frequency of transitioning from the unvoiced state to the frequency state <b>j</b>
+											The image below shows this "triangular weight distribution" (which is what the paper calls it):
+										</p>
+
+										<img src = "TransitionProb.svg" width="60%">
+
+										<p>
+											<b>NOTE: </b> Transition probabilities outside of this range are 0, so you don't need to consider coming from any <b>k</b> outside of this range.  Together with the sparse observations, the limited possible transitions help to keep the algorithm very efficient.
+										</p>
+
+
+
+										<h4><a name = "unvoiced2freq">Case 2: Unvoiced State To Frequency State</a></h4>
+										<p>
+											We also have to consider the frequency of transitioning from the unvoiced state to the frequency state <b>j</b>.  We let this be:
 										</p>
 
 										<h3>
@@ -358,20 +403,33 @@
 										</h3>
 
 										<p>
-											where <b>K</b> is the total number of frequency states.  Finally, we consider the probability of staying unvoiced given that we're unvoiced:
+											where <b>K</b> is the total number of frequency states.  
+										</p>
+
+										<h4><a name = "unvoiced2unvoiced">Case 3: Unvoiced To Unvoiced</a></h4>
+
+										<p>
+											Below is the probability of staying unvoiced given that we're unvoiced:
 										</p>
 
 										<h3>
 											\[ pt(x_t = \text{unvoiced} | x_{t-1} = \text{unvoiced}) = p_s\]
 										</h3>
 
+										
+
+										<h4><a name = "freq2unvoiced">Case 4: Frequency To Unvoiced</a></h4>
+
 										<p>
-											and the probability of jumping from a frequency state to the unvoiced state, for all possible frequency states <b>k</b>
+											The probability of jumping from a frequency state to the unvoiced state, for each possible frequency state <b>k</b>, is
 										</p>
 
 										<h3>
 											\[ pt(x_t = \text{unvoiced} | x_{t-1} = k) = 1-p_s\]
 										</h3>
+
+
+										<h4><a name = "alltogethertransitions">Putting It All Together</a></h4>
 
 										<p>
 											Notice that, given a state <b>j</b>, summing over all states <b>k</b> (including the unvoiced state), we have
@@ -379,11 +437,25 @@
 
 										<h3>\[ \sum_{k} pt(x_t = j | x_{t-1} = k) = 1 \]</h3>
 
+										<p>
+										Below are figures showing showing where to go from previous states if state <b>j</b> is a frequency state (left: case 1 and case 2 together) or if it is the unvoiced state (right: case 3 and case 4)
+										</p>
 
+										<div style="display: inline-block;width:40%;">
+											<img src = "IntoFreqTransitions.svg" width="70%">
+										</div>
+
+										<div style="display: inline-block;width:40%;vertical-align: top;">
+											<img src = "IntoUnvoicedTransitions.svg" width="70%">
+										</div>
 
 										
 
-										<h4>Putting it all together</h4>
+										<p></p>
+
+										
+
+										<h4>Running Viterbi</h4>
 										<p>
 											Using YIN and the above observation and transition probabilities, the Viterbi algorithm does quite well at recovering a stable pitch trajectory!  Here's the greedy estimate again for Cher:
 										</p>
@@ -472,6 +544,10 @@
 											<source src="Examples/cher_pyin.mp3" type="audio/mpeg">
 										  Your browser does not support the audio element.
 										  </audio> 
+
+										<p>
+											<b>NOTE: </b> Be sure to add log probabilities in your transition model instead of multiplying the original probabilities!  Otherwise, your accumulated probabilities will quickly underflow.
+										</p>
 
 
 										<p></p>
