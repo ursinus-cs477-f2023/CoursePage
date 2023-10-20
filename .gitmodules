@@ -43,3 +43,6 @@
 [submodule "ClassExercises/Week7_PCA/Week7_PCA"]
 	path = ClassExercises/Week7_PCA/Week7_PCA
 	url = https://github.com/ursinus-cs477-f2023/Week7_PCA.git
+[submodule "ClassExercises/Week8_SoftmaxDigits/Week8_DigitsSoftmax"]
+	path = ClassExercises/Week8_SoftmaxDigits/Week8_DigitsSoftmax
+	url = https://github.com/ursinus-cs477-f2023/Week8_DigitsSoftmax.git

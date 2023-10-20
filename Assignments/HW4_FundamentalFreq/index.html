@@ -343,7 +343,7 @@
 										</script>
 
 										<p>
-											In other words, at time 0, there were 3 possible frequency estimate, each with different thresholds.  Intuitively, a lower threshold closer to 0 means we're more confident about that frequency.  To make turn this idea into a precise observation model, let's suppose there are <b>N</b> estimates total, indexed as <b>(f<SUB>i</SUB>, t<SUB>i</SUB>)</b>, where <b>f<SUB>i</SUB></b> is a frequency and <b>t<SUB>i</SUB></b> is its corresponding threshold. Let's suppose that <b>j</b> is the state with the nearest frequency to <b>f<SUB>i</SUB></b></u>.  The we let the observation probability for state <b>j</b> be 
+											In other words, at time 0, there were 3 possible frequency estimate, each with different thresholds.  Intuitively, a lower threshold closer to 0 means we're more confident about that frequency.  To make turn this idea into a precise observation model, let's suppose there are <b>N</b> frequencies total, indexed as <b>(f<SUB>i</SUB>, t<SUB>i</SUB>)</b>, where <b>f<SUB>i</SUB></b> is a frequency and <b>t<SUB>i</SUB></b> is its corresponding threshold. Let's suppose that <b>j</b> is the state with the nearest frequency to <b>f<SUB>i</SUB></b></u>.  The we let the observation probability for state <b>j</b> be 
 										</p>
 
 										<h3>
@@ -518,7 +518,7 @@
 										<h3><a name = "naive_freqs">Task 2: PYin HMM-Based Frequency Estimation (25 Points)</a></h3>
 
 										<p>
-											Fill in the method <code>get_yin_freqs</code> to implement the HMM-based method for frequency tracking.  You should review the notes <a href = "../../../Modules/HMM/Video4">at this link</a> on how we applied the Viterbi algorithm to robot localization.  The code in this section will be quite similar in structure to the robot localization code; the only thing that's changed is what exactly the states are, what the observation probabilities are, and what the transition probabilities are.  Refer to the <a href = "#pyin">notes above</a> for the specifics.
+											Fill in the method <code>get_pyin_freqs</code> in <code>freqs.py</code> to implement the HMM-based method for frequency tracking.  You should review the notes <a href = "../../../Modules/HMM/Video4">at this link</a> on how we applied the Viterbi algorithm to robot localization.  The code in this section will be quite similar in structure to the robot localization code; the only thing that's changed is what exactly the states are, what the observation probabilities are, and what the transition probabilities are.  Refer to the <a href = "#pyin">notes above</a> for the specifics.
 										</p>
 
 										<p>
