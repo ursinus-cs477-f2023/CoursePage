@@ -515,11 +515,13 @@
 										</script>
 										<p></p>
 
+										<HR>
 										<h3><a name = "naive_freqs">Task 2: PYin HMM-Based Frequency Estimation (25 Points)</a></h3>
 
 										<p>
-											Fill in the method <code>get_pyin_freqs</code> in <code>freqs.py</code> to implement the HMM-based method for frequency tracking.  You should review the notes <a href = "../../../Modules/HMM/Video4">at this link</a> on how we applied the Viterbi algorithm to robot localization.  The code in this section will be quite similar in structure to the robot localization code; the only thing that's changed is what exactly the states are, what the observation probabilities are, and what the transition probabilities are.  Refer to the <a href = "#pyin">notes above</a> for the specifics.
+											Fill in the method <code>get_pyin_freqs</code> in <code>freqs.py</code> to implement the HMM-based method for frequency tracking.  You should review the notes <a href = "../../../Modules/HMM/Video4">at this link</a> on how we applied the Viterbi algorithm to robot localization.  The code in this section will be quite similar in structure to the robot localization code; the only thing that's changed is what exactly the states are, what the observation probabilities are, and what the transition probabilities are.  Refer to the <a href = "#pyin">notes above</a> for the specifics.  
 										</p>
+
 
 										<p>
 											You can test this in the notebook, or by running the following code snippet:
@@ -549,8 +551,134 @@
 											<b>NOTE: </b> Be sure to add log probabilities in your transition model instead of multiplying the original probabilities!  Otherwise, your accumulated probabilities will quickly underflow.
 										</p>
 
+										<h4>Hints</h4>
+
+										<p>
+											It's helpful if you initialize <code>L</code> to be all <code>-np.inf</code>.  If you have <code>T</code> time instants and <code>K</code> frequency states, you can do this quickly with 
+										</p>
+
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											L = -np.inf*np.ones((K+1, T))
+										</script>
+
+										<p>
+											If your code is working properly, here's what <code>L</code> and <code>B</code> should look like for Cher and Marvin 
+										</p>
+
+										<img src = "Examples/BLmarvin.png" width="90%">
 
 										<p></p>
+										<img src = "Examples/BLcher.png" width="90%">
+
+										<p>
+											Code to generate plots like this is as follows:
+										</p>
+										<script type="syntaxhighlighter" class="brush: py"><![CDATA[
+											plt.figure(figsize=(12, 12))
+											plt.subplot(211)
+											plt.imshow(L, aspect='auto', interpolation='none', cmap='magma')
+											plt.xlim([0, L.shape[1]])
+											plt.ylim([L.shape[0]+20, -20])
+											plt.xlabel("Time Index")
+											plt.ylabel("State Index")
+											plt.title("L for cher.wav")
+											plt.colorbar()
+											plt.subplot(212)
+											plt.imshow(B, aspect='auto', interpolation='none', cmap='magma')
+											plt.xlim([0, B.shape[1]])
+											plt.ylim([B.shape[0]+20, -20])
+											plt.xlabel("Time Index")
+											plt.ylabel("State Index")
+											plt.title("B for cher.wav")
+											plt.colorbar()
+											plt.savefig("cher.png", bbox_inches='tight')
+										</script>
+
+										<h4><a name = "pseudocode">Pseudocode</a></h4>
+										Below is some pseudocode to help you piece the different cases together
+									</p>
+
+										<ol>
+											<li>
+												Figure out how many frequency states there are.  Let this be K
+											</li>
+											<li>
+												Let the number of times T be len(all_freqs)
+											</li>
+											<li>
+												Initialize a (K+1)xT matrix L of all -infinity.  This will hold the best accumulated log probabilities to each state
+											</li>
+											<li>
+												Initialize a (K+1)xT matrix B of all 0's.  This will hold the backpointers to the previous state that maximized the probability, which we will use to reconstruct a solution
+											</li>
+											<li>
+												For each time <b>t</b>, do the following:
+												<ul>
+													<li>
+														<b>5a.</b> First, compute the best frequency probabilities for this time.  We only have to worry about the states closest to frequencies that we actually observed in <code>all_freqs[t]</code>; no other states will be likely enough to happen at this time.
+														<ul>
+															<li>
+																<p>
+																	For each frequency <code>f</code> and threshold <code>thresh</code> in <code>all_freqs[t]</code>, find the nearest frequency state index <code>j</code>.  For example, if we happened to have 5 frequency states [100, 102, 105, 110, 120] and we observed a frequency 103.2, that would be <code>j=1</code>, since it's closest to 102.
+																</p>
+																<p>
+																	Now we need to consider all previous frequency states that it could have come from
+																	<ul>
+																		<li>
+																			For each state <code>k = j-df+1 to j+df-1</code>, inclusive, compute 
+																			<p>
+																				<code>L[k, t-1] + log(transition probability from k to j) + log(observation probability of j)</code>
+																			</p>
+
+																			<code>L[j, t]</code> should store the maximum such probability, and <code>B[j, t]</code> should store the <code>k</code> that led to this maximum.  The observation probability can be computed from thresh, as explained above
+																		</li>
+																		<li>
+																			Check to see if the unvoiced state <code>-1</code> (the last state index) beats any of the frequency states.  So compute 
+
+																			<p>
+																				<code>L[-1, t-1] + log(transition probability from unvoiced to j) + log(observation probability of j)</code>
+																			</p>
+																			<p>
+																				and update <code>L[j, t]</code> and <code>B[j, t]</code> if this is better
+																			</p>
+																		</li>
+																	</ul>
+																</p>
+															</li>
+														</ul>
+													</li>
+													<li>
+														<b>5b.</b> Now, we have to compute <code>L[-1, t]</code> and <code>B[-1, t]</code> for the unvoiced state.  The observation probability for the unvoiced state is
+														
+														<p>
+															<code>1 - the sum of the observation probabilities for all of the frequencies in the above step</code>
+														</p>
+														
+														To figure out the best transition, we have to check all possible previous states, including the unvoiced state, and compute 
+														<p>
+															<code>L[k, t-1] + log(transition probability from k to unvoiced) + log(observation probability of unvoiced)</code>
+														</p>
+														As before, store the maximum such value in <code>L[-1, t]</code> and the <code>k</code> that achieved this maximum value in <code>B[-1, t]</code>
+													</li>
+												</ul>
+											</li>
+											<li>
+												Now that <code>L</code> and <code>B</code> are filled in, find the state <code>j</code> that maximizes <code>L</code> in the last column <code>t</code>, then repeatedly do 
+												<ul>
+													<li>
+														<code>j = B[j, t]</code>
+													</li>
+													<li>
+														<code>t = t - 1</code>
+													</li>
+												</ul>
+												To backtrace and collect the sequence of best frequency states <code>j</code>
+											</li>
+										</ol>
+
+										
+										<p></p>
+										<HR>
 										<h3><a name = "statement">Task 3: Mandatory Musical Statement (5 Points)</a></h3>
 										<p>
 											You just implemented a pretty powerful digital music processing tool, so put it to use and do something cool!  Below are a few examples of capabilities built into the assignment that you can play with once pyin is working
