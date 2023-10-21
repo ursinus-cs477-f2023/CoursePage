@@ -619,7 +619,7 @@
 														<ul>
 															<li>
 																<p>
-																	For each frequency <code>f</code> and threshold <code>thresh</code> in <code>all_freqs[t]</code>, find the nearest frequency state index <code>j</code>.  For example, if we happened to have 5 frequency states [100, 102, 105, 110, 120] and we observed a frequency 103.2, that would be <code>j=1</code>, since it's closest to 102.
+																	For each frequency <code>f</code> and threshold <code>thresh</code> in <code>all_freqs[t]</code>, find the nearest frequency state index <code>j</code>.  For example, if we happened to have 5 frequency states [100, 102, 105, 110, 120] and we observed a frequency 103.2, that would be <code>j=2</code>, since it's closest to 105.
 																</p>
 																<p>
 																	Now we need to consider all previous frequency states that it could have come from
@@ -651,10 +651,10 @@
 														<b>5b.</b> Now, we have to compute <code>L[-1, t]</code> and <code>B[-1, t]</code> for the unvoiced state.  The observation probability for the unvoiced state is
 														
 														<p>
-															<code>1 - the sum of the observation probabilities for all of the frequencies in the above step</code>
+															<code>1 - the sum of the observation probabilities of all of the <code>j</code>'s in the above step</code>
 														</p>
 														
-														To figure out the best transition, we have to check all possible previous states, including the unvoiced state, and compute 
+														To figure out the best transition, we have to check all possible previous states, including all frequency states and the unvoiced state, and compute 
 														<p>
 															<code>L[k, t-1] + log(transition probability from k to unvoiced) + log(observation probability of unvoiced)</code>
 														</p>
@@ -663,7 +663,7 @@
 												</ul>
 											</li>
 											<li>
-												Now that <code>L</code> and <code>B</code> are filled in, find the state <code>j</code> that maximizes <code>L</code> in the last column <code>t</code>, then repeatedly do 
+												Now that <code>L</code> and <code>B</code> are filled in, we can do backtracing to find the best frequency sequence.  Start with the state <code>j</code> that maximizes <code>L</code> in the last column <code>t</code>, then repeatedly do 
 												<ul>
 													<li>
 														<code>j = B[j, t]</code>
@@ -672,7 +672,7 @@
 														<code>t = t - 1</code>
 													</li>
 												</ul>
-												To backtrace and collect the sequence of best frequency states <code>j</code>
+												To backtrace and collect the sequence of best frequency states <code>j</code>.  As in A* search, you should then reverse this list.  Finally, convert from state index <code>j</code> to the actual frequency number.
 											</li>
 										</ol>
 
