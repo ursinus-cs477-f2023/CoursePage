@@ -413,8 +413,12 @@
 										</p>
 
 										<h3>
-											\[ pt(x_t = \text{unvoiced} | x_{t-1} = \text{unvoiced}) = p_s\]
+											\[ pt(x_t = \text{unvoiced} | x_{t-1} = \text{unvoiced}) = p_s/K^2\]
 										</h3>
+
+										<p>
+											(NOTE: I really had to hack this to get it to work with only one unvoiced state<SUP><a href = "#embellishments">*</a></SUP>)
+										</p>
 
 										
 
@@ -431,11 +435,7 @@
 
 										<h4><a name = "alltogethertransitions">Putting It All Together</a></h4>
 
-										<p>
-											Notice that, given a state <b>j</b>, summing over all states <b>k</b> (including the unvoiced state), we have
-										</p>
-
-										<h3>\[ \sum_{k} pt(x_t = j | x_{t-1} = k) = 1 \]</h3>
+										
 
 										<p>
 										Below are figures showing showing where to go from previous states if state <b>j</b> is a frequency state (left: case 1 and case 2 together) or if it is the unvoiced state (right: case 3 and case 4)
@@ -496,7 +496,7 @@
 										<h3><a name = "naive_freqs">Task 1: Naive Greedy Frequency Choices (5 Points)</a></h3>
 
 										<p>
-											Fill in the method <code>naive_freqs</code> to implement the method that choices the frequency with the minimum YIN threshold at each time.
+											Fill in the method <code>naive_freqs</code> to implement the method that chooses the frequency with the minimum YIN threshold at each time.  If you happen to cross through an unvoiced state, make that frequency <code>np.nan</code>
 										</p>
 
 										<p>
@@ -792,8 +792,32 @@
 												</li>
 												<li>
 													<p>
-														I used a simplified state space.  The original pYIN paper actually has an unvoiced state for every single note, for <b>2K</b> states total.  With my version only using a single unvoiced state, we do take a hit on the ability to determine when things are unvoiced, but it makes it much easier to code up, and it still does a very good job tracking the pitches.  I did find that this one voiced state is absolutely crucial, though, to get the estimate through low confidence regions or regions without singing.
+														I used a simplified state space.  The original pYIN paper actually has an unvoiced state for every single note, for <b>2K</b> states total.  Though I tried this and it does work better, the unvoiced to unvoiced transitions would be difficult for students to implement efficiently without using numba or numpy tricks.
 													</p>
+													<p>
+														With the version in this assignment using only a single unvoiced state, we do take a hit on the ability to determine when things are unvoiced, but it makes it much easier to code up, and it still does a very good job tracking the pitches. 
+													</p>
+													<p>
+														To make this work properly, I found it was crucial to make the transition probability of staying in the unvoiced state very small (p<SUB>s</SUB>/K<SUP>2</SUP>), and I also had to make the probability of staying in a voiced state very high (0.9999).
+													</p>
+
+													<p>
+														For those who are curious, here is what cher looks like for the state space with a voiced/unvoiced state for each frequency:
+													</p>
+													<img src = "Examples/BLcher_2K.png">
+													<p>
+														And here's what the tracking results are like.  It's basically the same as before, except there are slightly more unvoiced gaps.  So this will work better if 
+													</p>
+
+													<audio controls>
+														<source src="Examples/cher_pyin_2k.mp3" type="audio/mpeg">
+													  Your browser does not support the audio element.
+													</audio> 
+			
+													<p>
+														<img src = "Examples/cher_greedy_vs_pyin_2K.svg" width="90%">
+													</p>
+
 												</li>
 											</ul>
 										</p>
