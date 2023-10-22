@@ -298,7 +298,7 @@
 
 										<h3><a name = "pyin">The Probabilistic YIN (pYIN) Algorithm</a></h3>
 										<p>
-											There was an awesome followup paper in 2014 by Matthias Mauch and Simon Dixon called <a href = "https://qmro.qmul.ac.uk/xmlui/bitstream/handle/123456789/6040/MAUCHpYINFundamental2014Accepted.pdf">pYIN: A fundamental frequency estimator using probabalistic threshold distributions</a> (<a href = "https://qmro.qmul.ac.uk/xmlui/bitstream/handle/123456789/6040/MAUCHpYINFundamental2014Accepted.pdf">click here</a> to read the paper).  In a nutshell, the authors add a Hidden Markov Model on top of YIN and use the <a href = "../../../Modules/HMM/Video4">Viterbi Algorithm</a> to find the best sequence of pitches.  The effect is to match the estimates from YIN as well as possible (the observation probabilities), but not to let the frequencies jump around too much (the transition probabilities).
+											There was an awesome followup paper in 2014 by Matthias Mauch and Simon Dixon called <a href = "https://qmro.qmul.ac.uk/xmlui/bitstream/handle/123456789/6040/MAUCHpYINFundamental2014Accepted.pdf">pYIN: A fundamental frequency estimator using probabalistic threshold distributions</a> (<a href = "https://qmro.qmul.ac.uk/xmlui/bitstream/handle/123456789/6040/MAUCHpYINFundamental2014Accepted.pdf">click here</a> to read the paper).  In a nutshell, the authors add a Hidden Markov Model on top of YIN and use the <a href = "../../../Modules/HMM/Video4">Viterbi Algorithm</a> to find the best sequence of fundamental frequencies.  The effect is to match the estimates from YIN as well as possible (the observation probabilities), but not to let the frequencies jump around too much (the transition probabilities).
 										</p>
 										<p>
 											I'll now present a slightly simplified<SUP><a href = "#embellishments">*</a></SUP> version of pYIN suitable for this assignment:
@@ -795,18 +795,21 @@
 														I used a simplified state space.  The original pYIN paper actually has an unvoiced state for every single note, for <b>2K</b> states total.  Though I tried this and it does work better, the unvoiced to unvoiced transitions would be difficult for students to implement efficiently without using numba or numpy tricks.
 													</p>
 													<p>
-														With the version in this assignment using only a single unvoiced state, we do take a hit on the ability to determine when things are unvoiced, but it makes it much easier to code up, and it still does a very good job tracking the pitches. 
+														With the version in this assignment using only a single unvoiced state, we do take a hit on the ability to determine when things are unvoiced, but it makes it much easier to code up, and it still does a very good job tracking the frequencies. 
 													</p>
 													<p>
 														To make this work properly, I found it was crucial to make the transition probability of staying in the unvoiced state very small (p<SUB>s</SUB>/K<SUP>2</SUP>), and I also had to make the probability of staying in a voiced state very high (0.9999).
 													</p>
 
 													<p>
-														For those who are curious, here is what cher looks like for the state space with a voiced/unvoiced state for each frequency:
+														For those who are curious, here is what the <code>B</code> and <code>L</code> matrices look like for the state space with a voiced/unvoiced state for each frequency:
 													</p>
 													<img src = "Examples/BLcher_2K.png">
 													<p>
-														And here's what the tracking results are like.  It's basically the same as before, except there are slightly more unvoiced gaps.  So this will work better if 
+														The problem is, they are no longer "sparse"; most of the entries of <code>L</code> in the unvoiced state are filled in, so it takes some tricks to do this efficiently in python.
+													</p>
+													<p>
+														Regardless, here's what the tracking results are like.  It's basically the same as before, except there are slightly more unvoiced gaps.  So this will work better if there are long regions of silence or unreliable frequency estimates
 													</p>
 
 													<audio controls>
