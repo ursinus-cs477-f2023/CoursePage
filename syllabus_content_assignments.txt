@@ -79,7 +79,7 @@ Convolution Module Due before Class
 <HR>Assignment 5 Due
 
 2023-11-1
-<HR>Assignment 6: Build Your Own Neural Net (BYONN) Out
+<HR>Assignment 6: Build Your Own Neural Net (BYONN), Ethics #3 Climate
 
 2023-11-1
 Assignment 6 Due
@@ -91,12 +91,9 @@ Assignment 6 Due
 Assignment 7 Due
 
 2023-11-21
-Assignment 8: Deep Tetris Out
+Assignment 8 Out
 
 2023-11-27
 Assignment 8 Due
-
-2023-12-06
-<HR>Assignment 9: RLHF from The Data Labeler's POV Out
 
 2023-12-06

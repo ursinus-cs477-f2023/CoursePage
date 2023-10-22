@@ -99,9 +99,13 @@ Logistic Regression, Introduction To pytorch and data loaders
 
 <ul><li><a href = "https://pytorch.org/tutorials/beginner/basics/data_tutorial.html">PyTorch Datasets & DataLoaders Documentation</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
 LECTURE
-Softmax, Logistic Regression And Gradient Descent
+Logistic Regression And Gradient Descent
 
-<ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li><li>Class Exercise: Logistic Regression on MNIST</li></ul>
+<ul><li><a href = "ClassExercises/Week10_LogisticRegression">Logistic Regression Class Notes</a></li></ul>
+LECTURE
+Softmax, Multi-Class Logistic Regression
+
+<ul><li>Class Exercise: Logistic Regression on MNIST</li></ul>
 LECTURE
 Intro To Neural Networks
 
@@ -110,10 +114,6 @@ LECTURE
 Backpropagation, Stochastic Gradient Descent
 
 <ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
-LECTURE
-Ethics #3: Climate and AI
-
-
 SECTION
 Unit 4: Deep Learning
 
@@ -151,6 +151,10 @@ Generative Adversarial Networks (GANs)
 
 <ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
 LECTURE
+Ethics #4: Intellectual property and AI / Music in AI
+
+
+LECTURE
 Deep Reinforcment Learning, Policy Gradients
 
 <ul><li><a href = "http://karpathy.github.io/2016/05/31/rl/">Andrej Karpathy deep RL pong tutorial</a></li></ul>
@@ -162,10 +166,6 @@ LECTURE
 Recurrent Neural Networks
 
 <ul><li><a href = "http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks</a></li></ul>
-LECTURE
-Ethics #4: Intellectual property and AI / Music in AI
-
-
 LECTURE
 Long Short Term Memory (LSTM) Networks
 
