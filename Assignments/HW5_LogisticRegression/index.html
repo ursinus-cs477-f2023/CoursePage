@@ -52,16 +52,13 @@
                                             <h2><a name = "objectives">Learning Objectives</a></h2>
                                             <ul>
 												<li>
-													Implement logistic regression
+													Implement logistic regression using a dictionary
+												</li>
+												<li>
+													Implement gradient descent in code
 												</li>
 												<li>
 													Use cross-validation to verify that a model is not overfitting
-												</li>
-												<li>
-													Derive update rules that incorporate regularization
-												</li>
-												<li>
-													Uncover mathematical relationships between different supervised learning models
 												</li>
                                             </ul>
 										</p>
@@ -108,13 +105,13 @@
 										</div>
 
 									<p>
-										is a weighted sum of all of the words in that review, plus the bias.  As usual for 2-class logistic regression, the output <b>y</b> we're trying to match is either a 0 or a 1; we choose a 0 if it's a negative review and a 1 if it's a positive review.  The picture below shows an example of this on the (very short) example review "there was a clown" using the dictonary on the above example. (Note that the way I've chosen to index the weights is arbitrary)
+										is a weighted sum of all of the words in that review, plus the bias.  As usual for 2-class logistic regression, the output <b>y</b> we're trying to match is either a 0 or a 1; we choose a 0 if it's a negative review and a 1 if it's a positive review.  The picture below shows an example of this on the (very short) example review "there was a clown" using the above bag of words
 									</p>
 
-									<img src = "MonsterNeuron.svg">
+									<img src = "MonsterNeuron.svg" width="65%">
 
 									<p>
-										<i>Our goal is to adjust the weights and bias in our model to make its predictions as close as possible to the true values of positive(1) or negative(0) reviews</i>.  Let's dive into this math a bit more.  Recall that the update rules for gradient descent for logistic loss are as follows (<a href = "../../ClassExercises/Week10_LogisticRegression/index.html#gradient">click here</a> to review the derivation)
+										<b>Our goal is to adjust the weights and bias in our model to make its predictions as close as possible to the true values of positive(1) or negative(0) reviews</b>.  Let's dive into this math a bit more.  Recall that the update rules for gradient descent for logistic loss are as follows (<a href = "../../../Modules/LogisticRegression/Video3">click here</a> to review the derivation)
 									</p>
 
 									<div style="width:200px;">
@@ -194,7 +191,7 @@
 								<HR>
 									<h2>Part 1: Programming Tasks</h2>
 									<p>
-										There is no starter code for this assignment.  Instead, you should wrangle up the movie data from assignment 3 and setup an empty notebook from which that data is accessible.  You may also want to develop some methods in a separate file to keep things organized.  <b>When you are finished, upload your notebook and any .py files it reiles on </b>
+										There is no starter code for this assignment.  Instead, you should wrangle up the movie data from assignment 3 (<a href = "https://github.com/ursinus-cs477-f2023/HW3_Markov/archive/refs/heads/main.zip">Click here</a> to re-download the starter code for that assignment) and setup an empty notebook from which that data is accessible.  You may also want to develop some methods in a separate file to keep things organized.  <b>When you are finished, upload your notebook and any .py files it reiles on </b>
 									</p>
 
 									<h3>Task 1: BBOW + Logistic Regression Implementation (20 Points)</h3>
@@ -210,10 +207,7 @@
 											As explained above, make the <b>y</b> value for a negative movie be 0 and the <b>y</b> value for a positive movie be 1.
 										</li>
 										<li>
-											Use a dictionary to come up with a consistent dimension index for each word.
-										</li>
-										<li>
-											Don't represent any of the 0's in your data.  Instead, only store the dimensions for each document that were actually used.  Then, when going to do gradient descent, look up the dimensions that are actually relevant for each document.  As exaplined above, they are all 1's.
+											Use a dictionary to store the weights for each word
 										</li>
 										<li>
 											Be careful to only update one weight per <b>unique word</b> per review.  Your weights will blow up if you accidentally count a word more than once per review.
@@ -261,7 +255,7 @@
 										Each document will show up in exactly one "test fold" in this scheme, so simply add up all of the correct classifications over all <b>K</b> folds to report the total accuracy.  Below is a figure showing how you should split your data up into these 5 training/test groups after shuffling it.
 									</p>
 
-									<img src = "Folds.svg" width=500>
+									<img src = "Folds.svg" width=40%>
 
 									<p>
 										You can also read more about this on <a href = "https://scikit-learn.org/stable/modules/cross_validation.html">sklearn's web site</a> (they have their own version of cross-validation implemented)
@@ -338,10 +332,10 @@
 												<li>
 													<a href = "../../Assignments/HW4_FundamentalFreq">HW4: Fundamental Frequency Tracking And Pitch-Based Audio Effects</a>
 												</li>
-												<!--
 												<li>
-													<a href = "../../Assignments/HW6_LogisticRegression">HW6: Logistic Regression on Movie Reviews</a>
+													<a href = "../../Assignments/HW5_LogisticRegression">HW5: Logistic Regression on Movie Reviews</a>
 												</li>
+												<!--
 												<li>
 													<a href = "../../Assignments/HW7_DeepLearning">HW7: (Deep) Neural Networks on Images</a>
 												</li>
