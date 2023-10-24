@@ -496,7 +496,7 @@
 										<h3><a name = "naive_freqs">Task 1: Naive Greedy Frequency Choices (5 Points)</a></h3>
 
 										<p>
-											Fill in the method <code>naive_freqs</code> to implement the method that chooses the frequency with the minimum YIN threshold at each time.  If you happen to cross through an unvoiced state, make that frequency <code>np.nan</code>
+											Fill in the method <code>naive_freqs</code> to implement the method that chooses the frequency with the minimum YIN threshold at each time.  
 										</p>
 
 										<p>
@@ -520,6 +520,10 @@
 
 										<p>
 											Fill in the method <code>get_pyin_freqs</code> in <code>freqs.py</code> to implement the HMM-based method for frequency tracking.  You should review the notes <a href = "../../../Modules/HMM/Video4">at this link</a> on how we applied the Viterbi algorithm to robot localization.  The code in this section will be quite similar in structure to the robot localization code; the only thing that's changed is what exactly the states are, what the observation probabilities are, and what the transition probabilities are.  Refer to the <a href = "#pyin">notes above</a> for the specifics.  
+										</p>
+										
+										<p>
+											When you are backtracing through the states, if you happen to cross through an unvoiced state, make that frequency <code>np.nan</code>
 										</p>
 
 
