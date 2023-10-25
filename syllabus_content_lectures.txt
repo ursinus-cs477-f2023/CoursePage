@@ -107,7 +107,7 @@ Softmax, Multi-Class Logistic Regression
 
 <ul><li>Class Exercise: Logistic Regression on MNIST</li></ul>
 LECTURE
-Intro To Neural Networks
+Finish Multi-Class Logistic Regression, Intro To Neural Networks
 
 <ul><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li></ul>
 LECTURE
