@@ -70,6 +70,9 @@ Assignment 4 Due
 Last day to drop courses with a "W"
 
 2023-11-21
+<a href = "../Modules/Softmax/Video1">Softmax Module</a> Due Before Class
+
+2023-10-27
 Neural Nets And Convolution Module Due before Class
 
 2023-10-30
