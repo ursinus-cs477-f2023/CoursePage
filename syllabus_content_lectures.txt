@@ -107,33 +107,33 @@ Softmax, Multi-Class Logistic Regression
 
 <ul><li>Class Exercise: Logistic Regression on MNIST</li></ul>
 LECTURE
-Finish Multi-Class Logistic Regression, Intro To Neural Networks
+Finish Multi-Class Logistic Regression
 
-<ul><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li></ul>
+
 LECTURE
-Backpropagation, Stochastic Gradient Descent
+Multi-Class Logistic Regression in Torch, Mini-Batch Gradient Descent, Begin Neural Networks
 
-<ul><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
+<ul><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 SECTION
 Unit 4: Deep Learning
 
 
 LECTURE
-Finish Feedforward Neural Nets, Begin Convolutional Neural Networks (CNNs)
+Finish Feedforward Neural Nets
+
+
+LECTURE
+Backpropagation
+
+
+LECTURE
+Convolutional Neural Networks, Begin Quantifying Overfitting
 
 <ul><li><a href = "https://setosa.io/ev/image-kernels/">Live 2D convolution demo</a></li><li><a href = "https://cs231n.github.io/convolutional-networks/">Stanford CS 231n Notes on Convolutional Neural Networks</a></li><li><a href = "https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md">Convolution Arithmetic Animations</a></li></ul>
-LECTURE
-Finish Continue CNNs, Begin Quantifying Overfitting
-
-
 LECTURE
 Overfitting Strategies: Dropout, Data Augmentation
 
 <ul><li><a href = "https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Original Paper on Dropout</a></li></ul>
-LECTURE
-Adversarial Attacks Against on Images
-
-
 LECTURE
 Unsupervised Learning with Autoencoders
 

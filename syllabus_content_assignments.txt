@@ -78,10 +78,13 @@ Last day to drop courses with a "W"
 2023-10-30
 Assignment 5 Due
 
-2023-11-1
+2023-11-3
 <HR>Assignment 6: Build Your Own Neural Net (BYONN), Ethics #3 Climate
 
-2023-11-1
+2023-11-3
+Adversarial Attacks on Images Module Due
+
+2023-11-08
 Assignment 6 Due
 
 2023-11-13
