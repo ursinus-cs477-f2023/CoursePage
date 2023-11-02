@@ -79,7 +79,7 @@ Reinforcement Learning: Markov Decision Processes, Policy Iteration
 
 <ul><li><a href = "https://github.com/ursinus-cs477-f2023/Week6_MDP">Class Exercise: Pong AI</a></li><li><a href = "http://incompleteideas.net/book/RLbook2020.pdf">Sutton/Barto Ch. 3</a></li><li><a href = "https://gibberblot.github.io/rl-notes/single-agent/policy-iteration.html">Tim Miller notes on policy iteration</a></li><li><a href = "https://www.it.uu.se/edu/course/homepage/aism/st11/MDPApplications1.pdf">White 1985: Applications of MDPs</a></li></ul>
 SECTION
-Unit 3: Data Vectorization, Neural Networks
+Unit 3: Data Vectorization
 
 
 LECTURE
@@ -111,21 +111,21 @@ Finish Multi-Class Logistic Regression
 
 
 LECTURE
-Multi-Class Logistic Regression in Torch, Mini-Batch Gradient Descent, Begin Neural Networks
+Multi-Class Logistic Regression in Torch, Mini-Batch Gradient Descent
 
 <ul><li><a href = "http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Topology of neural networks</a></li><li><a href = "https://playground.tensorflow.org/">Tensorflow.js Playground</a></li></ul>
 SECTION
-Unit 4: Deep Learning
+Unit 4: Neural Networks And Deep Learning
 
 
 LECTURE
-Finish Feedforward Neural Nets
+Feedforward Neural Networks
 
 
 LECTURE
 Backpropagation
 
-
+<ul><li><a href = "ClassExercises/Week10_Backprop/index.html">Class Notes on Backpropagation through Multilayer Perceptrons (MLPs)</li><li><a href = "https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b">"Yes, You Should Understand Backprop"</a> -Andrej Karpathy</li><li><a href = "https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ&index=1">Andrej Karpathy's Video on Micrograd</a> (A fully fledged, general backprop implementation from scratch)</li></ul>
 LECTURE
 Convolutional Neural Networks, Begin Quantifying Overfitting
 
@@ -139,6 +139,10 @@ Unsupervised Learning with Autoencoders
 
 <ul><li>Class Exercise: Digits Autoencoder</li></ul>
 LECTURE
+Generative Adversarial Networks (GANs)
+
+<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
+LECTURE
 Variational Autoencoders
 
 <ul><li><a href = "https://lilianweng.github.io/posts/2018-08-12-vae/">Lilian Weng's notes on variational autoencoders</a></li></ul>
@@ -146,10 +150,6 @@ LECTURE
 Diffusion Models for Generative AI
 
 <ul><li><a href = "https://theaisummer.com/diffusion-models/">AI Summer Notes on Diffusion Models</a></li><li><a href = "https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">Lilian Weng</a> Mathematics Behind Reverse Diffusion</a></li><li><a href = "https://arxiv.org/abs/2301.13188">Extracting the training data from diffusion models</a></li></ul>
-LECTURE
-Generative Adversarial Networks (GANs)
-
-<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
 LECTURE
 Ethics #4: Intellectual property and AI / Music in AI
 

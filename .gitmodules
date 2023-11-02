@@ -46,3 +46,6 @@
 [submodule "ClassExercises/Week8_SoftmaxDigits/Week8_DigitsSoftmax"]
 	path = ClassExercises/Week8_SoftmaxDigits/Week8_DigitsSoftmax
 	url = https://github.com/ursinus-cs477-f2023/Week8_DigitsSoftmax.git
+[submodule "Assignments/HW6_BYOMLP/HW6_BYOMLP"]
+	path = Assignments/HW6_BYOMLP/HW6_BYOMLP
+	url = https://github.com/ursinus-cs477-f2023/HW6_BYOMLP.git

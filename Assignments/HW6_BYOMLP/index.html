@@ -41,148 +41,228 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-                                        <h2>Week 5: Bag of Words Naive Bayes Exercise</h2>
-                                        <h3><a href = "http://www.ctralie.com">Chris Tralie</a></h3>
+                                        <h2>Homework 6: Build Your Own Multilayer Perceptron (BYOMLP)</h2>
+										<h3>Chris Tralie</h3>
 									</header>
-
-									<div id="page-content">
-										<p>
-											In <a href = "../../Assignments/HW3_Markov/">homework 3</a>, you've been modeling text as a sequence using Markov chains.  We're going to do something seemingly much dumber and completely forget the sequence of words and focus just on how often words occur across entire documents.  For example, from the first 2016 debate transcript on the homework, you get the following "bag of words" for Clinton (courtesy of <a href = "https://www.wordclouds.com/">wordclouds.com</a>)
-										</p>
-
-										<img src = "clinton.png" width=500>
-
-										<p>and the following for Trump</p>
-
-										<img src = "trump.png" width=500>
-
-										<p>
-											We can estimate the probability of a single word as simply the number of times that word was said divided by the total number of words, which will be proportional to the size of the words in the above word clouds.  For example, Clinton said 6257 words total, and she said "Donald" 20 times, so her probabability of saying Donald would be estimated as 
-										</p>
-
-										<h3>
-											\[ 20/6257 \]
-										</h3>
-										
-										<p>by contrast, Trump only says "Donald" once out of 8367 words, so his probability would be </p>
-
-										<h3>
-											\[ 1/8367 \]
-										</h3>
-										
-
-										<p>
-											Your task will be to estimate the probabilities for all words from data and assume complete independence, as per the <a href = "../Week5_NaiveBayes/index.html#naivebayes">naive bayes</a> assumption, and multiply them together to get a total probability for both Trump and Clinton of each phrase, for each model.  For example, if you got the text "Donald job job Donald Donald", and given that Trump said "job" 6/8367 words, we'd compute the likelihood of the Trump model as 
-
-										</p>
-
-										<h3>
-											\[ (1/8367) \times (6/8367) \times (6/8367) \times (1/8367) \times (1/8367) \]
-										</h3>
-
-										<p>
-											You'd then also want to compute such a probability using the Clinton model, and choose the model with the highest probability as your estimate for who said what.  You should try to classify all of the Trump and Clinton quotes from the third debate this way and record how many of your guesses are correct.  As you go along, we will talk about some pitfalls, and after class, we will dig into some more theory about why this is actually correct and what the "Naive Bayes Model" is precisely
-										</p>
-											
-
-										<h3>Tweaks To The Technique</h3>
-										<p>
-											Here are a few things to think about as you go:
-										</p>
+									
+									<h3>
+										Table of Contents
 										<ul>
-											<li>What's the problem with multiplying a lot of probabilities together? how would you fix this?</li>
-											<li>What happens if we never saw a particular word in our "training data"?  What should we do about that?</li>
+											<li><a href = "#objectives">Learning Objectives</a></li>
+											<li>
+												<a href = "#programming">Programming Tasks</a>
+												<ul>
+													<li>
+														<a href = "#backprop">Backpropagation (15 Points)</a>
+													</li>
+													<li>
+														<a href = "#digits">Digits Classification (10 Points)</a>
+													</li>
+												</ul>
+
+											</li>
 										</ul>
 
-										<h3>Programming tips</h3>
-										
-											<p>
-												Here's some code to load the debate text for Clinton
-											</p>
+									</h3>
 
-											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-												fin = open("text/2016Debates/clinton1.txt")
-												text = fin.read()
-												fin.close()	
-											</script>  
+									<div id="page-content">
 
-											<p>
-												Here's a slick way to loop through all of the test data (the third debate) for Clinton
-											</p>
-
-											<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-												import glob
-												for f in glob.glob("text/2016Debates/clinton3*.txt"):
-													fin = open(f)
-													test = fin.read()
-													fin.close()
-													## TODO: Do bag of words on test and compute probabilities under different models
-											</script>  
-
-											
-
-										<p>
-											To get a list of words in a string, use the <code>split()</code> method of the string class.  For example,
-										</p>
-
-										
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											s = "Hello CS 477 this is Dr. Tralie speaking\nWe're doing some cool stuff!"
-											s.split()</script>  
-
-										<p>
-											would yield
-										</p>
-
-										
-										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											['Hello',
-											'CS',
-											'477',
-											'this',
-											'is',
-											'Dr.',
-											'Tralie',
-											'speaking',
-											"We're",
-											'doing',
-											'some',
-											'cool',
-											'stuff!']</script>  
-
-										
-										
-										<h2><a name = "solution">Solution</a></h2>
-										<p>
-											Below is some code I wrote to implement this on the 2016 debate text.  There were two problems that needed to be addressed which people pointed out in class:
-											
-											<ol>
+                                        <p>
+                                            <h2><a name = "objectives">Learning Objectives</a></h2>
+                                            <ul>
 												<li>
-													To prevent numerical underflow by multiplying tons of small numbers, I summed the logs of probabilities instead of multiplying them directly.  The log is a monotonic function, so it preserves maxes, and this won't change which model wins.
+													Implement backpropagation for densely connected neural networks
 												</li>
 												<li>
-													If we see a word when we're classifying a new document that wasn't in the training model, it will have a probability of 0 by default.  But this will completely kill off the probability of the whole thing when multiplied through.  So we need to do something more intelligent.  We opt to do something called <a href = "http://static.hlt.bme.hu/semantics/external/pages/n-gram/en.wikipedia.org/wiki/Additive_smoothing.html">additive smoothing</a>, in which each unique word has an extra count added to it.  This means we also have to add to the denominator the unique number of words so that the probabilities still sum to 1.  If we see a word that wasn't in the training data, we simply assign a <b>1/denominator</b> to it
+													Implement stochastic gradient descent
 												</li>
-											</ol>
+												<li>
+													Explore different architectures of MLPs
+												</li>
+                                            </ul>
 										</p>
+
+										<h2><a name = "logistics">Logistics / Getting Started</a></h2>
 
 										<p>
-											Below is the code.  If you run it, you'll see that it's lightning fast!  This is one of the advantages of Naive Bayes, even in situations where it doesn't work as well as other supervised learning techniques
+											In this assignment, you will implement your own neural network solver from scratch in Python. 
 										</p>
 
-										<iframe src="Solution.html" width=100% height=1600>
-
-										</iframe>
 										
+										
+									<h2><a name = "programming">Programming Tasks</a></h2>
 
-											
+									
+
+									<h3>
+										<a name = "backprop">Backpropagation (15 Points)</a>
+									</h3>
+
+									<p>
+										<h4>Your Task</h4> Study the class I've setup in <code>neuralnet.py</code>, and then fill in the method <code>backprop_descent</code>.  This consists of two steps:
+										<ol>
+											<li>
+												Use backpropagation to compute the gradients of all of the weights and biases
+											</li>
+											<li>
+												Subtract the learning factor <b>&alpha;</b> times these gradients from all of the parameters.
+											</li>
+										</ol>
+									</p>
+
+									<p>
+										The <code>backprop_descent</code> method accepts as input a single training example and its target output, and it updates the weights right away.  This is referred to as <a name = "stochastic">stochastic gradient descent</a>, and it contrasts to the <a href = "../HW5_LogisticRegression/index.html#batch">batch gradient descent</a> we used on the last homework where we waited until accumulating gradients from all training samples before updating the weights/bias.
+									</p>
+
+									<p>
+										I have already provided a method <code>forward</code> to evaluate each layer of the neural network and to store the inputs <b>a</b> to each activation function and the outputs <b>h</b> of the activation function.  I have also provided a method <code>add_layer</code> to randomly initialize all of the weights and biases (this simply boils down to calling <a href = "https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html">numpy's randn</a> to generate random matrices).  So once you finish <code>backprop_descent</code>, you'll have a complete system to train arbitrary feedforward neural networks.
+									</p>
+
+									<p>
+										To help you test your system, I've provided the notebook <code>DiscTest.ipynb</code> which will learn a network to separate the points on the inside of a disc from the points on the outside of the disc, which <i>is not something that we could do with 2D logistic regression</i>!  Dataset shown below:
+									</p>
+
+									<img src = "DiscData.svg">
+
+									<p>
+										
+										To do the separation, we use a network with the following three layers:
+										<ol>
+											<li>
+												100 neurons with a leaky ReLU
+											</li>
+											<li>
+												2 neurons with a leaky ReLU
+											</li>
+											<li>
+												The final output neuron with a logistic activation, using the logistic loss
+											</li>
+										</ol>
+									</p>
+									<p>
+										Using our little API, we can define this network with the following code
+									</p>
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										nn = NeuralNet(2, logistic_est_loss_deriv) # Input is in 2 dimensions, and we want to use logistic loss
+										nn.add_layer(100,  leaky_relu, leaky_relu_deriv) # First layer is 100 dimensions with a leaky ReLU
+										nn.add_layer(2, leaky_relu, leaky_relu_deriv) # Second layer is 2 dimensions with a leaky ReLU
+										nn.add_layer(1, logistic, None) # Last layer is the logistic function.  Its derivative is handled separately
+									</script>  
+
+									<p>
+										Then, since our API is designed to update one example at a time with backpropagation, we continuously feed it random permutations of our data one at a time.  This is all in the notebook already and you can just run it.  If it works properly, you should see an animation like this, where the left plot shows the 2 coordinates of the output of layer 2 as well as the linear separator inferred from the final layer, and the right plot shows the loss over time.  As you can see, after a few iterations, the orange points get moved to the other side of the final linear separator from the blue points
+									</p>
+
+									<img src = "DiscResult.gif" width=1000>
 
 
+									<h3>
+										<a name = "digits">Digits Classification (10 Points)</a>
+									</h3>
+
+									<p>
+										We're now ready to apply our MLPs to digit classification!  The last step is that we need to define a loss function over the output of the softmax, compared to ground truth.  For this, define ground truth as an an "indicator array," or also referred to as a <b>one-hot vector</b>.  Here are all of the possible 1-hot vectors based on ground truth 
+
+										<table style="width:400px;">
+											<tr><td>Ground truth Value</td><td>1-Hot Vector <b>y</b></td></tr>
+											<tr>
+												<td>0</td>
+												<td>
+													[ <b>1</b>, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>1</td>
+												<td>
+													[0,  <b>1</b>, 0, 0, 0, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td>
+													[0, 0,  <b>1</b>, 0, 0, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td>
+													[0, 0, 0,  <b>1</b>, 0, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>4</td>
+												<td>
+													[0, 0, 0, 0,  <b>1</b>, 0, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>5</td>
+												<td>
+													[0, 0, 0, 0, 0,  <b>1</b>, 0, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>6</td>
+												<td>
+													[0, 0, 0, 0, 0, 0,  <b>1</b>, 0, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>7</td>
+												<td>
+													[0, 0, 0, 0, 0, 0, 0,  <b>1</b>, 0, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>8</td>
+												<td>
+													[0, 0, 0, 0, 0, 0, 0, 0, <b>1</b>, 0]
+												</td>
+											</tr>
+											<tr>
+												<td>9</td>
+												<td>
+													[0, 0, 0, 0, 0, 0, 0, 0, 0, <b>1</b>]
+												</td>
+											</tr>
+										</table>
+									</p>
+									<p>
+										Based on this, we can define a loss function which is a generalization of the <a href = "../../ClassExercises/Week10_LogisticRegression/index.html#logisticloss">logistic loss</a> to multivariate output.  Given the output <b>y<SUB>est</SUB></b> of the softmax function and the ground truth 1-hot vectors <b>y</b>, we can define the <b>multivariate cross-entropy logistic loss</b> as 
+									</p>
+
+									<div style="width:100px;">
+									<h3>
+										\[ L(y, y_{\text{est}}) = -\sum_{i=1}^N  y[i] \log(y_{\text{est}}[i]) \]
+									</h3>
+									</div>
+
+									<p>
+										where in our digits problem <b>N = 10</b>.  We need to take the gradient of this loss with respect to the input to the logistic function, but this is actually incredibly simple and exactly like the single variable logistic loss case.  In particular, the gradient of the <b>i<SUP>th</SUP></b> component to the input of the softmax function is simply
+										<b>y<SUB>est</SUB>[i] - y[i]</b>
+										<h3>
+											<b>y<SUB>est</SUB>[i] - y[i]</b>
+										</h3>
+										
+										This should look pretty familiar! For details, look back to the <a href = "../HW5_LogisticRegression/index.html#logisticbbow">update rules</a> in the last assignment, and refer to my <a href = "../../../Modules/Softmax/Video1">derivation in the softmax module</a>.  To save time, I've already implemented this for you.  The loss function and its derivatives are the methods <code>softmax_est_crossentropy_loss</code> and <code>softmax_est_crossentropy_deriv</code>, respectively, in the <code>losses.py</code> file.
+									</p>
+
+									<p>
+										<h4>Your Task</h4> Put everything together in a Jupyter notebook to train a neural network in our little API that classifies digits in the MNist dataset.  Train a network using <b><a href = "#stochastic">stochastic gradient descent</a> on the training set for 60 iterations</b>, and report the accuracy on all of the images in the test set.  You should compare two networks: the first network should have a single hidden layer with 20 neurons and a softmax output, which you can define like this:
+
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											nn = NeuralNet(x_train.shape[1], softmax_est_crossentropy_deriv)
+											nn.add_layer(20, leaky_relu, leaky_relu_deriv)
+											nn.add_layer(10, softmax, None)
+										</script>  
+										
+										The second network should also start with a hidden layer with 20 neurons, but you should add an additional ReLU layer with 40 neurons.  <b>Indicate clearly in your notebook which network works better and why you think this is</b>.
+									</p>
 
 
-
-
-                                    
+									<h4>Loading data</h4>
+									
+									
                                 </div>
 						</div>
 					</div>
