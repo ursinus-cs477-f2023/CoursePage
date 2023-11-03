@@ -82,6 +82,9 @@ Assignment 5 Due
 <HR>Assignment 6: Build Your Own Multilayer Perceptron (BYOMLP), Ethics #3 Climate Out
 
 2023-11-3
+<a href = "../Modules/Backprop/Video1">Backpropagation Module</a> Due
+
+2023-11-5
 Adversarial Attacks on Images Module Due
 
 2023-11-08
