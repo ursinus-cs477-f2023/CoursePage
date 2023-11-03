@@ -121,7 +121,7 @@ Unit 4: Neural Networks And Deep Learning
 LECTURE
 Feedforward Neural Networks
 
-
+<ul><li><a href = "ClassExercises/Week10_DiscSeparate/TensorflowDiscSeparate">Interactive Disc Separating Demo</a></li></ul>
 LECTURE
 Backpropagation
 

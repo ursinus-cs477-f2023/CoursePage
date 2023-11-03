@@ -49,3 +49,6 @@
 [submodule "Assignments/HW6_BYOMLP/HW6_BYOMLP"]
 	path = Assignments/HW6_BYOMLP/HW6_BYOMLP
 	url = https://github.com/ursinus-cs477-f2023/HW6_BYOMLP.git
+[submodule "ClassExercises/Week10_DiscSeparate/TensorflowDiscSeparate"]
+	path = ClassExercises/Week10_DiscSeparate/TensorflowDiscSeparate
+	url = https://github.com/ursinus-cs477-f2023/TensorflowDiscSeparate.git
