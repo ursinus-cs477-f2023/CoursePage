@@ -79,21 +79,21 @@ Last day to drop courses with a "W"
 Assignment 5 Due
 
 2023-11-3
-<HR>Assignment 6: Build Your Own Multilayer Perceptron (BYOMLP), Ethics #3 Climate Out
-
-2023-11-3
 <a href = "../Modules/Backprop/Video1">Backpropagation Module</a> Due
 
-2023-11-5
+2023-11-6
+<HR><a href = "Assignments/HW6_BYOMLP">Assignment 6: Build Your Own Multilayer Perceptron (BYOMLP)</a> Out
+
+2023-11-6
 Adversarial Attacks on Images Module Due
 
-2023-11-08
+2023-11-10
 Assignment 6 Due
 
-2023-11-15
+2023-11-17
 <HR>Assignment 7: This Cat Doesn't Exist Out
 
-2023-11-15
+2023-11-17
 Assignment 7 Due
 
 2023-11-21

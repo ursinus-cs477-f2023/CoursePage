@@ -53,10 +53,27 @@
 												<a href = "#programming">Programming Tasks</a>
 												<ul>
 													<li>
+														<a href = "#forward">Forward pass (10 Points)</a>
+													</li>
+													<li>
 														<a href = "#backprop">Backpropagation (15 Points)</a>
 													</li>
 													<li>
 														<a href = "#digits">Digits Classification (10 Points)</a>
+													</li>
+													<li>
+														<a href = "#autoencoder">Digits Autoencoder (10 Points)</a>
+														<ul>
+															<li>
+																<a href = "#architecture">Architecture</a>
+															</li>
+															<li>
+																<a href = "#training">Training</a>
+															</li>
+															<li>
+																<a href = "#latenttraverse">Latent Traversal (For Fun)</a>
+															</li>
+														</ul>
 													</li>
 												</ul>
 
@@ -67,25 +84,37 @@
 
 									<div id="page-content">
 
+										<h2><a name = "logistics">Logistics / Getting Started</a></h2>
+
+										<p>
+											In this assignment, you will implement your own multilayer perceptron (MLP) neural network solver from scratch in python using only numpy and matplotlib.  No special libraries like pytorch are required!  My aim is to show you how simple the fundamental math ideas really are under the hood, and how most of modern neural nets is just software engineering.  If you're still not convinced, read <a href = "https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b">this article</a> by Andrej Karpathy.  
+										</p>
+
+										<p>
+											You will apply this to both a supervised task: classifying digits, as well as an unsupervised task: learning a low dimensional representation of digits from their high dimensional pixel-based representations.  We will be doing something similar to <a href = "https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b">Karpathy's "micrograd" setup</a>, although specializing it to MLPs with matrix multiplication will make it fast enough to do what we need it to do (micrograd is too slow for the applications in this assignment).
+										</p>
+
+										<p>
+											<a href = "https://github.com/ursinus-cs477-f2023/HW6_BYOMLP/archive/refs/heads/main.zip">Click here</a> to download the starter code for this assignment.  Most of your edits will occur in <code>mlp.py</code>.  When you are finished, turn in your <code>mlp.py</code> file, as well as your notebook <code>Classification.ipynb</code> and <code>Autoencoder.ipynb</code>
+										</p>
+	
+
                                         <p>
                                             <h2><a name = "objectives">Learning Objectives</a></h2>
                                             <ul>
 												<li>
-													Implement backpropagation for densely connected neural networks
+													Implement a fast backpropagation algorithm for multilayer perceptrons using numpy operations
 												</li>
 												<li>
-													Implement stochastic gradient descent
+													Implement stochastic gradient descent and batch gradient descent
 												</li>
 												<li>
 													Explore different architectures of MLPs
 												</li>
+												<li>
+													Implement an autoencoder to perform unsupervised dimension reduction
+												</li>
                                             </ul>
-										</p>
-
-										<h2><a name = "logistics">Logistics / Getting Started</a></h2>
-
-										<p>
-											In this assignment, you will implement your own neural network solver from scratch in Python. 
 										</p>
 
 										
@@ -95,29 +124,75 @@
 									
 
 									<h3>
+										<a name = "forward">Forward pass (10 Points)</a>
+									</h3>
+									<p>
+										Before we do anything else, we need to get our data structures and forward pass locked down.  In particular, you will setup code for a forward pass in the <code>MLP</code> class in <code>mlp.py</code>.
+									</p>
+
+									<h4>Your Task</h4>
+									<p>
+										Fill in the methods <code>__init__</code>, <code>add_layer</code>, and <code>forward</code> in <code>mlp.py</code>.  
+									</p>
+									<p>
+										When you add a layer, you should store as instance variables a weights matrix and a bias matrix of the appropriate shape, as well as the function handles for the nonlinear function and its derivative <code>f</code> and <code>fderiv</code>, respectively, at this layer.  The weights should be a 2D array, and the biases should be a 1D array, and you should randomly initialize them using <code><a href = "https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html">np.random.randn</a></code>.  <b>Be sure to multiply the initial weights by 0.1 to make sure their standard deviation is 0.1</b> (smaller standard deviation weights tend to perform better).  There is also an optional parameter called "name" that you can use to assign a string name to this layer.  This will help us with the <a href = "#disctest">disc test</a> and <a href = "#autoencoder">autoencoder</a> task later.
+									</p>
+									<p>
+										When you do a forward pass, it will help if you store the <code>a</code>'s and <code>h</code>'s at each layer as instance variables, as you can look them up later when you do backpropagation.  You should also take into consideration the optional <code>start</code> and <code>end</code> parameters, which you can use to start an input in the middle of the network and end early.
+									</p>
+
+									<h4>Tips</h4>
+									<p>
+										You may want to look back at the beginning of the <a href = "../../../Modules/Backprop/Video1">backprop module</a> to see an example of how to represent and store weights/biases/functions and then apply them in a forward loop, though we're adding some embellishments here, and we're encapsulating the layers in a class.
+									</p>
+
+									<h4>Testing</h4>
+
+									<p>
+										As an example, suppose you had the following code:
+									</p>
+
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										model = MLP(10, logistic_loss_deriv)
+										model.add_layer(20, leaky_relu, leaky_relu_deriv)
+										model.add_layer(5, leaky_relu, leaky_relu_deriv, "special_start")
+										model.add_layer(8, leaky_relu, leaky_relu_deriv)
+										model.add_layer(7, leaky_relu, leaky_relu_deriv, "special_end")
+										model.add_layer(1, leaky_relu, leaky_relu_deriv)
+										x = np.random.randn(10)
+										y = model.forward(x)
+										print(y.shape)
+										# Show how to start/end in the middle of the network
+										x = np.random.randn(20)
+										y = model.forward(x, start="special_start", end="special_end")
+										print(y.shape)
+									</script> 
+
+									<p>
+										The first pass should output an array with a single element, since it goes from 10, to 20, to 5, to 8, to 7, to 1.  The second pass takes in an array of 20 elements (the input to "special_start") and should output an array of 7 elements (the output of "special_end").
+									</p>
+
+									<HR>
+									<h3>
 										<a name = "backprop">Backpropagation (15 Points)</a>
 									</h3>
-
 									<p>
-										<h4>Your Task</h4> Study the class I've setup in <code>neuralnet.py</code>, and then fill in the method <code>backprop_descent</code>.  This consists of two steps:
-										<ol>
-											<li>
-												Use backpropagation to compute the gradients of all of the weights and biases
-											</li>
-											<li>
-												Subtract the learning factor <b>&alpha;</b> times these gradients from all of the parameters.
-											</li>
-										</ol>
+										Now we're ready to finish the API for our MLPs by implementing backpropagation to train them.  
+									</p>
+
+									<h4>Your Task</h4>
+									<p>
+										First, fill in the method <code>backward</code> to do a forward pass, followed by backpropagation, with respect to a particular input/output pair <code>x</code> and <code>y</code>.  During backpropagation, compute and accumulate the gradients of all of the weights and biases at each layer.  Refer to the <a href = "../../ClassExercises/Week10_Backprop/index.html#backpropalg">pseudocode in the backprop notes</a> for how to do this.  As part of this, you'll want to add instance variables to store the derivatives of all weights and biases, which you should reset to 0 when calling the <code>zero_grad</code> method.
 									</p>
 
 									<p>
-										The <code>backprop_descent</code> method accepts as input a single training example and its target output, and it updates the weights right away.  This is referred to as <a name = "stochastic">stochastic gradient descent</a>, and it contrasts to the <a href = "../HW5_LogisticRegression/index.html#batch">batch gradient descent</a> we used on the last homework where we waited until accumulating gradients from all training samples before updating the weights/bias.
+										Finally, fill in the <code>step</code> method to subtract <code>alpha</code> times the accumulated gradients from the weights/biases.
 									</p>
 
-									<p>
-										I have already provided a method <code>forward</code> to evaluate each layer of the neural network and to store the inputs <b>a</b> to each activation function and the outputs <b>h</b> of the activation function.  I have also provided a method <code>add_layer</code> to randomly initialize all of the weights and biases (this simply boils down to calling <a href = "https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html">numpy's randn</a> to generate random matrices).  So once you finish <code>backprop_descent</code>, you'll have a complete system to train arbitrary feedforward neural networks.
-									</p>
 
+
+									<h4><a name = "disctest">Testing</a></h4>
 									<p>
 										To help you test your system, I've provided the notebook <code>DiscTest.ipynb</code> which will learn a network to separate the points on the inside of a disc from the points on the outside of the disc, which <i>is not something that we could do with 2D logistic regression</i>!  Dataset shown below:
 									</p>
@@ -143,92 +218,32 @@
 										Using our little API, we can define this network with the following code
 									</p>
 									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-										nn = NeuralNet(2, logistic_est_loss_deriv) # Input is in 2 dimensions, and we want to use logistic loss
-										nn.add_layer(100,  leaky_relu, leaky_relu_deriv) # First layer is 100 dimensions with a leaky ReLU
-										nn.add_layer(2, leaky_relu, leaky_relu_deriv) # Second layer is 2 dimensions with a leaky ReLU
-										nn.add_layer(1, logistic, None) # Last layer is the logistic function.  Its derivative is handled separately
+										nn = MLP(2, logistic_est_loss_deriv) # Input is in 2 dimensions, and we want to use logistic loss
+										
+										nn.add_layer(100,  leaky_relu, leaky_relu_deriv, name="layer1") # First layer outputs 100 dimensions with a leaky ReLU
+										
+										nn.add_layer(2, leaky_relu, leaky_relu_deriv, name="layer2") # Second layer outputs 2 dimensions with a leaky ReLU.  
+										# Data should be linearly separatable after this layer
+
+										nn.add_layer(1, logistic, None, name="lastlayer") # Last layer is the logistic function.  Its derivative is handled separately
 									</script>  
 
 									<p>
-										Then, since our API is designed to update one example at a time with backpropagation, we continuously feed it random permutations of our data one at a time.  This is all in the notebook already and you can just run it.  If it works properly, you should see an animation like this, where the left plot shows the 2 coordinates of the output of layer 2 as well as the linear separator inferred from the final layer, and the right plot shows the loss over time.  As you can see, after a few iterations, the orange points get moved to the other side of the final linear separator from the blue points
+										Then, we can perform <a name = "stochastic"><b>stochastic gradient descent</b></a> on each epoch; that is, we shuffle all of the examples and send them through one by one, updating the weights each time.  This is all in the notebook already and you can just run it.  If it works properly, you should see an animation like this, where the left plot shows the 2 coordinates of the output of <code>layer2</code>, and the right plot shows the loss over time.  As you can see, after a few iterations, the orange and blue points become linearly separable after the output of <code>layer2</code>.
 									</p>
 
-									<img src = "DiscResult.gif" width=1000>
+									<img src = "DiscResult.gif" width="80%">
 
-
+									<HR>
 									<h3>
 										<a name = "digits">Digits Classification (10 Points)</a>
 									</h3>
 
 									<p>
-										We're now ready to apply our MLPs to digit classification!  The last step is that we need to define a loss function over the output of the softmax, compared to ground truth.  For this, define ground truth as an an "indicator array," or also referred to as a <b>one-hot vector</b>.  Here are all of the possible 1-hot vectors based on ground truth 
-
-										<table style="width:400px;">
-											<tr><td>Ground truth Value</td><td>1-Hot Vector <b>y</b></td></tr>
-											<tr>
-												<td>0</td>
-												<td>
-													[ <b>1</b>, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>1</td>
-												<td>
-													[0,  <b>1</b>, 0, 0, 0, 0, 0, 0, 0, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>2</td>
-												<td>
-													[0, 0,  <b>1</b>, 0, 0, 0, 0, 0, 0, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>3</td>
-												<td>
-													[0, 0, 0,  <b>1</b>, 0, 0, 0, 0, 0, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>4</td>
-												<td>
-													[0, 0, 0, 0,  <b>1</b>, 0, 0, 0, 0, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>5</td>
-												<td>
-													[0, 0, 0, 0, 0,  <b>1</b>, 0, 0, 0, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>6</td>
-												<td>
-													[0, 0, 0, 0, 0, 0,  <b>1</b>, 0, 0, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>7</td>
-												<td>
-													[0, 0, 0, 0, 0, 0, 0,  <b>1</b>, 0, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>8</td>
-												<td>
-													[0, 0, 0, 0, 0, 0, 0, 0, <b>1</b>, 0]
-												</td>
-											</tr>
-											<tr>
-												<td>9</td>
-												<td>
-													[0, 0, 0, 0, 0, 0, 0, 0, 0, <b>1</b>]
-												</td>
-											</tr>
-										</table>
+										We're now ready to apply our MLPs to our first real application: digit classification!  
 									</p>
 									<p>
-										Based on this, we can define a loss function which is a generalization of the <a href = "../../ClassExercises/Week10_LogisticRegression/index.html#logisticloss">logistic loss</a> to multivariate output.  Given the output <b>y<SUB>est</SUB></b> of the softmax function and the ground truth 1-hot vectors <b>y</b>, we can define the <b>multivariate cross-entropy logistic loss</b> as 
+										We'll use a loss function which is a generalization of the <a href = "../../ClassExercises/Week10_LogisticRegression/index.html#logisticloss">logistic loss</a> to multivariate output.  Given the output <b>y<SUB>est</SUB></b> of the softmax function and the ground truth 1-hot vectors <b>y</b>, we can define the <b>multivariate cross-entropy logistic loss</b> as 
 									</p>
 
 									<div style="width:100px;">
@@ -248,7 +263,16 @@
 									</p>
 
 									<p>
-										<h4>Your Task</h4> Put everything together in a Jupyter notebook to train a neural network in our little API that classifies digits in the MNist dataset.  Train a network using <b><a href = "#stochastic">stochastic gradient descent</a> on the training set for 60 iterations</b>, and report the accuracy on all of the images in the test set.  You should compare two networks: the first network should have a single hidden layer with 20 neurons and a softmax output, which you can define like this:
+										<h4>Your Task</h4> Create a Jupyter notebook <code>Classification.ipynb</code> to train a neural network in our little API that classifies digits in the MNIST dataset.  Train a network using <a href = "#stochastic">stochastic gradient descent</a> on the training set for 100 iterations</b>, and report the accuracy on all of the images on both the training set and the test set.  To load train set, use the <code>load_images</code> method in <code>digits.py</code>:
+										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+											X, Y = get_digits("Digits")
+											XTest, YTest = get_digits("DigitsTest")
+										</script>  
+										
+
+									</p>
+									<p>
+										You should compare two networks: the first network should have a single hidden layer with 20 neurons and a softmax output, which you can define like this:
 
 										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
 											nn = NeuralNet(x_train.shape[1], softmax_est_crossentropy_deriv)
@@ -256,12 +280,161 @@
 											nn.add_layer(10, softmax, None)
 										</script>  
 										
-										The second network should also start with a hidden layer with 20 neurons, but you should add an additional ReLU layer with 40 neurons.  <b>Indicate clearly in your notebook which network works better and why you think this is</b>.
+										The second network should have an additional ReLU layer with 40 neurons at the beginning before the layers with 20 and 10.  <b>Indicate clearly in your notebook which network works better and why you think this is</b>, and if it seems like either network is overfitting at some point.
+									</p>
+									
+								<HR>
+									<h3>
+										<a name = "autoencoder">Digits Autoencoder (10 Points)</a>
+									</h3>
+
+									<p>
+										In this task, you will create an autoencoder (encoder/decoder network) to compute a dimension reduced representation of the digits, which serves as a warmup for more complicated examples such as <a href = "https://youtu.be/iuQ_f3W5Ttk?si=IB4nTU87lsboRtC6&t=204">low dimensional representations of face images</a>.
+									</p>
+									<p>
+										Up to this point, the only technique we've seen for unsupervised dimension reduction is <a href = "../../ClassExercises/Week7_PCA/Week7_PCA/UnsupervisedDigits.html">principal component analysis (PCA)</a>, which is a <i>linear dimension reduction technique</i>; in particular, it fits a flat to data in high dimensions.  To help visualize digit dimension reductions, I've created a method in <code>digits.py</code> called <code>plot_digits_dimreduced_examples</code> that shows examples of encodings projecting digits to their dimension reduced representation, as well as some example decodings back up to pixel space.  The following code implements PCA in an API compatible with this:
 									</p>
 
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										class PCAModel:
+											"""
+											A class that performs PCA and is compatible with the plotting
+											interface for showing the latent space of digits
+											"""
+											def __init__(self, X):
+												import numpy.linalg as linalg
+												mu = np.mean(X, axis=0)
+												self.mu = mu
+												X = X - mu[None, :]
+												A = (X.T).dot(X)
+												v, U = linalg.eigh(A)
+												self.U = U[:, -2::]
+												v[v < 0] = 0
+												v = v[::-1]
+												print("Variance Explained: {:.2f}%".format(100*np.sum(v[0:2])/np.sum(v)))
+											
+											def forward(self, x, end=None):
+												x = x - self.mu
+												u = (self.U.T).dot(x)
+												if end == "latent":
+													ret = u
+												else:
+													ret = self.U.dot(u) + self.mu
+													ret[ret < 0] = 0
+													ret[ret > 1] = 1
+												return ret
+											
+										X, Y = get_digits("Digits")
+										model = PCAModel(X)
+										plt.figure(figsize=(10, 10))
+										plot_digits_dimreduced_examples(X, Y, model)
+									</script>  
 
-									<h4>Loading data</h4>
-									
+									<p>
+										The two principal components with the highest variance explain 16.8% of the variance in the dataset, and examples of encodings look like this:
+									</p>
+
+									<img src = "PCA.png" width="80%">
+
+									<p>
+										This is not bad for a linear dimension reduction technique!  We can certainly see the separation between 0 and 1, and the 4's, 7's and 9's are in one cluster (though they're mixed up).  One downside, though, is that every decoded result from the 2D "latent space" is very blurry. To improve this, we'll turn to an <b>neural autoencoder</b>, which is a <i>nonlinear dimension reduction technique</i> that we can create using our MLP API.
+									</p>
+
+									<h4>Your Task</h4>
+									<p>
+										Create a notebook <code>Autoencoder.ipynb</code> in which you create and train an autoencoder for digits.
+									</p>
+
+									<h4><a name = "architecture">Architecture</a></h4>
+									<p>
+										You should use the following architecture
+									</p>
+									<img src = "AutoencoderArchitecture.svg" width="60%">
+									<p>
+										It has the following properties:
+									</p>
+									<ul>
+										<li>The input and output are both flattened 784 dimension representations of the pixels</li>
+										<li>
+											Name the 2D latent layer <code>"latent"</code> and the layer right after that <code>"up128"</code>.  This will help with plotting and debugging
+										</li>
+										<li>
+											Every layer, except for the latent layer and the last layer, uses leaky ReLUs.  The 2D latent and last layer use logistic functions.
+											<p>
+												The rationale for this is that having a logistic at the latent layer squashes the dimension reduced representation to the box [0, 1] x [0, 1], which forces it to fill out the box.  Having a logistic as the last layer gives the network a hint that the grayscale values in the output should be between 0 and 1.
+											</p>
+										</li>
+									</ul>
+
+									<h4><a name = "training">Training</a></h4>
+									<p>
+										To train the network, use <b>squared loss</b> (which is provided in <code>losses.py</code>) and <b>batch gradient descent</b> with a <b>batch size of 16</b>.  This means that every epoch, you should shuffle the data and accumulate the gradient over every run of 16 examples, taking a gradient descent step and resetting the gradients once these gradients have been accumulated.  Go for at least 3 epochs (this may take a few minutes).  Use an initial <b>learning rate of <code>1e-4</code></b>, and shrink this learning factor by 2x at the end of each epoch.
+									</p>
+
+									<p>
+										To see if this is working properly, use the <code>plot_digits_dimreduced_examples</code> method.  Below is an animation of the training of a properly working example.  You'll notice that as the learning rate decreases, it settles down into a local min.  <b>Your results may be different due to random initialization of the weights!</b>
+									</p>
+
+									<img src = "autoencoder_train.gif" width="80%">
+									<p>
+										And below is the final frame.  Notice how, compared to PCA, the digits are separated out better, and the encodings are a bit sharper.  There is still a lot of confusion between 4/7/9, but we did much better separating out 2 and 6 from the rest, and the variance in the 1 and 0 classes are much more visible.
+									</p>
+									<img src = "autoencoder_result.png" width="80%">
+									<p>
+
+									</p>
+
+									<h4><a name = "latenttraverse">Latent Traversal (For Fun)</a></h4>
+									<p>
+										This autoencoder gives us a nice way to interpolate between examples.  To get started, note that we can input a 2D vector and put it through the decoder part by starting at <code>"up128"</code>
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										u = [0.1, 0.1]
+										I = model.forward(u, start="up128")
+										I = np.reshape(I, (28, 28))
+										plt.imshow(I, cmap='gray', vmin=0, vmax=1)
+										plt.title("u = {}".format(u))
+									</script>  
+
+									<p>
+										In my trained network above, this gives the following:
+									</p>
+									<img src = "LatentExample.png" width="25%">
+									<p>
+										Which makes sense, because the lower left is in the 1's range of the image.  We can go further and make an animation of traversing the latent space.  For instance, let's suppose I wanted to go around a circle
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										t = np.linspace(0, 2*np.pi, 300)
+										xs = 0.5 + 0.4*np.cos(t)
+										ys = 0.5 + 0.4*np.sin(t)
+										
+										plt.figure(figsize=(10, 10))
+										for i, (x, y) in enumerate(zip(xs, ys)):
+											u = [x, y]
+											I = model.forward(u, start="up128")
+											I = np.reshape(I, (28, 28))
+											plt.clf()
+											plt.subplot2grid((5, 5), (0, 0), colspan=1, rowspan=1)
+											plt.imshow(I, cmap='gray', vmin=0, vmax=1)
+											plt.axis("off")
+											plt.subplot2grid((5, 5), (1, 0), colspan=5, rowspan=4)
+											scatter_digits(model, X, Y, n_scatter=1000)
+											plt.scatter(x, y, c='k', s=100, zorder=100)
+											plt.savefig("LatentInterp{}.png".format(i))
+									</script>  
+
+									<p>
+										Then I'd get the following animation on my network:
+									</p>
+									<img src = "latentTraverse.gif">
+
+
+
+									<p>
+										This really gives an idea of how everything is connected in the latenet space!  This all gets even more exciting when we move on from these low resolution digits to, for instance, <a href = "https://youtu.be/iuQ_f3W5Ttk?si=tTvfLi2uPI1vFO_r&t=292">face images</a>!
+									</p>
 									
                                 </div>
 						</div>
@@ -330,6 +503,9 @@
 												</li>
 												<li>
 													<a href = "../../Assignments/HW5_LogisticRegression">HW5: Logistic Regression on Movie Reviews</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW6_BYOMLP">HW6: Build Your Own Multilayer Perceptron (BYOMLP)</a>
 												</li>
 												<!--
 												<li>

@@ -282,12 +282,17 @@
 									</p>
 
 									<p>
-										There's one more thing I ommitted, which is that we also define a loss function over the output, and we're really looking for the gradient with respect to the loss function.  But the above gives a flavor for the patterns that emerge.
+										There's one more thing I omitted, which is that we also define a loss function over the output, and we're really looking for the gradient with respect to the loss function.  But the above gives a flavor for the patterns that emerge.
 									</p>
 
 									<p>
 										Below is the pseudocode for the matrix form of backpropagation for general feedforward networks of any shape.  It may look daunting at first, but each bullet point should be a single line of code since we set up things in such an organized way with matrices.
 									</p>
+
+									<p>
+										If you look closely, you can match these steps up with the simple 1D example I gave above and see where the substitutions happen from one layer to the next.  In a nutshell, what I've done is rearrange some of the results from the <a href = "../../../Modules/Backprop/Video3">derivations I did in the module</a> to be more convenient in code.
+									</p>
+
 
 									<div style="background-color: blanchedalmond; padding:20px;">
 										<h3><a name = "backpropalg">Algorithm 2: Backpropagation Through A Fully Connected Feedforward Neural Network</a></h3>
@@ -345,10 +350,6 @@
 									</div>
 									<p></p>
 
-									<p>
-										If you look closely, you can match these steps up with the simple example I gave and see where the substitutions happen from one layer to the next.  Again, if you're curious to know more, have a look at my derivation at <a href = "../../../Modules/Backprop/Video1">this link</a>.
-										</p>
-									</p>
 						</div>
 					</div>
 
@@ -415,6 +416,9 @@
 												</li>
 												<li>
 													<a href = "../../Assignments/HW5_LogisticRegression">HW5: Logistic Regression on Movie Reviews</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW6_BYOMLP">HW6: Build Your Own Multilayer Perceptron (BYOMLP)</a>
 												</li>
 												<!--
 												<li>
