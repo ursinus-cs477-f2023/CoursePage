@@ -132,13 +132,13 @@
 
 									<h4>Your Task</h4>
 									<p>
-										Fill in the methods <code>__init__</code>, <code>add_layer</code>, and <code>forward</code> in <code>mlp.py</code>.  
+										Have a look at the <a href = "../../ClassExercises/Week10_Backprop/index.html#forwardalg">pseudocode for the forward pass algorithm</a> and fill in the methods <code>__init__</code>, <code>add_layer</code>, and <code>forward</code> in <code>mlp.py</code>.  
 									</p>
 									<p>
 										When you add a layer, you should store as instance variables a weights matrix and a bias matrix of the appropriate shape, as well as the function handles for the nonlinear function and its derivative <code>f</code> and <code>fderiv</code>, respectively, at this layer.  The weights should be a 2D array, and the biases should be a 1D array, and you should randomly initialize them using <code><a href = "https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html">np.random.randn</a></code>.  <b>Be sure to multiply the initial weights by 0.1 to make sure their standard deviation is 0.1</b> (smaller standard deviation weights tend to perform better).  There is also an optional parameter called "name" that you can use to assign a string name to this layer.  This will help us with the <a href = "#disctest">disc test</a> and <a href = "#autoencoder">autoencoder</a> task later.
 									</p>
 									<p>
-										When you do a forward pass, it will help if you store the <code>a</code>'s and <code>h</code>'s at each layer as instance variables, as you can look them up later when you do backpropagation.  You should also take into consideration the optional <code>start</code> and <code>end</code> parameters, which you can use to start an input in the middle of the network and end early.
+										When you do a forward pass, it will help if you store the <code>a</code>'s and <code>h</code>'s (as defined in  <a href = "../../ClassExercises/Week10_Backprop/index.html#forwardalg">the notes</a>) at each layer as instance variables, as you can look them up later when you do backpropagation.  You should also take into consideration the optional <code>start</code> and <code>end</code> parameters, which you can use to start an input in the middle of the network and end early.
 									</p>
 
 									<h4>Tips</h4>

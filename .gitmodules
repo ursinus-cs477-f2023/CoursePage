@@ -52,3 +52,6 @@
 [submodule "ClassExercises/Week10_DiscSeparate/TensorflowDiscSeparate"]
 	path = ClassExercises/Week10_DiscSeparate/TensorflowDiscSeparate
 	url = https://github.com/ursinus-cs477-f2023/TensorflowDiscSeparate.git
+[submodule "ClassExercises/Week11_Autoencoder/Week11_Autoencoder"]
+	path = ClassExercises/Week11_Autoencoder/Week11_Autoencoder
+	url = https://github.com/ctralie/Week11_Autoencoder.git
