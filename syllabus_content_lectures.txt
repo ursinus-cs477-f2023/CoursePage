@@ -71,7 +71,7 @@ The Viterbi Algorithm
 
 <ul><li><a href = "ClassExercises/Week5_RobotLocalization/index.html">Class Exercise: Robot Localization</a></li></ul>
 LECTURE
-Ethics #2: Corporate Capture And Colonial Practices
+<a href = "Ethics/index.html#ethics2">Ethics #2: Corporate Capture And Colonial Practices</a>
 
 
 LECTURE
@@ -119,7 +119,7 @@ Unit 4: Neural Networks And Deep Learning
 
 
 LECTURE
-Feedforward Neural Networks
+Intro To Feedforward Neural Networks, Multilayer Perceptrons
 
 <ul><li><a href = "ClassExercises/Week10_DiscSeparate/TensorflowDiscSeparate">Interactive Disc Separating Demo</a></li></ul>
 LECTURE
@@ -139,13 +139,21 @@ Unsupervised Learning with Autoencoders
 
 <ul><li>Class Exercise: Digits Autoencoder</li></ul>
 LECTURE
-Generative Adversarial Networks (GANs)
+Autoencoders continued
+
+
+LECTURE
+Adversarial Attacks on Images, Generative Adversarial Networks (GANs)
 
 <ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
 LECTURE
-Variational Autoencoders
+<a href = "Ethics/index.html#ethics4">Ethics #4: Intellectual property and AI / Music in AI</a>
 
-<ul><li><a href = "https://lilianweng.github.io/posts/2018-08-12-vae/">Lilian Weng's notes on variational autoencoders</a></li></ul>
+<ul><li>Guest visit from <a href = "https://www.encantimusic.com/">Ben Cantil</a></li></ul>
+LECTURE
+Variational Bayes, Variational Autoencoders
+
+<ul><li><a href = "https://blog.evjang.com/2016/08/variational-bayes.html">Evan Jang Notes on Variational Bayes</a></li><li><a href = "https://lilianweng.github.io/posts/2018-08-12-vae/">Lilian Weng's notes on variational autoencoders</a></li></ul>
 LECTURE
 Diffusion Models for Generative AI
 
@@ -154,10 +162,6 @@ LECTURE
 Deep Reinforcment Learning, Policy Gradients
 
 <ul><li><a href = "http://karpathy.github.io/2016/05/31/rl/">Andrej Karpathy deep RL pong tutorial</a></li></ul>
-LECTURE
-Ethics #4: Intellectual property and AI / Music in AI
-
-
 SECTION
 Unit 5: Deep Learning Through Time
 
@@ -176,10 +180,6 @@ Attention
 <ul><li><a href = "https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention Is All You Need</a></li><li><a href = "https://lilianweng.github.io/posts/2018-06-24-attention/">Lillian Weng: Attention? Attention!</a></li></ul>
 LECTURE
 The Transformer Architecture
-
-
-LECTURE
-Reinforcement Learning with Human Feedback
 
 
 LECTURE
