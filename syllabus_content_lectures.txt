@@ -149,11 +149,11 @@ Adversarial Attacks on Images, Generative Adversarial Networks (GANs)
 LECTURE
 <a href = "Ethics/index.html#ethics4">Ethics #4: Intellectual property and AI / Music in AI</a>
 
-<ul><li>Guest visit from <a href = "https://www.encantimusic.com/">Ben Cantil</a></li></ul>
+<ul><li>Guest visit from <a href = "https://www.encantimusic.com/">Ben Cantil</a>, product lead at <a href = "https://datamindaudio.ai/">DataMind Audio</a></li></ul>
 LECTURE
 Variational Bayes, Variational Autoencoders
 
-<ul><li><a href = "https://blog.evjang.com/2016/08/variational-bayes.html">Evan Jang Notes on Variational Bayes</a></li><li><a href = "https://lilianweng.github.io/posts/2018-08-12-vae/">Lilian Weng's notes on variational autoencoders</a></li></ul>
+<ul><li><a href = "https://www.jeremyjordan.me/variational-autoencoders/">Jeremy Jordan Notes on Variational Autoencoders</a></li><li><a href = "https://blog.evjang.com/2016/08/variational-bayes.html">Evan Jang Notes on Variational Bayes</a></li></ul>
 LECTURE
 Diffusion Models for Generative AI
 

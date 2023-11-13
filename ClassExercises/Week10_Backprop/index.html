@@ -302,7 +302,7 @@
 
 										<h4><b>def backprop(x, y)</b>, where x is input and y is ground truth label</h4>
 											<p>
-												After this iterates, the lists <b>W<SUB>derivs</SUB></b> and <b>b<SUB>derivs</SUB></b> will be populated with matrices that hold the derivatives of all weights and biases, respectively
+												After this iterates, the lists <b>W<SUB>derivs</SUB></b> and <b>b<SUB>derivs</SUB></b> will be populated with <b>matrices</b> that hold the derivatives of all weights and biases, respectively
 											</p>
 										<ul>
 											<li>Let <b>L</b> be the number of layers</li>
@@ -325,10 +325,10 @@
 														// Step 2: Compute the gradients of the weights and biases at this layer 
 														<Ul>
 															<li>
-																Let <b>b_derivs[k] = g</b> // We now have the gradient for biases in this level
+																Let <b>b_derivs<SUB>k</SUB> = g</b> // We now have the gradient for biases in this level
 															</li>
 															<li>
-																Let <b>W_derivs[k] = g h<SUB>k-1</SUB><SUP>T</SUP></b> // This is a matrix multiplication.  Treating <b>h<SUB>k-1</SUB></b> and <b>g</b> as column matrices, this performs their <a href = "https://en.wikipedia.org/wiki/Outer_product">outer product</a> to get the gradient for each weight at this layer 
+																Let <b>W_derivs<SUB>k</SUB> = g h<SUB>k-1</SUB><SUP>T</SUP></b> // This is a matrix multiplication.  Treating <b>h<SUB>k-1</SUB></b> and <b>g</b> as column matrices, this performs their <a href = "https://en.wikipedia.org/wiki/Outer_product">outer product</a> to get the gradient for each weight at this layer 
 
 																<p>
 																	// As a sanity dimension check, note that <b>h<SUB>k-1</SUB></b> is the output of the layer before, which is the input to this layer, and <b>g</b> is the gradient of the output of this layer.  So if <b>h<SUB>k-1</SUB></b> is an <b>N x 1</b> matrix and <b>g</b> is an <b>M x 1</b> matrix, then <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will be an <b>M x N</b> matrix, which matches the dimensions of <b>W<SUB>k</SUB></b>.  So each element of <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will hold the derivative of <b>W<SUB>k</SUB></b>'s corresponding weight.
