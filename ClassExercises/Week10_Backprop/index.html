@@ -334,6 +334,9 @@
 																	// As a sanity dimension check, note that <b>h<SUB>k-1</SUB></b> is the output of the layer before, which is the input to this layer, and <b>g</b> is the gradient of the output of this layer.  So if <b>h<SUB>k-1</SUB></b> is an <b>N x 1</b> matrix and <b>g</b> is an <b>M x 1</b> matrix, then <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will be an <b>M x N</b> matrix, which matches the dimensions of <b>W<SUB>k</SUB></b>.  So each element of <b>g h<SUB>k-1</SUB><SUP>T</SUP></b> will hold the derivative of <b>W<SUB>k</SUB></b>'s corresponding weight.
 																</p>
 																<p>
+																	<b>NOTE:</b> When coding this in numpy, you can take advantage of <a href = "https://numpy.org/doc/stable/reference/generated/numpy.outer.html"><code>np.outer</code></a>
+																</p>
+																<p>
 																	<b>NOTE Also:</b> When we're at the first layer (<b>k=1</b>), then <b>h<SUB>k-1</SUB></b> is actually <b>x</b>, the input to the whole network. 
 																</p>
 															</li>
