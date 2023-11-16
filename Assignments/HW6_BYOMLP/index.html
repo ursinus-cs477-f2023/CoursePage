@@ -278,7 +278,7 @@
 										You should compare two networks: the first network should have a single hidden layer with 20 neurons and a softmax output, which you can define like this:
 
 										<script type="syntaxhighlighter" class="brush: python"><![CDATA[
-											nn = NeuralNet(x_train.shape[1], softmax_est_crossentropy_deriv)
+											nn = MLP(XTrain.shape[1], softmax_est_crossentropy_deriv)
 											nn.add_layer(20, leaky_relu, leaky_relu_deriv)
 											nn.add_layer(10, softmax, None)
 										</script>  
