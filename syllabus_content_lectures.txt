@@ -153,7 +153,7 @@ LECTURE
 LECTURE
 Variational Bayes, Variational Autoencoders
 
-<ul><li><a href = "https://www.jeremyjordan.me/variational-autoencoders/">Jeremy Jordan Notes on Variational Autoencoders</a></li><li><a href = "https://blog.evjang.com/2016/08/variational-bayes.html">Evan Jang Notes on Variational Bayes</a></li></ul>
+<ul><li><a href = "https://www.jeremyjordan.me/variational-autoencoders/">Jeremy Jordan Notes on Variational Autoencoders</a></li><li><a href = "https://blog.evjang.com/2016/08/variational-bayes.html">Evan Jang Notes on Variational Bayes</a></li><li><a href = "https://towardsdatascience.com/intuitively-understanding-variational-autoencoders-1bfe67eb5daf">Irhuam Shafkat: Intuitively Understanding Variational Autoencoders</a></li></ul>
 LECTURE
 Diffusion Models for Generative AI
 

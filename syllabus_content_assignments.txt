@@ -85,21 +85,12 @@ Assignment 5 Due
 <HR><a href = "Assignments/HW6_BYOMLP">Assignment 6: Build Your Own Multilayer Perceptron (BYOMLP)</a> Out
 
 2023-11-6
-Adversarial Attacks on Images Module Due
-
-2023-11-10
 Assignment 6 Due
 
-2023-11-17
+2023-11-20
 <HR>Assignment 7: This Cat Doesn't Exist Out
 
-2023-11-17
+2023-11-20
 Assignment 7 Due
-
-2023-11-21
-Assignment 8 Out
-
-2023-11-27
-Assignment 8 Due
 
 2023-12-06
