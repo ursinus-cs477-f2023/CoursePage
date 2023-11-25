@@ -55,3 +55,6 @@
 [submodule "ClassExercises/Week11_Autoencoder/Week11_Autoencoder"]
 	path = ClassExercises/Week11_Autoencoder/Week11_Autoencoder
 	url = https://github.com/ctralie/Week11_Autoencoder.git
+[submodule "ClassExercises/Week12_VariationalAutoencoders/Week12_VariationalAutoencoders"]
+	path = ClassExercises/Week12_VariationalAutoencoders/Week12_VariationalAutoencoders
+	url = https://github.com/ursinus-cs477-f2023/Week12_VariationalAutoencoders.git

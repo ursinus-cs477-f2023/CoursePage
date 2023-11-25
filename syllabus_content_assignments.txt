@@ -88,9 +88,6 @@ Assignment 5 Due
 Assignment 6 Due
 
 2023-11-20
-<HR>Assignment 7: This Cat Doesn't Exist Out
+<a href = "../Modules/VAEGAN/Video1">VAEGAN Module: VAE Part</a> Due
 
-2023-11-20
-Assignment 7 Due
-
-2023-12-06
+2023-11-27

@@ -145,7 +145,7 @@ Autoencoders continued
 LECTURE
 Adversarial Attacks on Images, Generative Adversarial Networks (GANs)
 
-<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
+<ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li><a href = "https://neptune.ai/blog/gan-failure-modes">neptune.ai notes on GANs and failure modes</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
 LECTURE
 <a href = "Ethics/index.html#ethics4">Ethics #4: Intellectual property and AI / Music in AI</a>
 
