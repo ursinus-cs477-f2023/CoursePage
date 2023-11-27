@@ -58,3 +58,6 @@
 [submodule "ClassExercises/Week12_VariationalAutoencoders/Week12_VariationalAutoencoders"]
 	path = ClassExercises/Week12_VariationalAutoencoders/Week12_VariationalAutoencoders
 	url = https://github.com/ursinus-cs477-f2023/Week12_VariationalAutoencoders.git
+[submodule "Assignments/HW7_UNetDiffusion/HW7_LungSegmentation"]
+	path = Assignments/HW7_UNetDiffusion/HW7_LungSegmentation
+	url = https://github.com/ursinus-cs477-f2023/HW7_LungSegmentation.git
