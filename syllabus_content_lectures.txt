@@ -133,7 +133,7 @@ Convolutional Neural Networks
 LECTURE
 Cats vs Dogs, Overfitting Strategies: Dropout, Data Augmentation
 
-<ul><li>Class Exercise: Cats vs Dogs</li><li><a href = "https://pytorch.org/vision/stable/transforms.html">Pytorch data augmentation for images</a></li><li><a href = "https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Original Paper on Dropout</a></li></ul>
+<ul><li><a href = "https://github.com/ursinus-cs477-f2023/CoursePage/blob/main/ClassExercises/Week11_CNNs/CatDog_Train_Better.ipynb">Class Exercise: Cats vs Dogs with Data Augmentation</a></li></li><li><a href = "https://pytorch.org/vision/stable/transforms.html">Pytorch data augmentation for images</a></li><li><a href = "https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Original Paper on Dropout</a></li></ul>
 LECTURE
 Unsupervised Learning with Autoencoders
 
@@ -155,13 +155,13 @@ Variational Bayes, Variational Autoencoders
 
 <ul><li><a href = "https://www.jeremyjordan.me/variational-autoencoders/">Jeremy Jordan Notes on Variational Autoencoders</a></li><li><a href = "https://blog.evjang.com/2016/08/variational-bayes.html">Evan Jang Notes on Variational Bayes</a></li><li><a href = "https://towardsdatascience.com/intuitively-understanding-variational-autoencoders-1bfe67eb5daf">Irhuam Shafkat: Intuitively Understanding Variational Autoencoders</a></li></ul>
 LECTURE
+Work day
+
+
+LECTURE
 Diffusion Models for Generative AI
 
 <ul><li><a href = "https://theaisummer.com/diffusion-models/">AI Summer Notes on Diffusion Models</a></li><li><a href = "https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">Lilian Weng</a> Mathematics Behind Reverse Diffusion</a></li><li><a href = "https://arxiv.org/abs/2301.13188">Extracting the training data from diffusion models</a></li></ul>
-LECTURE
-Deep Reinforcment Learning, Policy Gradients
-
-<ul><li><a href = "http://karpathy.github.io/2016/05/31/rl/">Andrej Karpathy deep RL pong tutorial</a></li></ul>
 SECTION
 Unit 5: Deep Learning Through Time
 
@@ -171,18 +171,18 @@ Recurrent Neural Networks
 
 <ul><li><a href = "http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks</a></li></ul>
 LECTURE
-Long Short Term Memory (LSTM) Networks
-
-<ul><li><a href = "https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Chris Olah: Understanding LSTMs</li></ul>
-LECTURE
 Attention
 
 <ul><li><a href = "https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention Is All You Need</a></li><li><a href = "https://lilianweng.github.io/posts/2018-06-24-attention/">Lillian Weng: Attention? Attention!</a></li></ul>
 LECTURE
-The Transformer Architecture
-
-
-LECTURE
 Ethics #5: Stochastic Parrots
 
 <ul><li><a href = "https://dl.acm.org/doi/abs/10.1145/3442188.3445922">On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?🦜</a></li></ul>
+LECTURE
+The Transformer Architecture
+
+<ul><li><a href = "https://jalammar.github.io/illustrated-transformer/">Jay Alammar: Illustrated Transformer</a></li></ul>
+LECTURE
+Deep Reinforcment Learning, Policy Gradients
+
+<ul><li><a href = "http://karpathy.github.io/2016/05/31/rl/">Andrej Karpathy deep RL pong tutorial</a></li></ul>
