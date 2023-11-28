@@ -35,7 +35,7 @@ Consistent Heuristics, Begin Game Trees
 
 
 LECTURE
-<a href = "Ethics/index.html#ethics1">Ethics #1: Bias, Social Media, Current vs Future Harms</a>
+<a href = "Ethics/index.html#intro">Ethics #1: Bias, Social Media, Current vs Future Harms</a>
 
 
 LECTURE
@@ -71,7 +71,7 @@ The Viterbi Algorithm
 
 <ul><li><a href = "ClassExercises/Week5_RobotLocalization/index.html">Class Exercise: Robot Localization</a></li></ul>
 LECTURE
-<a href = "Ethics/index.html#ethics2">Ethics #2: Corporate Capture And Colonial Practices</a>
+<a href = "Ethics/index.html#corporatecapture">Ethics #2: Corporate Capture And Colonial Practices</a>
 
 
 LECTURE
@@ -147,7 +147,7 @@ Adversarial Attacks on Images, Generative Adversarial Networks (GANs)
 
 <ul><li><a href = "https://wiki.pathmind.com/generative-adversarial-network-gan">PathMind: A Beginner's Guide To Generative Adversarial Networks</a></li><li><a href = "https://neptune.ai/blog/gan-failure-modes">neptune.ai notes on GANs and failure modes</a></li><li>Class Exercise: This Cat Doesn't Exist - GAN Version</li></ul>
 LECTURE
-<a href = "Ethics/index.html#ethics4">Ethics #4: Intellectual property and AI / Music in AI</a>
+<a href = "Ethics/index.html#music">Ethics #3: Intellectual property and AI / Music in AI</a>
 
 <ul><li>Guest visit from <a href = "https://www.encantimusic.com/">Ben Cantil</a>, product lead at <a href = "https://datamindaudio.ai/">DataMind Audio</a></li></ul>
 LECTURE

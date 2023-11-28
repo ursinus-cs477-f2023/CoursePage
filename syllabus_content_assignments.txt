@@ -91,3 +91,9 @@ Assignment 6 Due
 <a href = "../Modules/VAEGAN/Video1">VAEGAN Module: VAE Part</a> Due
 
 2023-11-27
+<a href = "Ethics/index.html#climate">Ethics #4 Climate Questions / Discussion Due</a>
+
+2023-12-01
+<HR><a href = "FinalProject/index.html">Final Ethics Paper Topic Proposal Due</a>
+
+2023-12-01
