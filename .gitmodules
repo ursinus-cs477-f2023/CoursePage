@@ -61,3 +61,9 @@
 [submodule "Assignments/HW7_UNetDiffusion/HW7_LungSegmentation"]
 	path = Assignments/HW7_UNetDiffusion/HW7_LungSegmentation
 	url = https://github.com/ursinus-cs477-f2023/HW7_LungSegmentation.git
+[submodule "ClassExercises/Week14_Diffusion/Week14_Diffusion"]
+	path = ClassExercises/Week14_Diffusion/Week14_Diffusion
+	url = https://github.com/ursinus-cs477-f2023/Week14_Diffusion.git
+[submodule "Assignments/HW7_GANUNet/HW7_GAN"]
+	path = Assignments/HW7_GANUNet/HW7_GAN
+	url = https://github.com/ursinus-cs477-f2023/HW7_GAN.git
