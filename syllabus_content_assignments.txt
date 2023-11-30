@@ -97,3 +97,9 @@ Assignment 6 Due
 <HR><a href = "FinalProject/index.html">Final Ethics Paper Topic Proposal Due</a>
 
 2023-12-01
+<a href = "Assignments/HW7_GANUNet/part1.html">Assignment 7 Part 1: This Cat Doesn't Exist</a> Out
+
+2023-11-30
+Assignment 7 Part 1 Due
+
+2023-12-08

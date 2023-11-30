@@ -1,0 +1,556 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- Header !-->
+	<head>
+		<title>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../../assets/css/ie8.css" /><![endif]-->
+        <style>
+        .image_off, #home:hover .image_on{
+           display:none
+        }
+        .image_on, #home:hover .image_off{
+           display:block
+        }
+        </style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="../../index.html" class="logo"><strong>Ursinus CS 477: Artificial Intelligence And Machine Learning, Fall 2023</strong></a>
+								</header>
+<!-- End Header !-->
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+                                        <h2>Homework 7 Part 1: This Cat Doesn't Exist</h2>
+										<h3>Chris Tralie</h3>
+									</header>
+									
+									<h3>
+										Table of Contents
+										<ul>
+											<li><a href = "#overview">Overview</a></li>
+											<li><a href = "#objectives">Learning Objectives</a></li>
+											<li><a href = "#background">Background</a></li>
+											<li><a href = "#programming">Programming Tasks</a></li>
+											<ul>
+												<li><a href = "#gandiscrim">GAN Part 1: Discriminator (7 Points)</a></li>
+												<li><a href = "#gangen">GAN Part 2: Generator (7 Points)</a></li>
+												<li><a href = "#gantrain">GAN Part 3: Training Loop And Loss (8 Points)</a></li>
+											</ul>
+											
+											<li><a href = "#ethics">Ethics (3 Points)</a></li>
+										</ul>
+
+									</h3>
+
+									<div id="page-content">
+
+										<h2><a name = "overview">Overview</a></h2>
+										<p>
+											From tools such as <a href = "https://openai.com/chatgpt">ChatGPT</a> in natural language processing to <a href = "https://huggingface.co/stablediffusionapi">StableDiffusion</a> and <a href = "https://openai.com/dall-e-2">Dall-E</a> in the image space, we are currently witnessing an explosion of generative techniques.  In fact, generative techniques are so ubiquitous across so many domains that <a href = "https://thisxdoesnotexist.com/">an entire web site</a> is devoted to cataloging different applications of "this X doesn't exist," where X includes <code>{"person", "rental", "city", "food blog", "campsite", "3D chair", ...}</code>
+										</p>
+
+										<p>
+											Now that students understand enough background on machine learning broadly and deep neural networks in particular, they will be able to replicate the inner workings of generative systems for images at a moderate scale using industrial grade software.  In this assignment in particular, we will explore "this cat doesn't exist." Students will train an unsupervised learning system in <a href = "https://pytorch.org/">pytorch</a> that is able to generate cats by learning from a <a href = "https://www.kaggle.com/datasets/spandan2/cats-faces-64x64-for-generative-models/">database of about 16,000 64x64 color images of cats</a>.  The tool of choice in this assignment is <a href = "https://dl.acm.org/doi/pdf/10.1145/3422622">generative adversarial networks</a>.
+										</p>
+										
+
+                                        <p>
+                                            <h2><a name = "objectives">Learning Objectives</a></h2>
+											
+                                            <ul>
+												<li>
+													Implement and train generative adversarial networks to capture image distributions in an unsupervised way
+												</li>
+												<li>
+													Gain experience with industrial grade deep learning software (pytorch)
+												</li>
+												<li>
+													Reflect on the ethics of generative technology
+												</li>
+                                            </ul>
+										</p>
+
+										<h2>
+											<a name = "background">Background</a>
+										</h2>
+
+										<p> We're going to look at a very interesting <b>unsupervised technique</b> known as a <b>Deep Convolutional Generative Adversarial Network (DCGAN)</b> that will learn how to <b>generate</b> fake images that fit the distribution of a set of training images.  Somehow, by the end of this exercise, we're going to feed a random vector to a network, and it's going to spit out an image that looks like a cat.  In this way, it is similar to what we did with <a href = "../../../Modules/VAEGAN/Video3">varitional autoencoders</a>, although the results will be much less blurry.
+										</p>
+
+										<p>
+											
+											The GAN, devised by <a href = "https://proceedings.neurips.cc/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf">Goodfellow et al</a> back in 2014, accomplishes this feat by putting two networks into competition with each other.  The first network, known as the <b>generator</b>, takes as input a "noise vector" (a vector of random numbers) and outputs a counterfeit image.  The second network, known as the <b>discriminator</b>, compares these fake images to real images in the training set and classifies them as real (1) or fake (0).  The schematic below shows this visually
+										</p>
+	
+										<img src = "GANDiagram.svg" width=800>
+	
+										<p>
+											As the training goes along, we try to minimize the sum of two losses, one for each network:
+											<ol>
+												<li>
+													The <b>generator loss</b> penalizes fake images outputted by the generator that are classified as fake.  So the generator is incentivized to improve the quality of its counterfeit images over time.
+												</li>
+												<li>
+													The <b>discriminator loss</b> penalizes fake images that are classified as real and real images that are classified as fake.  In this way, it learns to get better and better at telling counterfeits from fakes.
+												</li>
+											</ol>
+										</p>
+	
+										<p>
+											The learning proceeds by taking steps to minimize the loss over steps 1 and 2 over and over again in a loop.  What's interesting is that as the generator improves, the loss of the discriminator goes up, and it must improve, and vice versa.  So they keep going back and forth in competition and improving each other.  Eventually, the generator will start creating new images out of thin air that look like they might belong to the distribution of the training set.  The cartoon picture below shows something like what me might expect:
+										</p>
+	
+										<img src = "GANCartoon.svg" width=600>
+
+										
+										
+									<h2>
+										<a name = "programming">Programming Tasks</a>
+									</h2>
+
+									<p>
+										<a href = "https://github.com/ursinus-cs477-f2023/HW7_GAN/archive/refs/heads/main.zip">Click here</a> to download the starter code for this assignment.  You will be editing the notebook file <code>GanCats.ipynb</code>.  When you are finished, you should submit this file to canvas.
+									</p>
+
+									<h4>Google Colab</h4>
+									<p>
+										If you are having trouble getting torch to run on your own machine, you will have to use <a href = "https://colab.research.google.com/">Google colab</a> as a cloud-based web service.  There is a free version that comes pre-loaded with torch, which should be suitable for this assignment.  Open a notebook and select the <b>GitHub</b> option, then paste in the URL </b>copy in the URL <a href = "https://github.com/ursinus-cs477-f2023/HW7_GAN/blob/main/GANCats.ipynb">https://github.com/ursinus-cs477-f2023/HW7_GAN/blob/main/GANCats.ipynb</a>, as shown below:
+									</p>
+									<img src = "Colab.png">
+										
+									
+
+
+									<h3>
+										<a name = "gandiscrim">GAN Part 1: Discriminator (7 Points)</a>
+									</h3>
+									<p>
+										Your first task is to implement the discriminator model for the GAN
+									</p>
+
+									<h4>Your Task</h4>
+									<p>
+										Fill in the skeleton class <code>Discriminator</code> to implement a convolutional neural network that takes in a batch of images and outputs a single number for each image, which will be used to classify that image as real or fake.  You should have <code>depth</code> groups of the following 3 layers in sequence:
+										<ul>
+											<li><code><a href = "https://pytorch.org/docs/1.9.1/generated/torch.nn.Conv2d.html">nn.Conv2d</a></code> with <code>kernel_size=4, stride=2, padding=1, bias=False</code></li>
+											<li>
+												<code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html">nn.BatchNorm2d</a></code>, passing the number of channels coming out of the Conv2d. 
+											</li>
+											<li>
+												<code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.LeakyReLU.html">nn.LeakyReLU</a></code>
+											</li>
+										</ul>
+									</p>
+									<p>
+										As in the convolutional autoencoder example, you should halve the resolution and double the number of channels in each group.
+									</p>
+									<p>
+										Finally, you should have a layer that <a href = "https://pytorch.org/docs/stable/generated/torch.nn.Flatten.html">flattens</a> what comes out of the above layers, and you should pass that through one final <a href = "https://pytorch.org/docs/stable/generated/torch.nn.Linear.html#torch.nn.Linear">linear layer</a> that goes down to 1 dimension, which is the final output of the network.  Note that we should not add any ReLUs after this last layer, as we will handle that in the <a href = "https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html">loss function</a> during training like we did during the last assignment
+									</p>
+
+									<h4>Tips</h4>
+									<p>
+										Have a look back at the <a href = "../../../Modules/VAEGAN/Video1">module notes on convolutional autoencoders</a>.  The architecture you setup here should be quite similar to the <b>encoder</b> in that example.  The main difference is you're mapping down to only one dimension.
+									</p>
+									<p>
+										Also, before you proceed to the next task, I highly recommend setting up a dummy batch to send through and to check the shape at every layer.  For instance:
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python"><![CDATA[
+										discriminator = Discriminator(depth=4, dim_latent=64, dim_img=64, in_channels=3, start_channels=64)
+										X = torch.zeros(16, 3, 64, 64)
+										discriminator(X)
+									</script> 
+
+									<p></p>
+
+									<h3>
+										<a name = "gangen">GAN Part 2: Generator (7 Points)</a>
+									</h3>
+									<p>
+										Your second task is to implement the generator model for the GAN.
+									</p>
+
+									<h4>Your Task</h4>
+									<p>
+										Fill in the skeleton class <code>Generator</code> to implement a convolutional neural network that takes in a flat vector of random numbers and which gradually upsamples them through convolutional layers to generate an output image at the same resolution as the real images in the dataset.
+									</p>
+
+									<p>
+										In particular, let 
+										<ul>
+											<li>
+												<code>imgres = dim_img//(2**depth)</code>
+											</li>
+											<li>
+												<code>in_channels = end_channels*(2**(depth-1))</code>
+											</li>
+											<li>
+												<code>shape_latent = (in_channels, imgres, imgres)</code>
+											</li>
+										</ul>
+										Start by setting up a linear layer that goes from the latent dimension through an <code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.Unflatten.html">Unflatten</a></code> layer to a shape <code>shape_latent</code>, followed by leaky Relu.  Then, intersperse a series of the following layers for <code>depth</code> number of repetitions:
+										<ul>
+											<li>
+												<code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.ConvTranspose2d.html">ConvTranspose2D</a>with <code>kernel_size=4, stride=2, padding=1, bias=False</code></code>
+											</li>
+											<li>
+												<code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html">nn.BatchNorm2d</a></code>, passing the number of channels coming out of the ConvTranpose2d. 
+											</li>
+											<li>
+												<code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.LeakyReLU.html">nn.LeakyReLU</a></code> at every group except for the last group, which should have a <code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.Sigmoid.html">nn.Sigmoid</a></code> (logistic function) to keep the outputs between 0 and 1.
+											</li>
+										</ul>
+										You should start with <code>in_channels</code> into the first group and halve the number of channels at each group, until you output exactly 3 channels at the end (for our synthetic RGB color)
+										
+        								
+									</p>
+
+									<h4>Tips</h4>
+									<p>
+										Have a look back at the <a href = "../../../Modules/VAEGAN/Video1">module notes on convolutional autoencoders</a>.  Your architecture should be a lot like the <b>decoder</b> in that example.
+									</p>
+									<p>
+										Also, before you proceed to the next task, I highly recommend setting up a dummy batch of noise to send through and to check the shape at every layer.  For instance:
+									</p>
+
+									<script type="syntaxhighlighter" class="brush: python">
+										generator = Generator(depth=4, dim_latent=64, dim_img=64, in_channels=3, end_channels=64)
+										z = torch.randn(16, 64)
+										XEst = generator(z)
+										plot_samples(XEst)
+									</script> 
+
+									<p>
+										Should output an image like this:
+									</p>
+
+									<img src = "NoiseSamples.png" width="60%">
+
+									<p>
+										Our goal will be to train the network so these eventually look like cats instead of noise.
+									</p>
+									
+									<h3>
+										<a name = "gantrain">GAN Part 3: Training Loop And Loss (8 Points)</a>
+									</h3>
+									<p>
+										We are finally ready to put the training loop together to train the GAN!
+									</p>
+
+									<h4>Your Task</h4>
+									<p>
+										Fill in the training loop at the bottom of the notebook.  You should instantiate both a discriminator and generator notebook, and create an individual <a href = "https://pytorch.org/docs/stable/generated/torch.optim.Adam.html">Adam optimizer</a> for each one with a learning rate of <code>3e-4</code>.  <b>Be sure to pass only the discriminator's parameters to the discriminator optimizer and only the generator's parameters to the generator optimizer</b>
+									</p>
+									<p>
+										Then, in the main training loop, cycle through batches of size 16 for 40 epochs.  For each batch, do the following in sequence:
+										<ol>
+											<li>
+												<ul>
+													<li>
+														Zero out the generator's gradients, then send <code>batch_size</code> random noise examples through the generator, then through the discriminator
+													</li>
+													<li>
+														Use a <code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html">BCEWithLogitsLoss</a></code> loss function to compare your outputs from the discriminator to a vector of all 1's, since we're trying to trick the discriminator in this step
+													</li>
+													<li>
+														Finally, compute the gradients of the loss function and take a step in the generator's optimizer.
+													</li>
+												</ul>
+											</li>
+											<li>
+												<ul>
+													<li>
+														Zero out the discriminator's gradients, then send  <code>batch_size</code> random noise examples through the generator, then through the discriminator
+													</li>
+													<li>
+														This time, use a <code><a href = "https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html">BCEWithLogitsLoss</a></code> loss function to compare your outputs from the discriminator to a <b>vector of all 0's</b>, since we're now trying to correct the discriminator
+													</li>
+													<li>
+														Send the batch of cats through the discriminator and add to the loss function a comparison with a vector of all 1's, since we want to get the cats correct
+													</li>
+													<li>
+														Compute the gradients of the sum of these two loss terms, then take a step in the discriminator's optimizer.
+													</li>
+												</ul>
+											</li>
+										</ol>
+										To keep things simple, you can skip the last batch if it has fewer than 16 elements.
+									</p>
+
+									<h4>Tips</h4>
+									<p>
+										You should output some generated examples at the end of each epoch by using the <code>plot_samples</code> method.  
+									</p>
+									<p>
+										Start off with a simpler network with 
+										<ul>
+											<li>
+												depth = 2
+											</li>
+											<li>
+												dim_latent = 32
+											</li>
+											<li>
+												start_channels = end_channels = 32
+											</li>
+										</ul>
+										This should run at a reasonable clip on the CPU (I'd guess about 1-2 minutes per epoch on most computers), and even on the first epoch you should see some rough cat-looking images, so you'll be able to see quickly whether your code is working without using GPU resources.
+									</p>
+
+									
+
+									<p>
+										The final result after 40 epochs should look something like this:
+									</p>
+									<img src = "depth2_dimlatent32_channels32.png" width="80%">
+									<p>
+										The video below shows random generations at the end of each training epoch to show the progress of the training
+									</p>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/9BF7LO31lsQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									
+
+								<HR>
+									<h2>
+										<a name = "ethics">Ethics (3 Points)</a>
+									</h2>
+									<p>
+										This kind of generative technology is obviously ripe for abuse.  Give 3 examples of how this technology could be misused.
+									</p>
+
+                                </div>
+						</div>
+					</div>
+
+					<!--LaTeX in Javascript!-->
+					<script src="../../../../jsMath/easy/load.js"></script>
+					<!--Syntax highlighting in Javascript!-->
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+					<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+                    <script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushXml.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+					<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+					<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+					<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                        <li>
+											<span class="opener">General</span>
+											<ul>
+												<li><a href = "../../index.html#overview">Overview</a></li>
+												<li><a href = "../../index.html#logistics">Technology Logistics</a></li>
+												<li><a href = "../../index.html#deliverables">Deliverables</a></li>
+												<li><a href = "../../index.html#debugging">Debugging Principles</a></li>
+												<li><a href = "../../index.html#schedule">Schedule</a></li>
+												<li><a href = "../../index.html#grading">Grading / Deadlines Policy</a></li>
+												<li><a href = "../../index.html#environment">Classroom Environment</a></li>
+												<li><a href = "../../index.html#collaboration">Collaboration Policy</a></li>
+												<li><a href = "../../index.html#other">Other Resources / Policies</a></li>
+											</ul> 
+										</li>
+										<li><a href = "../../Software/index.html">Software</a></li>
+										<li><a href = "../../index.html#schedule">Schedule</a></li>
+                                        <li>
+											<span class="opener">Assignments</span>
+											<ul>
+												<li>
+													<a href = "../../../Modules/Module1/Video1">HW0: Python Self Study Module</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW1_WelcomeToCS477">HW1: Welcome To CS 477</a>
+												</li>
+												
+												<li>
+													<a href = "../../Assignments/HW2_RushHour">HW2: The Rush Hour Problem</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW3_Markov">HW3: Markov Chains for Text Processing</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW4_FundamentalFreq">HW4: Fundamental Frequency Tracking And Pitch-Based Audio Effects</a>
+													<ul>
+														<li>
+															<a href = "../../Assignments/HW4_FundamentalFreq/statements.html">Musical statements</a>
+														</li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW5_LogisticRegression">HW5: Logistic Regression on Movie Reviews</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW6_BYOMLP">HW6: Build Your Own Multilayer Perceptron (BYOMLP)</a>
+												</li>
+												<li>
+													<a href = "../../Assignments/HW7_GANUNet/part1.html">HW7 Part 1: This Cat Doesn't Exist</a>
+												</li>
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Class Exercises / Notes</span>
+											<ul>
+												<li>
+													<a href = "../../ClassExercises/Week1_Bandit/index.html">Week 1: Introduction To Reinforcement Learning</a>
+													<ul>
+														<li>
+															<a href = "../../ClassExercises/Week1_Bandit/jsbandit/index.html">The Multi-Armed Bandit Game</a>
+														</li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week1_Adventure">Week 1: Choose Your Own Adventure</a>
+													<ul>
+														<li><a href = "../../ClassExercises/Week1_Adventure/index.html#student">Student Adventures</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href = "../../Materials/MazeExplorer">Week 2: Maze Searching Game</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_BasicSearch">Week 2: Blind Maze Searching</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week2_8Puzzle">Week 2: 8 Puzzle</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week3_PrioritySearch">Week 3: Uniform Cost, Greedy Best-First, and A* Search</a>
+												</li>
+												<li>
+													<a href = "https://ursinus.instructure.com/courses/16260/assignments/186957">Week 3: An Admissible But Not Consistent Heuristic</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/Module2/Video1">Week 4: Probability Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_Markov">Week 4: Markov Chains of Characters</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week4_MarkovText">Week 4: Markov Chains for Document Representations</a>
+												</li>
+												<li>
+													<a href = "https://ursinus.instructure.com/courses/16260/quizzes/24127">Week 4: Bayes Rule Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_NaiveBayes">Week 5: Bayes Rule And Naive Bayes Classifiers</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_BagOfWords">Week 5: Bag of Words Naive Bayes Exercise</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week6_HMM">Week 5/6: Hidden Markov Models / Bayes Filtering / Viterbi Notes</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_RobotLocalization">Week 5/6: Robot Localization</a>
+												</li>
+												<li>
+													<a href = "https://ursinus-cs477-f2023.github.io/Modules/HMM/Video1">Week 6: HMM Module</a>
+												</li>
+												<li>
+													<a href = "https://github.com/ursinus-cs477-f2023/Week6_MDP">Week 6: Markov Decision Processes And Pong AI</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/VectorModule/Video1">Week 7: Euclidean Vectors / Data Vectorization Module</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week7_DigitsNN/index.html">Week 7: K-Nearest Neighbors And Digits Classification</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week5_KMeans">Week 7: KMeans Clustering And Visual Bag of Words</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/MatrixModule/Video1">Week 7: Matrix Module</a>
+												</li>
+												<li>
+													<a href = "ClassExercises/Week7_PCA/Week7_PCA/UnsupervisedDigits.html">Week 7: PCA on MNIST Digits</a>
+												</li>
+												<li>
+													<a href = "../../ClassExercises/Week10_LogisticRegression/index.html">Week 8: Logistic Regression And Gradient Descent</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/LogisticRegression/Video1">Week 8: Neural Networks Module 1</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/Softmax/Video1">Week 9: Softmax Module</a>
+												</li>
+												<li><a href = "../../../Modules/NeuralNets/Video0">Week 9/10: Multi-Class Logistic Regression And Feedforward Neural Nets Module</a></li>
+												<li>
+													<a href = "../../ClassExercises/Week10_Backprop/index.html">Week 10: Backpropagation on Multilayer Perceptrons</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/Backprop/Video1">Week 10: Backpropagation Module</a>
+												</li>
+												<li>
+													<a href = "https://github.com/ursinus-cs477-f2023/CoursePage/blob/main/ClassExercises/Week11_CNNs/CatDog_Train_Better.ipynb">Week 11: Convolutional Neural Network with Data Augmentation for Cats vs Dogs</a>
+												</li>
+												<li>
+													<a href = "../../../Modules/VAEGAN/Video1">Week 13/14: Variational Autoencoder / GAN Module</a>
+												</li>
+												
+												
+											</ul>
+										</li>
+										<li>
+											<span class="opener">Ethics Reading / Discussions</span>
+											<ul>
+												<li><a href = "../../Ethics/index.html#intro">Bias, Social Media, Current vs Future Harms</a></li>
+												<li><a href = "../../Ethics/index.html#corporatecapture">Corporate Capture And Colonial Practices</a></li>
+												<li><a href = "../../Ethics/index.html#music">The Ethics of AI in Art / Music</a></li>
+												<li><a href = "../../Ethics/index.html#climate">AI And The Climate Crisis</a></li>
+												<li><a href = "../../FinalProject/index.html">Final Ethics Project</a></li>
+											</ul>
+										</li>
+										
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; <a href = "http://www.ctralie.com">Christopher J. Tralie</a>. All rights reserved.  Contact chris.tralie@gmail.com. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+			
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- End Sidebar !-->
+
+<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../assets/js/main.js"></script>
+<!-- End Scripts -->
