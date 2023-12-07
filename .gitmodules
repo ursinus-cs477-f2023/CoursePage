@@ -67,3 +67,6 @@
 [submodule "Assignments/HW7_GANUNet/HW7_GAN"]
 	path = Assignments/HW7_GANUNet/HW7_GAN
 	url = https://github.com/ursinus-cs477-f2023/HW7_GAN.git
+[submodule "ClassExercises/Week14_RNN/Week14_RNN"]
+	path = ClassExercises/Week14_RNN/Week14_RNN
+	url = https://github.com/ursinus-cs477-f2023/Week14_RNN.git

@@ -125,7 +125,7 @@ Intro To Feedforward Neural Networks, Multilayer Perceptrons
 LECTURE
 Backpropagation
 
-<ul><li><a href = "ClassExercises/Week10_Backprop/index.html">Class Notes on Backpropagation through Multilayer Perceptrons (MLPs)</li><li><a href = "https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b">"Yes, You Should Understand Backprop"</a> -Andrej Karpathy</li><li><a href = "https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ&index=1">Andrej Karpathy's Video on Micrograd</a> (A fully fledged, general backprop implementation from scratch)</li></ul>
+<ul><li><a href = "ClassExercises/Week10_Backprop/index.html">Class Notes on Backpropagation through Multilayer Perceptrons (MLPs)</li><li><a href = "https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b">"Yes, You Should Understand Backprop"</a> -Andrej Karpathy</li><li><a href = "https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ&index=1">Andrej Karpathy's Video on Micrograd</a> (A fully fledged, general backprop implementation from scratch)</li><li><a href = "https://cs231n.github.io/neural-networks-case-study/#grad">Stanford CS 231N Backpropagation in Code</a></li></ul>
 LECTURE
 Convolutional Neural Networks
 
@@ -173,7 +173,7 @@ Unit 5: Deep Learning Through Time
 LECTURE
 Recurrent Neural Networks
 
-<ul><li><a href = "http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks</a></li></ul>
+<ul><li><a href = "http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks</a></li><li><a href = "https://www.youtube.com/watch?v=8HyCNIVRbSU">Illustrated Guide to LSTM's and GRU's: A step by step explanation</a></li></ul>
 LECTURE
 Attention
 
@@ -183,6 +183,6 @@ The Transformer Architecture
 
 <ul><li><a href = "https://jalammar.github.io/illustrated-transformer/">Jay Alammar: Illustrated Transformer</a></li></ul>
 LECTURE
-Ethics #5: Stochastic Parrots
+<a href = "Ethics/index.html#stochasticparrots">Ethics #5: Stochastic Parrots</a>
 
-<ul><li><a href = "https://dl.acm.org/doi/abs/10.1145/3442188.3445922">On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?🦜</a></li></ul>
+<ul><li><a href = "https://dl.acm.org/doi/abs/10.1145/3442188.3445922">On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?🦜</a></li><li><a href = "https://peertube.dair-institute.org/w/p/5k7JempgUbCAcpTjUZPuKQ">Stochastic Parrots Day retrospective</a></li><li><a href = "https://arstechnica.com/information-technology/2023/09/can-you-melt-eggs-quoras-ai-says-yes-and-google-is-sharing-the-result/">Why google says we can melt eggs</a></li></ul>
