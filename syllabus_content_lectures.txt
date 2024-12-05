@@ -97,7 +97,7 @@ Unsupervised Learning: Projected Variance, Principal Component Analysis
 LECTURE
 Logistic Regression, Introduction To pytorch and data loaders
 
-<ul><li><a href = "https://pytorch.org/tutorials/beginner/basics/data_tutorial.html">PyTorch Datasets & DataLoaders Documentation</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li></ul>
+<ul><li><a href = "https://pytorch.org/tutorials/beginner/basics/data_tutorial.html">PyTorch Datasets & DataLoaders Documentation</a></li><li><a href = "https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">Andrew Ng's Notes on Logistic Regression</a></li><li><a href = "https://www.youtube.com/watch?v=2hj9MdWExDQ">Sisyphus perceptron</a></li></ul>
 LECTURE
 Logistic Regression And Gradient Descent
 
@@ -133,7 +133,7 @@ Convolutional Neural Networks
 LECTURE
 Cats vs Dogs, Overfitting Strategies: Dropout, Data Augmentation
 
-<ul><li><a href = "https://github.com/ursinus-cs477-f2023/CoursePage/blob/main/ClassExercises/Week11_CNNs/CatDog_Train_Better.ipynb">Class Exercise: Cats vs Dogs with Data Augmentation</a></li></li><li><a href = "https://pytorch.org/vision/stable/transforms.html">Pytorch data augmentation for images</a></li><li><a href = "https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Original Paper on Dropout</a></li></ul>
+<ul><li><a href = "https://alexshtf.github.io/2024/01/21/Bernstein.html">Alex Shtoff: "Are Polynomical Features The Root of All Evil? (A Myth)"</a></li><li><a href = "https://github.com/ursinus-cs477-f2023/CoursePage/blob/main/ClassExercises/Week11_CNNs/CatDog_Train_Better.ipynb">Class Exercise: Cats vs Dogs with Data Augmentation</a></li></li><li><a href = "https://pytorch.org/vision/stable/transforms.html">Pytorch data augmentation for images</a></li><li><a href = "https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Original Paper on Dropout</a></li></ul>
 LECTURE
 Unsupervised Learning with Autoencoders
 
@@ -153,7 +153,7 @@ LECTURE
 LECTURE
 Variational Bayes, Variational Autoencoders
 
-<ul><li><a href = "https://www.jeremyjordan.me/variational-autoencoders/">Jeremy Jordan Notes on Variational Autoencoders</a></li><li><a href = "https://blog.evjang.com/2016/08/variational-bayes.html">Evan Jang Notes on Variational Bayes</a></li><li><a href = "https://towardsdatascience.com/intuitively-understanding-variational-autoencoders-1bfe67eb5daf">Irhuam Shafkat: Intuitively Understanding Variational Autoencoders</a></li></ul>
+<ul><li><a href = "https://www.jeremyjordan.me/variational-autoencoders/">Jeremy Jordan Notes on Variational Autoencoders</a></li><li><a href = "https://blog.evjang.com/2016/08/variational-bayes.html">Evan Jang Notes on Variational Bayes</a></li><li><a href = "https://towardsdatascience.com/intuitively-understanding-variational-autoencoders-1bfe67eb5daf">Irhuam Shafkat: Intuitively Understanding Variational Autoencoders</a></li><li><a href = "https://shortexactsplit.super.site/elbo">Elchanan Solomon's Notes on ELBO</a></li></ul>
 LECTURE
 Work day
 
